@@ -1,14 +1,19 @@
 Grundlagen!
 \section{Begriffsklärung}
-In dieser Arbeit wird ein \emph{Publish/Subscribe System über einem peer2peer overlay Netzwerk} beschrieben.
+In dieser Arbeit wird ein \emph{Publish/Subscribe-System über einem peer2peer overlay Netzwerk} beschrieben.
 
-\paragraph{Peer2Peer-Netzwerk} Peer2Peer-Netzwerke beschreiben den Verbund von Knoten die miteinander, über dem System zugrunde liegenden Strukturen, kommunizieren können. Grundlagen dieser Systeme sowie deren unterschiedliche Ansätze werden in Kapitel \ref{chap:grundlagen:pubsub} näher besprochen.
+\paragraph{Overlay Netzwerk} Ein Overlay-Netzwerk ist ein logischer Aufsatz auf einem bestehenden Netzwerk und abstrahiert von diesem. Weiterhin zeichnen sie sich dadurch aus, dass ein eigener Adressraum genutzt wird und so das unterliegende Netzwerk überlagert wird. Knoten können so benachbart sein, ohne eine direkte physikalische Verbindung zu haben. Das Overlay-Netzwerk bietet neben dem eigenen Adressraum auch Funktionalität zum Versand, Empfang und Routing von Nachrichten. Eine genauere Beschreibung und Anforderungen an Overlay-Netzwerke sind in Kapitel \ref{chap:grundlagen:overlay} zu finden.
 
-\paragraph{Overlay Netzwerk} Ein \emph{overlay network} beschreibt den Umstand, dass Knoten eines Netzwerkes logisch verbunden sind, obwohl es z.B. keine physische direkte Verbindung zwischen diesen Knoten geben muss. Als Beispiel können hier selbst einfache Client/Server-Verbindungen über TCP/IP gesehen werden, da hier zwischen den beiden Rechnern weitere Knotenpunkte (Router, uvm.) liegen können. In p2p-Netzwerken hat ein Knoten oft eine Nachbarschaft von anderen Knoten ohne dass diese in einer direkten Verbindung miteinander stehen müssen. 
+\missing{Irgendein Zitat (Buch)!}
 
+\paragraph{Peer2Peer-Netzwerk} Peer2Peer-Netzwerke beschreiben den Verbund von Knoten die miteinander gleichberechtigt kommunizieren können. Peer2Peer-Netzwerke werden meist durch Overlay-Netzwerke realisiert, da Techniken wie bsp. IP-Multicast nicht weit verbreitet sind. Durch deren angebotenen Funktionen können viele Arten von Peer2Peer-Systemen implementiert werden. Grundlagen dieser Systeme sowie deren unterschiedliche Ansätze werden in Kapitel \ref{chap:grundlagen:overlay} näher besprochen.
 
-\label{chap:grundlagen:overlay}
+\missing{Irgendein Zitat (Buch)!}
+
+\paragraph{Publish/Subscribe-System} Ein Publish/Subscribe-System beschreibt ein Abosystem. Ein Subscriber schreibt sich bei einem Publisher ein und wird von diesem über Veränderungen benachrichtigt. Solch ein System kann kanalbasiert oder filterbasiert sein. Weitere Einzelheiten dieser Systeme werden in Kapitel \ref{chap:grundlagen:pubsub} besprochen.
+
+\missing{Irgendein Zitat (Buch)!}
+
 \input{main/chapters/grundlagen_overlay.tex}
 
-\label{chap:grundlagen:pubsub}
 \input{main/chapters/grundlagen_pubsub.tex}
