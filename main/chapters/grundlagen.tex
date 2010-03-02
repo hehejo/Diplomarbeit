@@ -1,4 +1,14 @@
 Grundlagen!
+\section{Begriffsklärung}
+In dieser Arbeit wird ein \emph{Publish/Subscribe System über einem peer2peer overlay Netzwerk} beschrieben.
 
+\paragraph{Peer2Peer-Netzwerk} Peer2Peer-Netzwerke beschreiben den Verbund von Knoten die miteinander, über dem System zugrunde liegenden Strukturen, kommunizieren können. Grundlagen dieser Systeme sowie deren unterschiedliche Ansätze werden in Kapitel \ref{chap:grundlagen:pubsub} näher besprochen.
+
+\paragraph{Overlay Netzwerk} Ein \emph{overlay network} beschreibt den Umstand, dass Knoten eines Netzwerkes logisch verbunden sind, obwohl es z.B. keine physische direkte Verbindung zwischen diesen Knoten geben muss. Als Beispiel können hier selbst einfache Client/Server-Verbindungen über TCP/IP gesehen werden, da hier zwischen den beiden Rechnern weitere Knotenpunkte (Router, uvm.) liegen können. In p2p-Netzwerken hat ein Knoten oft eine Nachbarschaft von anderen Knoten ohne dass diese in einer direkten Verbindung miteinander stehen müssen. 
+
+
+\label{chap:grundlagen:overlay}
 \input{main/chapters/grundlagen_overlay.tex}
+
+\label{chap:grundlagen:pubsub}
 \input{main/chapters/grundlagen_pubsub.tex}
