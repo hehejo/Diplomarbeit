@@ -1,0 +1,18 @@
+syntax: glob
+*.aux
+*.bbl
+*.bak
+*.blg
+*.glo
+*.gls
+*.idx
+*.ilg
+*.lof
+*.log
+*.lol
+*.nlo
+*.out
+*.toc
+grafics/roh/*.pdf
+master.pdf
+schwarze_liste.pdf
