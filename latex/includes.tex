@@ -1,0 +1,206 @@
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts} %defines the \frak and \Bbb commands and set up the fonts msam (extra math symbols A), msbm (extra math symbols B, and blackboard bold), eufm (Euler Fraktur), extra sizes of cmmib (bold math italic and bold lowercase Greek), and cmbsy (bold math symbols and bold script), for use in mathematics.
+\usepackage{amstext} %defines the amsmath \text command.
+\usepackage{amssymb} %defines the names of all the math symbols available with the AMS fonts collection
+\usepackage{amsbsy} % defines the amsmath \boldsymbol and (poor mans bold) \pmb commands.
+\usepackage{amscd} % defines some command for easing the generation of commutative diagrams.
+\usepackage{amsmath} %\align, \subequation...
+
+\hbadness=1000 % Gejammere ueber overfull/underfull boxes einstellbar (default=1000)
+
+\usepackage{colortbl}%Tabellenfarben
+\usepackage{ae,aecompl}
+%\usepackage{hyphenat}
+\definecolor{black}{rgb}{0,0,0}
+\usepackage[plainpages=false, pdfpagelabels, colorlinks=true, linkcolor=black, menucolor=black, urlcolor=black, citecolor=black]{hyperref}
+
+
+%\usepackage{subeqn} % fuer verschachtelt numerierte Gleichungen ist in amsmath enthalten
+\usepackage{url}
+
+% define the type of the thesis: Studienarbeit/Diplomarbeit
+% (uncomment the appropriate type)
+\newcommand{\thethesis}[0]{%
+  Diplomarbeit
+}
+
+% find all usages of \field and replace the whole expression
+\newcommand{\field}[1]{%
+  {\itshape \{#1\}}
+}
+
+
+
+
+
+% macros to check whether running PDFLaTeX or not
+\newif\ifpdf
+\ifx\pdfoutput\undefined
+\pdffalse % we are not running PDFLaTeX
+\else
+\pdfoutput=1 % we are running PDFLaTeX
+\pdftrue
+\pdfpkresolution 600
+\pdfimageresolution 300
+\pdfinfo{
+   /Author (Johannes Held)
+   /Title  (Die Zugrifsschicht der laufzeitadaptierten CoBRA DB)
+   /Subject ()
+   /Keywords (OSGi; Komponenten; Laufzeitadaption; Framework; DBMS; SOA)
+}
+\fi
+
+% command to check draft option
+\makeatletter
+\newcommand*{\ifoptiondraft}{%
+  \expandafter
+  \@if@pti@ns\expandafter{\@classoptionslist}{final}%
+  \@secondoftwo{%
+    \expandafter
+    \@if@pti@ns\expandafter{\@classoptionslist}{draft}%
+    \@firstoftwo\@secondoftwo
+  }%
+}
+\makeatother
+
+\ifoptiondraft{%
+  \usepackage[firsttwo,bottomafter]{draftcopy}
+}
+
+% include some useful packages
+\usepackage{scrtime}                          % gain access to time stamps
+\usepackage{scrpage2}                         % headers and footers
+\usepackage{makeidx}                          % support for makeidx
+\usepackage{array}                            % better table support
+\usepackage{multicol}                         % spanning columns
+\usepackage{multirow}                         % spanning rows
+\usepackage{microtype}
+
+\usepackage[printonlyused]{acronym}
+
+% include right printer driver for graphicx
+\ifpdf
+  %\usepackage[pdftex]{graphicx}
+  \usepackage{pdfpages} % lädt Paket graphics selbständig
+  \pdfcompresslevel=9
+\else
+  \usepackage[dvips]{graphicx}
+\fi
+
+\usepackage{subfigure}
+\usepackage[ngerman,english]{babel}           % switch language
+\usepackage{float}                           
+\usepackage[intoc]{nomencl}                          % list of abbreviations
+\usepackage{algorithmic}                      % typesetting of algorithms
+\usepackage[plain,chapter]{algorithm}         % typesetting of algorithms
+\usepackage{stfloats}                         % used to have footnotes at bottom of the page
+\usepackage[final]{listings}                  % typesetting of code listings 
+
+\lstset{language=Java}
+\lstset{basicstyle=\ttfamily\small\mdseries}
+\definecolor{darkgrey}{rgb}{0.95,0.95,0.95}
+\definecolor{darkgreen}{rgb}{0.3,0.6,0.3}
+\definecolor{darkred}{rgb}{0.8,0.2,0.2}
+\definecolor{darkblue}{rgb}{0.1,0.15,0.85}
+%\lstset{backgroundcolor=\color{darkgrey}}
+\lstset{stringstyle=\color{darkred}}
+\lstset{numberstyle=\color{darkgreen}}
+\lstset{commentstyle=\color{darkgreen}}
+\lstset{keywordstyle=\color{darkblue}}
+\lstset{linewidth=\textwidth, showstringspaces=false}
+\lstset{captionpos=tb}
+\lstset{tabsize=1}
+\lstset{breaklines=true}
+\lstset{frame=tlRb}
+\lstset{frameround=fftt}
+\lstset{breakatwhitespace=true}
+\lstset{morekeywords={String,Class,Object}}
+\lstset{numbers=left}
+\lstset{float=htb}
+\lstset{numberstyle=\ttfamily\tiny}
+\lstset{numbersep=10pt}
+
+% define command \missing
+\newcommand{\missing}[1]{\,\,\textcolor{red}{(\marginpar[\hfill!$\longrightarrow$]{$\longleftarrow$!}{\bfseries 
+    Missing:}\,\emph{#1})}\,\,}
+\newcommand{\note}[1]{\marginpar[#1]{#1}}
+\newcommand{\code}[1]{\texttt{#1}}
+
+% environment to typeset sub-figures
+\newbox\subfigbox
+\makeatletter
+        \newenvironment{subfloat}
+                {\def\caption##1{\gdef\subcapsave{\relax##1}}%
+                 \let\subcapsave\@empty
+                 \setbox\subfigbox\hbox
+                         \bgroup}
+                  {\egroup
+                 \subfigure[\subcapsave]{\box\subfigbox}}
+\makeatother
+
+% list of abbreviations
+\let\abbrev\nomenclature
+\renewcommand{\nomname}{Liste der Abkürzungen}
+\setlength{\nomlabelwidth}{.25\hsize}
+\renewcommand{\nomlabel}[1]{#1 \dotfill}
+\setlength{\nomitemsep}{-\parsep}
+\makeglossary
+\newcommand{\markup}[1]{\textbf{#1}}
+
+% define new style for TOC
+\makeatletter
+\renewcommand{\numberline}[1]{%
+        \makebox[0.9cm][l]{#1}\hspace{1mm}}
+\renewcommand{\l@chapter}[2]{%
+        \addvspace{2ex}%
+        \pagebreak[3]%
+        \noindent%
+        \makebox[0pt][l]{%
+        \rule[-3pt]{\textwidth}{0pt}}%
+        {\large\textsf{\textbf{#1}}}\hfill#2%
+        \par%
+        \nopagebreak%
+        \addvspace{1ex}%
+}
+\renewcommand{\l@section}[2]{%
+        \addvspace{0.5ex}%
+        \noindent\hspace{1cm}%
+        #1\dotfill#2%
+        \par%
+        \nopagebreak[2]%
+}
+\renewcommand{\l@subsection}[2]{%
+        \addvspace{0.2ex}%
+        \noindent\hspace{2cm}%
+        #1\dotfill#2%
+        \par%
+}       
+\makeatother
+
+% define new style for index 
+\makeatletter
+\newcommand*{\heading}[1]{%
+        \makebox[0pt][l]{%
+                \rule[-3pt]{\linewidth}{0pt}}%
+        \textsf{\textbf{\Large #1}}\hfill\nopagebreak\vspace{4pt}}
+\renewenvironment{theindex}{%
+        \setlength{\columnseprule}{0.4pt}
+        \setlength{\columnsep}{2em}
+        \begin{multicols}{2}[\chapter*{\indexname}]
+                \parindent\z@
+                \parskip\z@ \@plus .3\p@\relax
+                \let\item\@idxitem}%
+        {\end{multicols}\clearpage}
+\makeatother
+
+% page break
+\clubpenalty = 10000
+\widowpenalty = 10000
+
+% prepare generation of index
+\makeindex
+
+% put footnotes below floats at the bottom
+\fnbelowfloat
+
+\setlength{\parindent}{0em}
