@@ -1,3 +1,11 @@
 \section{Mercury}
 \label{chap:related:mercury}
-\cite{citeulike:854573}
+Mercury \cite{citeulike:854573} gehört zur Klasse der kanalbasierten\footnote{siehe Kapitel \ref{chap:grundlagen:pubsub:filterbased}} Publish/Subscribe-Systeme.
+
+\paragraph{Arbeitsweise}
+Im System gibt es eine Menge an Attributen, die ihrerseits einen definierten Wertebereich haben. Jedes Attribut wird durch einen eigenen \emph{Hub}, ein Verbund aus Knoten, gebildet. Der Wertebereich ist dabei nicht zwingend symetrisch\footnote{Angenommen, $0<=x<360$: Knoten $A_{[0,270)}$, $B_{[270, 360)}$} auf die Knoten verteilt. Die Knoten eines Hubs sind sich untereinander über Nachbarschaftsmetriken\footnote{Alte Version: forward- und backward-Pointer; Ringstruktur\\Neue Version: Tabelle mit allen Knoten im Hub} bekannt.
+Eine Subscription $S$ ist ein Tupel aus Filterbedingungen über die Attribute, bsp. $S := (5 < x <= 20; y = 15)$. $S$ wird nun an einen beliebigen Knoten eines Hubs gesendet, der für ein Attribut aus den Filterbedingungen zuständig ist. Im Hub wird $S$ nun zu dem Knoten weitergereicht, der den Wertebereich der Filterung abdeckt. Dort wird $S$ in einer Liste gespeichert.
+Eine Publikation $P$ ist ebenfalls ein Tupel mit bestimmten Werten der Attribute, bsp. $P := (x = 10; y = 0)$. $P$ wird an \emph{alle} Hubs gesendet, die für Attribute aus dem Tupel zuständig sind. Dort wird $P$ zum zustädnigen Knoten weitergereicht. Dieser prüft nun die Liste der gespeicherten Subscriptions gegen die neue Publikation. Stimmen beide überein, so wird $P$ an den eingeschriebenen Knoten weitergeleitet.
+
+\paragraph{Unschönheiten}
+Im Paper wird nicht näher erwähnt, wie die einzelnen Knoten bestimmt werden, die einen Hub bilden.
