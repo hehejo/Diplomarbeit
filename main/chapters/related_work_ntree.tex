@@ -1,2 +1,25 @@
 \section{NTree}
-\label{chap:related:ntree}
+NTree \label{chap:related:ntree} teilt die Spielwelt in Regionen auf. Spieler (Knoten) kommunizieren zuerst nur innerhalb dieser Region und daher kann Kommunikationsaufwand eingespart werden.
+
+\subsection{Arbeitsweise}
+Über die Position in der virtuellen Welt werden Knoten in Regionen eingeteilt. Im Paper wird dies exemplarisch durch einen Quadtree aufgezeigt. Pro Region gibt es einen \emph{Leader} der von den Knoten innerhalb der Region eigenständig ermittelt wird. Alle Knoten innerhalb einer Region sind miteinander verbunden. Der Leader ist somit Knoten in einer größeren Region und kann über seine Nachbarn (die selbst Leader ihrer Region sind) mit nahezu allen anderen Knoten im Verbund kommunizieren.
+
+Ein Event E hat einen gewissen Wirkradius.
+Löst ein Knoten ein Event aus, so sendet er dieses an all seine Nachbarn. Der Leader einer Region entscheidet, ob das Event einen größeren Wirkradius als die Ausdehnung der Region hat und leitet das Event an seine Nachbarn weiter. Diese geben das Event - falls dies nötig ist - wiederum an ihre eigene Region weiter oder senden es nach oben weiter.
+
+Regionen haben keine statische Größe sondern sind durch die Anzahl der in ihr befindlichen Knoten bestimmt. So werden Regionen gesplittet bzw. zusammengefasst, wenn sich die Anzahl der Knoten ändert bzw. bestimmen Grenzen nähert. Die Ausdehnung einer Region muss durch den Leader berechnet werden.
+
+Da innerhalb einer Region wenig Knoten vorhanden sind, können die Events innerhalb der Region synchronisiert werden. Müssen außerhalb der Region Events synchronisiert werden, so kann das TimeWarp-Verfahren benutzt werden.
+
+\missing{Link auf das TimeWarp-Verfahren!}
+
+\subsection{Fehlerfall}
+Über Heartbeat-Nachrichten wird das Vorhandensein von Knoten abgeprüft. Fällt der Leader einer Region aus, so gibt es zwei Möglichkeiten. Beide Möglichkeiten bedingen, dass die manche Knoten einer Region auch den Leader der übergeordneten Region als Nachbar kennen müssen und umgehehrt.
+
+\begin{itemize}
+\item Die Knoten der Region ernennen einen neuen Leader aus ihren Reihen. Diese Entscheidung wird an den übergeordneten Leader übermittelt.
+\item Der übergeordnete Leader erkennt das Fehlen zuerst und stößt die Leaderwahl an.
+\end{itemize}
+
+\subsection{Unschönheiten}
+Knoten in einer Region müssen nicht notwendigerweise im echten Leben benachbart sein. D.h. Kommunikation kann wieder über unbeteiligte Rechner erfolgen.

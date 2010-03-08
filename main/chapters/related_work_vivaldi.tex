@@ -1,3 +1,8 @@
 \section{Vivaldi}
 \label{chap:related:vivaldi}
-\cite{citeulike:162250}
+Vivaldi \cite{citeulike:162250} ist ein dezentrales System, in dem sich Knoten des Netzwerkes Koordinaten so wählen, dass der Abstand zwischen zwei Koordinaten der Latenz zwischen diesen beiden Knoten entspricht.
+
+\subsection{Arbeitsweise}
+Neue Knoten im Netz wählen sich zufällig Koordinaten. Zu allen Nachbarn werden nun Ping-Nachrichten zur Messung der Laufzeit verschickt. Die Koordinaten der einzelnen Knoten werden dabei übertragen. So kann nun die eigene Koordinate anhand des Abstandes angepasst werden.
+
+Das Paper verwendet hier eine Analogie zu gespannten Federn. Alle Knoten sind über Federn miteinander verbunden und suchen nun das gemeinsame Optimum der Federspannung.
