@@ -1,16 +1,16 @@
 Grundlagen!
 \section{Begriffsklärung}
-In dieser Arbeit wird ein \emph{Publish/Subscribe-System über einem p2p overlay Netzwerk} beschrieben.
+In dieser Arbeit wird ein \emph{Publish/Subscribe-System über einem \ac{p2p} overlay Netzwerk} beschrieben.
 
-\paragraph{Overlay Netzwerk} Ein Overlay-Netzwerk ist ein logischer Aufsatz auf einem bestehenden Netzwerk und abstrahiert von diesem. Weiterhin zeichnen sie sich dadurch aus, dass ein eigener Adressraum genutzt wird und so das unterliegende Netzwerk überlagert wird. Knoten können so benachbart sein, ohne eine direkte physikalische Verbindung zu haben. Das Overlay-Netzwerk bietet neben dem eigenen Adressraum auch Funktionalität zum Versand, Empfang und Routing von Nachrichten. Eine genauere Beschreibung und Anforderungen an Overlay-Netzwerke sind in Kapitel \ref{chap:grundlagen:overlay} zu finden.
-
-\missing{Irgendein Zitat (Buch)!}
-
-\paragraph{Peer2Peer-Netzwerk (p2p)} p2p-Netzwerke beschreiben den Verbund von Knoten die miteinander gleichberechtigt kommunizieren können. p2p-Netzwerke werden meist durch Overlay-Netzwerke realisiert, da Techniken wie bsp. IP-Multicast nicht weit verbreitet sind. Durch deren angebotenen Funktionen können viele Arten von p2p-Systemen implementiert werden. Grundlagen dieser Systeme sowie deren unterschiedliche Ansätze werden in Kapitel \ref{chap:grundlagen:overlay} näher besprochen.
+\paragraph{Overlay Netzwerk} Ein Overlay-Netzwerk ist ein logischer Aufsatz auf einem bestehenden Netzwerk und abstrahiert von diesem. Weiterhin zeichnen sie sich dadurch aus, dass ein eigener Adressraum genutzt wird und so das unterliegende Netzwerk überlagert wird. Knoten können so benachbart sein, ohne eine direkte physikalische Verbindung zu haben. Das Overlay-Netzwerk bietet neben dem eigenen Adressraum auch Funktionalität zum Versand, Empfang und Routing von Nachrichten.
 
 \missing{Irgendein Zitat (Buch)!}
 
-\paragraph{Publish/Subscribe-System} Ein Publish/Subscribe-System beschreibt ein Abosystem. Ein Subscriber schreibt sich bei einem Publisher ein und wird von diesem über Veränderungen benachrichtigt. Solch ein System kann kanalbasiert oder filterbasiert sein. Weitere Einzelheiten dieser Systeme werden in Kapitel \ref{chap:grundlagen:pubsub} besprochen.
+\paragraph{\ac{p2p}-Netzwerk (p2p)} p2p-Netzwerke beschreiben den Verbund von Knoten die miteinander gleichberechtigt kommunizieren können. p2p-Netzwerke werden meist durch Overlay-Netzwerke realisiert, da Techniken wie bsp. IP-Multicast nicht weit verbreitet sind. Durch deren angebotenen Funktionen können viele Arten von p2p-Systemen implementiert werden. Grundlagen dieser Systeme sowie deren unterschiedliche Ansätze werden in Kapitel \ref{chap:grundlagen:overlay} näher besprochen.
+
+\missing{Irgendein Zitat (Buch)!}
+
+\paragraph{Publish/Subscribe-System} Ein Publish/Subscribe-System beschreibt ein Abosystem. Ein Subscriber schreibt sich bei einem Publisher ein und wird von diesem über Veränderungen benachrichtigt. Solch ein System kann kanalbasiert oder filterbasiert sein. In Kapitel \ref{chap:grundlagen:pubsub} sind diese Systeme weitaus genauer aufgeführt. So werden aktuelle Systeme gegen die Anforderungen dieser Arbeit geprüft und daraus Konzepte für das zu entwickelnde System gezogen.
 
 \missing{Irgendein Zitat (Buch)!}
 
@@ -19,4 +19,6 @@ In dieser Arbeit wird ein \emph{Publish/Subscribe-System über einem p2p overlay
 \input{main/chapters/grundlagen_pubsub.tex}
 
 \section{Betrug}
-Betrügerisches Verhalten (Cheating) ist in p2p-Systemen einfacher als in Client/Server-Systemen da die Kommunikation und damit der Statusupdate sowie Entscheidungsfindungen nicht zwingend über einen Masterserver laufen. So können andere Knoten mit gefälschten Nachrichten getäuscht werden bzw. mit dem Wissen über das zugrundeliegende System wichtige Entscheidungen manipuliert werden. Der Betrugsverhinderung bzw. Betrugsaufdeckung widmen sich zahlreiche Arbeiten \cite{citeulike:4243521, citeulike:499803, citeulike:3196934, citeulike:4243572, citeulike:6643788}, so dass in dieser Arbeit nicht näher darauf eingegangen wird.
+Betrügerisches Verhalten (Cheating) ist in p2p-Systemen einfacher als in Client/Server-Systemen da die Kommunikation und damit das Statusupdate sowie Entscheidungsfindungen nicht zwingend über einen (vom Betreiber kontrollierten) Masterserver laufen. Mit gefälschten Nachrichten können andere Knoten werden. Das Wissen über das zugrundeliegende System kann genutzt werden um gezielt wichtige Entscheidungen zu manipulieren.
+
+Der Betrugsverhinderung bzw. Betrugsaufdeckung widmen sich zahlreiche Arbeiten \cite{citeulike:4243521, citeulike:499803, citeulike:3196934, citeulike:4243572, citeulike:6643788}, so dass in dieser Arbeit nicht näher darauf eingegangen wird.

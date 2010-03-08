@@ -935,6 +935,52 @@
   url = {http://dx.doi.org/10.1109/JSAC.2002.803069}
 }
 
+@INPROCEEDINGS{Castro2003,
+  author = {Castro, M. and Jones, M. B. and Kermarrec, A. M. and Rowstron, A.
+	and Theimer, M. and Wang, H. and Wolman, A.},
+  title = {An evaluation of scalable application-level multicast built using
+	peer-to-peer overlays},
+  booktitle = {IEEE INFOCOM 2003. Twenty-second Annual Joint Conference of the IEEE
+	Computer and Communications Societies (IEEE Cat. No.03CH37428)},
+  year = {2003},
+  volume = {2},
+  pages = {1510--1520},
+  publisher = {IEEE},
+  __markedentry = {[jo]},
+  abstract = {Structured peer-to-peer overlay networks such as CAN, Chord, Pastry,
+	and Tapestry can be used to implement Internet-scale application-level
+	multicast. There are two general approaches to accomplishing this:
+	tree building and flooding. This paper evaluates these two approaches
+	using two different types of structured overlay: 1) overlays which
+	use a form of generalized hypercube routing, e.g., Chord, Pastry
+	and Tapestry, and 2) overlays which use a numerical distance metric
+	to route through a Cartesian hyperspace, e.g., CAN. Pastry and CAN
+	are chosen as the representatives of each type of overlay. To the
+	best of our knowledge, this paper reports the first head-to-head
+	comparison of CAN-style versus Pastry-style overlay networks, using
+	multicast communication workloads running on an identical simulation
+	infrastructure. The two approaches to multicast are independent of
+	overlay network choice, and we provide a comparison of flooding versus
+	tree-based multicast on both overlays. Results show that the tree-based
+	approach consistently outperforms the flooding approach. Finally,
+	for tree-based multicast, we show that Pastry provides better performance
+	than CAN.},
+  citeulike-article-id = {523046},
+  citeulike-linkout-0 = {http://dx.doi.org/10.1109/INFCOM.2003.1208986},
+  citeulike-linkout-1 = {http://ieeexplore.ieee.org/xpls/abs\_all.jsp?arnumber=1208986},
+  doi = {10.1109/INFCOM.2003.1208986},
+  isbn = {0-7803-7752-4},
+  journal = {INFOCOM 2003. Twenty-Second Annual Joint Conference of the IEEE Computer
+	and Communications Societies. IEEE},
+  keywords = {can, chord, evaluation, overlay, pastry},
+  location = {San Francisco, CA, USA},
+  owner = {jo},
+  posted-at = {2010-03-08 16:11:06},
+  priority = {3},
+  timestamp = {2010.03.08},
+  url = {http://dx.doi.org/10.1109/INFCOM.2003.1208986}
+}
+
 @INPROCEEDINGS{citeulike:4243574,
   author = {Chambers, Chris and Feng, Wu C. and Feng, Wu C.},
   title = {Towards public server MMOs},
@@ -1816,6 +1862,49 @@
   posted-at = {2010-02-17 14:40:06},
   priority = {2},
   url = {http://dx.doi.org/10.1145/375663.375677}
+}
+
+@INPROCEEDINGS{Fahmy2003,
+  author = {Fahmy, S. and Kwon, Minseok},
+  title = {Characterizing overlay multicast networks},
+  booktitle = {11th IEEE International Conference on Network Protocols, 2003. Proceedings.},
+  year = {2003},
+  pages = {61--70},
+  publisher = {IEEE Comput. Soc},
+  __markedentry = {[jo]},
+  abstract = {Overlay networks among cooperating hosts have recently emerged as
+	a viable solution to several challenging problems, including multicasting,
+	routing, content distribution, and peer-to-peer services. Application-level
+	overlays, however, incur a performance penalty over router level
+	solutions. This paper characterizes this performance penalty for
+	overlay multicast trees via experimental data, simulations, and theoretical
+	models. Experimental data and simulations illustrate that (i) the
+	average delay and the number of hops between parent and child hosts
+	in overlay trees generally decrease, and (ii) the degree of hosts
+	generally decreases, as the level of the host in the overlay tree
+	increases. Overlay multicast routing strategies, together with power-law
+	and small-world Internet topology characteristics, are causes of
+	the observed phenomena. We compare three overlay multicast protocols
+	with respect to latency, bandwidth, router degrees, and host degrees.
+	We also quantify the overlay tree cost. Results reveal that L(n)/U(n)
+	∝ n 0.9 for small n, where L(n) is the total number of hops in all
+	overlay links, U(n) is the average number of hops on the source to
+	receiver unicast paths, and n is the number of members in the overlay
+	multicast session.},
+  citeulike-article-id = {1675260},
+  citeulike-linkout-0 = {http://dx.doi.org/10.1109/ICNP.2003.1249757},
+  citeulike-linkout-1 = {http://ieeexplore.ieee.org/xpls/abs\_all.jsp?arnumber=1249757},
+  doi = {10.1109/ICNP.2003.1249757},
+  isbn = {0-7695-2024-3},
+  journal = {Network Protocols, 2003. Proceedings. 11th IEEE International Conference
+	on},
+  keywords = {characterize, overlay},
+  location = {Atlanta, GA, USA},
+  owner = {jo},
+  posted-at = {2010-03-08 16:20:15},
+  priority = {2},
+  timestamp = {2010.03.08},
+  url = {http://dx.doi.org/10.1109/ICNP.2003.1249757}
 }
 
 @INPROCEEDINGS{citeulike:4243427,
@@ -5656,6 +5745,37 @@
   posted-at = {2010-02-04 08:54:22},
   priority = {4},
   url = {http://dx.doi.org/10.1145/1517494.1517505}
+}
+
+@TECHREPORT{Zhao2001,
+  author = {Zhao, Ben Y. and Kubiatowicz, John D. and Joseph, Anthony D.},
+  title = {Tapestry: An Infrastructure for Fault-tolerant Wide-area Location
+	and},
+  year = {2001},
+  address = {Berkeley, CA, USA},
+  __markedentry = {[jo]},
+  abstract = {In today''s chaotic network, data and services are mobile and replicated
+	widely for availability, durability, and locality. Components within
+	this infrastructure interact in rich and complex ways, greatly stressing
+	traditional approaches to name service and routing. This paper explores
+	an alternative to traditional approaches called Tapestry. Tapestry
+	is an overlay location and routing infrastructure that provides location-independent
+	routing of messages directly to the closest copy of an object or
+	service using only point-to-point links and without centralized resources.
+	The routing and directory information within this infrastructure
+	is purely soft state and easily repaired. Tapestry is self-administering,
+	fault-tolerant, and resilient under load. This paper presents the
+	architecture and algorithms of Tapestry and explores their advantages
+	through a number of experiments.},
+  citeulike-article-id = {4301},
+  citeulike-linkout-0 = {http://portal.acm.org/citation.cfm?id=894116},
+  keywords = {overlay, tapestry},
+  owner = {jo},
+  posted-at = {2010-03-08 16:17:16},
+  priority = {2},
+  publisher = {University of California at Berkeley},
+  timestamp = {2010.03.08},
+  url = {http://portal.acm.org/citation.cfm?id=894116}
 }
 
 @ARTICLE{citeulike:3392860,
