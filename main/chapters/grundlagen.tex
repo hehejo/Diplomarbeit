@@ -17,20 +17,27 @@ In dieser Arbeit wird ein \emph{Publish/Subscribe-System über einem \ac{p2p} ov
 \missing{Irgendein Zitat (Buch)!}
 
 \section{p2p-Netzwerke}
-Dieses Kapitel widmet sich den grundsätzlichen Arten von p2p-Netzwerken und erläutert diese am Aspekt des \emph{Filesharing}. 
+Dieses Kapitel widmet sich den grundsätzlichen Ausprägungen von p2p-Netzwerken. Obwohl in dieser Arbeit keine Netze nach dem Motto \emph{Information finden und per Direktverbindung übertragen} sondern eher nach dem Motto \emph{Daten geschickt zwischen den Knoten verteilen} gebraucht werden, werden die verschiedenen Typen am Aspekt des \emph{Filesharing} erklärt, da dieser recht eingängig ist.
+
+\missing{oh, das klingt hässlich}
 
 \subsection{Unstrukturierte Netzwerke}
-Unstrukturierte Netzwerke zeichnen sich dadurch aus, dass alle Informationen/Dateien durch Suchalgorithmen gefunden werden müssen. Hierbei gibt es im wesentlichen zwei unterschiedliche Arten.
+Unstrukturierte Netzwerke zeichnen sich dadurch aus, dass alle Informationen/Dateien durch Suchalgorithmen gefunden werden müssen. Hierbei gibt es im Wesentlichen zwei unterschiedliche Arten.
 
-\paragraph{zentralisiert} Knoten im Netz melden ihre Verfügbaren Dateien an Hauptrechner. Suchanfragen werden ebenfalls an diese Hauptrechner gerichtet. Diese Rechner senden eine Liste von potentiellen Knoten an den Suchenden zurück. Die Dateien werden dann über direkte Verbindungen zwischen den Peers übertragen. Einige Systeme tauschen auch weitere potentielle Knoten über Peers aus.
+\paragraph{zentralisiert} Knoten im Netz melden ihre verfügbaren Dateien an diverse Hauptrechner. Suchanfragen werden ebenfalls an diese Hauptrechner gerichtet. Der Suchende erhält eine List von potentiellen Knoten. Die eigentlichen Dateien werden dann über direkte Verbindungen zwischen den Peers übertragen. Einige Systeme tauschen auch weitere potentielle Knoten über Peers aus. Die einzelnen Hauptrechner stellen bei diesen System einen \emph{single point of failure} dar.
 
-\paragraph{dezentralisiert} Damit sich ein neuer Knoten in das Netz einklinken kann, muss mindestens ein Knoten aus dem Netz bekannt sein, da es keine dauerhaften Hauptserver gibt. Über diesen Peer kann der neue Knoten eine Nachbarschaft aufbauen. Um Dateien im Netz zu finden, muss die Suchanfrage durch das Netz geflutet werden. Mit den entsprechenden Peers wird ebenfalls eine direkte Verbindung aufgebaut und die Daten werden übertragen.
+\paragraph{dezentralisiert} Damit sich ein neuer Knoten in das Netz einklinken kann, muss mindestens ein Knoten aus dem Netz bekannt sein, da es keine dauerhaften Hauptserver gibt. Über diesen Peer baut der neue Knoten eine Nachbarschaft auf. Damit Dateien im Netz gefunden werden können, muss die Suchanfrage durch das Netz geflutet werden. Sind Peers gefunden, so wird ebenfalls eine direkte Verbindung zur Datenübertragung aufgebaut.
+
 Beispiele für solche Netzwerke sind bsp. Napster, Gnutella oder BitTorrent\footnote{http://www.bittorrent.com/}.
 
-\subsection{Struktuierte Netzwerke}
-Strukturierte Netzwerke sind meist dezentraler Natur und sind meist über eine \ac{dht} implementiert.
-Alle Knoten im Netz haben einen eindeutigen Schlüssel. Dieser berechnet sich nach dem Angebot
-Um beliebige Informationen zuerhalten, muss der Client den Schlüssel dazu berechnen.
+\subsection{Strukturierte Netzwerke}
+Im Gegensatz zu unstrukturierten Netzwerken sind strukturierte Netzwerke oft dezentraler Natur. Für den Einstieg in das Netz muss dem neuen Knoten ebenfalls ein Knoten im Netz bekannt sein. Jeder Knoten hat einen eindeutigem Schlüssel, welcher einem Hashwert entspricht. Dieser Hashwert kann über verschiedenste Daten berechnet werden, seien es Dateiinhalte oder bsp. Benennungen. Ein Knoten ist für die Daten zuständig deren Hashwert seinem Schlüssel entsprechen. Dabei werden die Schlüssel gleichmäßig über die Knoten verteilt.
+
+Somit kann ein beliebiger Knoten im Netz schnell und einfach den Knoten ermitteln, der für ein gefordertes Datenpaket zuständig ist und seine Nachrichten an diesen Knoten durch das Netz routen lassen. Jedoch können mit diesem Ansatz Knoten für Daten zuständig sein, die ihnen weder gehören noch an denen sie Interesse zeigen.
+
+Die Kommunikation zwischen den einzelnen Knoten erfolgt dann meist nicht über direkte Verbindungen, sondern nutzt ebenfalls das zugrunde liegende Overlay-Netzwerk zur Datenübertragung.
+
+\missing{Muss schöner werden!}
 
 \input{main/chapters/grundlagen_pubsub.tex}
 
