@@ -1,4 +1,6 @@
-Grundlagen!
+Begriffsklärung
+
+
 \section{Begriffsklärung}
 In dieser Arbeit wird ein \emph{Publish/Subscribe-System über einem \ac{p2p} overlay Netzwerk} beschrieben.
 
@@ -6,7 +8,7 @@ In dieser Arbeit wird ein \emph{Publish/Subscribe-System über einem \ac{p2p} ov
 
 \missing{Irgendein Zitat (Buch)!}
 
-\paragraph{\ac{p2p}-Netzwerk (p2p)} p2p-Netzwerke beschreiben den Verbund von Knoten die miteinander gleichberechtigt kommunizieren können. p2p-Netzwerke werden meist durch Overlay-Netzwerke realisiert, da Techniken wie bsp. IP-Multicast nicht weit verbreitet sind. Durch deren angebotenen Funktionen können viele Arten von p2p-Systemen implementiert werden. Grundlagen dieser Systeme sowie deren unterschiedliche Ansätze werden in Kapitel \ref{chap:grundlagen:overlay} näher besprochen.
+\paragraph{\ac{p2p}-Netzwerk} p2p-Netzwerke beschreiben den Verbund von Knoten die miteinander gleichberechtigt kommunizieren können, sog. Peers. p2p-Netzwerke werden meist durch Overlay-Netzwerke realisiert, da Techniken wie bsp. IP-Multicast nicht weit verbreitet sind. Durch deren angebotenen Funktionen können viele Arten von p2p-Systemen implementiert werden. Grundlagen dieser Systeme sowie deren unterschiedliche Ansätze werden in Kapitel \ref{chap:evaluation_p2p} näher besprochen.
 
 \missing{Irgendein Zitat (Buch)!}
 
@@ -14,7 +16,21 @@ In dieser Arbeit wird ein \emph{Publish/Subscribe-System über einem \ac{p2p} ov
 
 \missing{Irgendein Zitat (Buch)!}
 
-\input{main/chapters/grundlagen_overlay.tex}
+\section{p2p-Netzwerke}
+Dieses Kapitel widmet sich den grundsätzlichen Arten von p2p-Netzwerken und erläutert diese am Aspekt des \emph{Filesharing}. 
+
+\subsection{Unstrukturierte Netzwerke}
+Unstrukturierte Netzwerke zeichnen sich dadurch aus, dass alle Informationen/Dateien durch Suchalgorithmen gefunden werden müssen. Hierbei gibt es im wesentlichen zwei unterschiedliche Arten.
+
+\paragraph{zentralisiert} Knoten im Netz melden ihre Verfügbaren Dateien an Hauptrechner. Suchanfragen werden ebenfalls an diese Hauptrechner gerichtet. Diese Rechner senden eine Liste von potentiellen Knoten an den Suchenden zurück. Die Dateien werden dann über direkte Verbindungen zwischen den Peers übertragen. Einige Systeme tauschen auch weitere potentielle Knoten über Peers aus.
+
+\paragraph{dezentralisiert} Damit sich ein neuer Knoten in das Netz einklinken kann, muss mindestens ein Knoten aus dem Netz bekannt sein, da es keine dauerhaften Hauptserver gibt. Über diesen Peer kann der neue Knoten eine Nachbarschaft aufbauen. Um Dateien im Netz zu finden, muss die Suchanfrage durch das Netz geflutet werden. Mit den entsprechenden Peers wird ebenfalls eine direkte Verbindung aufgebaut und die Daten werden übertragen.
+Beispiele für solche Netzwerke sind bsp. Napster, Gnutella oder BitTorrent\footnote{http://www.bittorrent.com/}.
+
+\subsection{Struktuierte Netzwerke}
+Strukturierte Netzwerke sind meist dezentraler Natur und sind meist über eine \ac{dht} implementiert.
+Alle Knoten im Netz haben einen eindeutigen Schlüssel. Dieser berechnet sich nach dem Angebot
+Um beliebige Informationen zuerhalten, muss der Client den Schlüssel dazu berechnen.
 
 \input{main/chapters/grundlagen_pubsub.tex}
 
