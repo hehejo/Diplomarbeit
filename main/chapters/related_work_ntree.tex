@@ -1,7 +1,10 @@
 \section{NTree}
-NTree \label{chap:related:ntree} teilt die Spielwelt in Regionen auf. Spieler (Knoten) kommunizieren zuerst nur innerhalb dieser Region und daher kann Kommunikationsaufwand eingespart werden.
+\label{chap:related:ntree}
+NTree teilt die Spielwelt in Regionen auf. Spieler (Knoten) kommunizieren zuerst nur innerhalb dieser Region und daher kann Kommunikationsaufwand eingespart werden.
 
-\subsection{Arbeitsweise}
+\missing{Literatur für NTree}
+
+\paragraph{Arbeitsweise}
 Über die Position in der virtuellen Welt werden Knoten in Regionen eingeteilt. Im Paper wird dies exemplarisch durch einen Quadtree aufgezeigt. Pro Region gibt es einen \emph{Leader} der von den Knoten innerhalb der Region eigenständig ermittelt wird. Alle Knoten innerhalb einer Region sind miteinander verbunden. Der Leader ist somit Knoten in einer größeren Region und kann über seine Nachbarn (die selbst Leader ihrer Region sind) mit nahezu allen anderen Knoten im Verbund kommunizieren.
 
 Ein Event E hat einen gewissen Wirkradius.
@@ -13,7 +16,7 @@ Da innerhalb einer Region wenig Knoten vorhanden sind, können die Events innerh
 
 \missing{Link auf das TimeWarp-Verfahren!}
 
-\subsection{Fehlerfall}
+\paragraph{Fehlerfall}
 Über Heartbeat-Nachrichten wird das Vorhandensein von Knoten abgeprüft. Fällt der Leader einer Region aus, so gibt es zwei Möglichkeiten. Beide Möglichkeiten bedingen, dass die manche Knoten einer Region auch den Leader der übergeordneten Region als Nachbar kennen müssen und umgehehrt.
 
 \begin{itemize}
@@ -21,5 +24,5 @@ Da innerhalb einer Region wenig Knoten vorhanden sind, können die Events innerh
 \item Der übergeordnete Leader erkennt das Fehlen zuerst und stößt die Leaderwahl an.
 \end{itemize}
 
-\subsection{Unschönheiten}
+\paragraph{Unschönheiten}
 Knoten in einer Region müssen nicht notwendigerweise im echten Leben benachbart sein. D.h. Kommunikation kann wieder über unbeteiligte Rechner erfolgen.

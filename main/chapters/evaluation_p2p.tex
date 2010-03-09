@@ -1,0 +1,37 @@
+In diesem Kapitel wird die Auswahl eines Overlay-Netzwerkes als Netzwerksystem für diese Arbeit beschrieben. Zuvor müssen jedoch die eigenen Anforderungen an solche Systeme identifiziert werden. Zu den offensichtlichen Anforderungen wie bsp. \emph{Skalierbarkeit} gesellen sich jedoch auch spezielle Anforderungen aus Spielesicht hinzu. Diese sind bsp. das Vorhandensein eines Masterservers oder das Übertragen von Applikationswissen auf das Netzwerk um damit dessen Entscheidungen Nachbarschaften zu bilden oder bzw. Nachrichten zu versenden zu beeinflussen.
+
+\section{Anforderungen}
+
+
+\paragraph{Geringe Latenz} Schnelle Reaktionszeiten und Nachrichtenübermittlung sind bei \ac{mmog} unverzichtbar. Ebenfalls müssen größere Nachrichten (bsp. Update der Welt) schnell übertragen werden damit der Spielfluss nicht behindert wird.
+
+\paragraph{Sichere Zustellung} Einige Nachrichten sind systemkritisch und müssen unbedingt zugestellt werden. Ein Fehlen von Nachrichten wie z.B. der Farbwechsel der Spielerrüstung oder eine Änderung im Kontostand sind im Gegensatz zu einer verlorenen Nachricht wie bsp. \emph{HEADSHOT} nicht spielentscheidend. 
+
+\paragraph{Ordnung der Nachrichten} Das System muss eine einfache Ordnung der Nachrichten unterstützen. So ist bsp. die Reihenfolge der Nachrichten \emph{HEADSHOT} und \emph{MOVE} relevant.
+
+\paragraph{Skalierbar} Selbst bei einer großen Anzahl an Knoten soll das Netz nicht kollabieren. Hierbei ist es auch wichtig, dass Knoten nicht unbedingt lange im Spiel sein müssen. Zwar kann davon ausgegangen werden, dass ein durchschnittlicher Spieler mindestens 30 Minuten im Spiel verbringt, aber durch Netzausfälle oder sonstigen Unbill kann diese Zeit stark variieren.
+
+\missing{Zitat für die 30 Mins!}
+
+\paragraph{Fehlertoleranz bei Knotenausfall} Fallen Knoten aus, so soll sich das Netz ohne großen Kommunikationsaufwand selst reparieren. Eine Netzwerkpartition ist jedoch in dieser Arbeit kein Hindernisgrund, da der Hauptserver immer erreichbar ist und über diesen das Netz wieder verbunden werden kann.
+
+\paragraph{Bestimmung der Nachbarschaft} Eine dynamische Bestimmung der Nachbarschaftsgröße kann von Vorteil sein. So könnten Knoten mit mehr Bandbreite (bzw. entsprechenden anderen Metriken) mehr direkte Verbindungen halten als Knoten mit geringer Bandbreite (oder geringer Spieldauer).
+
+\paragraph{Eingriff in Routingentscheidungen} Applikationswissen hilft auch beim Eingriff in das Routing des Netzes. So können Knoten bevorzugt zur Weiterleitung einer Nachricht ausgewählt werden. Diese Knoten zeichnen sich bsp. durch eine große Bandbreite oder spezielle Applikationsmetriken\footnote{Bsp: Spieler befindet sich in der selben Stadt} aus.
+
+\paragraph{Verfügbarkeit als C/C++-Library} Da der Prototyp dieser Arbeit sowie das Umfeld in C++ entwickelt wird, gibt es damit eine weitere Anforderung an das Netzwerk: Die Verfügbarkeit als C/C++-Library, damit das Netzwerk einfach aus bestehendem Code zu nutzen ist ohne kostenintensieve Brücken zwischen bsp. Java und C++ schlagen zu müssen. Da betriebssystemübergreifend entwickelt und getestet wird, ist außerdem ein zur Verfügung stehender Quellcode vorteilhaft. Dadurch ist es möglich eventuellen Netzwerk- oder Threadcode auf Libraries von Boost\footnote{Zahlreiche Libraries für C++: http://www.boost.org} zu portieren um somit eine betriebsystemübergreifende Benutzung zu ermöglichen.
+
+
+\input{main/chapters/grundlagen_genericapi.tex}
+
+
+\section{Evaluation}
+
+
+\cite{Castro2003} %evaluation
+
+\cite{Fahmy2003} %characterizing
+
+\cite{citeulike:780210} %pastry
+
+\cite{Zhao2001} %Tapestry Chimera
