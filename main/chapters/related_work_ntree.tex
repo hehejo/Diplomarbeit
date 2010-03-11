@@ -2,7 +2,7 @@
 \label{chap:related:ntree}
 NTree teilt die Spielwelt in Regionen auf. Spieler (Knoten) kommunizieren zuerst nur innerhalb dieser Region und daher kann Kommunikationsaufwand eingespart werden.
 
-\missing{Literatur für NTree}
+\cite{GauthierDickey2005Using}
 
 \paragraph{Arbeitsweise}
 Über die Position in der virtuellen Welt werden Knoten in Regionen eingeteilt. Im Paper wird dies exemplarisch durch einen Quadtree aufgezeigt. Pro Region gibt es einen \emph{Leader} der von den Knoten innerhalb der Region eigenständig ermittelt wird. Alle Knoten innerhalb einer Region sind miteinander verbunden. Der Leader ist somit Knoten in einer größeren Region und kann über seine Nachbarn (die selbst Leader ihrer Region sind) mit nahezu allen anderen Knoten im Verbund kommunizieren.
