@@ -17,6 +17,33 @@
   url = {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.59.6053}
 }
 
+@INPROCEEDINGS{Andersen2001,
+  author = {Andersen, David and Balakrishnan, Hari and Kaashoek, Frans and Morris,
+	Robert},
+  title = {Resilient overlay networks},
+  booktitle = {SOSP '01: Proceedings of the eighteenth ACM symposium on Operating
+	systems principles},
+  year = {2001},
+  volume = {35},
+  number = {5},
+  pages = {131--145},
+  address = {New York, NY, USA},
+  month = {December},
+  publisher = {ACM Press},
+  __markedentry = {[jo]},
+  citeulike-article-id = {694970},
+  citeulike-linkout-0 = {http://portal.acm.org/citation.cfm?id=502048},
+  citeulike-linkout-1 = {http://dx.doi.org/10.1145/502034.502048},
+  doi = {10.1145/502034.502048},
+  isbn = {1581133898},
+  keywords = {overlay, resilent},
+  owner = {jo},
+  posted-at = {2010-03-11 13:03:50},
+  priority = {2},
+  timestamp = {2010.03.11},
+  url = {http://dx.doi.org/10.1145/502034.502048}
+}
+
 @ARTICLE{Angrisani2006Techniques,
   author = {Angrisani, Leopoldo and D'Antonio, Salvatore and Esposito, Marcello
 	and Vadursi, Michele},
@@ -177,6 +204,47 @@
   posted-at = {2010-02-08 19:34:33},
   priority = {0},
   url = {http://dx.doi.org/10.1145/566500.566501}
+}
+
+@ARTICLE{Braun2006,
+  author = {Braun, Torsten and Arya, Vijay and Turletti, Thierry},
+  title = {Explicit routing in multicast overlay networks},
+  journal = {Computer Communications},
+  year = {2006},
+  volume = {29},
+  pages = {2201--2216},
+  number = {12},
+  month = {August},
+  __markedentry = {[jo]},
+  abstract = {Application Level Multicast is a promising approach to overcome the
+	deployment problems of IP level multicast by establishing delivery
+	trees using overlay links among end systems. This paper presents
+	algorithms to support traffic engineering, to improve the reliability
+	of multicast delivery, and to facilitate secure group communications.
+	First, we introduce the so-called backup multicast tree algorithm
+	to compute a set of n - 1 backup multicast delivery trees from the
+	default multicast tree. Each backup multicast tree has exactly one
+	link of the default multicast tree that is replaced by a backup link
+	from the set of available links. The algorithm can calculate this
+	set of trees with a complexity of O (m log n), which is identical
+	with the complexity of well known minimum spanning tree algorithms.
+	The so-called reduced multicast tree algorithm is based on the backup
+	multicast tree algorithm and can calculate a tree from the default
+	multicast tree by removing a particular node and by replacing the
+	links of the removed node. Using the algorithms trees can be calculated
+	individually by each of the nodes but it requires global topology
+	knowledge. We therefore discuss distributed versions of the algorithms.},
+  citeulike-article-id = {1675684},
+  citeulike-linkout-0 = {http://dx.doi.org/10.1016/j.comcom.2006.02.022},
+  citeulike-linkout-1 = {http://www.sciencedirect.com/science/article/B6TYP-4JHMH3N-3/2/ead1f10b78e51eaf0dcefb246b99ae8d},
+  day = {4},
+  doi = {10.1016/j.comcom.2006.02.022},
+  keywords = {multicast, overlay, routing},
+  owner = {jo},
+  posted-at = {2010-03-11 13:15:41},
+  priority = {2},
+  timestamp = {2010.03.11},
+  url = {http://dx.doi.org/10.1016/j.comcom.2006.02.022}
 }
 
 @ARTICLE{Castro2002Scribe,
@@ -514,6 +582,33 @@
   keywords = {overlay, pubsub},
   posted-at = {2010-02-08 19:30:15},
   priority = {0}
+}
+
+@PROCEEDINGS{Dan2005,
+  title = {An Improved P2P Model Based on Chord},
+  year = {2005},
+  __markedentry = {[jo]},
+  abstract = {Chord is a classical peer-to-peer document routing model. In this
+	paper, we firstly present an improved Chord model, in which the nodes
+	are organized into groups, to enhance the lookup efficiency and decrease
+	the impact of dynamic environment. In addition, we propose a file
+	storage strategy in the improved Chord model. With the strategy,
+	shared file can be transmitted from multiple nodes simultaneously
+	that could speed up the download, and at the same time the strategy
+	can guarantee data security by means of introduction of a special
+	metadata file.},
+  author = {Dan, Yu and Xinmeng, Chen and Yunlei, Chang},
+  citeulike-article-id = {1386830},
+  citeulike-linkout-0 = {http://ieeexplore.ieee.org/xpls/abs\_all.jsp?arnumber=1579036},
+  journal = {Parallel and Distributed Computing, Applications and Technologies,
+	2005. PDCAT 2005. Sixth International Conference on},
+  keywords = {chord, improved, overlay, p2p},
+  owner = {jo},
+  pages = {807--811},
+  posted-at = {2010-03-11 13:06:07},
+  priority = {2},
+  timestamp = {2010.03.11},
+  url = {http://ieeexplore.ieee.org/xpls/abs\_all.jsp?arnumber=1579036}
 }
 
 @INCOLLECTION{Demers2006Towards,
@@ -1131,6 +1226,44 @@
   url = {http://dx.doi.org/10.1109/INFCOM.2004.1354485}
 }
 
+@ARTICLE{Kwon2005,
+  author = {Kwon, Minseok and Fahmy, Sonia},
+  title = {Path-aware overlay multicast},
+  journal = {Computer Networks},
+  year = {2005},
+  volume = {47},
+  pages = {23--45},
+  number = {1},
+  month = {January},
+  __markedentry = {[jo]},
+  abstract = {We investigate a heuristic application-level (overlay) multicast approach,
+	which we refer to as Topology Aware Grouping (TAG). TAG exploits
+	underlying network topology data to construct overlay multicast networks.
+	Specifically, TAG uses the overlap among routes from the source to
+	group members to construct an efficient overlay network in a distributed,
+	low-overhead manner. We can easily integrate TAG with delay and bandwidth
+	bounds to construct overlays that satisfy application requirements.
+	We study the properties of TAG, and quantify its economies of scale
+	factor, compared to unicast and IP multicast. In addition, we compare
+	TAG with delay-first and bandwidth-first Narada/End System Multicast
+	(ESM) in a variety of simulation configurations. We also implement
+	and experiment with TAG on the PlanetLab wide-area platform. Our
+	results demonstrate the effectiveness of our heuristic in reducing
+	delays and duplicate packets, especially when underlying routes are
+	of high quality.},
+  citeulike-article-id = {1675741},
+  citeulike-linkout-0 = {http://dx.doi.org/10.1016/j.comnet.2004.06.025},
+  citeulike-linkout-1 = {http://www.sciencedirect.com/science/article/B6VRG-4D2XB3X-1/2/4e24b8d3a63e8fd1a9108ceae6a6f652},
+  day = {14},
+  doi = {10.1016/j.comnet.2004.06.025},
+  keywords = {awareness, multicast, path},
+  owner = {jo},
+  posted-at = {2010-03-11 13:07:21},
+  priority = {2},
+  timestamp = {2010.03.11},
+  url = {http://dx.doi.org/10.1016/j.comnet.2004.06.025}
+}
+
 @INPROCEEDINGS{Li2004Supporting,
   author = {Li, Frederick W. B. and Li, Lewis W. F. and Lau, Rynson W. H.},
   title = {Supporting continuous consistency in multiplayer online games},
@@ -1234,6 +1367,28 @@
   posted-at = {2010-03-10 16:24:07},
   priority = {2},
   url = {http://dx.doi.org/10.1145/1180639.1180748}
+}
+
+@INPROCEEDINGS{Lv2002,
+  author = {Lv, Qin and Cao, Pei and Cohen, Edith and Li, Kai and Shenker, Scott},
+  title = {Search and replication in unstructured peer-to-peer networks},
+  booktitle = {ICS '02: Proceedings of the 16th international conference on Supercomputing},
+  year = {2002},
+  pages = {84--95},
+  address = {New York, NY, USA},
+  publisher = {ACM Press},
+  __markedentry = {[jo]},
+  citeulike-article-id = {448672},
+  citeulike-linkout-0 = {http://portal.acm.org/citation.cfm?id=514206},
+  citeulike-linkout-1 = {http://dx.doi.org/10.1145/514191.514206},
+  doi = {10.1145/514191.514206},
+  isbn = {1581134835},
+  keywords = {overlay, replication, search, unstructured},
+  owner = {jo},
+  posted-at = {2010-03-11 13:13:30},
+  priority = {2},
+  timestamp = {2010.03.11},
+  url = {http://dx.doi.org/10.1145/514191.514206}
 }
 
 @INPROCEEDINGS{Minson2007Evaluation,
@@ -1398,6 +1553,30 @@
   url = {http://dx.doi.org/10.1109/ICDE.2006.105}
 }
 
+@INPROCEEDINGS{Portmann2004,
+  author = {Portmann, Marius and Ardon, Sebastien and Senac, Patrick and Seneviratne,
+	Aruna},
+  title = {PROST: A Programmable Structured Peer-to-Peer Overlay Network},
+  booktitle = {P2P '04: Proceedings of the Fourth International Conference on Peer-to-Peer
+	Computing (P2P'04)},
+  year = {2004},
+  pages = {280--281},
+  address = {Washington, DC, USA},
+  publisher = {IEEE Computer Society},
+  __markedentry = {[jo]},
+  citeulike-article-id = {1668900},
+  citeulike-linkout-0 = {http://portal.acm.org/citation.cfm?id=1021967},
+  citeulike-linkout-1 = {http://dx.doi.org/10.1109/P2P.2004.42},
+  doi = {10.1109/P2P.2004.42},
+  isbn = {0769521568},
+  keywords = {overlay, p2p, structured},
+  owner = {jo},
+  posted-at = {2010-03-11 13:07:47},
+  priority = {2},
+  timestamp = {2010.03.11},
+  url = {http://dx.doi.org/10.1109/P2P.2004.42}
+}
+
 @ARTICLE{Qiu2007Towards,
   author = {Qiu, Tongqing and Chan, Edward and Ye, Mao and Chen, Guiha and Zhao,
 	Ben Y.},
@@ -1411,6 +1590,52 @@
   location = {China},
   posted-at = {2010-02-08 20:29:42},
   priority = {0}
+}
+
+@MISC{Rao2003,
+  author = {Rao, A. and Ratnasamy, S. and Papadimitriou, C. and Shenker, S. and
+	Stoica, I.},
+  title = {Geographic routing without location information},
+  year = {2003},
+  __markedentry = {[jo]},
+  abstract = {For many years, scalable routing for wireless communication systems
+	was a compelling but elusive goal. Recently, several routing algorithms
+	that exploit geographic information (e.g., GPSR) have been proposed
+	to achieve this goal. These algorithms refer to nodes by their location,
+	not address, and use those coordinates to route greedily, when possible,
+	towards the destination. However, there are many situations where
+	location information is not available at the nodes, and so geographic
+	methods...},
+  citeulike-article-id = {104354},
+  citeulike-linkout-0 = {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.58.5816},
+  keywords = {geographic, location, no\_location, routing, without\_location},
+  owner = {jo},
+  posted-at = {2010-03-11 13:15:16},
+  priority = {2},
+  timestamp = {2010.03.11},
+  url = {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.58.5816}
+}
+
+@INPROCEEDINGS{Ratnasamy2001,
+  author = {Ratnasamy, Sylvia and Handley, Mark and Karp, Richard M. and Shenker,
+	Scott},
+  title = {Application-Level Multicast Using Content-Addressable Networks},
+  booktitle = {NGC '01: Proceedings of the Third International COST264 Workshop
+	on Networked Group Communication},
+  year = {2001},
+  pages = {14--29},
+  address = {London, UK},
+  publisher = {Springer-Verlag},
+  __markedentry = {[jo]},
+  citeulike-article-id = {1668913},
+  citeulike-linkout-0 = {http://portal.acm.org/citation.cfm?id=648089.747491},
+  isbn = {3540428240},
+  keywords = {can, multicast},
+  owner = {jo},
+  posted-at = {2010-03-11 13:06:42},
+  priority = {2},
+  timestamp = {2010.03.11},
+  url = {http://portal.acm.org/citation.cfm?id=648089.747491}
 }
 
 @ELECTRONIC{Roberto2004Notification,
@@ -1452,7 +1677,6 @@
   pages = {329--350},
   address = {London, UK},
   publisher = {Springer-Verlag},
-  __markedentry = {[jo]},
   abstract = {Note: OCR errors may be found in this Reference List extracted from
 	the full text article. ACM has opted to expose the complete List
 	rather than only correct and linked references.},
@@ -1465,6 +1689,32 @@
   priority = {2},
   timestamp = {2010.03.11},
   url = {http://portal.acm.org/citation.cfm?id=697650}
+}
+
+@ARTICLE{Stoica2003,
+  author = {Stoica, Ion and Morris, Robert and Liben-Nowell, David and Karger,
+	David R. and Kaashoek, M. Frans and Dabek, Frank and Balakrishnan,
+	Hari},
+  title = {Chord: a scalable peer-to-peer lookup protocol for internet applications},
+  journal = {IEEE/ACM Trans. Netw.},
+  year = {2003},
+  volume = {11},
+  pages = {17--32},
+  number = {1},
+  month = {February},
+  __markedentry = {[jo]},
+  citeulike-article-id = {4129},
+  citeulike-linkout-0 = {http://portal.acm.org/citation.cfm?id=638336},
+  citeulike-linkout-1 = {http://dx.doi.org/10.1145/638334.638336},
+  doi = {10.1145/638334.638336},
+  issn = {1063-6692},
+  keywords = {chord, overlay, p2p},
+  owner = {jo},
+  posted-at = {2010-03-11 13:05:49},
+  priority = {2},
+  publisher = {ACM Press},
+  timestamp = {2010.03.11},
+  url = {http://dx.doi.org/10.1145/638334.638336}
 }
 
 @ARTICLE{PatrickTh2003Many,
@@ -1503,6 +1753,54 @@
   priority = {2},
   publisher = {ACM},
   url = {http://dx.doi.org/10.1145/857076.857078}
+}
+
+@ARTICLE{Theotokis2004,
+  author = {Theotokis, Stephanos A. and Spinellis, Diomidis},
+  title = {A survey of peer-to-peer content distribution technologies},
+  journal = {ACM Comput. Surv.},
+  year = {2004},
+  volume = {36},
+  pages = {335--371},
+  number = {4},
+  month = {December},
+  __markedentry = {[jo]},
+  abstract = {Distributed computer architectures labeled "peer-to-peer" are designed
+	for the sharing of computer resources (content, storage, CPU cycles)
+	by direct exchange, rather than requiring the intermediation or support
+	of a centralized server or authority. Peer-to-peer architectures
+	are characterized by their ability to adapt to failures and accommodate
+	transient populations of nodes while maintaining acceptable connectivity
+	and performance.Content distribution is an important peer-to-peer
+	application on the Internet that has received considerable research
+	attention. Content distribution applications typically allow personal
+	computers to function in a coordinated manner as a distributed storage
+	medium by contributing, searching, and obtaining digital content.In
+	this survey, we propose a framework for analyzing peer-to-peer content
+	distribution technologies. Our approach focuses on nonfunctional
+	characteristics such as security, scalability, performance, fairness,
+	and resource management potential, and examines the way in which
+	these characteristics are reflected in---and affected by---the architectural
+	design decisions adopted by current peer-to-peer systems.We study
+	current peer-to-peer systems and infrastructure technologies in terms
+	of their distributed object location and routing mechanisms, their
+	approach to content replication, caching and migration, their support
+	for encryption, access control, authentication and identity, anonymity,
+	deniability, accountability and reputation, and their use of resource
+	trading and management schemes.},
+  address = {New York, NY, USA},
+  citeulike-article-id = {102131},
+  citeulike-linkout-0 = {http://portal.acm.org/citation.cfm?id=1041681},
+  citeulike-linkout-1 = {http://dx.doi.org/10.1145/1041680.1041681},
+  doi = {10.1145/1041680.1041681},
+  issn = {0360-0300},
+  keywords = {content, distribution, p2p, survey},
+  owner = {jo},
+  posted-at = {2010-03-11 12:59:56},
+  priority = {2},
+  publisher = {ACM},
+  timestamp = {2010.03.11},
+  url = {http://dx.doi.org/10.1145/1041680.1041681}
 }
 
 @INPROCEEDINGS{Triebel2008Peertopeer,
