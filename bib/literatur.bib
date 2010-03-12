@@ -17,6 +17,57 @@
   url = {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.59.6053}
 }
 
+@INPROCEEDINGS{Aggarwal2005,
+  author = {Aggarwal, Sudhir and Banavar, Hemant and Mukherjee, Sarit and Rangarajan,
+	Sampath},
+  title = {Fairness in dead-reckoning based distributed multi-player games},
+  booktitle = {NetGames '05: Proceedings of 4th ACM SIGCOMM workshop on Network
+	and system support for games},
+  year = {2005},
+  pages = {1--10},
+  address = {New York, NY, USA},
+  publisher = {ACM},
+  abstract = {In a distributed multi-player game that uses dead-reckoning vectors
+	to exchange movement information among players, there is inaccuracy
+	in rendering the objects at the receiver due to network delay between
+	the sender and the receiver. The object is placed at the receiver
+	at the position indicated by the dead-reckoning vector, but by that
+	time, the real position could have changed considerably at the sender.
+	This inaccuracy would be tolerable if it is consistent among all
+	players; that is, at the same physical time, all players see inaccurate
+	(with respect to the real position of the object) but the same position
+	and trajectory for an object. But due to varying network delays between
+	the sender and different receivers, the inaccuracy is different at
+	different players as well. This leads to unfairness in game playing.
+	In this paper, we first introduce an "error" measure for estimating
+	this inaccuracy. Then we develop an algorithm for scheduling the
+	sending of dead-reckoning vectors at a sender that strives to make
+	this error equal at different receivers over time. This algorithm
+	makes the game very fair at the expense of increasing the overall
+	mean error of all players. To mitigate this effect, we propose a
+	budget based algorithm that provides improved fairness without increasing
+	the mean error thereby maintaining the accuracy of game playing.
+	We have implemented both the scheduling algorithm and the budget
+	based algorithm as part of BZFlag, a popular distributed multi-player
+	game. We show through experiments that these algorithms provide fairness
+	among players in spite of widely varying network delays. An additional
+	property of the proposed algorithms is that they require less number
+	of DRs to be exchanged (compared to the current implementation of
+	BZflag) to achieve the same level of accuracy in game playing.},
+  citeulike-article-id = {4284182},
+  citeulike-linkout-0 = {http://portal.acm.org/citation.cfm?id=1103599.1103608},
+  citeulike-linkout-1 = {http://dx.doi.org/10.1145/1103599.1103608},
+  doi = {10.1145/1103599.1103608},
+  isbn = {1-59593-156-2},
+  keywords = {dead\_reckoning, fairness},
+  location = {Hawthorne, NY},
+  owner = {jo},
+  posted-at = {2010-03-12 00:08:52},
+  priority = {2},
+  timestamp = {2010.03.12},
+  url = {http://dx.doi.org/10.1145/1103599.1103608}
+}
+
 @INPROCEEDINGS{Andersen2001,
   author = {Andersen, David and Balakrishnan, Hari and Kaashoek, Frans and Morris,
 	Robert},
@@ -30,7 +81,6 @@
   address = {New York, NY, USA},
   month = {December},
   publisher = {ACM Press},
-  __markedentry = {[jo]},
   citeulike-article-id = {694970},
   citeulike-linkout-0 = {http://portal.acm.org/citation.cfm?id=502048},
   citeulike-linkout-1 = {http://dx.doi.org/10.1145/502034.502048},
@@ -68,37 +118,43 @@
   url = {http://dx.doi.org/10.1016/j.comnet.2005.06.003}
 }
 
-@PROCEEDINGS{Baughman2001Cheatproof,
-  title = {Cheat-proof playout for centralized and distributed online games},
-  year = {2001},
-  volume = {1},
+@ARTICLE{Baughman2007,
+  author = {Baughman, Nathaniel E. and Liberatore, Marc and Levine, Brian N.},
+  title = {Cheat-proof playout for centralized and peer-to-peer gaming},
+  journal = {IEEE/ACM Trans. Netw.},
+  year = {2007},
+  volume = {15},
+  pages = {1--13},
+  number = {1},
   abstract = {We explore exploits possible for cheating in real-time, multiplayer
-	games for both client-server and distributed, serverless architectures.
-	We offer the first formalization of cheating in online games and
-	propose an initial set of strong solutions. We propose a protocol
-	that has provable anti-cheating guarantees, but suffers a performance
-	penalty. We then develop an extended version of this protocol, called
-	asynchronous synchronization, which avoids the penalty, is serverless,
-	offers provable anti-cheating guarantees, is robust in the face of
-	packet loss, and provides for significantly increased communication
-	performance. This technique is applicable to common game features
-	as well as clustering and cell-based techniques for massively multiplayer
-	games. Our performance claims are backed by analysis using a simulation
-	based on real game traces},
-  author = {Baughman, N. E. and Levine, B. N.},
-  booktitle = {INFOCOM 2001. Twentieth Annual Joint Conference of the IEEE Computer
-	and Communications Societies. Proceedings. IEEE},
-  citeulike-article-id = {4304328},
-  citeulike-linkout-0 = {http://dx.doi.org/10.1109/INFCOM.2001.916692},
-  citeulike-linkout-1 = {http://ieeexplore.ieee.org/xpls/abs\_all.jsp?arnumber=916692},
-  doi = {10.1109/INFCOM.2001.916692},
-  journal = {INFOCOM 2001. Twentieth Annual Joint Conference of the IEEE Computer
-	and Communications Societies. Proceedings. IEEE},
-  keywords = {cheating, client-server, lockstep, mmog, peer-to-peer},
-  pages = {104--113 vol.1},
-  posted-at = {2010-03-10 16:03:52},
+	games for both client-server and serverless architectures. We offer
+	the first formalization of cheating in online games and propose an
+	initial set of strong solutions. We propose a protocol that has provable
+	anti-cheating guarantees, is provably safe and live, but suffers
+	a performance penalty. We then develop an extended version of this
+	protocol, called asynchronous synchronization, which avoids the penalty,
+	is serverless, offers provable anti-cheating guarantees, is robust
+	in the presence of packet loss, and provides for significantly increased
+	communication performance. This technique is applicable to common
+	game features as well as clustering and cell-based techniques for
+	massively multiplayer games. Specifically, we provide a zero-knowledge
+	proof protocol so that players are within a specific range of each
+	other, and otherwise have no notion of their distance. Our performance
+	claims are backed by analysis using a simulation based on real game
+	traces.},
+  address = {Piscataway, NJ, USA},
+  citeulike-article-id = {4304331},
+  citeulike-linkout-0 = {http://portal.acm.org/citation.cfm?id=1241832.1241833},
+  citeulike-linkout-1 = {http://dx.doi.org/10.1109/TNET.2006.886289},
+  doi = {10.1109/TNET.2006.886289},
+  issn = {1063-6692},
+  keywords = {cheating},
+  owner = {jo},
+  posted-at = {2010-03-12 00:49:22},
   priority = {2},
-  url = {http://dx.doi.org/10.1109/INFCOM.2001.916692}
+  publisher = {IEEE Press},
+  timestamp = {2010.03.12},
+  url = {http://dx.doi.org/10.1109/TNET.2006.886289}
 }
 
 @ARTICLE{Bharambe2008Donnybrook,
@@ -215,7 +271,6 @@
   pages = {2201--2216},
   number = {12},
   month = {August},
-  __markedentry = {[jo]},
   abstract = {Application Level Multicast is a promising approach to overcome the
 	deployment problems of IP level multicast by establishing delivery
 	trees using overlay links among end systems. This paper presents
@@ -587,7 +642,6 @@
 @PROCEEDINGS{Dan2005,
   title = {An Improved P2P Model Based on Chord},
   year = {2005},
-  __markedentry = {[jo]},
   abstract = {Chord is a classical peer-to-peer document routing model. In this
 	paper, we firstly present an improved Chord model, in which the nodes
 	are organized into groups, to enhance the lookup efficiency and decrease
@@ -1235,7 +1289,6 @@
   pages = {23--45},
   number = {1},
   month = {January},
-  __markedentry = {[jo]},
   abstract = {We investigate a heuristic application-level (overlay) multicast approach,
 	which we refer to as Topology Aware Grouping (TAG). TAG exploits
 	underlying network topology data to construct overlay multicast networks.
@@ -1377,7 +1430,6 @@
   pages = {84--95},
   address = {New York, NY, USA},
   publisher = {ACM Press},
-  __markedentry = {[jo]},
   citeulike-article-id = {448672},
   citeulike-linkout-0 = {http://portal.acm.org/citation.cfm?id=514206},
   citeulike-linkout-1 = {http://dx.doi.org/10.1145/514191.514206},
@@ -1515,6 +1567,40 @@
   url = {http://dx.doi.org/10.1109/INFCOM.2009.5061998}
 }
 
+@INPROCEEDINGS{Pantel2002,
+  author = {Pantel, Lothar and Wolf, Lars C.},
+  title = {On the suitability of dead reckoning schemes for games},
+  booktitle = {NetGames '02: Proceedings of the 1st workshop on Network and system
+	support for games},
+  year = {2002},
+  pages = {79--84},
+  address = {New York, NY, USA},
+  publisher = {ACM},
+  abstract = {A major problem of network-based multiplayer games (and other distributed
+	virtual environments) is caused by the network transmission delay.
+	This delay leads to inconsistency and other problems. Dead reckoning
+	is often used to reduce the effects of network induced delays and
+	losses by applying prediction means. The quality of the prediction
+	and, hence, the consistency of the distributed game, depends on the
+	difference between the real and the predicted position of some objects.
+	In this paper we discuss prediction methods for games and study their
+	usefulness in regard to different game types (genre) like Sport,
+	3D-Action and racing games. Using implementations, the methods are
+	evaluated experimentally.},
+  citeulike-article-id = {4723035},
+  citeulike-linkout-0 = {http://portal.acm.org/citation.cfm?id=566500.566512},
+  citeulike-linkout-1 = {http://dx.doi.org/10.1145/566500.566512},
+  doi = {10.1145/566500.566512},
+  isbn = {1-58113-493-2},
+  keywords = {dead\_reckoning},
+  location = {Braunschweig, Germany},
+  owner = {jo},
+  posted-at = {2010-03-12 00:07:43},
+  priority = {2},
+  timestamp = {2010.03.12},
+  url = {http://dx.doi.org/10.1145/566500.566512}
+}
+
 @INPROCEEDINGS{Pietzuch2006NetworkAware,
   author = {Pietzuch, Peter and Ledlie, Jonathan and Shneidman, Jeffrey and Roussopoulos,
 	Mema and Welsh, Matt and Seltzer, Margo},
@@ -1563,7 +1649,6 @@
   pages = {280--281},
   address = {Washington, DC, USA},
   publisher = {IEEE Computer Society},
-  __markedentry = {[jo]},
   citeulike-article-id = {1668900},
   citeulike-linkout-0 = {http://portal.acm.org/citation.cfm?id=1021967},
   citeulike-linkout-1 = {http://dx.doi.org/10.1109/P2P.2004.42},
@@ -1597,7 +1682,6 @@
 	Stoica, I.},
   title = {Geographic routing without location information},
   year = {2003},
-  __markedentry = {[jo]},
   abstract = {For many years, scalable routing for wireless communication systems
 	was a compelling but elusive goal. Recently, several routing algorithms
 	that exploit geographic information (e.g., GPSR) have been proposed
@@ -1626,7 +1710,6 @@
   pages = {14--29},
   address = {London, UK},
   publisher = {Springer-Verlag},
-  __markedentry = {[jo]},
   citeulike-article-id = {1668913},
   citeulike-linkout-0 = {http://portal.acm.org/citation.cfm?id=648089.747491},
   isbn = {3540428240},
@@ -1702,7 +1785,6 @@
   pages = {17--32},
   number = {1},
   month = {February},
-  __markedentry = {[jo]},
   citeulike-article-id = {4129},
   citeulike-linkout-0 = {http://portal.acm.org/citation.cfm?id=638336},
   citeulike-linkout-1 = {http://dx.doi.org/10.1145/638334.638336},
@@ -1764,7 +1846,6 @@
   pages = {335--371},
   number = {4},
   month = {December},
-  __markedentry = {[jo]},
   abstract = {Distributed computer architectures labeled "peer-to-peer" are designed
 	for the sharing of computer resources (content, storage, CPU cycles)
 	by direct exchange, rather than requiring the intermediation or support
