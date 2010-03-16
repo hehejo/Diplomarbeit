@@ -4,15 +4,15 @@ Begriffsklärung
 \section{Begriffsklärung}
 In dieser Arbeit wird ein \emph{Publish/Subscribe-System über einem \ac{p2p} overlay Netzwerk} beschrieben.
 
-\paragraph{Overlay Netzwerk} Ein Overlay-Netzwerk ist ein logischer Aufsatz auf einem bestehenden Netzwerk und abstrahiert von diesem. Weiterhin zeichnen sie sich dadurch aus, dass ein eigener Adressraum genutzt wird und so das unterliegende Netzwerk überlagert wird. Knoten können so benachbart sein, ohne eine direkte physikalische Verbindung zu haben. Das Overlay-Netzwerk bietet neben dem eigenen Adressraum auch Funktionalität zum Versand, Empfang und Routing von Nachrichten.
+\paragraph{Overlay Netzwerk} Ein Overlay-Netzwerk\index{Netzwerk!Overlay} ist ein logischer Aufsatz auf einem bestehenden Netzwerk und abstrahiert von diesem. Weiterhin zeichnen sie sich dadurch aus, dass ein eigener Adressraum genutzt wird und so das unterliegende Netzwerk überlagert wird. Knoten können so benachbart sein, ohne eine direkte physikalische Verbindung zu haben. Das Overlay-Netzwerk bietet neben dem eigenen Adressraum auch Funktionalität zum Versand, Empfang und Routing von Nachrichten.
 
 \missing{Irgendein Zitat (Buch)!}
 
-\paragraph{\ac{p2p}-Netzwerk} p2p-Netzwerke beschreiben den Verbund von Knoten die miteinander gleichberechtigt kommunizieren können, sog. Peers. p2p-Netzwerke werden meist durch Overlay-Netzwerke realisiert, da Techniken wie bsp. IP-Multicast nicht weit verbreitet sind. Durch deren angebotenen Funktionen können viele Arten von p2p-Systemen implementiert werden. Grundlagen dieser Systeme sowie deren unterschiedliche Ansätze werden in Kapitel \ref{chap:evaluation_p2p} näher besprochen.
+\paragraph{\ac{p2p}-Netzwerk} p2p-Netzwerke\index{Netzwerk!p2p} beschreiben den Verbund von Knoten die miteinander gleichberechtigt kommunizieren können, sog. Peers. p2p-Netzwerke werden meist durch Overlay-Netzwerke realisiert, da Techniken wie bsp. IP-Multicast nicht weit verbreitet sind. Durch deren angebotenen Funktionen können viele Arten von p2p-Systemen implementiert werden. Grundlagen dieser Systeme sowie deren unterschiedliche Ansätze werden in Kapitel \ref{chap:evaluation_p2p} näher besprochen.
 
 \missing{Irgendein Zitat (Buch)!}
 
-\paragraph{Publish/Subscribe-System} Ein Publish/Subscribe-System beschreibt ein Abosystem. Ein Subscriber schreibt sich bei einem Publisher ein und wird von diesem über Veränderungen benachrichtigt. Solch ein System kann kanalbasiert oder filterbasiert sein. In Kapitel \ref{chap:grundlagen:pubsub} sind diese Systeme weitaus genauer aufgeführt. So werden aktuelle Systeme gegen die Anforderungen dieser Arbeit geprüft und daraus Konzepte für das zu entwickelnde System gezogen.
+\paragraph{Publish/Subscribe-System} Ein Publish/Subscribe-System\index{Publish/Subscribe} beschreibt ein Abosystem. Ein Subscriber schreibt sich bei einem Publisher ein und wird von diesem über Veränderungen benachrichtigt. Solch ein System kann kanalbasiert oder filterbasiert sein. In Kapitel \ref{chap:grundlagen:pubsub} sind diese Systeme weitaus genauer aufgeführt. So werden aktuelle Systeme gegen die Anforderungen dieser Arbeit geprüft und daraus Konzepte für das zu entwickelnde System gezogen.
 
 \missing{Irgendein Zitat (Buch)!}
 
@@ -22,7 +22,7 @@ Dieses Kapitel widmet sich den grundsätzlichen Ausprägungen von p2p-Netzwerken
 \missing{oh, das klingt hässlich}
 
 \subsection{Unstrukturierte Netzwerke}
-Unstrukturierte Netzwerke zeichnen sich dadurch aus, dass alle Informationen/Dateien durch Suchalgorithmen gefunden werden müssen. Hierbei gibt es im Wesentlichen zwei unterschiedliche Arten.
+Unstrukturierte Netzwerke\index{Netzwerk!Overlay!unstruktuiert} zeichnen sich dadurch aus, dass alle Informationen/Dateien durch Suchalgorithmen gefunden werden müssen. Hierbei gibt es im Wesentlichen zwei unterschiedliche Arten.
 
 \paragraph{zentralisiert} Knoten im Netz melden ihre verfügbaren Dateien an diverse Hauptrechner. Suchanfragen werden ebenfalls an diese Hauptrechner gerichtet. Der Suchende erhält eine List von potentiellen Knoten. Die eigentlichen Dateien werden dann über direkte Verbindungen zwischen den Peers übertragen. Einige Systeme tauschen auch weitere potentielle Knoten über Peers aus. Die einzelnen Hauptrechner stellen bei diesen System einen \emph{single point of failure} dar.
 
@@ -31,14 +31,18 @@ Unstrukturierte Netzwerke zeichnen sich dadurch aus, dass alle Informationen/Dat
 Beispiele für solche Netzwerke sind bsp. Napster, Gnutella oder BitTorrent\footnote{http://www.bittorrent.com/}.
 
 \subsection{Strukturierte Netzwerke}
-Im Gegensatz zu unstrukturierten Netzwerken sind strukturierte Netzwerke oft dezentraler Natur. Für den Einstieg in das Netz muss dem neuen Knoten ebenfalls ein Knoten im Netz bekannt sein. Jeder Knoten hat einen eindeutigem Schlüssel, welcher einem Hashwert entspricht. Dieser Hashwert kann über verschiedenste Daten berechnet werden, seien es Dateiinhalte oder bsp. Benennungen. Ein Knoten ist für die Daten zuständig deren Hashwert seinem Schlüssel entsprechen. Dabei werden die Schlüssel gleichmäßig über die Knoten verteilt.
+Im Gegensatz zu unstrukturierten Netzwerken sind strukturierte Netzwerke\index{Netzwerk!Overlay!strukturiert} oft dezentraler Natur. Für den Einstieg in das Netz muss dem neuen Knoten ebenfalls ein Knoten im Netz bekannt sein. Jeder Knoten hat einen eindeutigem Schlüssel, welcher einem Hashwert entspricht. Dieser Hashwert kann über verschiedenste Daten berechnet werden, seien es Dateiinhalte oder bsp. Benennungen. Ein Knoten ist für die Daten zuständig deren Hashwert seinem Schlüssel entsprechen. Dabei werden die Schlüssel gleichmäßig über die Knoten verteilt.
 
 Somit kann ein beliebiger Knoten im Netz schnell und einfach den Knoten ermitteln, der für ein gefordertes Datenpaket zuständig ist und seine Nachrichten an diesen Knoten durch das Netz routen lassen. Jedoch können mit diesem Ansatz Knoten für Daten zuständig sein, die ihnen weder gehören noch an denen sie Interesse zeigen.
 
 Die Kommunikation zwischen den einzelnen Knoten erfolgt dann meist nicht über direkte Verbindungen, sondern nutzt ebenfalls das zugrunde liegende Overlay-Netzwerk zur Datenübertragung.
+
+\missing{DHT, CAN?}
 
 \missing{Muss schöner werden!}
 
 \input{main/chapters/grundlagen_pubsub.tex}
 
 \input{main/chapters/grundlagen_cheating.tex}
+
+\input{main/chapters/grundlagen_mmog.tex}

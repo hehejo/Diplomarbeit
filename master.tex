@@ -49,15 +49,23 @@
 \include{main/toc}
 
 
-
 %\manualmark
 %\markleft{Abkürzungsverzeichnis}
 %\markright{Abkürzungsverzeichnis}
 %\printglossary
 \cleardoublepage
 
-\markleft{Index}
-\markright{Index}
+\automark[chapter]{section}
+
+% Index soll Stichwortverzeichnis heissen
+\newpage
+\renewcommand{\indexname}{Stichwortverzeichnis}
+	 
+% Stichwortverzeichnis soll im Inhaltsverzeichnis auftauchen
+\addcontentsline{toc}{chapter}{\indexname}
+
+\markleft{\indexname}
+\markright{\indexname}
 \printindex
 
 \automark[chapter]{section}
