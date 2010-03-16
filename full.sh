@@ -1,6 +1,6 @@
 #!/bin/sh
 pdflatex master
-makeindex -g -s index.ist master &
+makeindex -g -l -s index.ist master &
 bibtex master 
 pdflatex master
 pdflatex master
