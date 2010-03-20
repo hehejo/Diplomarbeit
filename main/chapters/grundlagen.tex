@@ -1,6 +1,3 @@
-Begriffsklärung
-
-
 \section{Begriffsklärung}
 In dieser Arbeit wird ein \emph{Publish/Subscribe-System über einem \ac{p2p} overlay Netzwerk} beschrieben.
 
@@ -8,7 +5,7 @@ In dieser Arbeit wird ein \emph{Publish/Subscribe-System über einem \ac{p2p} ov
 
 \missing{Irgendein Zitat (Buch)!}
 
-\paragraph{\ac{p2p}-Netzwerk} p2p-Netzwerke\index{Netzwerk!p2p} beschreiben den Verbund von Knoten die miteinander gleichberechtigt kommunizieren können, sog. Peers. p2p-Netzwerke werden meist durch Overlay-Netzwerke realisiert, da Techniken wie bsp. IP-Multicast nicht weit verbreitet sind. Durch deren angebotenen Funktionen können viele Arten von p2p-Systemen implementiert werden. Grundlagen dieser Systeme sowie deren unterschiedliche Ansätze werden in Kapitel \ref{chap:evaluation_p2p} näher besprochen.
+\paragraph{\ac{p2p}-Netzwerk} p2p-Netzwerke\index{Netzwerk!p2p} beschreiben den Verbund von Knoten, sog. Peers, die miteinander gleichberechtigt kommunizieren können. p2p-Netzwerke werden meist durch Overlay-Netzwerke realisiert, da Techniken wie bsp. IP-Multicast nicht weit verbreitet sind. Durch deren angebotenen Funktionen können viele Arten von p2p-Systemen implementiert werden. Grundlagen dieser Systeme sowie deren unterschiedliche Ansätze werden in Kapitel \ref{chap:evaluation_p2p} näher besprochen. Meist wird unter p2p \emph{Filesharing} verstanden, was aber nicht immer der Fall sein ist. Gegeinete p2p-Netzwerke können auch als Kommunikationsnsetz genutzt werden.
 
 \missing{Irgendein Zitat (Buch)!}
 
@@ -26,7 +23,7 @@ Unstrukturierte Netzwerke\index{Netzwerk!Overlay!unstruktuiert} zeichnen sich da
 
 \paragraph{zentralisiert} Knoten im Netz melden ihre verfügbaren Dateien an diverse Hauptrechner. Suchanfragen werden ebenfalls an diese Hauptrechner gerichtet. Der Suchende erhält eine List von potentiellen Knoten. Die eigentlichen Dateien werden dann über direkte Verbindungen zwischen den Peers übertragen. Einige Systeme tauschen auch weitere potentielle Knoten über Peers aus. Die einzelnen Hauptrechner stellen bei diesen System einen \emph{single point of failure} dar.
 
-\paragraph{dezentralisiert} Damit sich ein neuer Knoten in das Netz einklinken kann, muss mindestens ein Knoten aus dem Netz bekannt sein, da es keine dauerhaften Hauptserver gibt. Über diesen Peer baut der neue Knoten eine Nachbarschaft auf. Damit Dateien im Netz gefunden werden können, muss die Suchanfrage durch das Netz geflutet werden. Sind Peers gefunden, so wird ebenfalls eine direkte Verbindung zur Datenübertragung aufgebaut.
+\paragraph{dezentralisiert} Da es keine Hauptserver gibt, muss dem neuen Knoten mindestens ein Knoten im Netz bekannt sein, damit er sich in das Netz einklinken kann. Über diesen bekannten Peer baut der neue Knoten eine Nachbarschaft auf. Damit Dateien im Netz gefunden werden können, muss die Suchanfrage durch das Netz geflutet werden. Sind Peers gefunden, so wird ebenfalls eine direkte Verbindung zur Datenübertragung aufgebaut.
 
 Beispiele für solche Netzwerke sind bsp. Napster, Gnutella oder BitTorrent\footnote{http://www.bittorrent.com/}.
 
@@ -40,6 +37,7 @@ Die Kommunikation zwischen den einzelnen Knoten erfolgt dann meist nicht über d
 \missing{DHT, CAN?}
 
 \missing{Muss schöner werden!}
+
 
 \input{main/chapters/grundlagen_pubsub.tex}
 
