@@ -776,44 +776,48 @@
   url = {http://dx.doi.org/10.1145/375663.375677}
 }
 
-@INPROCEEDINGS{Fahmy2003Characterizing,
-  author = {Fahmy, S. and Kwon, Minseok},
-  title = {Characterizing overlay multicast networks},
-  booktitle = {11th IEEE International Conference on Network Protocols, 2003. Proceedings.},
-  year = {2003},
-  pages = {61--70},
-  publisher = {IEEE Comput. Soc},
+@ARTICLE{Fahmy2007,
+  author = {Fahmy, Sonia and Kwon, Minseok},
+  title = {Characterizing Overlay Multicast Networks and Their Costs},
+  journal = {IEEE/ACM Transactions on Networking},
+  year = {2007},
+  volume = {15},
+  pages = {373--386},
+  number = {2},
+  month = {April},
+  __markedentry = {[jo]},
   abstract = {Overlay networks among cooperating hosts have recently emerged as
 	a viable solution to several challenging problems, including multicasting,
 	routing, content distribution, and peer-to-peer services. Application-level
-	overlays, however, incur a performance penalty over router level
-	solutions. This paper characterizes this performance penalty for
-	overlay multicast trees via experimental data, simulations, and theoretical
-	models. Experimental data and simulations illustrate that (i) the
-	average delay and the number of hops between parent and child hosts
-	in overlay trees generally decrease, and (ii) the degree of hosts
-	generally decreases, as the level of the host in the overlay tree
-	increases. Overlay multicast routing strategies, together with power-law
-	and small-world Internet topology characteristics, are causes of
-	the observed phenomena. We compare three overlay multicast protocols
-	with respect to latency, bandwidth, router degrees, and host degrees.
-	We also quantify the overlay tree cost. Results reveal that L(n)/U(n)
-	∝ n 0.9 for small n, where L(n) is the total number of hops in all
-	overlay links, U(n) is the average number of hops on the source to
-	receiver unicast paths, and n is the number of members in the overlay
-	multicast session.},
-  citeulike-article-id = {1675260},
-  citeulike-linkout-0 = {http://dx.doi.org/10.1109/ICNP.2003.1249757},
-  citeulike-linkout-1 = {http://ieeexplore.ieee.org/xpls/abs\_all.jsp?arnumber=1249757},
-  doi = {10.1109/ICNP.2003.1249757},
-  isbn = {0-7695-2024-3},
-  journal = {Network Protocols, 2003. Proceedings. 11th IEEE International Conference
-	on},
-  keywords = {characterize, overlay},
-  location = {Atlanta, GA, USA},
-  posted-at = {2010-03-08 16:20:15},
+	overlays, however, incur a performance penalty over router-level
+	solutions. This paper quantifies and explains this performance penalty
+	for overlay multicast trees via: 1) Internet experimental data; 2)
+	simulations; and 3) theoretical models. We compare a number of overlay
+	multicast protocols with respect to overlay tree structure, and underlying
+	network characteristics. Experimental data and simulations illustrate
+	that the mean number of hops and mean per-hop delay between parent
+	and child hosts in overlay trees generally decrease as the level
+	of the host in the overlay tree increases. Overlay multicast routing
+	strategies, overlay host distribution, and Internet topology characteristics
+	are identified as three primary causes of the observed phenomenon.
+	We show that this phenomenon yields overlay tree cost savings: Our
+	results reveal that the normalized cost L(n)/U(n) is propn 0.9 for
+	small n, where L(n) is the total number of hops in all overlay links,
+	U(n) is the average number of hops on the source to receiver unicast
+	paths, and n is the number of members in the overlay multicast session.
+	This can be compared to an IP multicast cost proportional to n 0.6
+	to n 0.8},
+  citeulike-article-id = {6900371},
+  citeulike-linkout-0 = {http://dx.doi.org/10.1109/TNET.2007.892847},
+  citeulike-linkout-1 = {http://ieeexplore.ieee.org/xpls/abs\_all.jsp?arnumber=4154753},
+  doi = {10.1109/TNET.2007.892847},
+  issn = {1063-6692},
+  keywords = {characterize, costs, multicast, overlay},
+  owner = {jo},
+  posted-at = {2010-03-24 12:57:38},
   priority = {2},
-  url = {http://dx.doi.org/10.1109/ICNP.2003.1249757}
+  timestamp = {2010.03.24},
+  url = {http://dx.doi.org/10.1109/TNET.2007.892847}
 }
 
 @ARTICLE{Feng2005Traffic,
@@ -1054,7 +1058,6 @@
   pages = {381--394},
   address = {New York, NY, USA},
   publisher = {ACM},
-  __markedentry = {[jo]},
   abstract = {The various proposed DHT routing algorithms embody several different
 	underlying routing geometries . These geometries include hypercubes,
 	rings, tree-like structures, and butterfly networks. In this paper
@@ -1516,7 +1519,6 @@
   journal = {Communications Surveys \& Tutorials, IEEE},
   year = {2005},
   pages = {72--93},
-  __markedentry = {[jo]},
   citeulike-article-id = {565497},
   citeulike-linkout-0 = {http://ieeexplore.ieee.org/xpls/abs\_all.jsp?arnumber=1528337},
   keywords = {overlay, p2p, survey},
@@ -1561,7 +1563,6 @@
   pages = {53--65},
   address = {Berlin, Heidelberg},
   month = {October},
-  __markedentry = {[jo]},
   abstract = {We describe a peer-to-peer distributed hash table with provable consistency
 	and performance in a fault-prone environment. Our system routes queries
 	and locates nodes using a novel XOR-based metric topology that simplifies
