@@ -1,6 +1,8 @@
 \section*{Scribe}
 \label{chap:related:scribe}
-Scribe \cite{Castro2002Scribe} gehört zur Klasse der kanalbasierten\footnote{siehe Kapitel \ref{chap:grundlagen:pubsub:kanalbasiert}} Publish/Subscribe-Systeme und basiert auf dem strukturierten p2p-Netzwerk Pastry.
+Scribe \cite{Castro2002Scribe} gehört zur Klasse der kanalbasierten\footnote{siehe Kapitel \ref{chap:grundlagen:pubsub:kanalbasiert}} Publish/Subscribe-Systeme \index{Publish/Subscribe!kanalbasiert} und basiert auf dem strukturierten Overlay-Netzwerk Pastry.
+
+Dabei nutzt Scribe einen vom Subscriber zum Publischer aufgebauten Baum \emph{reverse path forwarding tree} \cite{Dalal1978}. Im Gegensatz dazu nutzt Bayeux \cite{Zhuang2001} einen Baum der vom Publisher zum Subscriber augebaut wird. Aufgrund der unterliegenden Routingstruktur des genutzten Overlay-Netzwerkes können sich diese Pfade unterscheiden.
 
 \cite{Rowstron2001} %Pastry
 
