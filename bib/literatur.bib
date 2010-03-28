@@ -735,7 +735,6 @@
   pages = {85--110},
   number = {2},
   month = {May},
-  __markedentry = {[jo]},
   abstract = {Multicasting, the transmission of a packet to a group of hosts, is
 	an important service for improving the efficiency and robustness
 	of distributed systems and applications. Although multicast capability
@@ -1478,7 +1477,9 @@
 @PROCEEDINGS{Knutsson2004Peertopeer,
   title = {Peer-to-peer support for massively multiplayer games},
   year = {2004},
+  editor = {Knutsson},
   volume = {1},
+  publisher = {IEEE},
   abstract = {We present an approach to support massively multiplayer games on peer-to-peer
 	overlays. Our approach exploits the fact that players in MMGs display
 	locality of interest, and therefore can form self-organizing groups
@@ -1646,6 +1647,36 @@
   url = {http://dx.doi.org/10.1145/1180639.1180748}
 }
 
+@MISC{Liu2003Survey,
+  author = {Liu, Y. and Plale, B.},
+  title = {Survey of publish subscribe event systems},
+  year = {2003},
+  __markedentry = {[jo]},
+  abstract = {The Internet has changed considerably the scale of distributed systems,
+	motivating
+	
+	the demand for more flexible communication models and systems. Individual
+	
+	point-to-point and synchronous communications, which tend to lead
+	to rigid
+	
+	and static applications, are making way for the more loosely coupled
+	interaction
+	
+	such as is supported by a publish-subscribe paradigm.},
+  citeulike-article-id = {1447246},
+  citeulike-linkout-0 = {http://citeseer.ist.psu.edu/liu03survey.html},
+  citeulike-linkout-1 = {http://citeseer.lcs.mit.edu/liu03survey.html},
+  citeulike-linkout-2 = {http://citeseer.ifi.unizh.ch/liu03survey.html},
+  citeulike-linkout-3 = {http://citeseer.comp.nus.edu.sg/liu03survey.html},
+  keywords = {pubsub, survey},
+  owner = {jo},
+  posted-at = {2010-03-28 14:14:54},
+  priority = {2},
+  timestamp = {2010.03.28},
+  url = {http://citeseer.ist.psu.edu/liu03survey.html}
+}
+
 @ARTICLE{Lua2005,
   author = {Lua, Keong and Crowcroft, J. and Pias, M. and Sharma, R. and Lim,
 	S.},
@@ -1682,6 +1713,46 @@
   priority = {2},
   timestamp = {2010.03.11},
   url = {http://dx.doi.org/10.1145/514191.514206}
+}
+
+@INCOLLECTION{Malli2005ApplicationLevel,
+  author = {Malli, Mohammad and Barakat, Chadi and Dabbous, Walid},
+  title = {Application-Level Versus Network-Level Proximity},
+  booktitle = {Technologies for Advanced Heterogeneous Networks },
+  publisher = {Springer-Verlag},
+  year = {2005},
+  editor = {Cho, Kenjiro and Jacquet, Philippe},
+  volume = {3837},
+  series = {Lecture Notes in Computer Science},
+  chapter = {17},
+  pages = {225--239},
+  address = {Berlin/Heidelberg},
+  abstract = {We motivate in this paper the need for application-level proximity.
+	This proximity is a function of network characteristics that decide
+	on the application performance. Most of existing protocols rely on
+	the network-level proximity as for example the one based on the delay
+	(e.g., the delay closest peer is the best peer to contact). In this
+	paper, we study how much the two proximity definitions differ from
+	each other. The work consists of running extensive measurements over
+	the PlanetLab overlay network and comparing different proximity definitions.
+	Our major observation is that the delay proximity is not always a
+	good predictor of quality and that other network parameters are to
+	be considered as well based on the application requirements. Particulary,
+	the best peer to contact is not always the delay closest one. This
+	can be explained by our other observation, that of the slight correlation
+	of network characteristics with each other.},
+  citeulike-article-id = {1675448},
+  citeulike-linkout-0 = {http://dx.doi.org/10.1007/11599593\_17},
+  citeulike-linkout-1 = {http://www.springerlink.com/content/yv882v28332l6w2p},
+  doi = {10.1007/11599593\_17},
+  isbn = {3-540-30884-9},
+  journal = {Technologies for Advanced Heterogeneous Networks},
+  keywords = {application-level, network-level, proximity},
+  owner = {jo},
+  posted-at = {2010-03-28 13:54:52},
+  priority = {2},
+  timestamp = {2010.03.28},
+  url = {http://dx.doi.org/10.1007/11599593\_17}
 }
 
 @INCOLLECTION{Maymounkov2002,
@@ -2102,6 +2173,46 @@
   publisher = {ACM Press},
   timestamp = {2010.03.11},
   url = {http://dx.doi.org/10.1145/638334.638336}
+}
+
+@ARTICLE{Th2003Lightweight,
+  author = {Th and Guerraoui, R. and Handurukande, S. B. and Kouznetsov, P. and
+	Kermarrec, A. M.},
+  title = {Lightweight probabilistic broadcast},
+  journal = {ACM Trans. Comput. Syst.},
+  year = {2003},
+  volume = {21},
+  pages = {341--374},
+  number = {4},
+  month = {November},
+  abstract = {Gossip-based broadcast algorithms, a family of probabilistic broadcast
+	algorithms, trade reliability guarantees against "scalability" properties.
+	Scalability in this context has usually been expressed in terms of
+	message throughput and delivery latency, but there has been little
+	work on how to reduce the memory consumption for membership management
+	and message buffering at large scale.This paper presents lightweight
+	probabilistic broadcast ( lpbcast ), a novel gossip-based broadcast
+	algorithm, which complements the inherent throughput scalability
+	of traditional probabilistic broadcast algorithms with a scalable
+	memory management technique. Our algorithm is completely decentralized
+	and based only on local information: in particular, every process
+	only knows a fixed subset of processes in the system and only buffers
+	fixed "most suitable" subsets of messages. We analyze our broadcast
+	algorithm stochastically and compare the analytical results both
+	with simulations and concrete implementation measurements.},
+  address = {New York, NY, USA},
+  citeulike-article-id = {514992},
+  citeulike-linkout-0 = {http://portal.acm.org/citation.cfm?id=945507},
+  citeulike-linkout-1 = {http://dx.doi.org/10.1145/945506.945507},
+  doi = {10.1145/945506.945507},
+  issn = {0734-2071},
+  keywords = {broadcast, probabilistic},
+  owner = {jo},
+  posted-at = {2010-03-28 14:13:37},
+  priority = {2},
+  publisher = {ACM},
+  timestamp = {2010.03.28},
+  url = {http://dx.doi.org/10.1145/945506.945507}
 }
 
 @ARTICLE{PatrickTh2003Many,
