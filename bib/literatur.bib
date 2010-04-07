@@ -25,7 +25,6 @@
 	COMPUTING},
   year = {2005},
   pages = {11--20},
-  __markedentry = {[jo]},
   abstract = {The success of the P2P idea has created a huge diversity of approaches,
 	among which overlay networks, for example, Gnutella, Kazaa, Chord,
 	Pastry, Tapestry, P-Grid, or DKS, have received specific attention
@@ -238,7 +237,6 @@
   address = {New York, NY, USA},
   month = {October},
   publisher = {ACM},
-  __markedentry = {[jo]},
   abstract = {We describe a new scalable application-layer multicast protocol, specifically
 	designed for low-bandwidth, data streaming applications with large
 	receiver sets. Our scheme is based upon a hierarchical clustering
@@ -420,7 +418,6 @@
   year = {2003},
   title = {Peer-to-Peer Overlay Networks: A Survey},
   url = {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.1.6814},
-  __markedentry = {[jo]},
   abstract = {P2P network is factually an overlay network for distributed object
 	store, search and sharing. This paper will present a survey about
 	it\&\#039;s recent. First, we will introduce a simple definition
@@ -452,7 +449,6 @@
   pages = {33--42},
   address = {New York, NY, USA},
   publisher = {ACM Press},
-  __markedentry = {[jo]},
   citeulike-article-id = {1386762},
   citeulike-linkout-0 = {http://portal.acm.org/citation.cfm?id=1036925},
   citeulike-linkout-1 = {http://dx.doi.org/10.1145/1036921.1036925},
@@ -504,6 +500,36 @@
   priority = {2},
   timestamp = {2010.03.11},
   url = {http://dx.doi.org/10.1016/j.comcom.2006.02.022}
+}
+
+@ELECTRONIC{Castro2002Secure,
+  author = {Castro, Miguel and Druschel, Peter and Ganesh, Ayalvadi and Rowstron,
+	Antony and Wallach, Dan S.},
+  year = {2002},
+  title = {Secure Routing for Structured Peer-to-Peer Overlay Networks},
+  url = {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.14.481},
+  abstract = {Structured peer-to-peer overlay networks provide a substrate for the
+	construction of large-scale, decentralized applications, including
+	distributed storage, group communication, and content distribution.
+	These overlays are highly resilient; they can route messages correctly
+	even when a large fraction of the nodes crash or the network partitions.
+	But current overlays are not secure; even a small fraction of malicious
+	nodes can prevent correct message delivery throughout the overlay.
+	This problem is particularly serious in open peer-to-peer systems,
+	where many diverse, autonomous parties without preexisting trust
+	relationships wish to pool their resources. This paper studies attacks
+	aimed at preventing correct message delivery in structured peer-to-peer
+	overlays and presents defenses to these attacks. We describe and
+	evaluate techniques that allow nodes to join the overlay, to maintain
+	routing state, and to forward messages securely in the presence of
+	malicious nodes.},
+  citeulike-article-id = {6970768},
+  citeulike-linkout-0 = {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.14.481},
+  keywords = {overlay, p2p, routing, secure, structured},
+  owner = {jo},
+  posted-at = {2010-04-07 14:44:26},
+  priority = {2},
+  timestamp = {2010.04.07}
 }
 
 @ARTICLE{Castro2002Scribe,
@@ -906,6 +932,47 @@
   url = {http://ieeexplore.ieee.org/xpls/abs\_all.jsp?arnumber=1579036}
 }
 
+@ARTICLE{Darlagiannis2006Peertopeer,
+  author = {Darlagiannis, V. and Heckmann, O. and Steinmetz, R.},
+  title = {Peer-to-peer applications beyond file sharing: overlay network requirements
+	and solutions},
+  journal = {e \& i Elektrotechnik und Informationstechnik},
+  year = {2006},
+  volume = {123},
+  pages = {242--250},
+  number = {6},
+  month = {June},
+  abstract = {In this paper we analyze the functional and non-functional requirements
+	of peer-to-peer (P2P) systems that go beyond the needs of the well
+	explored file-sharing P2P systems. Four basic subcategories are suggested
+	to classify the non-functional requirements: adaptability, efficiency,
+	validity and trust. Similarly, the functional requirements are divided
+	into user-triggered and system-triggered functions. Then, we present
+	and discuss several existing solutions following different design
+	approaches in order to reveal their suitability for different types
+	of P2P applications. More particularly, we capture the characteristics
+	of structured and unstructured overlay networks. For the structured
+	solutions, we investigate distributed hash tables and lexicographic
+	graph based solutions. For the unstructured approaches, we discuss
+	both hierarchical and non-hierarchical overlay networks and emphasize
+	on small-world and power-law networks. Finally, we provide a set
+	of demanding application classes such as voice over IP and massive
+	multiplayer online games that may be benefited by utilizing the P2P
+	technology.},
+  citeulike-article-id = {1814777},
+  citeulike-linkout-0 = {http://dx.doi.org/10.1007/s00502-006-0345-z},
+  citeulike-linkout-1 = {http://www.springerlink.com/content/x25n5ph8x4548t90},
+  day = {1},
+  doi = {10.1007/s00502-006-0345-z},
+  issn = {0932-383X},
+  keywords = {p2p, requirements, structured, survey},
+  owner = {jo},
+  posted-at = {2010-04-07 14:39:54},
+  priority = {2},
+  timestamp = {2010.04.07},
+  url = {http://dx.doi.org/10.1007/s00502-006-0345-z}
+}
+
 @INCOLLECTION{Datar2002Butterflies,
   author = {Datar, Mayur},
   title = {Butterflies and Peer-to-Peer Networks},
@@ -919,7 +986,6 @@
   pages = {201--222},
   address = {Berlin, Heidelberg},
   month = {August},
-  __markedentry = {[jo]},
   abstract = {Research in Peer-to-peer systems has focussed on building efficient
 	Content Addressable Networks (CANs), which are essentially distributed
 	hash tables (DHT) that support location of resources based on unique
@@ -998,6 +1064,42 @@
   url = {http://dx.doi.org/10.1145/78952.78953}
 }
 
+@INPROCEEDINGS{DellAmico2006Neighbourhood,
+  author = {Dell'Amico, M.},
+  title = {Neighbourhood Maps: Decentralised Ranking in Small-World P2P Networks},
+  booktitle = {Proceedings 20th IEEE International Parallel \& Distributed Processing
+	Symposium},
+  year = {2006},
+  pages = {1--8},
+  publisher = {IEEE},
+  abstract = {Reputation in P2P networks is an important tool to encourage cooperation
+	among peers. It is based on ranking of peers according to their past
+	behaviour. In large-scale real world networks, a global centralised
+	knowledge about all nodes is neither affordable nor practical. For
+	this reason, reputation ranking is often based on local history knowledge
+	available on the evaluating node. This criterion is not optimal,
+	since it ignores useful data about interactions with other peers.
+	We propose a simple, scalable and decentralised method, called "neighbourhood
+	maps", that approximates rankings calculated using link-analysis
+	techniques, exploiting the short-distance characteristics of small-world
+	networks. We test our algorithms using data from the OpenPGP Web-of-trust,
+	a real-world network of trust relationships},
+  citeulike-article-id = {1260486},
+  citeulike-linkout-0 = {http://dx.doi.org/10.1109/IPDPS.2006.1639702},
+  citeulike-linkout-1 = {http://ieeexplore.ieee.org/xpls/abs\_all.jsp?arnumber=1639702},
+  doi = {10.1109/IPDPS.2006.1639702},
+  isbn = {1-4244-0054-6},
+  journal = {Parallel and Distributed Processing Symposium, 2006. IPDPS 2006.
+	20th International},
+  keywords = {neighborhood, p2p, ranking},
+  location = {Rhodes Island, Greece},
+  owner = {jo},
+  posted-at = {2010-04-07 14:41:58},
+  priority = {2},
+  timestamp = {2010.04.07},
+  url = {http://dx.doi.org/10.1109/IPDPS.2006.1639702}
+}
+
 @INCOLLECTION{Demers2006Towards,
   author = {Demers, Alan and Gehrke, Johannes and Hong, Mingsheng and Riedewald,
 	Mirek and White, Walker},
@@ -1052,7 +1154,6 @@
   pages = {1--8},
   address = {New York, NY, USA},
   publisher = {ACM Press},
-  __markedentry = {[jo]},
   citeulike-article-id = {1675664},
   citeulike-linkout-0 = {http://portal.acm.org/citation.cfm?id=966624},
   citeulike-linkout-1 = {http://dx.doi.org/10.1145/966618.966624},
@@ -1280,6 +1381,49 @@
   posted-at = {2010-02-17 21:48:39},
   priority = {2},
   url = {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.3.3382}
+}
+
+@ARTICLE{Galluccio2007Georoy,
+  author = {Galluccio, L. and Morabito, G. and Palazzo, S. and Pellegrini, M.
+	and Renda, M. and Santi, P.},
+  title = {Georoy: A location-aware enhancement to Viceroy peer-to-peer algorithm},
+  journal = {Computer Networks},
+  year = {2007},
+  volume = {51},
+  pages = {1998--2014},
+  number = {8},
+  month = {June},
+  abstract = {The success of experiences such as Seattle and Houston Wireless has
+	attracted the attention on the so called wireless mesh community
+	networks . These are wireless multihop networks spontaneously deployed
+	by users willing to share communication resources. Due to the community
+	spirit characterizing such networks, it is likely that users will
+	be willing to share other resources besides communication resources,
+	such as data, images, music, movies, disk quotas for distributed
+	backup, and so on. To support resource exchange in these wireless
+	mesh community networks, algorithms for efficient retrieval of information
+	are required. In this paper we introduce Georoy , an algorithm for
+	the efficient retrieval of the information on resource location based
+	on the Viceroy peer-to-peer algorithm. Differently from Viceroy,
+	Georoy exploits the capability of setting and managing a direct mapping
+	between the resource ID and the node which maintains information
+	about its location so as to speed up the search process. Simulation
+	results show that Georoy enables efficient and scalable search of
+	resources and can be successfully used in wireless mesh community
+	networks.},
+  citeulike-article-id = {1014641},
+  citeulike-linkout-0 = {http://dx.doi.org/10.1016/j.comnet.2006.09.017},
+  citeulike-linkout-1 = {http://linkinghub.elsevier.com/retrieve/pii/S1389128606002775},
+  citeulike-linkout-2 = {http://www.sciencedirect.com/science/article/B6VRG-4M87640-2/2/26d815f0c2efc66f658c00d02d4a81b7},
+  day = {06},
+  doi = {10.1016/j.comnet.2006.09.017},
+  issn = {13891286},
+  keywords = {location\_aware, overlay, p2p, viceroy},
+  owner = {jo},
+  posted-at = {2010-04-05 17:01:07},
+  priority = {2},
+  timestamp = {2010.04.07},
+  url = {http://dx.doi.org/10.1016/j.comnet.2006.09.017}
 }
 
 @INPROCEEDINGS{GaneshIdentity,
@@ -1928,7 +2072,6 @@
   pages = {1472--1488},
   number = {8},
   month = {October},
-  __markedentry = {[jo]},
   abstract = {Application-layer multicast supports group applications without the
 	need for a network-layer multicast protocol. Here, applications arrange
 	themselves in a logical overlay network and transfer data within
@@ -2026,21 +2169,41 @@
   url = {http://citeseer.ist.psu.edu/liu03survey.html}
 }
 
-@ARTICLE{Lua2005,
-  author = {Lua, Keong and Crowcroft, J. and Pias, M. and Sharma, R. and Lim,
-	S.},
-  title = {A survey and comparison of peer-to-peer overlay network schemes},
-  journal = {Communications Surveys \& Tutorials, IEEE},
+@ARTICLE{Lua2005Survey,
+  author = {Lua, Eng K. and Crowcroft, Jon and Pias, Marcelo and Sharma, Ravi
+	and Lim, Steven},
+  title = {A Survey and Comparison of Peer-to-Peer Overlay Network Schemes},
+  journal = {IEEE Communications Surveys and Tutorials},
   year = {2005},
+  volume = {7},
   pages = {72--93},
-  citeulike-article-id = {565497},
-  citeulike-linkout-0 = {http://ieeexplore.ieee.org/xpls/abs\_all.jsp?arnumber=1528337},
-  keywords = {overlay, p2p, survey},
+  month = {March},
+  __markedentry = {[jo]},
+  abstract = {Abstract  Over the Internet today, computing and communications environments
+	are significantly more complex and chaotic than classical distributed
+	systems, lacking any centralized organization or hierarchical control.
+	There has been much interest in emerging Peer-to-Peer (P2P) network
+	overlays because they provide a good substrate for creating large-scale
+	data sharing, content distribution and application-level multicast
+	applications. These P2P networks try to provide a long list of features
+	such as: selection of nearby peers, redundant storage, efficient
+	search/location of data items, data permanence or guarantees, hierarchical
+	naming, trust and authentication, and, anonymity. P2P networks potentially
+	offer an efficient routing architecture that is self-organizing,
+	massively scalable, and robust in the wide-area, combining fault
+	tolerance, load balancing and explicit notion of locality. In this
+	paper, we present a survey and comparison of various Structured and
+	Unstructured P2P networks. We categorize the various schemes into
+	these two groups in the design spectrum and discuss the application-level
+	network performance of each group.},
+  citeulike-article-id = {5043255},
+  citeulike-linkout-0 = {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.109.6124},
+  keywords = {comparison, overlay, p2p, survey},
   owner = {jo},
-  posted-at = {2010-03-17 15:07:18},
+  posted-at = {2010-03-31 17:48:33},
   priority = {2},
-  timestamp = {2010.03.17},
-  url = {http://ieeexplore.ieee.org/xpls/abs\_all.jsp?arnumber=1528337}
+  timestamp = {2010.04.07},
+  url = {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.109.6124}
 }
 
 @INPROCEEDINGS{Lv2002,
@@ -2062,6 +2225,42 @@
   priority = {2},
   timestamp = {2010.03.11},
   url = {http://dx.doi.org/10.1145/514191.514206}
+}
+
+@INPROCEEDINGS{Malkhi2002Viceroy,
+  author = {Malkhi, Dahlia and Naor, Moni and Ratajczak, David},
+  title = {Viceroy: a scalable and dynamic emulation of the butterfly},
+  booktitle = {PODC '02: Proceedings of the twenty-first annual symposium on Principles
+	of distributed computing},
+  year = {2002},
+  pages = {183--192},
+  address = {New York, NY, USA},
+  publisher = {ACM},
+  abstract = {We propose a family of constant-degree routing networks of logarithmic
+	diameter, with the additional property that the addition or removal
+	of a node to the network requires no global coordination, only a
+	constant number of linkage changes in expectation, and a logarithmic
+	number with high probability. Our randomized construction improves
+	upon existing solutions, such as balanced search trees, by ensuring
+	that the congestion of the network is always within a logarithmic
+	factor of the optimum with high probability. Our construction derives
+	from recent advances in the study of peer-to-peer lookup networks,
+	where rapid changes require efficient and distributed maintenance,
+	and where the lookup efficiency is impacted both by the lengths of
+	paths to requested data and the presence or elimination of bottlenecks
+	in the network.},
+  citeulike-article-id = {785685},
+  citeulike-linkout-0 = {http://portal.acm.org/citation.cfm?id=571857},
+  citeulike-linkout-1 = {http://dx.doi.org/10.1145/571825.571857},
+  doi = {10.1145/571825.571857},
+  isbn = {1-58113-485-1},
+  keywords = {overlay, p2p},
+  location = {Monterey, California},
+  owner = {jo},
+  posted-at = {2010-04-05 17:00:07},
+  priority = {0},
+  timestamp = {2010.04.07},
+  url = {http://dx.doi.org/10.1145/571825.571857}
 }
 
 @INCOLLECTION{Malli2005ApplicationLevel,
@@ -2206,7 +2405,6 @@
   pages = {52--68},
   number = {1},
   month = {February},
-  __markedentry = {[jo]},
   abstract = {doi: 10.1162/105474600566619 Large-scale distributed simulations model
 	the activities of thousands of entities interacting in a virtual
 	environment simulated over wide-area networks. Originally these systems
@@ -2573,7 +2771,6 @@
   pages = {2322--2347},
   number = {12},
   month = {August},
-  __markedentry = {[jo]},
   abstract = {Application layer multicast (ALM) uses overlays built on top of existing
 	network infrastructure for rapid deployment of multicast applications.
 	Key to the efficiency of this technique is the structure of the overlay
@@ -2816,6 +3013,49 @@
   url = {http://dx.doi.org/10.1145/1306813.1306839}
 }
 
+@INPROCEEDINGS{Wong2005Meridian,
+  author = {Wong, Bernard and Slivkins, Aleksandrs and Sirer, Emin G.},
+  title = {Meridian: a lightweight network location service without virtual
+	coordinates},
+  booktitle = {SIGCOMM '05: Proceedings of the 2005 conference on Applications,
+	technologies, architectures, and protocols for computer communications},
+  year = {2005},
+  volume = {35},
+  number = {4},
+  pages = {85--96},
+  address = {New York, NY, USA},
+  month = {October},
+  publisher = {ACM},
+  abstract = {This paper introduces a lightweight, scalable and accurate framework,
+	called Meridian, for performing node selection based on network location.
+	The framework consists of an overlay network structured around multi-resolution
+	rings, query routing with direct measurements, and gossip protocols
+	for dissemination. We show how this framework can be used to address
+	three commonly encountered problems, namely, closest node discovery,
+	central leader election, and locating nodes that satisfy target latency
+	constraints in large-scale distributed systems without having to
+	compute absolute coordinates. We show analytically that the framework
+	is scalable with logarithmic convergence when Internet latencies
+	are modeled as a growth-constrained metric, a low-dimensional Euclidean
+	metric, or a metric of low doubling dimension. Large scale simulations,
+	based on latency measurements from 6.25 million node-pairs as well
+	as an implementation deployed on PlanetLab show that the framework
+	is accurate and effective.},
+  citeulike-article-id = {546697},
+  citeulike-linkout-0 = {http://portal.acm.org/citation.cfm?id=1080091.1080103},
+  citeulike-linkout-1 = {http://dx.doi.org/10.1145/1080091.1080103},
+  doi = {10.1145/1080091.1080103},
+  isbn = {1-59593-009-4},
+  issn = {0146-4833},
+  keywords = {convergence, latency\_measurements, leader\_election, location\_service},
+  location = {Philadelphia, Pennsylvania, USA},
+  owner = {jo},
+  posted-at = {2010-04-07 14:26:55},
+  priority = {2},
+  timestamp = {2010.04.07},
+  url = {http://dx.doi.org/10.1145/1080091.1080103}
+}
+
 @INPROCEEDINGS{Yu2005MOPAR,
   author = {Yu, Anthony P. and Vuong, Son T.},
   title = {MOPAR: a mobile peer-to-peer overlay rrchitecture for interest management
@@ -2826,7 +3066,6 @@
   pages = {99--104},
   address = {New York, NY, USA},
   publisher = {ACM},
-  __markedentry = {[jo]},
   abstract = {In this paper we propose a fully distributed peer-to-peer (P2P) infrastructure
 	supporting Networked Virtual Environment (NVE) applications, such
 	as massively multiplayer online games (MMOG). While many attempts
