@@ -1,4 +1,4 @@
-In diesem Kapitel wird die Auswahl eines Overlay-Netzwerkes als Netzwerksystem für diese Arbeit beschrieben. Zuvor müssen jedoch die eigenen Anforderungen an solche Systeme identifiziert werden. Zu den offensichtlichen Anforderungen wie bsp. \emph{Skalierbarkeit} gesellen sich jedoch auch spezielle Anforderungen aus Spielesicht hinzu. Diese sind bsp. das Vorhandensein eines Masterservers oder das Übertragen von Applikationswissen auf das Netzwerk um damit dessen Entscheidungen bezüglich Nachbarschaften oder Nachrichtenversand zu beeinflussen.
+In diesem Kapitel wird die Auswahl eines Overlay-Netzwerkes als Netzwerksystem für diese Arbeit beschrieben. Zuvor müssen jedoch die eigenen Anforderungen an solche Systeme identifiziert werden. Zu den offensichtlichen Anforderungen wie beispielsweise \emph{Skalierbarkeit} gesellen sich jedoch auch spezielle Anforderungen aus Spielsicht hinzu. Diese sind beispielsweise das Vorhandensein eines Masterservers oder das Übertragen von Applikationswissen auf das Netzwerk um damit dessen Entscheidungen bezüglich Nachbarschaften oder Versand von Nachrichten (Routing) zu beeinflussen.
 
 
 
@@ -10,22 +10,22 @@ In diesem Kapitel wird die Auswahl eines Overlay-Netzwerkes als Netzwerksystem f
 
 \cite{Darlagiannis2006Peertopeer} % Requirements
 
-\paragraph{Geringe Latenz} Schnelle Reaktionszeiten und Nachrichtenübermittlung sind bei \ac{mmog} unverzichtbar. Ebenfalls müssen größere Nachrichten (bsp. Update der Welt) schnell übertragen werden damit der Spielfluss nicht behindert wird.
+\paragraph{Geringe Latenz} Schnelle Reaktionszeiten und Nachrichtenübermittlung sind bei \ac{mmog} unverzichtbar. Ebenfalls müssen größere Nachrichten (beispielsweise Update der Welt) schnell übertragen werden damit der Spielfluss nicht behindert wird.
 
 \paragraph{Skalierbar} Selbst bei einer großen Anzahl an Knoten soll das Netz nicht kollabieren. Hierbei ist es auch wichtig, dass Knoten nicht unbedingt lange im Spiel sein müssen. Zwar kann davon ausgegangen werden, dass ein durchschnittlicher Spieler mindestens 30 Minuten im Spiel verbringt, aber durch Netzausfälle oder sonstigen Unbill kann diese Zeit stark variieren.
 
 \missing{Zitat für die 30 Mins!}
 
-\paragraph{Fehlertoleranz bei Knotenausfall} Fallen Knoten aus, so soll sich das Netz ohne großen Kommunikationsaufwand selst reparieren. Eine Netzwerkpartition ist jedoch in dieser Arbeit kein Hindernisgrund, da der Hauptserver immer erreichbar ist und über diesen das Netz wieder verbunden werden kann.
+\paragraph{Fehlertoleranz bei Knotenausfall} Fallen Knoten aus, so soll sich das Netz ohne großen Kommunikationsaufwand selbst reparieren. Eine Netzwerkpartitionierung ist jedoch in dieser Arbeit kein Hindernis, da der Hauptserver immer erreichbar ist und über diesen das Netz wieder verbunden werden kann.
 
-\paragraph{Kommunikation über das Netzwerk} Das Netzwerk soll nicht nur das schnelle Auffinden von Peers ermöglichen, sondern auch einen Nachrichtentransport durch das Netzwerk selbst bereitstellen. Die Alternative Direktverbindungen soll nur genutzt werden, wenn eine Datenübertragung im Netzwerk nicht performant genug ist, weil z.B. die Bandbreite der zwischengeschalteten Peers zu gering ist.
+\paragraph{Kommunikation über das Netzwerk} Das Netzwerk soll nicht nur das schnelle Auffinden von Peers ermöglichen, sondern auch einen Transport der Nachricht (Routing) durch das Netzwerk selbst bereitstellen. Die Alternative Direktverbindungen soll nur genutzt werden, wenn eine Datenübertragung im Netzwerk nicht performant genug ist, weil z.B. die Bandbreite der zwischengeschalteten Peers zu gering ist.
 
 \paragraph{Bestimmung der Nachbarschaft} Eine dynamische Bestimmung der Nachbarschaftsgröße kann von Vorteil sein. So könnten Knoten mit mehr Bandbreite (bzw. entsprechenden anderen Metriken) mehr direkte Verbindungen halten als Knoten mit geringer Bandbreite (oder geringer Spieldauer).
 
-\paragraph{Eingriff in Routingentscheidungen} Applikationswissen hilft auch beim Eingriff in das Routing des Netzes. So können Knoten bevorzugt zur Weiterleitung einer Nachricht ausgewählt werden. Diese Knoten zeichnen sich bsp. durch eine große Bandbreite oder spezielle Applikationsmetriken\footnote{Bsp: Spieler befindet sich in der selben Stadt} aus.
+\paragraph{Eingriff in Routingentscheidungen} Applikationswissen hilft auch beim Eingriff in das Routing des Netzes. So können Knoten bevorzugt zur Weiterleitung einer Nachricht ausgewählt werden. Diese Knoten zeichnen sich beispielsweise durch eine große Bandbreite oder spezielle Applikationsmetriken\footnote{Bsp: Spieler befindet sich in der selben Stadt} aus.
 
 \paragraph{Verfügbarkeit als C/C++-Bibliothek} Da der Prototyp dieser Arbeit sowie das Umfeld in C++ entwickelt wird, gibt es damit eine weitere Anforderung an das Netzwerk: Die Verfügbarkeit als C/C++-Bibliothek.\\
-Damit ist das Netzwerk einfach aus bestehendem Code nutzbar ohne dass kostenintensive Brücken zwischen bsp. Java und C++ geschlagen werden müssen. Da zudem betriebssystemübergreifend\footnote{In unserem Fall auf Windows und Linux} entwickelt und getestet wird, ist außerdem ein zur Verfügung stehender Quellcode vorteilhaft. Nur dadurch ist es möglich eventuellen betriebsystembezogenen Netzwerk- oder Threadcode auf  Boost\footnote{Zahlreiche Bibliotheken für C++: http://www.boost.org} zu portieren um somit eine betriebsystemübergreifende Benutzung zu ermöglichen.
+Damit ist das Netzwerk einfach aus bestehendem Code nutzbar ohne dass kostenintensive Brücken zwischen beispielsweise Java und C++ geschlagen werden müssen. Da zudem betriebssystemübergreifend\footnote{In unserem Fall auf Windows und Linux} entwickelt und getestet wird, ist außerdem ein zur Verfügung stehender Quellcode vorteilhaft. Nur dadurch ist es möglich eventuellen betriebsystembezogenen Netzwerk- oder Threadcode auf  Boost\footnote{Zahlreiche Bibliotheken für C++: http://www.boost.org} zu portieren um somit eine betriebsystemübergreifende Benutzung zu ermöglichen.
 
 Anhand dieser Anforderungen sind unstrukturierte Netzwerke nicht als Netzwerksystem für dieser Arbeit geeignet. Eine Suche, bzw. Datenübertragung durch Flooding widerspricht klar der Anforderung nach geringer Latenz. Ebenso sind diese Netzwerke auf eine Übertragung via Direktverbindung ausgelegt.
 

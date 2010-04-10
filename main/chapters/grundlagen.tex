@@ -1,14 +1,14 @@
-\section{Begriffsklärung}
+\section{Begriffserklärungen}
 In dieser Arbeit wird ein \emph{Publish/Subscribe-System über einem \ac{p2p} overlay Netzwerk} beschrieben.
 
 \missing{FUFUFU}
 
-\paragraph{Overlay Netzwerk} Ein Overlay-Netzwerk\index{Netzwerk!Overlay} ist ein logischer Aufsatz auf einem bestehenden Netzwerk und abstrahiert von diesem. Weiterhin zeichnen sie sich dadurch aus, dass ein eigener Adressraum genutzt wird und so das unterliegende Netzwerk überlagert wird. Knoten können so benachbart sein, ohne eine direkte physikalische Verbindung zu haben. Das Overlay-Netzwerk bietet neben dem eigenen Adressraum auch Funktionalität zum Versand, Empfang und Routing von Nachrichten \cite{Tannenbaum2003}. 
+\paragraph{Overlay Netzwerk} Ein Overlay-Netzwerk\index{Netzwerk!Overlay} ist ein logischer Aufsatz auf einem bestehenden Netzwerk. Weiterhin zeichnet es sich dadurch aus, dass ein eigener Adressraum genutzt wird und so das unterliegende Netzwerk überlagert wird. Knoten im Netzwerk können demnach benachbart sein, ohne eine direkte physikalische Verbindung zu haben. Ein Overlay-Netzwerk bietet neben dem eigenen Adressraum auch Funktionalität zum Versand, Empfang und Routing von Nachrichten \cite{Tannenbaum2003}. 
 
-\paragraph{\ac{p2p}-Netzwerk} p2p-Netzwerke\index{Netzwerk!p2p} beschreiben den Verbund von Knoten, sog. Peers, die miteinander gleichberechtigt kommunizieren können \cite{Steinmetz2005}. p2p-Netzwerke werden meist durch Overlay-Netzwerke realisiert, da Techniken wie bsp. IP-Multicast \cite{Deering1990Multicast} nicht weit verbreitet sind, und diese vom unterliegenden Netzwerk abstrahieren. Durch deren angebotenen Funktionen können viele Arten von p2p-Systemen implementiert werden. Grundlagen dieser Systeme sowie deren unterschiedliche Ansätze werden in Kapitel \ref{chap:grundlagen:p2p} näher besprochen.\\
-Meist wird unter p2p \emph{Filesharing} verstanden, was aber nicht immer der Fall sein muss. Gegeignete p2p-Netzwerke können unter Anderem auch als Kommunikationsnsetz genutzt werden \cite{Darlagiannis2006Peertopeer}.
+\paragraph{\ac{p2p}-Netzwerk} p2p-Netzwerke\index{Netzwerk!p2p} beschreiben den Verbund von Knoten, sog. Peers, die miteinander gleichberechtigt kommunizieren können \cite{Steinmetz2005}. p2p-Netzwerke werden meist durch Overlay-Netzwerke realisiert, da Techniken wie beispielsweise IP-Multicast \cite{Deering1990Multicast} nicht weit verbreitet sind, und diese vom unterliegenden Netzwerk abstrahieren. Durch deren angebotenen Funktionen können viele Arten von p2p-Systemen implementiert werden. Grundlagen dieser Systeme sowie deren unterschiedliche Ansätze werden in Kapitel \ref{chap:grundlagen:p2p} näher besprochen.\\
+Meist wird unter p2p \emph{Filesharing} verstanden, was aber nicht immer der Fall sein muss. Geeignete p2p-Netzwerke können unter Anderem auch als Kommunikationsnetze genutzt werden \cite{Darlagiannis2006Peertopeer}.
 
-Im Folgenden werden die Begriffe \emph{p2p-Netzwerk} und \emph{Overlay-Netzwerk} in dieser Arbeit synonym benutzt. In vielen zitierten Arbeiten wird von \emph{p2p-overlay network} gesprochen und dies drückt die Anforderung dieser Arbeit an solche Netzwerke aus: Ein vom physischen Netzwerk (räumlich) unabhängiger Verbund aus gleichberechtigen Knoten die miteinander kommunizieren können.
+Im Folgenden werden die Begriffe \emph{p2p-Netzwerk} und \emph{Overlay-Netzwerk} in dieser Arbeit synonym benutzt. In vielen zitierten Arbeiten wird von \emph{p2p-overlay network} gesprochen und dies drückt die Anforderung dieser Arbeit an solche Netzwerke aus: Ein vom physischen Netzwerk (räumlich) unabhängiger Verbund aus gleichberechtigten Knoten die miteinander kommunizieren können.
 
 \paragraph{Publish/Subscribe-System} Ein Publish/Subscribe-System\index{Publish/Subscribe} beschreibt ein Abosystem. Ein Subscriber schreibt sich bei einem Publisher ein und wird von diesem über Veränderungen benachrichtigt. Solch ein System kann kanalbasiert oder filterbasiert sein. In Kapitel \ref{chap:grundlagen:pubsub} sind diese Systeme weitaus genauer aufgeführt. So werden aktuelle Systeme gegen die Anforderungen dieser Arbeit geprüft und daraus Konzepte für das zu entwickelnde System gezogen.
 
@@ -35,10 +35,10 @@ In Kapitel \ref{chap:grundlagen:cheating} wird ein Überblick möglicher Betrugs
 Im Folgenden werden die Grundzüge der Netzwerke der ersten und zweiten Generation näher beschrieben.
 
 \subsection{Unstrukturierte Netzwerke}
-Unstrukturierte Netzwerke\index{Netzwerk!Overlay!unstruktuiert} zeichnen sich dadurch aus, dass alle Informationen/Dateien durch Suchalgorithmen \cite{Lv2002} gefunden werden müssen. \\
-Ein Client tritt dem Netzwerk bei und stellt seine Suchanfrage z.B. über diverse Flooding-Algorithmen in das Netz. Werden entsprechende Peers gefunden die diese Suchanfrage beantworten können, so werden zum Transfer Direktverbindungen aufgebaut. Aufgrund der einfachen (meist textbasierten) Struktur der Suchanfragen können diese einen weiten Wertebereich abdenken.
+Unstrukturierte Netzwerke\index{Netzwerk!Overlay!unstrukturiert} zeichnen sich dadurch aus, dass alle Informationen/Dateien durch Suchalgorithmen \cite{Lv2002} gefunden werden müssen. \\
+Ein Client tritt dem Netzwerk bei und stellt seine Suchanfrage z.B. über diverse Flooding-Algorithmen in das Netz. Werden entsprechende Peers gefunden die diese Suchanfrage beantworten können, so werden zum Transfer Direktverbindungen aufgebaut. Aufgrund der einfachen (meist textbasierten) Struktur der Suchanfragen können diese einen weiten Wertebereich abdecken.
 
-Im Wesentlichen gibt es widerrum zwei unterschiedliche Arten:
+Im Wesentlichen gibt es wiederum zwei unterschiedliche Arten:
 \begin{itemize}
 \item zentralisiert
 \item dezentralisiert
@@ -51,14 +51,14 @@ Obwohl in dieser Arbeit keine Netze nach dem Motto \emph{Information finden und 
 
 \paragraph{dezentralisiert} Da es keine Hauptserver gibt, muss dem neuen Knoten mindestens ein Knoten im Netz bekannt sein, damit er sich in das Netz einklinken kann. Über diesen bekannten Peer baut der neue Knoten eine Nachbarschaft auf. Damit Dateien im Netz gefunden werden können, muss die Suchanfrage durch das Netz geflutet werden. Hierbei wird die Suchanfrage an alle Nachbarn gesendet. Diese senden sie weiter an ihre Nachbarn. Die Suchanfrage kann z.B. mit einer Anzahl an Hops oder einer TTL\footnote{Time to live} in ihrer Reichweite eingegrenzt werden. Potentielle Zyklen müssen bei dieser Art von Suche aufgelöst werden. Sind Peers gefunden, so wird ebenfalls eine direkte Verbindung zur Datenübertragung aufgebaut.
 
-Beispiele für solche Netzwerke sind bsp. Napster (zentralisiert), Gnutella oder BitTorrent\footnote{http://www.bittorrent.com/} (dezentralisiert).
+Beispiele für solche Netzwerke sind beispielsweise Napster (zentralisiert), Gnutella oder BitTorrent\footnote{http://www.bittorrent.com/} (dezentralisiert).
 
 \subsection{Strukturierte Netzwerke}
 Strukturierte Netzwerke\index{Netzwerk!Overlay!strukturiert} sind oft dezentraler Natur. Ein Datum muss im Netz nicht gesucht werden,  sondern anhand der Struktur können die zuständigen Knoten berechnet werden. Daten können ebenfalls via Direktverbindung übertragen werden, meist wird jedoch das Netzwerk auch zum Routing von Nachrichten genutzt. Der Dezentralität dieser Netze ist geschuldet, dass ein neuer Knoten mindestens einen Peer aus dem Netzwerk kennen muss. Viele Systeme gehen davon aus, dass der neue Knoten aus einer Liste von Peers den ihm nächsten Knoten\footnote{Nähe im Sinne von kurzer Latenz aber auch räumlicher Nähe} wählen kann und über diesen den Eintritt in das Netz anstößt.
 
 Strukturierte Netzwerke nutzen die Technik der \ac{dht}. Diese ist gut erforscht und es lassen sich eine Vielzahl von unterschiedlichen Anwendungen darauf aufsetzen \cite{Wehrle2005, Ghodsi2006AlgorithmsDHT}.\\
-Grundsätzlich ist jedem Knoten ein Schlüssel aus einem Schlüsselraum (\emph{identifier space}) zugeordnet. Ein Knoten ist dabei für einen Bereich aus dem Schlüsselraum zuständig, dieser variiert je nach genutzer Metrik. Für das zu suchende Datum wird nun der Hashwert berechnet - dieser entspricht einem Schüssel. Der suchende Knoten kennt damit den zuständigen Peer. Die Kommunikation zwischen beiden erfolgt dann meist nicht über direkte Verbindungen, sondern nutzt ebenfalls das zugrunde liegende Overlay-Netzwerk zur Datenübertragung.\\
-Darauf aufbauend gibt es unterschiedliche Systemem die sich hinsichtlich Organisation, Routing, Ein- und Austritt von Knoten und Verhalten Fehlerfall entscheiden \cite{Goetz2005, Lua2005Survey}.
+Grundsätzlich ist jedem Knoten ein Schlüssel aus einem Schlüsselraum (\emph{identifier space}) zugeordnet. Ein Knoten ist dabei für einen Bereich aus dem Schlüsselraum zuständig, dieser variiert je nach genutzter Metrik. Für das zu suchende Datum wird nun der Hashwert berechnet - dieser entspricht einem Schüssel. Der suchende Knoten kennt damit den zuständigen Peer. Die Kommunikation zwischen beiden erfolgt dann meist nicht über direkte Verbindungen, sondern nutzt ebenfalls das zugrunde liegende Overlay-Netzwerk zur Datenübertragung.\\
+Darauf aufbauend gibt es unterschiedliche Systeme die sich hinsichtlich Organisation, Routing, Ein- und Austritt von Knoten und Verhalten Fehlerfall entscheiden \cite{Goetz2005, Lua2005Survey}.
 
 Beispiele für solche Netzwerke sind Chord, Pastry, Tapestry oder CAN \cite{Hosseini2007Survey, Rowstron2001, Zhao2001Tapestry,Zhao2004Tapestry, Ratnasamy2001Scalable}.
 
