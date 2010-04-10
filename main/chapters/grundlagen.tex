@@ -3,12 +3,14 @@ In dieser Arbeit wird ein \emph{Publish/Subscribe-System über einem \ac{p2p} ov
 
 \missing{FUFUFU}
 
-\paragraph{Overlay Netzwerk} Ein Overlay-Netzwerk\index{Netzwerk!Overlay} ist ein logischer Aufsatz auf einem bestehenden Netzwerk. Weiterhin zeichnet es sich dadurch aus, dass ein eigener Adressraum genutzt wird und so das unterliegende Netzwerk überlagert wird. Knoten im Netzwerk können demnach benachbart sein, ohne eine direkte physikalische Verbindung zu haben. Ein Overlay-Netzwerk bietet neben dem eigenen Adressraum auch Funktionalität zum Versand, Empfang und Routing von Nachrichten \cite{Tannenbaum2003}. 
+\paragraph{Overlay Netzwerk} Ein Overlay-Netzwerk\index{Netzwerk!Overlay} ist ein logischer Aufsatz auf einem bestehenden Netzwerk. Weiterhin zeichnet es sich dadurch aus, dass ein eigener Adressraum genutzt wird und somit das unterliegende Netzwerk überlagert wird. Knoten im Netzwerk können demnach benachbart sein, ohne eine direkte physikalische Verbindung zu haben.\\
+Ein Overlay-Netzwerk bietet neben dem eigenen Adressraum auch Funktionalität zum Versand, Empfang und Routing von Nachrichten \cite{Tannenbaum2003}. 
 
-\paragraph{\ac{p2p}-Netzwerk} p2p-Netzwerke\index{Netzwerk!p2p} beschreiben den Verbund von Knoten, sog. Peers, die miteinander gleichberechtigt kommunizieren können \cite{Steinmetz2005}. p2p-Netzwerke werden meist durch Overlay-Netzwerke realisiert, da Techniken wie beispielsweise IP-Multicast \cite{Deering1990Multicast} nicht weit verbreitet sind, und diese vom unterliegenden Netzwerk abstrahieren. Durch deren angebotenen Funktionen können viele Arten von p2p-Systemen implementiert werden. Grundlagen dieser Systeme sowie deren unterschiedliche Ansätze werden in Kapitel \ref{chap:grundlagen:p2p} näher besprochen.\\
+\paragraph{\ac{p2p}-Netzwerk} p2p-Netzwerke\index{Netzwerk!p2p} beschreiben den Verbund von Knoten, sogenannten Peers, die miteinander gleichberechtigt kommunizieren können \cite{Steinmetz2005}. p2p-Netzwerke werden meist durch Overlay-Netzwerke realisiert, da Techniken wie beispielsweise IP-Multicast \cite{Deering1990Multicast} nicht weit verbreitet sind und diese vom unterliegenden Netzwerk abstrahieren. Durch deren angebotene Funktionen können viele Arten von p2p-Systemen implementiert werden. Grundlagen dieser Systeme sowie deren unterschiedliche Ansätze werden in Kapitel \ref{chap:grundlagen:p2p} näher besprochen.\\
 Meist wird unter p2p \emph{Filesharing} verstanden, was aber nicht immer der Fall sein muss. Geeignete p2p-Netzwerke können unter Anderem auch als Kommunikationsnetze genutzt werden \cite{Darlagiannis2006Peertopeer}.
 
-Im Folgenden werden die Begriffe \emph{p2p-Netzwerk} und \emph{Overlay-Netzwerk} in dieser Arbeit synonym benutzt. In vielen zitierten Arbeiten wird von \emph{p2p-overlay network} gesprochen und dies drückt die Anforderung dieser Arbeit an solche Netzwerke aus: Ein vom physischen Netzwerk (räumlich) unabhängiger Verbund aus gleichberechtigten Knoten die miteinander kommunizieren können.
+Im Folgenden werden die Begriffe \emph{p2p-Netzwerk} und \emph{Overlay-Netzwerk} in dieser Arbeit synonym benutzt. In vielen zitierten Arbeiten wird von \emph{p2p-overlay network} gesprochen und dies drückt die Anforderung dieser Arbeit an solche Netzwerke aus:\\
+Ein vom physischen Netzwerk (räumlich) unabhängiger Verbund aus gleichberechtigten Knoten die miteinander kommunizieren können.
 
 \paragraph{Publish/Subscribe-System} Ein Publish/Subscribe-System\index{Publish/Subscribe} beschreibt ein Abosystem. Ein Subscriber schreibt sich bei einem Publisher ein und wird von diesem über Veränderungen benachrichtigt. Solch ein System kann kanalbasiert oder filterbasiert sein. In Kapitel \ref{chap:grundlagen:pubsub} sind diese Systeme weitaus genauer aufgeführt. So werden aktuelle Systeme gegen die Anforderungen dieser Arbeit geprüft und daraus Konzepte für das zu entwickelnde System gezogen.
 
@@ -16,27 +18,30 @@ Im Folgenden werden die Begriffe \emph{p2p-Netzwerk} und \emph{Overlay-Netzwerk}
 
 \section{p2p-Netzwerke}
 \label{chap:grundlagen:p2p}
+\missing{noch eine kleine schöne Einleitung}
+Sie sind sehr beliebt, Filesharing, Verteilen von Daten, schneller und kostengünstiger Download (BitTorrent).
+
 p2p-Netzwerke lassen sich grundsätzlich in zwei Arten einteilen \cite{Steinmetz2005, Lua2005Survey}: 
 \begin{itemize}
-\item unstrukturiert
-\item strukturiert
+\item unstrukturiert\footnote{z.B. Napster, Gnutella}
+\item strukturiert\footnote{z.B. Chord, Pastry}
 \end{itemize}
 
 Da strukturierte Netze später entstanden sind, lassen sich die einzelnen Netze grob in drei Generationen einteilen \cite{Bo2003PeertoPeer}:
 \begin{itemize}
-	\item \emph{1G}: unstrukturierte Netzwerke\footnote{z.B. Napster, Gnutella}
-	\item \emph{2G}: strukturierte Netzwerke\footnote{z.B. Chord, Pastry}
+	\item \emph{1G}: unstrukturierte Netzwerke
+	\item \emph{2G}: strukturierte Netzwerke
 	\item \emph{3G}: strukturierte Netzwerke mit Fokus auf Anonymität, Authentifizierung, Schutz vor Zensur und verschiedenen Rollen der einzelnen Knoten
 \end{itemize}
 
-Netzwerke der dritten Generation, wie z.B. GNUnet\footnote{http://www.gnunet.org} \cite{Grothoff2002GNET} werden nicht näher betrachtet, da die zusätzlich angebotene Funktionalität in dieser Arbeit nicht benötigt wird bzw. darauf kein Fokus liegt. Authentifizierung und Anonymität der Clients wird nicht benötigt, da diese weiterhin über den Masterserver angemeldet werden und nicht anonym agieren sollen. Weiterhin wird angenommen, dass Clients keinerlei Betrugsversuche unternehmen und auch sonst kein schadhaftes Verhalten zeigen.\\
-In Kapitel \ref{chap:grundlagen:cheating} wird ein Überblick möglicher Betrugsarten und weitere Literatur zur Betrugsverhinderung bzw. Prävention aufgeführt.
+Netzwerke der dritten Generation, wie z.B. GNUnet\footnote{http://www.gnunet.org} \cite{Grothoff2002GNET} werden nicht näher betrachtet, da die zusätzlich angebotene Funktionalität in dieser Arbeit nicht benötigt wird beziehungsweise darauf kein Fokus liegt. Clients werden weiterhin über den Masterserver authentifiziert und sollen naturgemäß nicht anonym agieren. Weiterhin wird angenommen, dass Clients keinerlei Betrugsversuche unternehmen und auch sonst kein schadhaftes Verhalten zeigen.\\
+In Kapitel \ref{chap:grundlagen:cheating} wird ein Überblick möglicher Betrugsarten aufgeührt und auf weitere Literatur zur Betrugsverhinderung beziehungsweise Prävention verwiesen.
 
 Im Folgenden werden die Grundzüge der Netzwerke der ersten und zweiten Generation näher beschrieben.
 
 \subsection{Unstrukturierte Netzwerke}
 Unstrukturierte Netzwerke\index{Netzwerk!Overlay!unstrukturiert} zeichnen sich dadurch aus, dass alle Informationen/Dateien durch Suchalgorithmen \cite{Lv2002} gefunden werden müssen. \\
-Ein Client tritt dem Netzwerk bei und stellt seine Suchanfrage z.B. über diverse Flooding-Algorithmen in das Netz. Werden entsprechende Peers gefunden die diese Suchanfrage beantworten können, so werden zum Transfer Direktverbindungen aufgebaut. Aufgrund der einfachen (meist textbasierten) Struktur der Suchanfragen können diese einen weiten Wertebereich abdecken.
+Ein Client tritt dem Netzwerk bei und stellt seine Suchanfrage z.B. über diverse Flooding-Algorithmen in das Netz. Werden entsprechende Peers gefunden die diese Suchanfrage beantworten können, werden zum Transfer Direktverbindungen aufgebaut. Aufgrund der einfachen (meist textbasierten) Struktur der Suchanfragen können diese einen weiten Wertebereich abdecken.
 
 Im Wesentlichen gibt es wiederum zwei unterschiedliche Arten:
 \begin{itemize}
@@ -47,20 +52,20 @@ Im Wesentlichen gibt es wiederum zwei unterschiedliche Arten:
 Obwohl in dieser Arbeit keine Netze nach dem Motto \emph{Information finden und per Direktverbindung übertragen} sondern eher nach dem Motto \emph{Daten geschickt zwischen den Knoten verteilen} gebraucht werden, werden die verschiedenen Typen am Aspekt des \emph{Filesharing} erklärt, da dieser recht eingängig ist.\\
 \missing{mäh}
 
-\paragraph{zentralisiert} Knoten im Netz melden ihre verfügbaren Dateien an diverse bekannte Hauptrechner. Suchanfragen werden ebenfalls an diese Hauptrechner gerichtet. Der Suchende erhält eine List von potentiellen Peers die seiner Suchanfrage entsprechen. Die eigentlichen Dateien werden dann über direkte Verbindungen zwischen den Peers übertragen. Einige Systeme tauschen weitere potentielle Knoten über Peers aus. Die einzelnen Hauptrechner stellen bei dieser Art von System einen \emph{single point of failure} dar \cite{Eberspaecher2005}.
+\paragraph{zentralisiert} Knoten im Netz melden ihre verfügbaren Dateien an diverse bekannte Hauptrechner. Suchanfragen werden ebenfalls an diese Rechner gerichtet. Der Suchende erhält eine List von potentiellen Peers, die seiner Suchanfrage entsprechen. Die eigentlichen Dateien werden über direkte Verbindungen zwischen den Peers übertragen. Einige Systeme tauschen weitere potentielle Knoten über Peers aus. Die einzelnen Hauptrechner stellen bei dieser Art von System einen \emph{single point of failure} dar \cite{Eberspaecher2005}.
 
-\paragraph{dezentralisiert} Da es keine Hauptserver gibt, muss dem neuen Knoten mindestens ein Knoten im Netz bekannt sein, damit er sich in das Netz einklinken kann. Über diesen bekannten Peer baut der neue Knoten eine Nachbarschaft auf. Damit Dateien im Netz gefunden werden können, muss die Suchanfrage durch das Netz geflutet werden. Hierbei wird die Suchanfrage an alle Nachbarn gesendet. Diese senden sie weiter an ihre Nachbarn. Die Suchanfrage kann z.B. mit einer Anzahl an Hops oder einer TTL\footnote{Time to live} in ihrer Reichweite eingegrenzt werden. Potentielle Zyklen müssen bei dieser Art von Suche aufgelöst werden. Sind Peers gefunden, so wird ebenfalls eine direkte Verbindung zur Datenübertragung aufgebaut.
+\paragraph{dezentralisiert} Damit sich ein neuer Knoten in das Netz einklinken kann, muss diesem mindestens ein bestehender Knoten im Netzwerk bekannt sein. Über diesen Peer tauscht der neue Knoten Informationen aus und baut selbst eine Nachbarschaft auf. Damit Dateien gefunden werden können, muss die Suchanfrage durch das Netz geflutet werden. Hierbei wird die Suchanfrage an alle Nachbarn gesendet. Diese senden sie weiter an ihre Nachbarn. Die Suchanfrage kann z.B. mit einer Anzahl an Hops oder einer TTL\footnote{Time to live} in ihrer Reichweite eingegrenzt werden. Potentielle Zyklen müssen bei dieser Art von Suche aufgelöst werden. Sind Peers gefunden, wird ebenfalls eine direkte Verbindung zur Datenübertragung aufgebaut.
 
-Beispiele für solche Netzwerke sind beispielsweise Napster (zentralisiert), Gnutella oder BitTorrent\footnote{http://www.bittorrent.com/} (dezentralisiert).
+Beispiele für solche Netzwerke sind Napster (zentralisiert), Gnutella oder BitTorrent\footnote{http://www.bittorrent.com/} (dezentralisiert).
 
 \subsection{Strukturierte Netzwerke}
-Strukturierte Netzwerke\index{Netzwerk!Overlay!strukturiert} sind oft dezentraler Natur. Ein Datum muss im Netz nicht gesucht werden,  sondern anhand der Struktur können die zuständigen Knoten berechnet werden. Daten können ebenfalls via Direktverbindung übertragen werden, meist wird jedoch das Netzwerk auch zum Routing von Nachrichten genutzt. Der Dezentralität dieser Netze ist geschuldet, dass ein neuer Knoten mindestens einen Peer aus dem Netzwerk kennen muss. Viele Systeme gehen davon aus, dass der neue Knoten aus einer Liste von Peers den ihm nächsten Knoten\footnote{Nähe im Sinne von kurzer Latenz aber auch räumlicher Nähe} wählen kann und über diesen den Eintritt in das Netz anstößt.
+Strukturierte Netzwerke\index{Netzwerk!Overlay!strukturiert} der zweiten Generation sind oft dezentraler Natur. Ein Datum muss nicht gesucht werden, da anhand der Struktur des Netzes die zuständigen Knoten berechnet werden können. Daten können ebenfalls via Direktverbindung übertragen werden, meist wird jedoch das Netzwerk auch zum Versand der Nachrichten genutzt. Hierbei werden die Nachrichten über verschiedene Peers geroutet. Der Dezentralität dieser Netze ist geschuldet, dass ein neuer Knoten mindestens einen Peer aus dem Netzwerk kennen muss. Viele Systeme gehen davon aus, dass der neue Knoten aus einer Liste von Peers, den ihm nähsten Knoten\footnote{Nähe im Sinne von kurzer Latenz aber auch räumlicher Nähe} wählen kann und über diesen den Eintritt in das Netz anstößt.
 
-Strukturierte Netzwerke nutzen die Technik der \ac{dht}. Diese ist gut erforscht und es lassen sich eine Vielzahl von unterschiedlichen Anwendungen darauf aufsetzen \cite{Wehrle2005, Ghodsi2006AlgorithmsDHT}.\\
-Grundsätzlich ist jedem Knoten ein Schlüssel aus einem Schlüsselraum (\emph{identifier space}) zugeordnet. Ein Knoten ist dabei für einen Bereich aus dem Schlüsselraum zuständig, dieser variiert je nach genutzter Metrik. Für das zu suchende Datum wird nun der Hashwert berechnet - dieser entspricht einem Schüssel. Der suchende Knoten kennt damit den zuständigen Peer. Die Kommunikation zwischen beiden erfolgt dann meist nicht über direkte Verbindungen, sondern nutzt ebenfalls das zugrunde liegende Overlay-Netzwerk zur Datenübertragung.\\
-Darauf aufbauend gibt es unterschiedliche Systeme die sich hinsichtlich Organisation, Routing, Ein- und Austritt von Knoten und Verhalten Fehlerfall entscheiden \cite{Goetz2005, Lua2005Survey}.
+Strukturierte Netzwerke nutzen die Technik der \ac{dht}. Diese ist gut erforscht und kann als Grundlage einer Vielzahl von unterschiedlichen Anwendungen genutzt werden \cite{Wehrle2005, Ghodsi2006AlgorithmsDHT}.\\
+Grundsätzlich ist jedem Knoten ein Schlüssel aus einem Schlüsselraum (\emph{identifier space}) zugeordnet. Ein Knoten ist dabei für einen Bereich aus dem Schlüsselraum zuständig, dieser variiert je nach genutzter Metrik. Für das zu suchende Datum wird nun der Hashwert berechnet - dieser entspricht einem Schüssel. Der suchende Knoten kennt damit den zuständigen Peer und nutzt das zugrunde liegende Overlay-Netzwerk zur Datenübertragung.\\
+Darauf aufbauend gibt es unterschiedliche Systeme die sich hinsichtlich Organisation, Routing, Ein- und Austritt von Knoten und dem Verhalten im Fehlerfall unterscheiden \cite{Goetz2005, Lua2005Survey}.
 
-Beispiele für solche Netzwerke sind Chord, Pastry, Tapestry oder CAN \cite{Hosseini2007Survey, Rowstron2001, Zhao2001Tapestry,Zhao2004Tapestry, Ratnasamy2001Scalable}.
+Beispiele für solche Netzwerke sind Chord, Pastry, Tapestry oder CAN \cite{Hosseini2007Survey, Rowstron2001, Zhao2001Tapestry,Zhao2004Tapestry, Ratnasamy2001Scalable}. Auf diese wird unter Anderem im Kapiel \ref{chap:evaluation_p2p}, das sich der Evaluation dieser Systeme widmet, näher eingegangen.
 
 \missing{Muss immer noch schöner werden!}
 
