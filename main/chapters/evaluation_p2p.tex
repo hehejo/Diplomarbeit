@@ -4,12 +4,9 @@ Zuvor müssen jedoch die eigenen Anforderungen an solche Systeme identifiziert w
 
 \section{Anforderungen}
 
-\cite{Darlagiannis2006Peertopeer} % Requirements
-
 \paragraph{Geringe Latenz} Schnelle Reaktionszeiten und Nachrichtenübermittlung sind bei \ac{mmog} unverzichtbar. Ebenfalls müssen größere Nachrichten (beispielsweise Update der Welt) schnell übertragen werden damit der Spielfluss nicht behindert wird. Dies lässt sich anhand der Anzahl der Hops beim Nachrichtenversand messen.
 
-\paragraph{Skalierbar} Selbst bei einer großen Anzahl an Knoten soll das Netz nicht kollabieren. Hierbei ist es auch wichtig, dass Knoten nicht unbedingt lange im Spiel sein müssen. Zwar kann davon ausgegangen werden, dass ein durchschnittlicher Spieler längere Zeit im Spiel verbringt, aber durch Netzausfälle oder sonstigen Unbill kann dies stark variieren.\\
-Insofern ist es wichtig wie sich die Netzwerke bei großen Fluktationen verhalten \cite{Li2004Comparing}.
+\paragraph{Skalierbar} Selbst bei einer großen Anzahl an Knoten soll das Netz nicht kollabieren. Hierbei ist es auch wichtig, dass Knoten nicht unbedingt lange im Spiel sein müssen. Zwar kann davon ausgegangen werden, dass ein durchschnittlicher Spieler längere Zeit im Spiel verbringt, aber durch Netzausfälle oder sonstigen Unbill kann dies stark variieren. Insofern ist es wichtig wie sich die Netzwerke bei großen Fluktationen verhalten \cite{Li2004Comparing}.
 
 \paragraph{Fehlertoleranz bei Knotenausfall} Fallen Knoten aus, muss sich das Netz ohne großen Kommunikationsaufwand selbst reparieren. Ebenfalls mögliche Netzwerkpartitionierungen sind in dieser Arbeit jedoch kein Hindernis, denn der Hauptserver kann über eine gesonderte Verbindung immer erreicht werden. Damit kann das Netz wieder verbunden werden.\\
 Interessant hierbei ist auch die eingebaute Redundanz einiger Systeme, die Daten auf mehrere Knoten verteilen. Wie sich dies im Vergleich von statischen Daten zu sich häufig verändernden Objekten der Spielewelt verhält ist zu untersuchen. 
@@ -27,22 +24,61 @@ Damit ist das Netzwerk einfach aus bestehendem Code nutzbar ohne dass kosteninte
 
 Anhand dieser Anforderungen sind unstrukturierte Netzwerke nicht als Netzwerksystem für dieser Arbeit geeignet. Eine Suche, bzw. Datenübertragung durch Flooding widerspricht klar der Anforderung nach geringer Latenz. Ebenso sind diese Netzwerke auf eine Übertragung via Direktverbindung ausgelegt.
 
+\cite{Dabek2003Towards} stellt eine generische \ac{api} für \ac{kbr} Systeme vor, wie es viele der strukturierten Netzwerke anbieten vor und zeigt wie darauf aufbauen verschiedene Systeme wie \ac{dht}, \ac{dolr} und \ac{cast}\footnote{entspricht Application level multicast} implementiert werden können. Ebenfalls wird gezeigt wie einige bekannte Systeme (CAN, Chord, Pastry und Tapestry) diese die Anforderungen erfüllen.\\
+Daraus ergibt sich eine weitere spezielle Anforderung an das Overlay-Netzwerk:
+
+\paragraph{Anpassbarkeit an generische \ac{api}} Lässt sich das Netzwerk der genersischen \ac{api} anpassen, gewinnt das an Flexibiliät, da die Netzwerkschicht ohne große Änderungen an den restlichen Systemschichten ausgetauscht und verändert werden kann.
+
 \input{main/chapters/evaluation_p2p_genericapi.tex}
 
 
 \section{Evaluation}
+In diesem Kapitel werden die vier bekannten Systeme Chord \cite{Stoica2003}, Pastry \cite{Rowstron2001}, Tapestry \cite{Zhao2001Tapestry,Zhao2004Tapestry} und CAN \cite{Ratnasamy2001Scalable} miteinander verglichen. Die ersten drei sind in ihrem Aufbau ähnlich (Schlüsselraum wird auf einen Ring verteilt) und unterscheiden sich in der Art des Routings. CAN hingegeen bildet den Schlüsselraum auf ein d-dimensionalen kartesisches Koordinatensystem ab. Alle vier Systeme sind laut \cite{Dabek2003Towards} im Hinblick auf die generische \ac{api} nutzbar.
 
+Zur Entscheidungsfindung werden die Netzwerke anhand folgender Gesichtspunkt verglichen:
+\begin{itemize}
+\item Aufbau und Struktur
+\item Routing
+\item Nachbarschaft
+\item Eintritt und Austritt (Fehlerfall) von Knoten
+\item Nutzbarkeit als Basis für \ac{cast}
+\end{itemize}
 
-\cite{Lua2005} % Das Paper
+\subsection{Aufbau und Struktur}
+Bei Chord \cite{Stoica2003} sind die l-bit wertigen Schlüssel (meist Zahlen im Bereich $[0,2^l-1]$) auf einem eindimensionalen Ring modulo $2^l$ im Uhrzeigersinn angelegt. Jedem Knoten und jedem Datum ist ein eindeutiger Schlüssel zugewiesen, diese sind \emph{ID} und \emph{key} benannt. Jeder Schlüssel (und damit jeder Knoten und jedes Datum) besitzt einen Vorgänger und einen Nachfolger. Der Vorgänger von $X$ ist derjenige erste Schlüssel entgegen dem Uhrzeigersinn, dessen ID kleiner ist als ID von $X$ und wird $PRED(X)$ benannt. Ensprechend ist der Nachfolger $SUCC(X)$ der erste Schlüssel im Uhrzeigersinn, dessen ID größer gleich der ID von $X$ ist.
 
-\cite{Castro2003Evaluation} %evaluation
+\begin{figure}[htb]
+\centering
+\includegraphics{grafics/chord_key_space.pdf}
+\caption{a) Schlüsselraum ($l=6$) für Chord mit sechs Knoten und fünf Daten b) Fingertabelle für Knoten $N1$ }
+\label{fig:chord_key_space}
+\end{figure}
 
-\cite{Fahmy2007} %characterizing
+Ein Knoten $A$ ist dabei für alle Daten zuständig die zwischen $A$ und $PRED(A)$ liegen, somit gilt: $$PRED(A) < key(Datum) \le ID_A$$
+In Figur \ref{fig:chord_key_space} a) ist dies bildlich für sechs Knoten und fünf Datenpunkten bei $l=6$ gezeigt. Knoten 14 (N14) ist für das Datum mit Schlüssel 10 (K10) zuständig. Knoten 32 ist für K16 und K25. K51 ist bei N51 zu finden. Aufgrund der Ringstruktur ist N1 für K55 zuständig.
 
-\cite{Rowstron2001} %pastry
+\subsection{Routing}
+Bei Chord besitzt jeder Knoten eine Verbindung zu seinem direkten Vorgänger und seinem direkten Nachfolger. Weiterhin pflegt jeder Knoten eine sogenannte \emph{finger table}. Die maximal $l$ Einträge in dieser Tabelle zeigen auf andere Knoten im Ring, so dass der Eintrag in Zeile $i$ von Knoten $n$ denjenigen Knoten enthält der $n$ mit mindestens $2^{i-1}$ folgt. Figur \ref{fig:chord_key_space} b) stellt die Fingertabelle von Knoten $N1$ dar. Die ersten Einträge $SUCC(2), SUCC(3) und SUCC(5)$ verweisen auf Knoten $N5$. Der dritte Eintrag verweist auf $SUCC(9) = N14$.
 
-\cite{Zhao2004Tapestry} %Tapestry Chimera
+\subsection{Nachbarschaft}
 
-\cite{Malkhi2002Viceroy} % Viceroy
+\subsection{Eintritt und Austritt (Fehlerfall) von Knoten}
 
-\cite{Bo2003PeertoPeer}
+\subsection{Nutzbarkeit als Basis für \ac{cast}}
+
+We also show that multicast trees built using Pastry provide higher performance than ones built using CAN \cite{Castro2003Evaluation, KostasKatrinis2005}.
+
+\subsection{Fazit}
+
+Aufgrund der mageren Ergebnisse in Castros Untersuchung \cite{Castro2003Evaluation} bleibt CAN trotz interessanter Ideen außen vor. Ebenso kann Chord nicht in Betracht gezogen werden, da es kurzzeitige Inkonsistenzen in der Nachbarschaft (und damit dem Routing) geben kann. Weiterhin wird eine größere Latenz im Nachrichtenversand erwartet, da Nachrichten nur in einer Richtung auf dem Ring weitergeleitet werden.
+
+Pastry und Tapestry zeigen durch die Implementierung von Scribe und Bayeux \cite{Castro2002Scribe, Zhuang2001} dass sie als Unterbau für \ac{cast} sehr wohl geeignet sind. Pastry ist jedoch nur als Javabibliothek\footnote{http://www.freepastry.org} verfügbar und die Entwicklung von Tapestry (ebenfalls in Java implementiert) wurde mit Version 2.01 eingestellt.
+
+Chimera ist der Nachfolger von Tapestry und vereint laut Homepage\footnote{http://current.cs.ucsb.edu/projects/chimera/index.html} das Beste von Pastry und Tapestry in sich: 
+
+\begin{quote}
+Chimera is a light-weight C implementation of a \emph{next-generation} structured overlay that provides similar functionality as prefix-routing protocols Tapestry and Pastry.  Chimera gains simplicity and robustness from its use of Pastry's leafsets, and efficient routing from Tapestry's locality algorithms.  In addition to these properties, Chimera also provides efficient detection of node and network failures, and reroutes messages around them to maintain connectivity and throughput.  
+\end{quote}
+
+Der frei verfügbare Code (veröffentlicht unter GPL), die Anpassbarkeit und die Unterstützung der Zielplatformen Linux und Windows sprechen stark für Chimera als Netzwerkunterbau für das in dieser Arbeit zu entwickelnde generische Publish/Subscribe-System.\\
+Da Chimera der generischen \ac{api} entspricht, könnte es bei gravierenden Problemen durch ein anderes System ausgetauscht werden, ohne das restliche System zu beeinflussen.
