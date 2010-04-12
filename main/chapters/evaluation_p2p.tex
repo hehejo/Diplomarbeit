@@ -1,4 +1,4 @@
-Dieses Kapitel bietet einen Überblick über einige p2p-Netzwerke und evaluiert diese anhand gestellter Anforderungen. Diese Evaluierung beeinflußt die Entscheidung für ein Overlay-Netzwerk auf das schließlich, das in dieser Arbeit zu entwickelnde, generische Publish/Subscribe-System gesetzt wird. Die Evaluierung bedient sich zahlreicher Arbeiten, die sich alleine dem Vergleich dieser Netzwerke widmen \cite{Lua2005Survey, Goetz2005, Li2004Comparing, Darlagiannis2006Peertopeer, Castro2002Secure, Bo2003PeertoPeer} und geht auch auf ihre Nutzbarkeit als Basis für \emph{Application level multicast} sprich ein Publish/Subscribe-System ein \cite{Hosseini2007Survey, Fahmy2007, Castro2003Evaluation, Ratnasamy2001}.
+Dieses Kapitel bietet einen Überblick über einige p2p-Netzwerke und evaluiert diese anhand gestellter Anforderungen. Diese Evaluierung beeinflußt die Entscheidung für ein Overlay-Netzwerk, auf das schließlich, das in dieser Arbeit zu entwickelnde, generische Publish/Subscribe-System gesetzt wird. Die Evaluierung bedient sich zahlreicher Arbeiten, die sich alleine dem Vergleich dieser Netzwerke widmen \cite{Lua2005Survey, Goetz2005, Li2004Comparing, Darlagiannis2006Peertopeer, Castro2002Secure, Bo2003PeertoPeer} und geht auch auf ihre Nutzbarkeit als Basis für \emph{Application level multicast} sprich ein Publish/Subscribe-System ein \cite{Hosseini2007Survey, Fahmy2007, Castro2003Evaluation, Ratnasamy2001}.
 
 Zuvor müssen jedoch die eigenen Anforderungen an solche Systeme identifiziert werden. Zu den offensichtlichen Anforderungen wie beispielsweise \emph{Skalierbarkeit} gesellen sich jedoch auch spezielle Anforderungen aus Spielsicht hinzu. Diese sind beispielsweise das Vorhandensein eines Masterservers oder das Übertragen von Applikationswissen auf das Netzwerk um damit dessen Entscheidungen bezüglich Nachbarschaften oder Versand von Nachrichten (Routing) zu beeinflussen.
 
@@ -45,7 +45,9 @@ Zur Entscheidungsfindung werden die Netzwerke anhand folgender Gesichtspunkt ver
 \end{itemize}
 
 \subsection{Aufbau und Struktur}
-Bei Chord \cite{Stoica2003} sind die l-bit wertigen Schlüssel (meist Zahlen im Bereich $[0,2^l-1]$) auf einem eindimensionalen Ring modulo $2^l$ im Uhrzeigersinn angelegt. Jedem Knoten und jedem Datum ist ein eindeutiger Schlüssel zugewiesen, diese sind \emph{ID} und \emph{key} benannt. Jeder Schlüssel (und damit jeder Knoten und jedes Datum) besitzt einen Vorgänger und einen Nachfolger. Der Vorgänger von $X$ ist derjenige erste Schlüssel entgegen dem Uhrzeigersinn, dessen ID kleiner ist als ID von $X$ und wird $PRED(X)$ benannt. Ensprechend ist der Nachfolger $SUCC(X)$ der erste Schlüssel im Uhrzeigersinn, dessen ID größer gleich der ID von $X$ ist.
+Chord \cite{Stoica2003} legt die l-bit wertigen Schlüssel (meist Zahlen im Bereich $[0,2^l-1]$) auf einem eindimensionalen Ring modulo $2^l$ im Uhrzeigersinn an. Jedem Knoten und jedem Datum ist ein eindeutiger Schlüssel zugewiesen, diese sind \emph{ID} und \emph{key} benannt. Ein Datum $X$ ist dem Knoten zugewiesen, dessen ID größer gleich dem key ist. Dieser Knoten wird Nachfolger von X, \emph{SUCC(X)}, genannt. Analog dazu gibt es auch einen Vorgänger von X, \emph{PRED(X)}.
+
+Damit ist ein Knoten für alle Daten zuständig, die - bildlich gesehen - im Ring gegen den Uhrzeigersinn vor ihm liegen. In Figur \ref{fig:chord_key_space} a) ist dies bildlich für sechs Knoten und fünf Datenpunkten bei $l=6$ gezeigt. Knoten 14 (N14) ist für das Datum mit Schlüssel 10 (K10) zuständig. Knoten 32 ist für K16 und K25. K51 ist bei N51 zu finden. Aufgrund der Ringstruktur ist N1 für K55 zuständig.
 
 \begin{figure}[htb]
 \centering
@@ -54,13 +56,20 @@ Bei Chord \cite{Stoica2003} sind die l-bit wertigen Schlüssel (meist Zahlen im 
 \label{fig:chord_key_space}
 \end{figure}
 
-Ein Knoten $A$ ist dabei für alle Daten zuständig die zwischen $A$ und $PRED(A)$ liegen, somit gilt: $$PRED(A) < key(Datum) \le ID_A$$
-In Figur \ref{fig:chord_key_space} a) ist dies bildlich für sechs Knoten und fünf Datenpunkten bei $l=6$ gezeigt. Knoten 14 (N14) ist für das Datum mit Schlüssel 10 (K10) zuständig. Knoten 32 ist für K16 und K25. K51 ist bei N51 zu finden. Aufgrund der Ringstruktur ist N1 für K55 zuständig.
+
+\begin{figure}[htb]
+\centering
+\includegraphics{grafics/pastry_key_space.pdf}
+\caption{Schlüsselraum ($l=6$) für Pastry mit sechs Knoten und fünf Daten}
+\label{fig:pastry_key_space}
+\end{figure}
+
 
 \subsection{Routing}
-Bei Chord besitzt jeder Knoten eine Verbindung zu seinem direkten Vorgänger und seinem direkten Nachfolger. Weiterhin pflegt jeder Knoten eine sogenannte \emph{finger table}. Die maximal $l$ Einträge in dieser Tabelle zeigen auf andere Knoten im Ring, so dass der Eintrag in Zeile $i$ von Knoten $n$ denjenigen Knoten enthält der $n$ mit mindestens $2^{i-1}$ folgt. Figur \ref{fig:chord_key_space} b) stellt die Fingertabelle von Knoten $N1$ dar. Die ersten Einträge $SUCC(2), SUCC(3) und SUCC(5)$ verweisen auf Knoten $N5$. Der dritte Eintrag verweist auf $SUCC(9) = N14$.
+Bei Chord besitzt jeder Knoten eine Verbindung zu seinem direkten Vorgänger und seinem direkten Nachfolger. Weiterhin pflegt jeder Knoten eine sogenannte \emph{finger table}. Die maximal $l$ Einträge in dieser Tabelle zeigen auf andere Knoten im Ring, so dass der Eintrag in Zeile $i$ von Knoten $n$ denjenigen Knoten enthält der $n$ mit mindestens $2^{i-1}$ folgt. Figur \ref{fig:chord_key_space} b) stellt die Fingertabelle von Knoten $N1$ dar. Die ersten Einträge \emph{SUCC(2), SUCC(3) und SUCC(5)} verweisen auf Knoten $N5$. Der dritte Eintrag verweist auf $SUCC(9) = N14$. Analog dazu ergeben sich die restlichen Einträge.
 
 \subsection{Nachbarschaft}
+Die Nachbarschaft ist bei Chord begrenzt. Jeder Knoten hat eine Verbindung zu seinem Vorgänger sowie Nachfolger auf dem Ring und hält Einträge in der Fingertabelle vor. In die Routingentscheidungen kann somit nicht direkt eingegriffen werden.
 
 \subsection{Eintritt und Austritt (Fehlerfall) von Knoten}
 
