@@ -106,6 +106,13 @@ Jeder Knoten verwaltet neben dem ihm zugeteilten Daten drei Strukturen die dem R
 Die Routingtabelle besteht aus $\frac{l}{b}$ Reihen mit je $2^b -1$ Einträgen. Abbildung \ref{fig:pastry_routing_table} zeigt dies beispielhaft für Knoten $103220$ mit $l=12, b=2$. Einträge in Zeile $i$ haben einen Präfix der Länge $i$ mit dem Knoten $103220$ gemein. Die Übereinstimmungen sind in der Abbildung fett hervorgehoben. Ist kein passender Knoten bekannt, wird das entsprechende Feld nicht ausgefüllt. Damit hat die Routingtabelle Ähnlichkeiten zur Fingertabelle bei Chord. Ein Knoten hat ungenaues Wissen über entfernte Knoten. Der Detailgrad an Routinginformationen erhöht sich pro Zeile in der Routingtabelle. Wenn im System nur sehr wenig Knoten vorhanden sind, dann sind die letzten Reihen der Routingtabelle ebenfalls nur spärlich belegt. Im Durchschnitt sind bei $n$ Knoten im System nur $log_{2^b} n$ Einträge belegt.\\
 Bei der Belegung der Routingtabelle werden bei gleichem Präfix diejenigen Knoten gewählt, die aus Netzwerksicht näher sind.
 
+Das leaf set enthält die $l$ numerisch nähsten Knoten, $frac{l}{2}$ davon sind kleiner und $frac{l}{2}$ größer als der aktuelle Knoten. Neben Informationen zu Routingentscheidungen kann es auch zur Reparatur genutzt werden, wenn nahegelegene Knoten ausfallen.
+
+Das eigentlich Routing unterscheidet zwei Fälle: Zuerst prüft der Knoten ob der Schlüssel $k$ im Bereich seines leaf set ist. Ist dies der Fall, wird die Nachricht an den entsprechenden Knoten gesendet. Ist dieser Knoten für den Schlüssel zuständig, endet das Routing. Fällt $k$ nicht in den Bereich des leaf set, wird die Nachricht via Routingtabelle an einen entfernteren Knoten gesendet. Hierzu wird ein Eintrag gewählt, der eine größere beziehungsweise die größte Prefixübereinstimmung mit $k$ hat. Exisitiert kein solcher Eintrag, wird die Nachricht an den numerisch nähsten Knoten (zu $k$) mit gleicher Präfixübereinstimmung geschickt.\\
+Da Nachrichten immer an Knoten mit einer größeren Übereinstimmung oder an nähere Knoten mit gleicher Präfixübereinstimmung gesendet werden, können keine Zyklen auftreten.
+
+Das Routing von Tapestry ist sehr ähnlich zu dem hier vorgestellten Routing, allerdings nutzt Tapestry ein suffix-basiertes System.
+
 Pastry genügt den Anforderungen der generischen \ac{api} und ruft in jedem Routingschritt die upcall-Funktion route\_message auf. Durch diese kann gezielt in Routingentscheidungen eingegriffen werden und durch Applikationswissen besser gelegene Knoten als Routinghinweis genutzt werden.
 
 \subsection{Nachbarschaft}
@@ -133,14 +140,14 @@ Bei einer LOOKUP(n)-Nachricht gibt der Vorgänger von n den jeweils richtigen Kn
 
 Dies bedeutet allerdings, dass der neue Knoten $n$ erst später von seinem Vorgänger erfährt und damit auch erst spät alle ihm zugeteilten Daten kennt und zu sich übertragen kann. Hier stellt sich nun die Frage, warum $n$ nicht beim Eintritt seinen Nachfolger $p$ nach dessen altem Vorgänger fragt und somit die Zuständigkeit der Daten gleich beim Eintritt klärt? Eine mögliche Antwort ist, dass dadurch viel Overhead durch das Umkopieren von Daten entstehen würden, ohne dass dadurch das Routing bzw. Auffinden der Daten merklich verbessert würde. Im Falle von häufigen Eintritt und Austritt von Knoten würde das Netz lahmgelegt.
 
-Abbildung \ref{fig:chord_new_node} verdeutlich den Neueintritt von Knoten $N20$. Die Änderungen sind in grün dargestellt. $N1$ passt seine Fingertabelle an und $N20$ ist für $K16$ zuständig.
-
 \begin{figure}[htb]
 \centering
 \includegraphics{grafics/chord_new_node.pdf}
 \caption{Schlüsselraum von Abbildung \ref{fig:chord_key_space} nach Ankunft von Knoten $N20$. Die Zuständigkeit für $K16$ sowie die Fingertabelle von $N1$ (gestrichelte Linien) wurden angepasst.}
 \label{fig:chord_new_node}
 \end{figure}
+
+Abbildung \ref{fig:chord_new_node} verdeutlich den Neueintritt von Knoten $N20$. Die Änderungen sind in grün dargestellt. $N1$ passt seine Fingertabelle an und $N20$ ist für $K16$ zuständig.
 
 Der Ausfall von Knoten wird über \emph{timeouts} ermittelt. Tritt ein timeout auf, so wird die Nachricht einfach an den besten bekannten Vorgänger des ausgefallenen Knotens weitergeleitet. Im schlimmsten Falle ist dies der Nachfolger des sendenden Knotens. Daraus wird ersichtlch, dass ein valider Nachfolger notwendig ist. Somit hält jeder Knoten eine Liste von möglichen Nachfolgern vor, die während \emph{stabilize} erstellt werden kann. Für fehlerhafte Knoten in der Fingertabelle kann \emph{fix\_fingers} explizit aufgerufen werden.
 
@@ -149,6 +156,8 @@ Knotenaufall bedeutet nicht nur einen Ausfall des Knotens, sondern bedingt, dass
 Verlässt ein Knoten das Netz, so beeinflußt dies das System nicht. Jedoch ist es effizienter wenn ein verlassender Knoten seinem Vorgänger und Nachfolger dies mitteilt, die Verbindungen angepasst werden und die Daten explizit übertragen werden.
 
 \paragraph{Pastry / Tapestry}
+Einem neuen Knoten $n$ wird von Applikationsseite ein freiwählbarer Schlüssel gegeben. Meist brechnet sich dieser Schlüssel anhand dem Hashwert der IP oder seines öffentlichen Namens. Weiterhin geht das System davon aus, dass $n$ aus einer Liste bekannter Knoten denjenigen Knoten $x$ wählen kann, der aus Netzwerksicht am nähsten ist. Von diesem Knoten kann das neighborhood set kopiert werden. Zum Aufbau der Routingtabelle und des leaf set lässt $n$ via $x$ eine \emph{JOIN}-Nachricht an einen numerisch nahen Schlüssel zu $n$ routen. Diese Nachricht gelangt schließlich zu Knoten $c$, von dem das leaf set kopiert werden kann, da $c$ und $n$ sich nahe sind. Alle Knoten die diese JOIN-Nachricht weiterleiten senden ihre Routingtabelle an $n$. Für jeden Routinghop kopiert sich $n$ die entsprechende Zeile aus der Routingtabelle, da ausgehend von keiner Präfixübereinstimmung mit dem nahen Knoten $x$, jeder weitere Hop eine größere Präfixübereinstimmung bringt.\\
+Im Gegensatz zur nachträglichen Aktualisierung bei Chord, wird nun die gesamte Routinginformation an alle bekannte Knoten gesendet. Der neue Knoten ist nun im Netzwerk bekannt und erreichbar.
 
 \paragraph{CAN}
 
@@ -162,6 +171,12 @@ We also show that multicast trees built using Pastry provide higher performance 
 \cite{Ratnasamy2001}
 
 \subsection{Fazit}
+
+\begin{tabular}{l|c|c|c|c} \\
+System & Routing Hops & Node State & Arrival & Departure\\ \hline \\
+Chord & $O(\frac{1}{2}log_2 N)$ & $O(2log_2 N) $ & $ O(log_2^2 N) $ & $ O(log_2^2 N) $
+\label{tab:evaluation_p2p}
+\end{tabular}
 
 Aufgrund der mageren Ergebnisse in Castros Untersuchung \cite{Castro2003Evaluation} bleibt CAN trotz interessanter Ideen außen vor. Ebenso kann Chord nicht in Betracht gezogen werden, da es kurzzeitige Inkonsistenzen in der Nachbarschaft (und damit dem Routing) geben kann. Weiterhin wird eine größere Latenz im Nachrichtenversand erwartet, da Nachrichten nur in einer Richtung auf dem Ring weitergeleitet werden.
 
