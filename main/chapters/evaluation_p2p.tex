@@ -111,6 +111,8 @@ Das leaf set enthält die $l$ numerisch nähsten Knoten, $\frac{l}{2}$ davon sin
 Das eigentlich Routing unterscheidet zwei Fälle: Zuerst prüft der Knoten ob der Schlüssel $k$ im Bereich seines leaf set ist. Ist dies der Fall, wird die Nachricht an den entsprechenden Knoten gesendet. Ist dieser Knoten für den Schlüssel zuständig, endet das Routing. Fällt $k$ nicht in den Bereich des leaf set, wird die Nachricht via Routingtabelle an einen entfernteren Knoten gesendet. Hierzu wird ein Eintrag gewählt, der eine größere beziehungsweise die größte Prefixübereinstimmung mit $k$ hat. Exisitiert kein solcher Eintrag, wird die Nachricht an den numerisch nähsten Knoten (zu $k$) mit gleicher Präfixübereinstimmung geschickt.\\
 Da Nachrichten immer an Knoten mit einer größeren Übereinstimmung oder an nähere Knoten mit gleicher Präfixübereinstimmung gesendet werden, können keine Zyklen auftreten.
 
+Dadurch verringert sich die Anzahl der Knoten mit längeren Präfixübereinstimmungen in jedem Schritt um mindestens den Faktor $2^b$. Somit hat das Routing eine Komplexität von $O(log_{2^b} N)$.
+
 Das Routing von Tapestry ist sehr ähnlich zu dem hier vorgestellten Routing, allerdings nutzt Tapestry ein suffix-basiertes System.
 
 Pastry genügt den Anforderungen der generischen \ac{api} und ruft in jedem Routingschritt die upcall-Funktion route\_message auf. Durch diese kann gezielt in Routingentscheidungen eingegriffen werden und durch Applikationswissen besser gelegene Knoten als Routinghinweis genutzt werden.
@@ -124,6 +126,8 @@ Die Nachbarschaft ist bei Chord begrenzt. Jeder Knoten hat eine Verbindung zu se
 \paragraph{Pastry / Tapestry}
 Das neigborhood set (siehe Abbildung \ref{fig:pastry_routing_table}) enthält die $|m|$ nähsten Knoten aus Netzwerksicht. Obwohl es im Routing keine Rolle spielt kann es dazu genutzt werden in späteren Entscheidungen geeignete Knoten zu finden.\\
 Da die Größe des leaf set ebenfalls wählbar ist, können hier ebenfalls vermehrt nahe Knoten platziert werden.
+
+\missing{da geht noch was … börp}
 
 \paragraph{CAN}
 Da nur beim Eintritt eines Knotens in das Netzwerk auf die Nähe aus Netzwerksicht geachtet werden kann, sind die genau $2d$ Nachbarn eines Knotens nicht unbedingt nahe.
@@ -159,7 +163,7 @@ Verlässt ein Knoten das Netz, so beeinflußt dies das System nicht. Jedoch ist 
 Einem neuen Knoten $n$ wird von Applikationsseite ein freiwählbarer Schlüssel gegeben. Meist brechnet sich dieser Schlüssel anhand dem Hashwert der IP oder seines öffentlichen Namens. Weiterhin geht das System davon aus, dass $n$ aus einer Liste bekannter Knoten denjenigen Knoten $x$ wählen kann, der aus Netzwerksicht am nähsten ist. Von diesem Knoten kann das neighborhood set kopiert werden. Zum Aufbau der Routingtabelle und des leaf set lässt $n$ via $x$ eine \emph{JOIN}-Nachricht an einen numerisch nahen Schlüssel zu $n$ routen. Diese Nachricht gelangt schließlich zu Knoten $c$, von dem das leaf set kopiert werden kann, da $c$ und $n$ sich nahe sind. Alle Knoten die diese JOIN-Nachricht weiterleiten senden ihre Routingtabelle an $n$. Für jeden Routinghop kopiert sich $n$ die entsprechende Zeile aus der Routingtabelle, da ausgehend von keiner Präfixübereinstimmung mit dem nahen Knoten $x$, jeder weitere Hop eine größere Präfixübereinstimmung bringt.\\
 Im Gegensatz zur nachträglichen Aktualisierung bei Chord, wird nun die gesamte Routinginformation an alle bekannte Knoten gesendet. Der neue Knoten ist nun im Netzwerk bekannt und erreichbar.
 
-Ausgefallene Knoten werden ebenfalls anhand von timeouts beim Routing entdeckt. Da die Einträge des neighborhood set nicht im Routing involviert sind, müssen diese periodisch geprüft werden. Fehlerhafte Einträge in der Routingtablle können über einen anderen Eintrag mit gleicher Präfixübereinstimmung kompensiert werdenm, müssen aber entfernt werden um ein stabiles und sicheres Routing zu ermöglichen. Hierzu können von benachbarten Einträgen Routinginformationen angefordert werden um die entstandene Lücke zu füllen. Ein fehlerhafter Eintrag im leaf set (neighborhood set) kann auf ähnliche Weise repariert werden, hier werden Informationen von den anderen Einträgen im leaf set  (neighborhood set) angefordert.
+Ausgefallene Knoten werden ebenfalls anhand von timeouts beim Routing entdeckt. Da die Einträge des neighborhood set nicht im Routing involviert sind, müssen diese periodisch geprüft werden. Fehlerhafte Einträge in der Routingtablle können über einen anderen Eintrag mit gleicher Präfixübereinstimmung kompensiert werdenm, müssen aber entfernt werden um ein stabiles und sicheres Routing zu ermöglichen. Hierzu können von benachbarten Einträgen Routinginformationen angefordert werden um die entstandene Lücke zu füllen. Ein fehlerhafter Eintrag im leaf set (neighborhood set)Damit hat das Routing eine Komplexität von $O(log N)$. kann auf ähnliche Weise repariert werden, hier werden Informationen von den anderen Einträgen im leaf set  (neighborhood set) angefordert.
 
 Ein verlassender Knoten kann vom System wie ein ausgefallener Knoten behandelt werden, aber wie auch bei Chord ist es nützlich das Verlassen eines Knoten speziell zu behandeln, um die Datenintegrität zu gewährleisten und um unnötigen Nachrichtenversand im System zu vermeiden.
 
