@@ -1,6 +1,6 @@
 \section*{Mercury}
 \label{chap:related:mercury}
-Mercury \cite{Bharambe2004Mercury} gehört zur Klasse der filterbasierten\footnote{siehe Kapitel \ref{chap:grundlagen:pubsub:filterbased}} Publish/Subscribe-Systeme \index{Publish/Subscribe!filterbasiert}.
+Mercury \cite{Bharambe2004Mercury} gehört zur Klasse der filterbasierten\footnote{siehe \Fref{chap:grundlagen:pubsub:filterbased}} Publish/Subscribe-Systeme \index{Publish/Subscribe!filterbasiert}.
 
 \paragraph{Arbeitsweise}
 Im System gibt es eine Menge an Attributen, die ihrerseits einen definierten Wertebereich haben. Jedes Attribut wird durch einen eigenen \emph{Hub}, ein Verbund aus Knoten, gebildet. Der Wertebereich ist dabei nicht zwingend symetrisch\footnote{Angenommen, $0<=x<360$: Knoten $A_{[0,270)}$, $B_{[270, 360)}$} auf die Knoten verteilt. Die Knoten eines Hubs sind sich untereinander über Nachbarschaftsmetriken\footnote{Alte Version: forward- und backward-Pointer; Ringstruktur\\Neue Version: Tabelle mit allen Knoten im Hub} bekannt.

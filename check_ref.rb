@@ -3,7 +3,7 @@
 labels = []
 refs = []
 
-`grep -ho '\\ref{.*}' main/chapters/*.tex`.each_line do |l|
+`grep -ho '\\Fref{.*}' main/chapters/*.tex`.each_line do |l|
 	refs << l.split('{')[1].split('}')[0]
 end
 
@@ -12,7 +12,7 @@ end
 	labels << l.split('{')[1].split('}')[0]
 end
 
-`grep -ho '\label{.*}' main/*.tex`.each_line do |l|
+`grep -ho '\\label{.*}' main/*.tex`.each_line do |l|
 	labels << l.split('{')[1].split('}')[0]
 end
 
