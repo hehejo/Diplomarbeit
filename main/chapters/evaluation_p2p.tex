@@ -75,6 +75,7 @@ Tapestry erzeugt automatische Redundanz, da hier die Daten auf mehrere Knoten ve
 
 
 \paragraph{CAN}
+Der Schlüsselraum bei CAN \cite{Ratnasamy2001Scalable} ist ein d-dimensionaler Torus. Die Schlüssel werden als d-Tupel (zum Beispiel $(x,y)$ für $d=2$) dargestellt. Wie bei Pastry ist der numerisch näheste Knoten für ein Datum zuständig. Der Schlüsselraum ist in nicht überlappende Zonen eingeteilt und hat eine feste Größe. Jeder Knoten \emph{besitzt} eine solche Zone, über deren Ausmaß er definiert ist, und ist damit für alle Daten zuständig, die in dieser Zone liegen. \Fref{fig:can_key_space} zeigt einen zweidimensionalen Schlüsselraum von je 0 - 100 mit den drei Knoten A,B und C und fünf Daten. Der Schlüsselraum ist komplett auf die drei Knoten aufgeteilt, wobei A für den Bereich $(0,50)-(100,100)$, B für $(0,0)-(50,50)$ und C für $(50,0)-(100,50)$ zuständig ist. Ein Schlüssel wird wie bei \ac{dht} üblich über eine segmentierte Hashfunktion berechnet. Jedes Segment bildet dabei eine Dimension ab.
 
 \begin{figure}[htb]
 \centering
