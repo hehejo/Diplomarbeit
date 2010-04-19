@@ -1734,7 +1734,6 @@
   year = {2004},
   title = {Efficient Routing for Peer-to-Peer Overlays},
   url = {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.1.5939},
-  __markedentry = {[jo]},
   abstract = {Most current peer-to-peer lookup schemes keep a small amount of routing
 	state per node, typically logarithmic in the number of overlay nodes.
 	This design assumes that routing information at each member node
@@ -3481,6 +3480,58 @@
   priority = {2},
   timestamp = {2010.04.07},
   url = {http://dx.doi.org/10.1145/1080091.1080103}
+}
+
+@ARTICLE{Xu2004Fundamental,
+  author = {Xu, J. and Kumar, A. and Yu, X.},
+  title = {On the Fundamental Tradeoffs Between Routing Table\&\#160;Size and
+	Network Diameter in Peer-to-Peer Networks},
+  journal = {IEEE Journal on Selected Areas in Communications},
+  year = {2004},
+  volume = {22},
+  pages = {151--163},
+  number = {1},
+  month = {January},
+  __markedentry = {[jo]},
+  abstract = {We study a fundamental tradeoff issue in designing a distributed hash
+	table (DHT) in peer-to-peer (P2P) networks: the size of the routing
+	table versus the network diameter. Observing that existing DHT schemes
+	have either 1) a routing table size and network diameter both of
+	O(log 2 n), or 2) a routing table of size d and network diameter
+	of O(n 1 d/), S. Ratnasamy et al. (2001) asked whether this represents
+	the best asymptotic "state-efficiency" tradeoffs. We show that some
+	straightforward routing algorithms achieve better asymptotic tradeoffs.
+	However, such algorithms all cause severe congestion on certain network
+	nodes, which is undesirable in a P2P network. We rigorously define
+	the notion of "congestion" and conjecture that the above tradeoffs
+	are asymptotically optimal for a congestion-free network. The answer
+	to this conjecture is negative in the strict sense. However, it becomes
+	positive if the routing algorithm is required to eliminate congestion
+	in a "natural" way by being uniform. We also prove that the tradeoffs
+	are asymptotically optimal for uniform algorithms. Furthermore, for
+	uniform algorithms, we find that the routing table size of O(log
+	2 n) is a magic threshold point that separates two different "state-efficiency"
+	regions. Our third result is to study the exact (instead of asymptotic)
+	optimal tradeoffs for uniform algorithms. We propose a new routing
+	algorithm that reduces the routing table size and the network diameter
+	of Chord both by 21.4\% without introducing any other protocol overhead,
+	based on a novel number-theory technique. Our final result is to
+	present Ulysses, a congestion-free nonuniform algorithm that achieves
+	a better asymptotic "state-efficiency" tradeoff than existing schemes
+	in the probabilistic sense, even under dynamic node joins/leaves.},
+  citeulike-article-id = {586674},
+  citeulike-linkout-0 = {http://dx.doi.org/10.1109/JSAC.2003.818805},
+  citeulike-linkout-1 = {http://ieeexplore.ieee.org/xpls/abs\_all.jsp?arnumber=1258122},
+  day = {07},
+  doi = {10.1109/JSAC.2003.818805},
+  file = {:home/jo/DA/Diplomarbeit/bib/paper/xu_04_fundamental_479440.pdf:PDF},
+  issn = {0733-8716},
+  keywords = {congestion, p2p, routing},
+  owner = {jo},
+  posted-at = {2010-04-19 08:49:29},
+  priority = {2},
+  timestamp = {2010.04.19},
+  url = {http://dx.doi.org/10.1109/JSAC.2003.818805}
 }
 
 @INPROCEEDINGS{Yu2005MOPAR,
