@@ -218,16 +218,76 @@ We also show that multicast trees built using Pastry provide higher performance 
 \cite{Ratnasamy2001}
 
 \subsection{Fazit}
+Eine generelle Übersicht der Systeme stellt \Fref{tab:evaluation_fazit} dar. Jedes System hat eigene Schwächen und Stärken. So bezahlt CAN einen günstigen Ein- und Austritt der Knoten dank der kleinen Nachbarschaft mit mehr Routing Hops als beispielsweise Chord. Dieses hat durch seine Fingertabelle wiederum mehr Einfluss auf das Routing - aber aktualisiert diese Tabellen teilsweise nachträglich im Hintergrund während dies bei Pastry aktiv geschieht.
 
 \begin{table}[htbp]
-\begin{tabular}{l|c|c|c|c} \\
-System & Routing Hops & Node State & Arrival & Departure\\ \hline \\
-Chord & $O(\frac{1}{2}log_2 N)$ & $O(2log_2 N) $ & $ O(log_2^2 N) $ & $ O(log_2^2 N) $
+\centering
+\begin{tabular}{l|c|c|c|c}
+ & Routing Hops & Routinginformation & Eintritt & Austritt\\ \hline  
+Chord & $O(\frac{1}{2}log n)$ & $O(2log n) $ & $ O(log^2 n) $ & $ O(log^2 n) $ \\
+Pastry & $O(\frac{1}{b}log n)$ & $O(\frac{1}{b} (2^b-1) log n) $ & $ O(log^b n) $ & $ O(log_b n) $ \\
+CAN & $O(\frac{d}{2}n^\frac{1}{d})	$ & $O(2 d) $ & $ O(\frac{d}{2}N^\frac{1}{d}) $ & $ O(2 d) $
 \label{tab:evaluation_p2p}
 \end{tabular}
-\caption{Tolle Tabelle}
+\caption{Vergleich der Systeme Chord, Pastry und CAN anhand Routing Hops, Routinginformationen und Eintritt beziehungsweise Austritt von Knoten. Wenn nicht anders angegeben bezeichnet $log$ $log_2$. $n$ ist die Anzahl der Knoten, $b$ die Anzahl der darstellenden Basis bei Pastry und $d$ die Anzahl der Dimensionen bei CAN. (aus \cite{Goetz2005})}
 \label{tab:evaluation_fazit}
 \end{table}
+
+
+Ein einfaches Ranking der untersuchten Systeme ordnet diese anhand der eingangs gestellten Anforderungen.
+\begin{multicols}{2}
+
+\paragraph{geringe Latenz}
+\begin{enumerate*}
+\item Pastry/Tapestry
+\item Chord
+\item CAN
+\end{enumerate*}
+
+
+\paragraph{Skalierbarkeit}
+\begin{enumerate*}
+\item CAN
+\item Pastry/Tapestry
+\item Chord
+\end{enumerate*}
+
+\paragraph{Fehlertoleranz bei Knotenausfall}
+\begin{enumerate*}
+\item Pastry/Tapestry, CAN
+\item Chord
+\end{enumerate*}
+
+\paragraph{Kommunikation über das Netzwerk}
+\begin{enumerate*}
+\item Pastry/Tapestry
+\item Chord
+\item CAN
+\end{enumerate*}
+
+\paragraph{Bestimmung der Nachbarschaft}
+\begin{enumerate*}
+\item Pastry/Tapestry
+\item Chord
+\item CAN
+\end{enumerate*}
+
+\paragraph{Eingriff in Routingentscheidungen}
+\begin{enumerate*}
+\item Pastry/Tapestry
+\item Chord
+\item CAN
+\end{enumerate*}
+
+\paragraph{Unterbau für \ac{cast}}
+\begin{enumerate*}
+\item Pastry/Tapestry
+\item CAN
+\item Chord
+\end{enumerate*}
+
+
+\end{multicols}
 
 Aufgrund der mageren Ergebnisse in Castros Untersuchung \cite{Castro2003Evaluation} bleibt CAN trotz interessanter Ideen außen vor. Ebenso kann Chord nicht in Betracht gezogen werden, da es kurzzeitige Inkonsistenzen in der Nachbarschaft (und damit dem Routing) geben kann. Weiterhin wird eine größere Latenz im Nachrichtenversand erwartet, da Nachrichten nur in einer Richtung auf dem Ring weitergeleitet werden.
 
