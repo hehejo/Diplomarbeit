@@ -4,7 +4,7 @@ Zuvor müssen jedoch die eigenen Anforderungen an solche Systeme identifiziert w
 
 \section{Anforderungen}
 
-\paragraph{Geringe Latenz} Schnelle Reaktionszeiten und Nachrichtenübermittlung sind bei \ac{mmog} unverzichtbar. Ebenfalls müssen größere Nachrichten (beispielsweise Update der Welt) schnell übertragen werden damit der Spielfluss nicht behindert wird. Dies lässt sich anhand der Anzahl der Hops beim Nachrichtenversand messen.
+\paragraph{Geringe Latenz} Schnelle Reaktionszeiten und Nachrichtenübermittlung sind bei \ac{mmog} unverzichtbpar. Ebenfalls müssen größere Nachrichten (beispielsweise Update der Welt) schnell übertragen werden damit der Spielfluss nicht behindert wird. Dies lässt sich anhand der Anzahl der Hops beim Nachrichtenversand messen.
 
 \paragraph{Skalierbar} Selbst bei einer großen Anzahl an Knoten soll das Netz nicht kollabieren. Hierbei ist es auch wichtig, dass Knoten nicht unbedingt lange im Spiel sein müssen. Zwar kann davon ausgegangen werden, dass ein durchschnittlicher Spieler längere Zeit im Spiel verbringt, aber durch Netzausfälle oder sonstigen Unbill kann dies stark variieren. Insofern ist es wichtig wie sich die Netzwerke bei großen Fluktationen verhalten \cite{Li2004Comparing}.
 
@@ -48,12 +48,12 @@ Zur Entscheidungsfindung werden die Netzwerke anhand folgender Gesichtspunkte ve
 \paragraph{Chord}
 Chord \cite{Stoica2003} legt die l-bit wertigen Schlüssel (meist Zahlen im Bereich $[0,2^l-1]$) auf einem eindimensionalen Ring modulo $2^l$ im Uhrzeigersinn an. Jedem Knoten und jedem Datum ist ein eindeutiger Schlüssel zugewiesen, diese sind \emph{ID} und \emph{key} benannt. Ein Datum $X$ ist dem Knoten zugewiesen, dessen ID größer gleich dem key ist. Dieser Knoten wird Nachfolger von X, \emph{SUCC(X)}, genannt. Analog dazu gibt es auch einen Vorgänger von X, \emph{PRED(X)}.
 
-Damit ist ein Knoten für alle Daten zuständig, die - bildlich gesehen - im Ring gegen den Uhrzeigersinn vor ihm liegen. In \Fref[plain]{fig:chord_key_space} a ist dies bildlich für sechs Knoten und fünf Datenpunkten bei $l=6$ gezeigt. Knoten 14 (N14) ist für das Datum mit Schlüssel 10 (K10) zuständig. Knoten 32 ist für K16 und K25. K51 ist bei N51 zu finden. Aufgrund der Ringstruktur ist N1 für K55 zuständig.
+Damit ist ein Knoten für alle Daten zuständig, die - bildlich gesehen - im Ring gegen den Uhrzeigersinn vor ihm liegen. In \Fref{fig:chord_key_space} ist dies mit $l=6$ für sechs Knoten und fünf Datenpunkten gezeigt. Knoten 14 (N14) ist für das Datum mit Schlüssel 10 (K10) zuständig. Knoten 32 ist für K16 und K25. K51 ist bei N51 zu finden. Aufgrund der Ringstruktur ist N1 für K55 zuständig.
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
 \centering
 \includegraphics{grafics/chord_key_space.pdf}
-\caption{(a) Schlüsselraum ($l=6$) für Chord mit sechs Knoten ($Nx$) und fünf Daten ($Kx$). Die gestrichelten Pfeile stellen die Einträge der Fingertabelle für Knoten $N1$ dar (b).}
+\caption{Schlüsselraum ($l=6$) für Chord mit sechs Knoten ($Nx$) und fünf Daten ($Kx$). Die gestrichelten Pfeile stellen die Einträge der Fingertabelle für Knoten $N1$ dar.}
 \label{fig:chord_key_space}
 \end{figure}
 
@@ -66,7 +66,7 @@ Pastry besitzt ebenfalls einen l-bit wertigen Schlüsselraum, dabei werden Schl�
 
 Tapestry erzeugt automatische Redundanz, da hier die Daten auf mehrere Knoten verteilt werden.
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
 \centering
 \includegraphics{grafics/pastry_key_space.pdf}
 \caption{Schlüsselraum ($l=4$) für Pastry mit sechs Knoten ($Nx$) und fünf Daten ($Kx$).}
@@ -77,12 +77,12 @@ Tapestry erzeugt automatische Redundanz, da hier die Daten auf mehrere Knoten ve
 \paragraph{CAN}
 Der Schlüsselraum bei CAN \cite{Ratnasamy2001Scalable} ist ein d-dimensionaler Torus. Die Schlüssel werden als d-Tupel (zum Beispiel $(x,y)$ für $d=2$) dargestellt. Wie bei Pastry ist der numerisch näheste Knoten für ein Datum zuständig. Der Schlüsselraum ist in nicht überlappende Zonen eingeteilt und hat eine feste Größe. Jeder Knoten \emph{besitzt} eine solche Zone, über deren Ausmaß er definiert ist, und ist damit für alle Daten zuständig, die in dieser Zone liegen. Ein Schlüssel wird wie bei \ac{dht} üblich über eine segmentierte Hashfunktion berechnet. Jedes Segment bildet dabei eine Dimension ab.
 
-\Fref{fig:can_key_space} zeigt einen zweidimensionalen Schlüsselraum von je 0 - 100 mit den drei Knoten A,B und C und fünf Daten. Der Schlüsselraum ist komplett auf die drei Knoten aufgeteilt, wobei A für den Bereich $(0,50)-(100,100)$, B für $(0,0)-(50,50)$ und C für $(50,0)-(100,50)$ zuständig ist.
+\Fref{fig:can_key_space} zeigt einen zweidimensionalen Schlüsselraum mit den drei Knoten A,B und C und fünf Daten. Der Schlüsselraum ist komplett auf die drei Knoten aufgeteilt, wobei A für den Bereich $(0, .5)-(1, 1)$, B für $(0, 0)-(.5, .5)$ und C für $(.5, 0)-(1, .5)$ zuständig ist.
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
 \centering
 \includegraphics{grafics/can_key_space.pdf}
-\caption{2-dimensionaler Schlüsselraum (0,0) bis (100,100) für CAN mit drei Knoten (A, B, C) und fünf Daten (schwarze Punkte).}
+\caption{2-dimensionaler Schlüsselraum für CAN mit drei Knoten (A, B, C) und fünf Daten (schwarze Punkte).}
 \label{fig:can_key_space}
 \end{figure}
 
@@ -92,14 +92,14 @@ Der Schlüsselraum bei CAN \cite{Ratnasamy2001Scalable} ist ein d-dimensionaler 
 Bei Chord besitzt jeder Knoten eine Verbindung zu seinem direkten Vorgänger und seinem direkten Nachfolger. Eine Nachricht wird an den Nachfolger geschickt, bis sie zum zuständigen Knoten gelangt. Bei einer \emph{LOOKUP(x)}-Nachricht\footnote{Suche für key x Knoten N, so dass gilt: $N = SUCC(x)$.} prüft jeder involvierte Knoten A, ob sein Nachfolger für den Schlüssel zuständig ist, d.h. $ID_A < x \le SUCC(A)$. Ist dies der Fall, so sendet Knoten A die Antwort SUCC(A) rückwärts den Pfad der Nachricht zurück. Bei normalem Nachrichtenaustausch wird die Nachricht an den entsprechenden Knoten weitergeleitet.
 
 Da dies eine sehr ineffizientes  Routing darstellt, pflegt jeder Knoten eine sogenannte \emph{finger table}. Die maximal $l$ Einträge in dieser Tabelle zeigen auf andere Knoten im Ring, so dass der Eintrag in Zeile $i$ von Knoten $n$ denjenigen Knoten enthält der $n$ mit mindestens $2^{i-1}$ folgt.\\
-\Fref[plain]{fig:chord_key_space} b stellt die Fingertabelle von Knoten $N1$ dar. Die ersten Einträge SUCC(2), SUCC(3) und SUCC(5) verweisen auf Knoten $N5$. Der dritte Eintrag verweist auf $SUCC(9) = N14$. Analog dazu ergeben sich die restlichen Einträge.
+\Fref{fig:chord_key_space} stellt die Fingertabelle von Knoten $N1$ dar. Die ersten Einträge SUCC(2), SUCC(3) und SUCC(5) verweisen auf Knoten $N5$. Der dritte Eintrag verweist auf $SUCC(9) = N14$. Analog dazu ergeben sich die restlichen Einträge.
 
 Über diese Fingertabelle können Nachrichten eine weiter Strecke auf dem Ring überbrücken und die Routingzeit wird stark verkürzt. Da die IDs in der Tabelle exponentiell zur Basis zwei ansteigen, halbiert sich die Distanz zum Ziel. Damit hat das Routing eine Komplexität von $O(log N)$.
 
 \paragraph{Pastry / Tapestry}
 Jeder Knoten verwaltet neben dem ihm zugeteilten Daten drei Strukturen die dem Routing dienen. Diese sind das \emph{leaf set} mit Einträgen zu Knoten die im Schlüsselraum naheliegen, das \emph{neighborhood set} mit Einträgen zu Knoten die aus Netzwerksicht nahe liegen und die Routingtabelle.
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
 \centering
 \includegraphics{grafics/pastry_routing_table.pdf}
 \caption{Routing table, leaf set und neighborhood set (nach \cite{Goetz2005}) des Knoten 103220 für $l=12, b=2$. Einträge in Zeile $i$ haben einen Präfix der Länge $i$ mit dem Knoten $103220$ gemein. Die Übereinstimmungen sind zur Verdeutlichung fett hervorgehoben.}
@@ -126,7 +126,7 @@ Die gespeichter Routinginformation ist bei CAN am geringsten: Jeder Knoten speic
 In \Fref{fig:can_routing} ist ein beispielhafter Schlüsselraum zu sehen. Knoten N1 hat die Knoten N2, N3, N4 und N5 als Nachbarn. Knoten N4 hingegen ist nur mit N1 und N5 benachbart.\\
 Beim Routing kann Applikationswissen genutzt werden, so dass beispielsweise Knoten N2 statt N5 zum Routen der Nachricht von N1 genutzt wird. 
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
 \centering
 \includegraphics{grafics/can_routing.pdf}
 \caption{Routing und Nachbarschaft bei CAN. Nachbarschaft von $N1 = \{N2, N3, N4, N5\}$ Routing der Nachricht von $N1$ zu $K$ via $N5$. Eine alternative Route via $N2$ ist gestrichelt dargestellt.}
@@ -167,10 +167,10 @@ Bei einer LOOKUP(n)-Nachricht gibt der Vorgänger von n den jeweils richtigen Kn
 
 Dies bedeutet allerdings, dass der neue Knoten $n$ erst später von seinem Vorgänger erfährt und damit auch erst spät alle ihm zugeteilten Daten kennt und zu sich übertragen kann. Hier stellt sich nun die Frage, warum $n$ nicht beim Eintritt seinen Nachfolger $p$ nach dessen altem Vorgänger fragt und somit die Zuständigkeit der Daten gleich beim Eintritt klärt? Eine mögliche Antwort ist, dass dadurch viel Overhead durch das Umkopieren von Daten entstehen würden, ohne dass dadurch das Routing bzw. Auffinden der Daten merklich verbessert würde. Im Falle von häufigen Eintritt und Austritt von Knoten würde das Netz lahm gelegt.
 
-\begin{figure}[htb]
+\begin{figure}[htbp]
 \centering
 \includegraphics{grafics/chord_new_node.pdf}
-\caption{Schlüsselraum von \Fref{fig:chord_key_space} nach Ankunft von Knoten $N20$. Die Zuständigkeit für $K16$ sowie die Fingertabelle von $N1$ (gestrichelte Linien) wurden angepasst.}
+\caption{Schlüsselraum von \Fref[plain]{fig:chord_key_space} nach Ankunft von Knoten $N20$. Die Zuständigkeit für $K16$ sowie die Fingertabelle von $N1$ (gestrichelte Linien) wurden angepasst.}
 \label{fig:chord_new_node}
 \end{figure}
 
@@ -191,7 +191,7 @@ Ausgefallene Knoten werden ebenfalls anhand von timeouts beim Routing entdeckt. 
 Ein verlassender Knoten kann vom System wie ein ausgefallener Knoten behandelt werden, aber wie auch bei Chord ist es nützlich das Verlassen eines Knoten speziell zu behandeln, um die Datenintegrität zu gewährleisten und um unnötigen Nachrichtenversand im System zu vermeiden.
 
 \paragraph{CAN}
-\begin{figure}[htb]
+\begin{figure}[htbp]
 \centering
 \includegraphics{grafics/can_new_node.pdf}
 \caption{Eintritt und Fehlerfall bei CAN. Nach Eintritt von Knoten $N7$ und Aufteilung der Zone von $N4$ ist die Nachbarschaft von $N1 = \{N2, N3, N4, N5, N7\}$. Nach dem Ausfall von $N2$ (rot) vereinigt $N3$ die Zonen.}
@@ -219,11 +219,15 @@ We also show that multicast trees built using Pastry provide higher performance 
 
 \subsection{Fazit}
 
+\begin{table}[htbp]
 \begin{tabular}{l|c|c|c|c} \\
 System & Routing Hops & Node State & Arrival & Departure\\ \hline \\
 Chord & $O(\frac{1}{2}log_2 N)$ & $O(2log_2 N) $ & $ O(log_2^2 N) $ & $ O(log_2^2 N) $
 \label{tab:evaluation_p2p}
 \end{tabular}
+\caption{Tolle Tabelle}
+\label{tab:evaluation_fazit}
+\end{table}
 
 Aufgrund der mageren Ergebnisse in Castros Untersuchung \cite{Castro2003Evaluation} bleibt CAN trotz interessanter Ideen außen vor. Ebenso kann Chord nicht in Betracht gezogen werden, da es kurzzeitige Inkonsistenzen in der Nachbarschaft (und damit dem Routing) geben kann. Weiterhin wird eine größere Latenz im Nachrichtenversand erwartet, da Nachrichten nur in einer Richtung auf dem Ring weitergeleitet werden.
 
