@@ -1,6 +1,7 @@
 syntax: glob
 *.aux
 *.ind
+*.lot
 *.bbl
 *.bak
 *.blg
