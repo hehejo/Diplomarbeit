@@ -75,7 +75,9 @@ Tapestry erzeugt automatische Redundanz, da hier die Daten auf mehrere Knoten ve
 
 
 \paragraph{CAN}
-Der Schlüsselraum bei CAN \cite{Ratnasamy2001Scalable} ist ein d-dimensionaler Torus. Die Schlüssel werden als d-Tupel (zum Beispiel $(x,y)$ für $d=2$) dargestellt. Wie bei Pastry ist der numerisch näheste Knoten für ein Datum zuständig. Der Schlüsselraum ist in nicht überlappende Zonen eingeteilt und hat eine feste Größe. Jeder Knoten \emph{besitzt} eine solche Zone, über deren Ausmaß er definiert ist, und ist damit für alle Daten zuständig, die in dieser Zone liegen. \Fref{fig:can_key_space} zeigt einen zweidimensionalen Schlüsselraum von je 0 - 100 mit den drei Knoten A,B und C und fünf Daten. Der Schlüsselraum ist komplett auf die drei Knoten aufgeteilt, wobei A für den Bereich $(0,50)-(100,100)$, B für $(0,0)-(50,50)$ und C für $(50,0)-(100,50)$ zuständig ist. Ein Schlüssel wird wie bei \ac{dht} üblich über eine segmentierte Hashfunktion berechnet. Jedes Segment bildet dabei eine Dimension ab.
+Der Schlüsselraum bei CAN \cite{Ratnasamy2001Scalable} ist ein d-dimensionaler Torus. Die Schlüssel werden als d-Tupel (zum Beispiel $(x,y)$ für $d=2$) dargestellt. Wie bei Pastry ist der numerisch näheste Knoten für ein Datum zuständig. Der Schlüsselraum ist in nicht überlappende Zonen eingeteilt und hat eine feste Größe. Jeder Knoten \emph{besitzt} eine solche Zone, über deren Ausmaß er definiert ist, und ist damit für alle Daten zuständig, die in dieser Zone liegen. Ein Schlüssel wird wie bei \ac{dht} üblich über eine segmentierte Hashfunktion berechnet. Jedes Segment bildet dabei eine Dimension ab.
+
+\Fref{fig:can_key_space} zeigt einen zweidimensionalen Schlüsselraum von je 0 - 100 mit den drei Knoten A,B und C und fünf Daten. Der Schlüsselraum ist komplett auf die drei Knoten aufgeteilt, wobei A für den Bereich $(0,50)-(100,100)$, B für $(0,0)-(50,50)$ und C für $(50,0)-(100,50)$ zuständig ist.
 
 \begin{figure}[htb]
 \centering
@@ -100,7 +102,7 @@ Jeder Knoten verwaltet neben dem ihm zugeteilten Daten drei Strukturen die dem R
 \begin{figure}[htb]
 \centering
 \includegraphics{grafics/pastry_routing_table.pdf}
-\caption{Routing table, leaf set und neighborhood set (nach \cite{Goetz2005}) des Knoten 103220 für $l=12, b=2$. Einträge in Zeile $i$ haben einen Präfix der Länge $i$ mit dem Knoten $103220$ gemein.}
+\caption{Routing table, leaf set und neighborhood set (nach \cite{Goetz2005}) des Knoten 103220 für $l=12, b=2$. Einträge in Zeile $i$ haben einen Präfix der Länge $i$ mit dem Knoten $103220$ gemein. Die Übereinstimmungen sind zur Verdeutlichung fett hervorgehoben.}
 \label{fig:pastry_routing_table}
 \end{figure}
 
@@ -118,6 +120,22 @@ Das Routing von Tapestry ist sehr ähnlich zu dem hier vorgestellten Routing, al
 
 Pastry genügt den Anforderungen der generischen \ac{api} und ruft in jedem Routingschritt die upcall-Funktion route\_message auf. Durch diese kann gezielt in Routingentscheidungen eingegriffen werden und durch Applikationswissen besser gelegene Knoten als Routinghinweis genutzt werden.
 
+\paragraph{CAN} 
+Die gespeichter Routinginformation ist bei CAN am geringsten: Jeder Knoten speichert lediglich seine Nachbarn, das sind Knoten deren Zonen die Zone des Kontens berühren, ab. Über die Zoneninformation jedes Nachbarn wird nun das Routing bestimmt. Eine Nachricht wird nun an den Knoten geschickt, der aufgrund seiner Zoneninformation näher am Ziel ist.
+
+In \Fref{fig:can_routing} ist ein beispielhafter Schlüsselraum zu sehen. Knoten N1 hat die Knoten N2, N3, N4 und N5 als Nachbarn. Knoten N4 hingegen ist nur mit N1 und N5 benachbart.\\
+Beim Routing kann Applikationswissen genutzt werden, so dass beispielsweise Knoten N2 statt N5 zum Routen der Nachricht von N1 genutzt wird. 
+
+\begin{figure}[htb]
+\centering
+\includegraphics{grafics/can_routing.pdf}
+\caption{Routing und Nachbarschaft bei CAN. Nachbarschaft von $N1 = \{N2, N3, N4, N5\}$ Routing der Nachricht von $N1$ zu $K$ via $N5$. Eine alternative Route via $N2$ ist gestrichelt dargestellt.}
+\label{fig:can_routing}
+\end{figure}
+
+Die durchschnittliche Länge eines Pfades bei $d$ Dimensionen und $n$ Knoten ist $O(d\cdot n^\frac{1}{d})$.
+
+
 \subsection{Nachbarschaft}
 \paragraph{Chord}
 Die Nachbarschaft ist bei Chord begrenzt. Jeder Knoten hat eine Verbindung zu seinem Vorgänger sowie Nachfolger auf dem Ring und hält Einträge in der Fingertabelle vor. In die Routingentscheidungen kann somit nicht direkt eingegriffen werden.
@@ -131,7 +149,11 @@ Da die Größe des leaf set ebenfalls wählbar ist, können hier ebenfalls verme
 \missing{da geht noch was … börp}
 
 \paragraph{CAN}
-Da nur beim Eintritt eines Knotens in das Netzwerk auf die Nähe aus Netzwerksicht geachtet werden kann, sind die genau $2d$ Nachbarn eines Knotens nicht unbedingt nahe.
+Die Nachbarschaft von CAN wurde bereits im vorigen Abschnitt behandelt. Dank deren Einfachheit ist der Ein- und Austritt von Knoten zwar besonders einfach und tangiert nur wenige Knoten im Netz, jedoch kann auf die Nähe aus Netzwerksicht nur beim Eintritt eines Knotens bei der Wahl seiner Koordinate Rücksicht genommen werden.
+
+Die Erhöhung der Dimension bedingt eine größere Nachbarschaft und damit, neben einem kürzerem Routing, auch die Möglichkeit mehr nahe Knoten zusammenzubringen. Als weiterer Punkt, können in CAN sogenante \emph{Realitäten} genutzt werden. Hierbei werden alle Knoten und Daten mehreren CAN-Netzwerken dergestalt zugeordnet, dass sie andere Koordinaten besitzen. In einem System mit $r$ Realitäten muss ein Knoten demnach $z$ verschiedene Zonen und Nachbarschaften verwalten. Jedoch ist damit jedes Datum redundant im System gespeichert und eine Nachricht kann in der Realität übertragen werden, die die kürzeste Route verspricht.
+
+\missing{Soll ich reinbringen, dass Knoten pro Realität anders gruppiert werden könnten? Nähe, virtueller Ort, Team}
 
 \subsection{Eintritt und Austritt (Fehlerfall) von Knoten}
 \paragraph{Chord}
@@ -161,7 +183,7 @@ Knotenausfall bedeutet nicht nur einen Ausfall des Knotens, sondern bedingt, das
 Verlässt ein Knoten das Netz, so beeinflusst dies das System nicht. Jedoch ist es effizienter wenn ein verlassender Knoten seinem Vorgänger und Nachfolger dies mitteilt, die Verbindungen angepasst werden und die Daten explizit übertragen werden.
 
 \paragraph{Pastry / Tapestry}
-Einem neuen Knoten $n$ wird von Applikationsseite ein freiwählbarer Schlüssel gegeben. Meist berechnet sich dieser Schlüssel anhand dem Hashwert der IP oder seines öffentlichen Namens. Weiterhin geht das System davon aus, dass $n$ aus einer Liste bekannter Knoten denjenigen Knoten $x$ wählen kann, der aus Netzwerksicht am nähesten ist. Von diesem Knoten kann das neighborhood set kopiert werden. Zum Aufbau der Routingtabelle und des leaf set lässt $n$ via $x$ eine \emph{JOIN}-Nachricht an einen numerisch nahen Schlüssel zu $n$ routen. Diese Nachricht gelangt schließlich zu Knoten $c$, von dem das leaf set kopiert werden kann, da $c$ und $n$ sich nahe sind. Alle Knoten die diese JOIN-Nachricht weiterleiten senden ihre Routingtabelle an $n$. Für jeden Routinghop kopiert sich $n$ die entsprechende Zeile aus der Routingtabelle, da ausgehend von keiner Präfixübereinstimmung mit dem nahen Knoten $x$, jeder weitere Hop eine größere Präfixübereinstimmung bringt.\\
+Einem neuen Knoten $n$ wird von Applikationsseite ein freiwählbarer Schlüssel gegeben. Meist berechnet sich dieser Schlüssel anhand dem Hashwert der IP oder seines öffentlichen Namens. Weiterhin geht das System davon aus, dass $n$ aus einer Liste bekannter Knoten denjenigen Knoten $x$ wählen kann, der aus Netzwerksicht am nähesten ist. Von diesem Knoten kann das neighborhood set kopiert werden. Zum Aufbau der Routingtabelle und des leaf set lässt $n$ via $x$ eine \emph{JOIN}-Nachricht an einen numerisch nahen Schlüssel zu $n$ routen. Diese Nachricht gelangt schließlich zu Knoten $c$, von dem das leaf set kopiert werden kann, da $c$ und $n$ sich nahe sind. Alle Knoten die diese \emph{JOIN}-Nachricht weiterleiten senden ihre Routingtabelle an $n$. Für jeden Routinghop kopiert sich $n$ die entsprechende Zeile aus der Routingtabelle, da ausgehend von keiner Präfixübereinstimmung mit dem nahen Knoten $x$, jeder weitere Hop eine größere Präfixübereinstimmung bringt.\\
 Im Gegensatz zur nachträglichen Aktualisierung bei Chord, wird nun die gesamte Routinginformation an alle bekannte Knoten gesendet. Der neue Knoten ist nun im Netzwerk bekannt und erreichbar.
 
 Ausgefallene Knoten werden ebenfalls anhand von timeouts beim Routing entdeckt. Da die Einträge des neighborhood set nicht im Routing involviert sind, müssen diese periodisch geprüft werden. Fehlerhafte Einträge in der Routingtablle können über einen anderen Eintrag mit gleicher Präfixübereinstimmung kompensiert werden, müssen aber entfernt werden um ein stabiles und sicheres Routing zu ermöglichen. Hierzu können von benachbarten Einträgen Routinginformationen angefordert werden um die entstandene Lücke zu füllen. Ein fehlerhafter Eintrag im leaf set (neighborhood set)Damit hat das Routing eine Komplexität von $O(log N)$. kann auf ähnliche Weise repariert werden, hier werden Informationen von den anderen Einträgen im leaf set  (neighborhood set) angefordert.
@@ -169,6 +191,22 @@ Ausgefallene Knoten werden ebenfalls anhand von timeouts beim Routing entdeckt. 
 Ein verlassender Knoten kann vom System wie ein ausgefallener Knoten behandelt werden, aber wie auch bei Chord ist es nützlich das Verlassen eines Knoten speziell zu behandeln, um die Datenintegrität zu gewährleisten und um unnötigen Nachrichtenversand im System zu vermeiden.
 
 \paragraph{CAN}
+\begin{figure}[htb]
+\centering
+\includegraphics{grafics/can_new_node.pdf}
+\caption{Eintritt und Fehlerfall bei CAN. Nach Eintritt von Knoten $N7$ und Aufteilung der Zone von $N4$ ist die Nachbarschaft von $N1 = \{N2, N3, N4, N5, N7\}$. Nach dem Ausfall von $N2$ (rot) vereinigt $N3$ die Zonen.}
+\label{fig:can_new_node}
+\end{figure}
+
+Für den Eintritt eines neuen Knoten n muss wieder ein Knoten b aus dem Netz bekannt sein. Eine Koordinate im Schlüsselraum wird n zugewiesen und eine spezielle \emph{JOIN}-Nachricht via d an die gewählte Koordinate gesendet. Ist diese Nachricht über das normale Routing bei dem für diese Koordinate zuständigem Knoten d angekommen, halbiert dieser seine Zone und weist eine Hälfte dem neuen Knoten n zu. Die Aufteilung der Zonen erfolgt dabei anhand einer Reihenfolge der Dimensionen. Dies vereinfacht die Aufteilungs- sowie die Zusammenführungsprozedur. Letzlich kopiert d alle Daten aus dieser neuen Zone zu n. Knoten d schickt n seine Nachbarschaftsinformationen und trägt diesen selbst als neuen Nachbarn ein. Knoten n teilt seine Anwesenheit sofort seinen neuen Nachbarn mit. Der Neueintritt eines Knotens ist damit auf ein paar Nachrichten zwischen der Nachbarn begrenzt und beineträchtigt das übrige Netzwerk nicht. Über periodische \emph{UPDATE}-Nachrichten halten sich Nachbarn stets aktuell und senden ihre eigene Nachbarschaftsinformationen an ihre Nachbarn.\\
+In \Fref{fig:can_new_node} ist solch ein Eintritt für Knoten N7 aufgezeigt. Nach Teilung der Zone von N4 verändert sich die Nachbarschaft von N1: Knoten N7 kommt neu hinzu.
+
+Ausstehende \emph{UPDATE}-Nachrichten oder Timeouts weisen auf ausgefallene Knoten hin. Werden diese zum Routen einer Nachricht benutzt stellt dies keine direkte Beeinträchtigung des Netzes dar, da die Nachricht über einen anderen Nachbarn verschickt werden kann. So könnte N1 auch N2 zum Nachrichtenversand nutzen, wenn N5 ausgefallen wäre (vergleiche \Fref{fig:can_routing}).
+
+Ein Knoten der einen ausfallenden Peer entdeckt hat, startet einen Timer, dessen Dauer proportial zur Zonengröße ist. Nach Ablauf sender der Knoten eine spezielle \emph{TAKEOVER}-Nachricht an alle Nachbarn des ausgefallen Knotens\footnote{Dieses Wissen ist durch vorhergegangenge \emph{UPDATE}-Nachrichten bekannt.}. Erreicht eine \emph{TAKEOVER}-Nachricht einen Knoten, stoppt dieser seinen eigenen Timer falls seine Zone größer als die des Sender ist. Andernfalls antwortet er selbst mit seiner \emph{TAKEOVER}-Nachricht. Auf diese Weise wird der Nachbar mit der kleinsten Zone gefunden. Dieser ist nun der neue Besitzer der Zone und fügt seine beiden Zonen zusammen wie es in \Fref{fig:can_new_node} am Beispiel von N2 und N3 ersichtlich ist. N2 (rot dargestellt) ist ausgefallen und N3 vergrößert seine Zone. N2 ist nun nicht mehr in der Nachbarschaft von N1 enthalten. Es ist möglich, dass ein Knoten Besitzer zweier Zonen wird, die nicht zusammenfügbar sind. (Ein Beispiel hierfür ist Knoten N4 der beim Ausfall von N5 dessen Zone übernimmt.) Ein Hintergrundprozess defragmentiert solche Zonen und weist Knoten gegebenenfalls neue Koordinaten zu.\\
+Damit es zu keinem Ausfall von Daten kommt, wird eine periodische Auffrischung der Daten vorgeschlagen.
+
+Möchte ein Knoten l das System verlassen, so sucht er einen Nachbarn mit der kleinsten Zone und sendet diesem seine Daten. Dieser Nachbar informiert nun die alten Nachbarn von l über die geänderte Nachbarschaft.
 
 \subsection{Nutzbarkeit als Basis für \ac{cast}}
 \paragraph{Chord}
