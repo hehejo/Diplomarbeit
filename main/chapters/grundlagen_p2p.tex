@@ -4,17 +4,17 @@
 Sie sind sehr beliebt, Filesharing, Verteilen von Daten, schneller und kostengünstiger Download (BitTorrent).
 
 p2p-Netzwerke lassen sich grundsätzlich in zwei Arten einteilen \cite{Steinmetz2005, Lua2005Survey}: 
-\begin{itemize}
+\begin{itemize*}
 \item unstrukturiert\footnote{z.B. Napster, Gnutella}
 \item strukturiert\footnote{z.B. Chord, Pastry}
-\end{itemize}
+\end{itemize*}
 
 Da strukturierte Netze später entstanden sind, lassen sich die einzelnen Netze grob in drei Generationen einteilen \cite{Bo2003PeertoPeer}:
-\begin{itemize}
+\begin{itemize*}
 	\item \emph{1G}: unstrukturierte Netzwerke
 	\item \emph{2G}: strukturierte Netzwerke
 	\item \emph{3G}: strukturierte Netzwerke mit Fokus auf Anonymität, Authentifizierung, Schutz vor Zensur und verschiedenen Rollen der einzelnen Knoten
-\end{itemize}
+\end{itemize*}
 
 Netzwerke der dritten Generation, wie z.B. GNUnet\footnote{http://www.gnunet.org} \cite{Grothoff2002GNET} werden nicht näher betrachtet, da die zusätzlich angebotene Funktionalität in dieser Arbeit nicht benötigt wird beziehungsweise darauf kein Fokus liegt. Clients werden weiterhin über den Masterserver authentifiziert und sollen naturgemäß nicht anonym agieren. Weiterhin wird angenommen, dass Clients keinerlei Betrugsversuche unternehmen und auch sonst kein schadhaftes Verhalten zeigen.\\
 In \Fref{chap:grundlagen:cheating} wird ein Überblick möglicher Betrugsarten aufgeührt und auf weitere Literatur zur Betrugsverhinderung beziehungsweise Prävention verwiesen.
@@ -26,10 +26,10 @@ Unstrukturierte Netzwerke\index{Netzwerk!Overlay!unstrukturiert} zeichnen sich d
 Ein Client tritt dem Netzwerk bei und stellt seine Suchanfrage z.B. über diverse Flooding-Algorithmen in das Netz. Werden entsprechende Peers gefunden die diese Suchanfrage beantworten können, werden zum Transfer Direktverbindungen aufgebaut. Aufgrund der einfachen (meist textbasierten) Struktur der Suchanfragen können diese einen weiten Wertebereich abdecken.
 
 Im Wesentlichen gibt es wiederum zwei unterschiedliche Arten:
-\begin{itemize}
+\begin{itemize*}
 \item zentralisiert
 \item dezentralisiert
-\end{itemize}
+\end{itemize*}
 
 Obwohl in dieser Arbeit keine Netze nach dem Motto \emph{Information finden und per Direktverbindung übertragen} sondern eher nach dem Motto \emph{Daten geschickt zwischen den Knoten verteilen} gebraucht werden, werden die verschiedenen Typen am Aspekt des \emph{Filesharing} erklärt, da dieser recht eingängig ist.\\
 \missing{mäh}
