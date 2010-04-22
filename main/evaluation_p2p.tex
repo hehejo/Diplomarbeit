@@ -168,7 +168,7 @@ Die Aktualisierung der Fingertabelle \emph{fix\_fingers} wird ebenfalls auf jede
 Die Verzögerte Aktualisierung hat keinen großen Einfluss auf die Korrektheit oder Geschwindigkeit des Routings, da Nachrichten an $a$ über die Nachfolger- beziehungsweise Vorgängerverbindungen der Knoten um $a$ weitergeleitet werden und somit lediglich ein weiterer Knoten involviert ist.\\
 Bei einer LOOKUP(n)-Nachricht gibt der Vorgänger von n den jeweils richtigen Knoten zurück oder leitet diese Nachricht noch einmal an seinen Nachfolger weiter. Bei einer normalen Nachricht, die zum Nachfolger geroutet werden würde, kann dieser feststellen, dass er nicht mehr für das Datum zuständig ist und die Nachricht an seinen Vorgänger weiterleiten beziehungsweise selbst antworten, wenn die Daten noch nicht umkopiert sind. 
 
-Dies bedeutet allerdings, dass der neue Knoten $n$ erst später von seinem Vorgänger erfährt und damit auch erst spät alle ihm zugeteilten Daten kennt und zu sich übertragen kann. Hier stellt sich nun die Frage, warum $n$ nicht beim Eintritt seinen Nachfolger $p$ nach dessen altem Vorgänger fragt und somit die Zuständigkeit der Daten gleich beim Eintritt klärt? Eine mögliche Antwort ist, dass dadurch viel Overhead durch das Umkopieren von Daten entstehen würden, ohne dass dadurch das Routing bzw. Auffinden der Daten merklich verbessert würde. Im Falle von häufigen Eintritt und Austritt von Knoten würde das Netz lahm gelegt.
+Dies bedeutet allerdings, dass der neue Knoten $n$ erst später von seinem Vorgänger erfährt und damit auch erst spät alle ihm zugeteilten Daten kennt und zu sich übertragen kann.
 
 \begin{figure}[htbp]
 \centering
@@ -223,29 +223,32 @@ We also show that multicast trees built using Pastry provide higher performance 
 \subsection{Fazit}
 Eine generelle Übersicht der Systeme stellt \Fref{tab:evaluation_fazit} dar. Jedes System hat eigene Schwächen und Stärken. So bezahlt CAN einen günstigen Ein- und Austritt der Knoten dank der kleinen Nachbarschaft mit mehr Routing Hops als beispielsweise Chord. Dieses hat durch seine Fingertabelle wiederum mehr Einfluss auf das Routing - aber aktualisiert diese Tabellen teilsweise nachträglich im Hintergrund während dies bei Pastry aktiv geschieht.
 
+\Fref{tab:evaluation_fazit} (Auszug aus \cite{Goetz2005}) listet die durchschnittlich anfallenden Kosten (Routing Hops, Größe der Routinginformation, Nachrichtenanzahl beim Ein- und Austritt) für die drei getesten System auf.
+
 \begin{table}[htbp]
 \centering
 \begin{tabular}{l|c|c|c|c}
  & Routing Hops & Routinginformation & Eintritt & Austritt\\ \hline  
-Chord & $O(\frac{1}{2}log n)$ & $O(2log n) $ & $ O(log^2 n) $ & $ O(log^2 n) $ \\
-Pastry & $O(\frac{1}{b}log n)$ & $O(\frac{1}{b} (2^b-1) log n) $ & $ O(log^b n) $ & $ O(log_b n) $ \\
+Chord & $O(\frac{1}{2}log~n)$ & $O(2log~n) $ & $ O(log^2 n) $ & $ O(log^2 n) $ \\
+Pastry & $O(\frac{1}{b}log~n)$ & $O(\frac{1}{b} (2^b-1) log~n) $ & $ O(log_{2^b}~n) $ & $ O(mlog_b~n) $ \\
 CAN & $O(\frac{d}{2}n^\frac{1}{d})	$ & $O(2 d) $ & $ O(\frac{d}{2}N^\frac{1}{d}) $ & $ O(2 d) $
-\label{tab:evaluation_p2p}
 \end{tabular}
-\caption{Vergleich der Systeme Chord, Pastry und CAN anhand Routing Hops, Routinginformationen und Eintritt beziehungsweise Austritt von Knoten. Wenn nicht anders angegeben bezeichnet $log$ $log_2$. $n$ ist die Anzahl der Knoten, $b$ die Anzahl der darstellenden Basis bei Pastry und $d$ die Anzahl der Dimensionen bei CAN. (aus \cite{Goetz2005})}
+\caption{Vergleich der Systeme Chord, Pastry und CAN anhand einiger Gesichtspunkte. Wenn nicht anders angegeben bezeichnet $log$ $log_2$. $n$ ist die Anzahl der Knoten, $b$ die Anzahl der darstellenden Basis bei Pastry und $d$ die Anzahl der Dimensionen bei CAN. (aus \cite{Goetz2005})}
 \label{tab:evaluation_fazit}
 \end{table}
 
 
 Ein einfaches Ranking der untersuchten Systeme ordnet diese anhand der eingangs gestellten Anforderungen.
-\begin{multicols}{2}
+%\begin{multicols}{2}
 
-\paragraph{geringe Latenz}
+\paragraph{Geringe Latenz und Kommunikation über das Netzwerk}
 \begin{enumerate*}
 \item Pastry/Tapestry
 \item Chord
 \item CAN
 \end{enumerate*}
+Bei Pastry/Tapestry sind die kürzesten Routen und damit auch oftmals geringste Latenz im Nachrichtenversand zu erwarten, da die Routingtabelle im Vergleich zu Chord und CAN mehr Einträge enthält und diese einfacher mit - aus Netzwerksicht - nahen Peers belegt werden kann. Bei CAN hingegen wird das langsamste Routing erwartet, da Nachrichten nur zwischen benachbarten Knoten ausgetauscht werden kann. Sprünge (via Fingertabellen) sind nicht vorgesehen.\\
+Die Erwartungen decken sich mit den Werten in \Fref{tab:evaluation_fazit}.
 
 
 \paragraph{Skalierbarkeit}
@@ -254,6 +257,7 @@ Ein einfaches Ranking der untersuchten Systeme ordnet diese anhand der eingangs 
 \item Pastry/Tapestry
 \item Chord
 \end{enumerate*}
+CAN steht hier an erster Stelle, da Ein- und Austritte von Peers nur wenige Knoten im Netz betreffen. Auch bei vielen Ein- und Austritten leidet das Netz unter keiner großen Nachrichtenlast. Allerdings leidet die Kommunikation in großen Netzen (siehe obigen Punkt). Chord liegt auf dem letzten Platz, da das Netzwerk erst durch später aufgerufene Methoden vollkommen funktionsfähig wird (siehe \emph{Eintritt und Austritt (Fehlerfall) von Knoten}). Hier stellt sich nun die Frage, warum ein neuer Knoten $n$ nicht beim Eintritt seinen Nachfolger $p$ nach dessen altem Vorgänger fragt und somit die Zuständigkeit der Daten gleich beim Eintritt klärt? Eine mögliche Antwort ist, dass dadurch viel Overhead durch das Umkopieren von Daten entstehen würden, ohne dass dadurch das Routing bzw. Auffinden der Daten merklich verbessert würde. Im Falle von häufigen Eintritt und Austritt von Knoten würde das Netz lahm gelegt. Pastry und Tapestry liegen auf zweitem Platz; der Aufbau der Routingtabelle erfolgt in vielen kleinen Schritten - dafür ist ein Knoten danach ein vollwertiger Peer im System.
 
 \paragraph{Fehlertoleranz bei Knotenausfall}
 \begin{enumerate*}
@@ -261,12 +265,6 @@ Ein einfaches Ranking der untersuchten Systeme ordnet diese anhand der eingangs 
 \item Chord
 \end{enumerate*}
 
-\paragraph{Kommunikation über das Netzwerk}
-\begin{enumerate*}
-\item Pastry/Tapestry
-\item Chord
-\item CAN
-\end{enumerate*}
 
 \paragraph{Bestimmung der Nachbarschaft}
 \begin{enumerate*}
@@ -274,6 +272,7 @@ Ein einfaches Ranking der untersuchten Systeme ordnet diese anhand der eingangs 
 \item Chord
 \item CAN
 \end{enumerate*}
+Allein die Größe der Routingtabelle bedingt, dass bei Pastry und Tapestry mehr Einfluss auf die Zusammenstellung genommen werden kann. Bei CAN gibt es faktisch nur eine Entscheidung bei Eintritt in das Netz, Chord bietet bietet über die Fingertabelle minimaleren Einfluss, währen bei Pastry explizit das Neighborhood Set eingesetzt wird um eventuelle Lücken in der Routingtabelle geschickt zu besetzen.
 
 \paragraph{Eingriff in Routingentscheidungen}
 \begin{enumerate*}
@@ -281,6 +280,7 @@ Ein einfaches Ranking der untersuchten Systeme ordnet diese anhand der eingangs 
 \item Chord
 \item CAN
 \end{enumerate*}
+Das Routing bei CAN kann nur bedingt beeinflusst werden: An welchen Nachbarn soll die Nachricht geschickt werden. Chord hingegen bietet mit seiner Fingertabelle mehr Variationsmöglichkeiten - allerdings nur für die zu überbrückende Distanz im Schlüsselraum. Pastry und Tapestry verbinden diese Variationen mit vielfältigen Nachbarschaftsoptionen (siehe oben).
 
 \paragraph{Unterbau für \ac{cast}}
 \begin{enumerate*}
@@ -288,13 +288,13 @@ Ein einfaches Ranking der untersuchten Systeme ordnet diese anhand der eingangs 
 \item CAN
 \item Chord
 \end{enumerate*}
+Pastry und Tapestry zeigen durch die Implementierung von Scribe und Bayeux, dass sie als Unterbau für \ac{cast} sehr wohl geeignet sind.
 
-
-\end{multicols}
+%\end{multicols}
 
 Aufgrund der mageren Ergebnisse in Castros Untersuchung \cite{Castro2003Evaluation} bleibt CAN trotz interessanter Ideen außen vor. Ebenso kann Chord nicht in Betracht gezogen werden, da es kurzzeitige Inkonsistenzen in der Nachbarschaft (und damit dem Routing) geben kann. Weiterhin wird eine größere Latenz im Nachrichtenversand erwartet, da Nachrichten nur in einer Richtung auf dem Ring weitergeleitet werden.
 
-Pastry und Tapestry zeigen durch die Implementierung von Scribe und Bayeux \cite{Castro2002Scribe, Zhuang2001} dass sie als Unterbau für \ac{cast} sehr wohl geeignet sind. Pastry ist jedoch nur als Javabibliothek\footnote{http://www.freepastry.org} verfügbar und die Entwicklung von Tapestry (ebenfalls in Java implementiert) wurde mit Version 2.01 eingestellt.
+ Pastry ist jedoch nur als Javabibliothek\footnote{http://www.freepastry.org} verfügbar und die Entwicklung von Tapestry (ebenfalls in Java implementiert) wurde mit Version 2.01 eingestellt.
 
 Chimera ist der Nachfolger von Tapestry und vereint laut Homepage\footnote{http://current.cs.ucsb.edu/projects/chimera/index.html} das Beste von Pastry und Tapestry in sich: 
 \missing{PFUI! Lieber schreiben, dass es keine Publikationen gibt, weil es keine neue Forschung ist, sondern einfach nur ne Neuimplementierung die Sachen aufgreift!!}
