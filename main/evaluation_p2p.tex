@@ -1,3 +1,6 @@
+\chapter{Evaluation p2p Overlay-Netzwerke}
+\label{chap:evaluation_p2p}
+
 Dieses Kapitel bietet einen Überblick über einige p2p-Netzwerke und evaluiert diese anhand gestellter Anforderungen. Diese Evaluation beeinflusst die Entscheidung für ein Overlay-Netzwerk, auf das schließlich, das in dieser Arbeit zu entwickelnde, generische Publish/Subscribe-System gesetzt wird. Die Evaluation bedient sich zahlreicher Arbeiten, die sich alleine dem Vergleich dieser Netzwerke widmen \cite{Lua2005Survey, Goetz2005, Li2004Comparing, Darlagiannis2006Peertopeer, Castro2002Secure, Bo2003PeertoPeer} und geht auch auf ihre Nutzbarkeit als Basis für \emph{Application level multicast} sprich ein Publish/Subscribe-System ein \cite{Hosseini2007Survey, Fahmy2007, Castro2003Evaluation, Ratnasamy2001}.
 
 Zuvor müssen jedoch die eigenen Anforderungen an solche Systeme identifiziert werden. Zu den offensichtlichen Anforderungen wie beispielsweise \emph{Skalierbarkeit} gesellen sich jedoch auch spezielle Anforderungen aus Spielsicht hinzu. Diese sind beispielsweise das Vorhandensein eines Masterservers oder das Übertragen von Applikationswissen auf das Netzwerk um damit dessen Entscheidungen bezüglich Nachbarschaften oder Versand von Nachrichten (Routing) zu beeinflussen.
@@ -20,7 +23,7 @@ Interessant hierbei ist auch die eingebaute Redundanz einiger Systeme, die Daten
 \paragraph{Verfügbarkeit als C/C++-Bibliothek} Da der Prototyp dieser Arbeit sowie das Umfeld in C++ entwickelt wird, gibt es damit eine weitere Anforderung an das Netzwerk: Die Verfügbarkeit als C/C++-Bibliothek.\\
 Damit ist das Netzwerk einfach aus bestehendem Code nutzbar ohne dass kostenintensive Brücken zwischen beispielsweise Java und C++ geschlagen werden müssen. Da zudem betriebssystemübergreifend\footnote{In unserem Fall auf Windows und Linux} entwickelt und getestet wird, ist außerdem ein zur Verfügung stehender Quellcode vorteilhaft. Nur dadurch ist es möglich eventuellen betriebssystembezogen Netzwerk- oder Threadcode auf  Boost\footnote{Zahlreiche Bibliotheken für C++: http://www.boost.org} zu portieren um somit eine betriebssystemübergreifende Benutzung zu ermöglichen.
 
-\paragraph{Unterbau eines Publish/Subscribe-Systems} Das Overlay-Netzwerk muss so gestaltet sein, dass es dem Anwendungsfall \emph{Application level multicast} genügt und dessen besondere Anforderungen (auch von Spielseite)\footnote{siehe \Fref{chap:evaluation_pubsub}} her unterstützt.
+\paragraph{Unterbau eines Publish/Subscribe-Systems} Das Overlay-Netzwerk muss so gestaltet sein, dass es dem Anwendungsfall \emph{Application level multicast} genügt und dessen besondere Anforderungen (auch von Spielseite)\footnote{siehe \Fref{chap:konzeption_pubsub}} her unterstützt.
 
 Anhand dieser Anforderungen sind unstrukturierte Netzwerke nicht als Netzwerksystem für dieser Arbeit geeignet. Eine Suche, bzw. Datenübertragung durch Flooding widerspricht klar der Anforderung nach geringer Latenz. Ebenso sind diese Netzwerke auf eine Übertragung via Direktverbindung ausgelegt.
 
@@ -29,7 +32,7 @@ Daraus ergibt sich eine weitere spezielle Anforderung an das Overlay-Netzwerk:
 
 \paragraph{Anpassbarkeit an generische \ac{api}} Lässt sich das Netzwerk der generischen \ac{api} anpassen, gewinnt das an Flexibilität, da die Netzwerkschicht ohne große Änderungen an den restlichen Systemschichten ausgetauscht und verändert werden kann.
 
-\input{main/chapters/evaluation_p2p_genericapi.tex}
+\input{main/evaluation_p2p_genericapi.tex}
 
 
 \section{Evaluation}

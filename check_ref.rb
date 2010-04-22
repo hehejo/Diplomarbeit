@@ -3,20 +3,14 @@
 labels = []
 refs = []
 
-`grep -ho '\\Fref{.*}' main/chapters/*.tex`.each_line do |l|
+`grep -ho '\\Fref{.*}' main/*.tex`.each_line do |l|
 	refs << l.split('{')[1].split('}')[0]
 end
 
 
-`grep -ho '\\label{.*}' main/chapters/*.tex`.each_line do |l|
-	labels << l.split('{')[1].split('}')[0]
-end
-
 `grep -ho '\\label{.*}' main/*.tex`.each_line do |l|
 	labels << l.split('{')[1].split('}')[0]
 end
-
-
 
 labels.sort!
 refs.uniq!.sort! 

@@ -1,8 +1,10 @@
 \documentclass[a4paper,12pt,BCOR8.25mm,headsepline,final,twoside,bibtotoc,liststotoc,fleqn]{scrbook}
 
-\include{latex/includes}
+\input{latex/includes}
 
-\include{latex/trennungen}
+\input{latex/trennungen}
+
+\includeonly{intro/titlepage,intro/rechtsbehelf,intro/abstract,main/einleitung,main/grundlagen,main/evaluation_p2p,main/konzeption_pubsub,main/related_work,main/zusammenfassung,main/anhang }
 
 \begin{document}
 
@@ -14,14 +16,11 @@
   \includepdf[pages={1,{}}]{intro/Deckblatt.pdf}
 \fi
 
-\input{intro/titlepage}
+\include{intro/titlepage}
 
-\input{intro/rechtsbehelf}
+\include{intro/rechtsbehelf}
 
 \selectlanguage{ngerman}
-
-\pagestyle{empty}
-%\include{task}
 
 \pagestyle{useheadings}
 
@@ -29,24 +28,36 @@
 \pagenumbering{Roman}
 \include{intro/abstract}
 \selectlanguage{ngerman}
-\clearpage{\pagestyle{plain}\cleardoublepage}
+%\clearpage{\pagestyle{plain}\cleardoublepage}
 
 \tableofcontents
 \listoffigures
+%\clearpage{\pagestyle{plain}\cleardoublepage}
 \listoftables
-\clearpage{\pagestyle{plain}\cleardoublepage}
+%\clearpage{\pagestyle{plain}\cleardoublepage}
 \lstlistoflistings
 %\listofalgorithms
 
-\clearpage{\pagestyle{plain}\cleardoublepage}
-
-\include{main/chapters/acronyms}
-
+%\clearpage{\pagestyle{plain}\cleardoublepage}
+\input{main/acronyms}
 
 
 \mainmatter
 
-\include{main/toc}
+% CONTENT START
+
+\include{main/einleitung}
+\include{main/grundlagen}
+\include{main/evaluation_p2p}
+\include{main/konzeption_pubsub}
+\include{main/related_work}
+\include{main/zusammenfassung}
+
+\appendix
+
+\include{main/anhang}
+
+% CONTENT END
 
 
 %\manualmark
