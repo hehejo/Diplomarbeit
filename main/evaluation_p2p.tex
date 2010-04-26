@@ -32,6 +32,7 @@ Daraus ergibt sich eine weitere spezielle Anforderung an das Overlay-Netzwerk:
 
 \paragraph{Anpassbarkeit an generische \ac{api}} Lässt sich das Netzwerk der generischen \ac{api} anpassen, gewinnt das an Flexibilität, da die Netzwerkschicht ohne große Änderungen an den restlichen Systemschichten ausgetauscht und verändert werden kann.
 
+
 \input{main/evaluation_p2p_genericapi.tex}
 
 
@@ -119,7 +120,7 @@ Da Nachrichten immer an Knoten mit einer größeren Übereinstimmung oder an nä
 
 Dadurch verringert sich die Anzahl der Knoten mit längeren Präfixübereinstimmungen in jedem Schritt um mindestens den Faktor $2^b$. Somit hat das Routing eine Komplexität von $O(log_{2^b} N)$.
 
-Das Routing von Tapestry ist sehr ähnlich zu dem hier vorgestellten Routing, allerdings nutzt Tapestry ein suffix-basiertes System.
+Das Routing von Tapestry ist sehr ähnlich zu dem hier vorgestellten Routing, allerdings nutzt Tapestry ein suffix-basiertes System. Ebenso speichert Tapestry in einem Eintrag der Routingtabelle mehrer mögliche Peers. So kann bei einem Ausfall schneller ein Ersatz gefunden werden.
 
 Pastry genügt den Anforderungen der generischen \ac{api} und ruft in jedem Routingschritt die upcall-Funktion route\_message auf. Durch diese kann gezielt in Routingentscheidungen eingegriffen werden und durch Applikationswissen besser gelegene Knoten als Routinghinweis genutzt werden.
 
@@ -237,9 +238,10 @@ CAN & $O(\frac{d}{2}n^\frac{1}{d})	$ & $O(2 d) $ & $ O(\frac{d}{2}N^\frac{1}{d})
 \label{tab:evaluation_fazit}
 \end{table}
 
+Xu untersucht den Zusammenhang zwischen Größe der Routinginformationen und Anzahl der Routinghops. Für uniformes Routing (d.h. das Routing ist bei allen Peers gleich) sind $O(log~n)$ beziehungsweise $O(n\frac{1}{d})$ Hops für Routingtabellen der Größe $O(log~n)$ beziehungsweise $O(d)$ die asymtothischen Grenze \cite{Xu2004Fundamental}. Die vorgestellen \ac{dht}-basierten Netzwerke nutzen ein uniformes Routing.
+
 
 Ein einfaches Ranking der untersuchten Systeme ordnet diese anhand der eingangs gestellten Anforderungen.
-%\begin{multicols}{2}
 
 \paragraph{Geringe Latenz und Kommunikation über das Netzwerk}
 \begin{enumerate*}
@@ -247,8 +249,14 @@ Ein einfaches Ranking der untersuchten Systeme ordnet diese anhand der eingangs 
 \item Chord
 \item CAN
 \end{enumerate*}
-Bei Pastry/Tapestry sind die kürzesten Routen und damit auch oftmals geringste Latenz im Nachrichtenversand zu erwarten, da die Routingtabelle im Vergleich zu Chord und CAN mehr Einträge enthält und diese einfacher mit - aus Netzwerksicht - nahen Peers belegt werden kann. Bei CAN hingegen wird das langsamste Routing erwartet, da Nachrichten nur zwischen benachbarten Knoten ausgetauscht werden kann. Sprünge (via Fingertabellen) sind nicht vorgesehen.\\
-Die Erwartungen decken sich mit den Werten in \Fref{tab:evaluation_fazit}.
+Bei Pastry/Tapestry sind die kürzesten Routen und damit auch oftmals geringste Latenz im Nachrichtenversand zu erwarten, da die Routingtabelle im Vergleich zu Chord und CAN mehr Einträge enthält und diese einfacher mit - aus Netzwerksicht - nahen Peers belegt werden kann. Bei CAN hingegen wird das langsamste Routing erwartet, da Nachrichten nur zwischen benachbarten Knoten ausgetauscht werden kann. Sprünge (via Fingertabellen) sind nicht vorgesehen. Die Erwartungen decken sich mit den Werten in \Fref{tab:evaluation_fazit}.
+
+Li stellt für verschiedene Parametereinstellungen der Netzwerke deren Bandbreite und Latenz gegenüber und untersucht dabei das Verhalten
+bei gehäuften Ein- und Austritten von Knoten. Hier ist Chord leicht im Vorteil, da lediglich der Verweis auf den Nachfolgeknoten für das korrekte Routing erforderlich ist. Bei allen Netzwerken pendelt sich die Latenz im \emph{worst cast} auf 250ms ein \cite{Li2004Comparing}.
+
+Die Vorteile der Kommunikation bei Pastry/Tapestry überwiegen für unseren Anwendungsfall.
+
+\missing{Oh, das ist schlecht}
 
 
 \paragraph{Skalierbarkeit}
@@ -290,7 +298,7 @@ Das Routing bei CAN kann nur bedingt beeinflusst werden: An welchen Nachbarn sol
 \end{enumerate*}
 Pastry und Tapestry zeigen durch die Implementierung von Scribe und Bayeux, dass sie als Unterbau für \ac{cast} sehr wohl geeignet sind.
 
-%\end{multicols}
+
 
 Aufgrund der mageren Ergebnisse in Castros Untersuchung \cite{Castro2003Evaluation} bleibt CAN trotz interessanter Ideen außen vor. Ebenso kann Chord nicht in Betracht gezogen werden, da es kurzzeitige Inkonsistenzen in der Nachbarschaft (und damit dem Routing) geben kann. Weiterhin wird eine größere Latenz im Nachrichtenversand erwartet, da Nachrichten nur in einer Richtung auf dem Ring weitergeleitet werden.
 
