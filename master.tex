@@ -2,19 +2,19 @@
 
 \input{latex/includes}
 
-\input{latex/trennungen}
+\hyphenation{Ei-gen-schaf-ten}
 
 \includeonly{
-intro/titlepage,
-intro/rechtsbehelf,
-intro/abstract,
-main/einleitung,
+%intro/titlepage,
+%intro/rechtsbehelf,
+%intro/abstract,
+%main/einleitung,
 main/grundlagen,
 main/evaluation_p2p,
-main/konzeption_pubsub,
-main/related_work,
-main/zusammenfassung,
-main/anhang
+%main/konzeption_pubsub,
+%main/related_work,
+%main/zusammenfassung,
+%main/anhang
 }
 
 \begin{document}
@@ -70,11 +70,6 @@ main/anhang
 
 % CONTENT END
 
-
-%\manualmark
-%\markleft{Abkürzungsverzeichnis}
-%\markright{Abkürzungsverzeichnis}
-%\printglossary
 \cleardoublepage
 
 \automark[chapter]{section}
@@ -84,6 +79,7 @@ main/anhang
 \renewcommand{\indexname}{Stichwortverzeichnis}
 	 
 % Stichwortverzeichnis soll im Inhaltsverzeichnis auftauchen
+\phantomsection
 \addcontentsline{toc}{chapter}{\indexname}
 
 \markleft{\indexname}

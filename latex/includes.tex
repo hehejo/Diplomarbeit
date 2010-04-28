@@ -9,29 +9,12 @@
 \hbadness=1000 % Gejammere ueber overfull/underfull boxes einstellbar (default=1000)
 
 \usepackage{colortbl}%Tabellenfarben
-\usepackage{ae,aecompl}
-%\usepackage{hyphenat}
+%\usepackage{ae,aecompl}
 \definecolor{black}{rgb}{0,0,0}
 \usepackage[plainpages=false, pdfpagelabels, colorlinks=true, linkcolor=black, menucolor=black, urlcolor=black, citecolor=black]{hyperref}
 
 
-%\usepackage{subeqn} % fuer verschachtelt numerierte Gleichungen ist in amsmath enthalten
 \usepackage{url}
-
-% define the type of the thesis: Studienarbeit/Diplomarbeit
-% (uncomment the appropriate type)
-\newcommand{\thethesis}[0]{%
-  Diplomarbeit
-}
-
-% find all usages of \field and replace the whole expression
-\newcommand{\field}[1]{%
-  {\itshape \{#1\}}
-}
-
-
-
-
 
 % macros to check whether running PDFLaTeX or not
 \newif\ifpdf
@@ -129,8 +112,6 @@
 \newcommand{\missing}[1]{\,\,\textcolor{red}{(\marginpar[\hfill!$\longrightarrow$]{$\longleftarrow$!}{\bfseries 
     Missing:}\,\emph{#1})}\,\,}
 
-\newcommand{\code}[1]{\texttt{#1}}
-
 % environment to typeset sub-figures
 \newbox\subfigbox
 \makeatletter
@@ -142,15 +123,6 @@
                   {\egroup
                  \subfigure[\subcapsave]{\box\subfigbox}}
 \makeatother
-
-% list of abbreviations
-\let\abbrev\nomenclature
-\renewcommand{\nomname}{Liste der Abkürzungen}
-\setlength{\nomlabelwidth}{.25\hsize}
-\renewcommand{\nomlabel}[1]{#1 \dotfill}
-\setlength{\nomitemsep}{-\parsep}
-\makeglossary
-\newcommand{\markup}[1]{\textbf{#1}}
 
 % define new style for TOC
 \makeatletter
