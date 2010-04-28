@@ -137,7 +137,7 @@ Beim Routing kann Applikationswissen genutzt werden, so dass beispielsweise Knot
 \label{fig:can_routing}
 \end{figure}
 
-Die durchschnittliche Länge eines Pfades bei $d$ Dimensionen und $n$ Knoten ist $O(d\cdot n^\frac{1}{d})$. Sind die Zonen gleich aufgeteilt, so besitzt jeder Knoten max. $2d$ Nachbarn und die Anzahl an Hops verringert sich auf $O(\frac{4}{d}\cdot n^\frac{1}{d})$
+Die durchschnittliche Länge eines Pfades bei $d$ Dimensionen und $n$ Knoten ist $O(d\cdot n^\frac{1}{d})$. Sind die Zonen gleich aufgeteilt, so besitzt jeder Knoten max. $2d$ Nachbarn und die Anzahl an Hops verringert sich auf $O(\frac{4}{d}\cdot n^\frac{1}{d})$.
 
 
 \subsection{Nachbarschaft}
@@ -263,13 +263,9 @@ Die Vorteile der Kommunikation bei Pastry/Tapestry überwiegen für unseren Anwe
 CAN steht hier an erster Stelle, da Ein- und Austritte von Peers nur wenige Knoten im Netz betreffen. Auch bei vielen Ein- und Austritten leidet das Netz unter keiner großen Nachrichtenlast. Allerdings leidet die Kommunikation in großen Netzen (siehe obigen Punkt). Chord liegt auf dem letzten Platz, da das Netzwerk erst durch später aufgerufene Methoden vollkommen funktionsfähig wird (siehe \emph{Eintritt und Austritt (Fehlerfall) von Knoten}). Hier stellt sich nun die Frage, warum ein neuer Knoten $n$ nicht beim Eintritt seinen Nachfolger $p$ nach dessen altem Vorgänger fragt und somit die Zuständigkeit der Daten gleich beim Eintritt klärt? Eine mögliche Antwort ist, dass dadurch viel Overhead durch das Umkopieren von Daten entstehen würden, ohne dass dadurch das Routing bzw. Auffinden der Daten merklich verbessert würde. Im Falle von häufigen Eintritt und Austritt von Knoten würde das Netz lahm gelegt. Pastry und Tapestry liegen auf zweitem Platz; der Aufbau der Routingtabelle erfolgt in vielen kleinen Schritten - dafür ist ein Knoten danach ein vollwertiger Peer im System.
 
 \paragraph{Fehlertoleranz bei Knotenausfall}
-\begin{enumerate*}
-\item Pastry/Tapestry, CAN
-\item Chord
-\end{enumerate*}
+Alle Systeme finden ausgefallene Knoten durch periodisch versandte Nachrichten an benachbarte Peers oder durch Timeouts verschickter Nachrichten. Jedes System kompensiert solch einen Fall auf eigene Art und Weise. Bei CAN wird ein Knoten seine mit der verlassenen Zone verbinden, Knoten in Chord aktualisieren ihre Fingertabellen und Peers in Pastry und Tapestry versuchen durch Befragungen anderer Knoten die entstandene Lücke in der Routingtabelle zu füllen. \\In CAN hat ein Knotenausfall allerdings die geringsten Auswirkungen auf das restliche System, da nur die Nachbarknoten involviert sind. Dies ist der kleinen Routingtabelle geschuldet.
 
-Eigentlich Gleichstand, oder?\\
-CAN am wenigsten Ausstrahlung auf das ganze System.
+Alle Systeme fordern jedoch die Applikation zu einer periodischen Auffrischung der gespeicherten Daten auf und bieten selbst kaum Redundanz (Ausnahme Tapestry) an.
 
 
 \paragraph{Bestimmung der Nachbarschaft}
