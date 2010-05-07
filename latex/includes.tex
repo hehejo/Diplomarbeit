@@ -11,10 +11,32 @@
 \usepackage{colortbl}%Tabellenfarben
 %\usepackage{ae,aecompl}
 \definecolor{black}{rgb}{0,0,0}
+\usepackage{scrtime}                          % gain access to time stamps
+\usepackage{scrpage2}                         % headers and footers
+\usepackage{makeidx}                          % support for makeidx
+\usepackage{array}                            % better table support
+\usepackage{multicol}                         % spanning columns
+\usepackage{multirow}                         % spanning rows
+\usepackage{microtype}
+\usepackage{mdwlist}
+\usepackage{paralist}
+
+\usepackage[printonlyused]{acronym}
+\usepackage{subfigure}
+\usepackage[ngerman,english]{babel}           % switch language
+\usepackage{float}                           
+\usepackage[intoc]{nomencl}                          % list of abbreviations
+\usepackage{algorithmic}                      % typesetting of algorithms
+\usepackage[plain,chapter]{algorithm}         % typesetting of algorithms
+\usepackage{stfloats}                         % used to have footnotes at bottom of the page
+\usepackage[final]{listings}                  % typesetting of code listings 
+
+\usepackage[ngerman]{varioref} 		
+\usepackage[german]{fancyref}
+\usepackage{url}
 \usepackage[plainpages=false, pdfpagelabels, colorlinks=true, linkcolor=black, menucolor=black, urlcolor=black, citecolor=black]{hyperref}
 
 
-\usepackage{url}
 
 % macros to check whether running PDFLaTeX or not
 \newif\ifpdf
@@ -50,18 +72,6 @@
   \usepackage[firsttwo,bottomafter]{draftcopy}
 }
 
-% include some useful packages
-\usepackage{scrtime}                          % gain access to time stamps
-\usepackage{scrpage2}                         % headers and footers
-\usepackage{makeidx}                          % support for makeidx
-\usepackage{array}                            % better table support
-\usepackage{multicol}                         % spanning columns
-\usepackage{multirow}                         % spanning rows
-\usepackage{microtype}
-\usepackage{mdwlist}
-\usepackage{paralist}
-
-\usepackage[printonlyused]{acronym}
 
 % include right printer driver for graphicx
 \ifpdf
@@ -72,17 +82,6 @@
   \usepackage[dvips]{graphicx}
 \fi
 
-\usepackage{subfigure}
-\usepackage[ngerman,english]{babel}           % switch language
-\usepackage{float}                           
-\usepackage[intoc]{nomencl}                          % list of abbreviations
-\usepackage{algorithmic}                      % typesetting of algorithms
-\usepackage[plain,chapter]{algorithm}         % typesetting of algorithms
-\usepackage{stfloats}                         % used to have footnotes at bottom of the page
-\usepackage[final]{listings}                  % typesetting of code listings 
-
-\usepackage[ngerman]{varioref} 		
-\usepackage[german]{fancyref}
 
 \lstset{language=C++}
 \lstset{basicstyle=\ttfamily\small\mdseries}
