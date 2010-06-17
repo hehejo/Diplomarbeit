@@ -296,6 +296,32 @@
   url = {http://dx.doi.org/10.1145/1326257.1326266}
 }
 
+@ELECTRONIC{Banerjee2001Comparative,
+  author = {Banerjee, Suman and Bhattacharjee, Bobby},
+  year = {2001},
+  title = {A Comparative Study of Application Layer Multicast Protocols},
+  url = {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.19.2832},
+  __markedentry = {[jo]},
+  abstract = {Due to the sparse deployment of IP multicast in the Internet today,
+	some researchers have proposed application layer multicast as a new
+	approach to implement widearea multicast services. In this approach
+	multicast functionality is implemented at the end-hosts instead of
+	network routers. Unlike network-layer multicast, application layer
+	multicast requires no infrastructure support and can be easily deployed
+	in the Internet. In this paper, we describe a set of application
+	layer multicast protocols that have been proposed in recent literature,
+	classify them based on some properties and present a comparison of
+	performance and applicability of these schemes.},
+  citeulike-article-id = {7333451},
+  citeulike-linkout-0 = {http://citeseerx.ist.psu.edu/viewdoc/summary?doi=10.1.1.19.2832},
+  file = {:/home/jo/DA/Diplomarbeit/bib/paper/banerjee_01_comparative_505632.pdf:PDF},
+  keywords = {application, layer, multicast, study},
+  owner = {jo},
+  posted-at = {2010-06-17 09:26:44},
+  priority = {2},
+  timestamp = {2010.06.17}
+}
+
 @INPROCEEDINGS{Banerjee2002Scalable,
   author = {Banerjee, Suman and Bhattacharjee, Bobby and Kommareddy, Christopher},
   title = {Scalable application layer multicast},
@@ -1740,6 +1766,50 @@
   file = {:home/jo/DA/Diplomarbeit/bib/paper/ghodsi_06_distributed_475156.pdf:PDF}
 }
 
+@ARTICLE{Godfrey2006Minimizing,
+  author = {Godfrey, P. Brighten and Shenker, Scott and Stoica, Ion},
+  title = {Minimizing churn in distributed systems},
+  journal = {SIGCOMM Comput. Commun. Rev.},
+  year = {2006},
+  volume = {36},
+  pages = {147--158},
+  number = {4},
+  month = {October},
+  abstract = {A pervasive requirement of distributed systems is to deal with churn-change
+	in the set of participating nodes due to joins, graceful leaves,
+	and failures. A high churn rate can increase costs or decrease service
+	quality. This paper studies how to reduce churn by selecting which
+	subset of a set of available nodes to use.First, we provide a comparison
+	of the performance of a range of different node selection strategies
+	in five real-world traces. Among our findings is that the simple
+	strategy of picking a uniform-random replacement whenever a node
+	fails performs surprisingly well. We explain its performance through
+	analysis in a stochastic model.Second, we show that a class of strategies,
+	which we call "Preference List" strategies, arise commonly as a result
+	of optimizing for a metric other than churn, and produce high churn
+	relative to more randomized strategies under realistic node failure
+	patterns. Using this insight, we demonstrate and explain differences
+	in performance for designs that incorporate varying degrees of randomization.
+	We give examples from a variety of protocols, including anycast,
+	over-lay multicast, and distributed hash tables. In many cases, simply
+	adding some randomization can go a long way towards reducing churn.},
+  address = {New York, NY, USA},
+  citeulike-article-id = {1300848},
+  citeulike-linkout-0 = {http://portal.acm.org/citation.cfm?id=1151659.1159931},
+  citeulike-linkout-1 = {http://dx.doi.org/10.1145/1151659.1159931},
+  doi = {10.1145/1151659.1159931},
+  file = {:/home/jo/DA/Diplomarbeit/bib/paper/godfrey_06_minimizing_505626.pdf:PDF},
+  isbn = {1595933085},
+  issn = {0146-4833},
+  keywords = {churn, distributed, minimizing},
+  owner = {jo},
+  posted-at = {2010-06-17 09:16:18},
+  priority = {2},
+  publisher = {ACM},
+  timestamp = {2010.06.17},
+  url = {http://dx.doi.org/10.1145/1151659.1159931}
+}
+
 @INPROCEEDINGS{Griwodz2002State,
   author = {Griwodz, Carsten},
   title = {State replication for multiplayer games},
@@ -2081,7 +2151,6 @@
   year = {2003},
   number = {UCB/CSD-03-1229},
   month = {February},
-  __markedentry = {[jo]},
   abstract = {This paper is an attempt to quantify the performance differences for
 	content-based multicast implemented inside the overlay routing algorithm
 	or built on top of the simple API provided by the routing layer.
@@ -2977,6 +3046,27 @@
   url = {http://dx.doi.org/10.1162/105474600566619}
 }
 
+@INPROCEEDINGS{MuirSeven,
+  author = {Muir, Steve},
+  title = {The Seven Deadly Sins of Distributed Systems},
+  abstract = {Applications developed for large-scale heterogeneous environments
+	must address a number of challenges not faced in other networked
+	computer systems such as LAN clusters. We describe some of the problems
+	faced in implementing the PlanetLab Node Manager application and
+	present general guidelines for application developers derived from
+	those problems.},
+  citeulike-article-id = {312025},
+  citeulike-linkout-0 = {http://www.usenix.org/events/worlds04/tech/muir.html},
+  file = {:/home/jo/DA/Diplomarbeit/bib/paper/muir_seven_505623.pdf:PDF},
+  journal = {First Workshop on Real, Large Distributed Systems},
+  keywords = {distributed, sins},
+  owner = {jo},
+  posted-at = {2010-06-17 09:13:05},
+  priority = {2},
+  timestamp = {2010.06.17},
+  url = {http://www.usenix.org/events/worlds04/tech/muir.html}
+}
+
 @PROCEEDINGS{Muller2005GSM,
   title = {GSM: a game scalability model for multiplayer real-time games},
   year = {2005},
@@ -3489,6 +3579,47 @@
   priority = {1},
   timestamp = {2010.04.09},
   url = {http://portal.acm.org/citation.cfm?id=957350}
+}
+
+@ARTICLE{Spring2006Using,
+  author = {Spring, Neil and Peterson, Larry and Bavier, Andy and Pai, Vivek},
+  title = {Using PlanetLab for network research: myths, realities, and best
+	practices},
+  journal = {SIGOPS Oper. Syst. Rev.},
+  year = {2006},
+  volume = {40},
+  pages = {17--24},
+  number = {1},
+  month = {January},
+  abstract = {PlanetLab is a continuously-evolving global network research testbed
+	that is simultaneously used by hundreds of researchers for diverse
+	tasks, ranging from short-term self-contained experiments among PlanetLab
+	nodes to continuously-running Web-accessible services with tens of
+	thousands of non-PlanetLab users. While PlanetLab cannot provide
+	a perfectly-customized environment for every experiment, it has been
+	changing over time, and the base of knowledge of how to best utilize
+	it has also been growing. As a result, many of the early observations
+	researchers made about PlanetLab would change if rechecked today.
+	In this paper, we discuss these issues and explain whether they remain,
+	have been addressed via PlanetLab's evolution, or can be avoided
+	by the use of best practices. Where possible, we provide quantitative
+	evidence showing the realities of PlanetLab and possible research
+	avenues to further broaden the opportunities for using PlanetLab
+	in network research.},
+  address = {New York, NY, USA},
+  citeulike-article-id = {1064999},
+  citeulike-linkout-0 = {http://portal.acm.org/citation.cfm?id=1113368},
+  citeulike-linkout-1 = {http://dx.doi.org/10.1145/1113361.1113368},
+  doi = {10.1145/1113361.1113368},
+  file = {:/home/jo/DA/Diplomarbeit/bib/paper/spring_06_using_505619.pdf:PDF},
+  issn = {0163-5980},
+  keywords = {network, planetlab, testbed},
+  owner = {jo},
+  posted-at = {2010-06-17 09:10:14},
+  priority = {2},
+  publisher = {ACM},
+  timestamp = {2010.06.17},
+  url = {http://dx.doi.org/10.1145/1113361.1113368}
 }
 
 @INBOOK{Goetz2005,
@@ -4128,23 +4259,24 @@
 06Design\;Bo2003PeertoPeer\;Castro2002Secure\;Chand2003Scalable\;Dabek
 2003Towards\;Dabek2004Vivaldi\;Dan2005\;Darlagiannis2006Peertopeer\;Da
 tar2002Butterflies\;DellAmico2006Neighbourhood\;Galluccio2007Georoy\;G
-hodsi2006AlgorithmsDHT\;Grothoff2002GNET\;Gupta2004Efficient\;Herbert2
-007What\;Lao2005Comparative\;Li2004Comparing\;Lua2005Survey\;Lv2002\;M
-aymounkov2002\;Plaxton1997Accessing\;Rao2003\;Ratnasamy2001Scalable\;R
-hea2005OpenDHT\;Rowstron2001\;Seigneur2003P2P\;Stoica2003\;Tang2003PSe
-arch\;Wong2005Meridian\;Zhao2001Tapestry\;Zhao2004Tapestry\;;
-1 ExplicitGroup:PubSub\;0\;Banerjee2002Scalable\;BeFiMu2006PubSubQoS\;
-Bharambe2002Mercury\;Bharambe2004Mercury\;Braun2006\;Carzaniga0Design\
-;Castro2002Scribe\;Castro2003Evaluation\;Chen2003Efficient\;Chockler20
-07Constructing\;Choi2005Mirinae\;Costa2003Introducing\;Dalal1978\;Deer
-ing1990Multicast\;Demers2006Towards\;Duarte2003Case\;Eugster2004Epidem
-ic\;Fabret2001Filtering\;Fahmy2007\;FiegeSecurity\;Gupta2004Meghdoot\;
-Hinze2009Eventbased\;Hosseini2007Survey\;Ji1998Lightweight\;Kwon2005\;
-Lao2005Comparative\;Li2003HostCast\;Liebeherr2002Applicationlayer\;Mil
-o2007Boosting\;Minson2007Evaluation\;Onus2009Minimum\;PatrickTh2003Man
-y\;PiEyKoSh2007-PubSubAPI\;Ratnasamy2001\;Tan2006Performance\;Tannenba
-um2003\;Th2003Lightweight\;Theotokis2004\;Venkataraman2006Chunkyspread
-\;Zhang2003Borg\;Zhuang2001\;;
+hodsi2006AlgorithmsDHT\;Godfrey2006Minimizing\;Grothoff2002GNET\;Gupta
+2004Efficient\;Herbert2007What\;Lao2005Comparative\;Li2004Comparing\;L
+ua2005Survey\;Lv2002\;Maymounkov2002\;Plaxton1997Accessing\;Rao2003\;R
+atnasamy2001Scalable\;Rhea2005OpenDHT\;Rowstron2001\;Seigneur2003P2P\;
+Spring2006Using\;Stoica2003\;Tang2003PSearch\;Wong2005Meridian\;Zhao20
+01Tapestry\;Zhao2004Tapestry\;;
+1 ExplicitGroup:PubSub\;0\;Banerjee2001Comparative\;Banerjee2002Scalab
+le\;BeFiMu2006PubSubQoS\;Bharambe2002Mercury\;Bharambe2004Mercury\;Bra
+un2006\;Carzaniga0Design\;Castro2002Scribe\;Castro2003Evaluation\;Chen
+2003Efficient\;Chockler2007Constructing\;Choi2005Mirinae\;Costa2003Int
+roducing\;Dalal1978\;Deering1990Multicast\;Demers2006Towards\;Duarte20
+03Case\;Eugster2004Epidemic\;Fabret2001Filtering\;Fahmy2007\;FiegeSecu
+rity\;Gupta2004Meghdoot\;Hinze2009Eventbased\;Hosseini2007Survey\;Ji19
+98Lightweight\;Kwon2005\;Lao2005Comparative\;Li2003HostCast\;Liebeherr
+2002Applicationlayer\;Milo2007Boosting\;Minson2007Evaluation\;Onus2009
+Minimum\;PatrickTh2003Many\;PiEyKoSh2007-PubSubAPI\;Ratnasamy2001\;Tan
+2006Performance\;Tannenbaum2003\;Th2003Lightweight\;Theotokis2004\;Ven
+kataraman2006Chunkyspread\;Zhang2003Borg\;Zhuang2001\;;
 1 ExplicitGroup:Cheating\;0\;Aggarwal2005\;Baughman2007\;Ferretti2008C
 heating\;Ferretti2008Synchronization\;GaneshIdentity\;Gauthierdickey20
 04Low\;Kabus2005Addressing\;Kabus2007Design\;Kabus2009\;Pantel2002\;We
