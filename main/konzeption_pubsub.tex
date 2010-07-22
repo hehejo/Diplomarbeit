@@ -1,18 +1,19 @@
-\chapter{Konzeption Publish/Subscribe-Systeme}
+\chapter{Konzeption des Framworks}
 \label{chap:konzeption_pubsub}
 Diese Arbeit entwickelt ein Framework auf Basis eines strukturierten P2P-Overlay-Netzwerkes. Die im System nutzbaren Publish/Subscribe-Systeme müssen ebenfalls verteilt arbeiten können. Dabei spielen die Fehlertoleranz und auch die Fähigkeit mit \emph{churn}, d.h. schnellem Wechsel der Mitgliedschaften, umgehen zu können.
 
-Zur Konzeption des Frameworks werden anhand dreier prominenter Systeme Gemeinsamkeiten identifiziert und generalisiert. Diese drei Systeme sind \begin{inparaenum}[(1]) \item Scribe \cite{Castro2002Scribe}, \item VON \cite{Hu2006VON} und \item MercuryMercury \end{inparaenum}. Scribe und VON sind kanalbasierte Publish/Subscribe-Systeme, Mercury hingegen ist filterbasiert. Obwohl das Framework im jetzigen Entwicklungsstand auf kanalbasierte Systeme beschränkt ist \missing{Erklärung warum}, kann der Algorithmuns hinter Mercury interessante Einblicke und Ideen liefern.
 
+\section{Umsetzung verteilter Publish/Subscribe-Systeme}
+Anhand Scribe (kanalbasiert) \cite{Castro2002Scribe} und Mercury (filterbasiert) \cite{Bharambe2004Mercury} wird die Umsetzung der in \Fref{chap:konzeption_pubsub} vorgestellten Arten in strukturierten Overlaynetzwerken beschrieben. Obwohl das Framework im jetzigen Entwicklungsstand auf kanalbasierte Systeme beschränkt sein wird \missing{Erklärung warum}, kann der Algorithmuns hinter Mercury interessante Einblicke und Ideen liefern.
 
-\section*{Scribe}
+\subsection*{Scribe}
 \label{chap:related:scribe}
-Scribe \cite{Castro2002Scribe} gehört zur Klasse der kanalbasierten\footnote{siehe \Fref{chap:grundlagen:pubsub:kanalbasiert}} Publish/Subscribe-Systeme und basiert auf dem strukturierten Overlay-Netzwerk Pastry \cite{Rowstron2001}. Bayeux \cite{Zhuang2001} ist ein ähnliches System, jedoch auf Basis des Overlay-Netzwerkes Tapestry. Da beide dieser Netwerke der generischen API entsprechen, stellt dies keinen Unterschied dar.
+Eine Umsetzung von Publish/Subscribe-Systemen in verteilen Systemen, ist der Aufbau eines Multicast-Trees\index{Multicast-Tree}, d.h. eines durch die Knoten im Netz gebildeten Baumen in dem die Nachrichten verteilt werden. Am Algorithmus von Scribe wird diese Struktur beschrieben.
 
-Dabei nutzt Scribe einen vom Subscriber zum Publischer aufgebauten Baum \emph{reverse path forwarding tree} \cite{Dalal1978}. Im Gegensatz dazu nutzt Bayeux einen Baum der vom Publisher zum Subscriber augebaut wird. Aufgrund der unterliegenden Routingstruktur des genutzten Overlay-Netzwerkes können sich diese Pfade unterscheiden.
+Scribe basiert auf dem strukturierten Overlay-Netzwerk Pastry \cite{Rowstron2001} und erzeugt einen vom Subscriber zum Publischer aufgebauten Baum \emph{reverse path forwarding tree} \cite{Dalal1978}.
 
-Der Vorteil von strukturierten Netzwerken ist, dass über einen berechneten Schlüssel der zuständige Knoten gefunden wird. Bei Scribe berechnet ein Knoten den Root-Knoten des Kanals über den Hashwert des Kanalnamens. Ein Subscriber lässt nun eine \emph{subscribe}-Nachricht an den entsprechenden Knoten routen. Alle Zwischenknoten empfangen diese Nachricht in \emph{forward}, tragen den Sender in eine Liste ein und subscriben sich selbst an diesem Kanal. Die ursprüngliche Nachricht wird terminiert. Wird eine weitere solche Nachricht empfangen, so muss lediglich der Absender in die Liste eingetragen werden. Weitere Nachrichten sind nicht erforderlich.\\
-Ein Knoten, der eine Nachricht publizieren möchte, lässt das Netzwerk ebenfalle eine Nachricht an den Root-Knoten des Systems routen. Dieser Root-Knoten sendet die Nachricht an alle Knoten in der Liste. Diese Knoten verfahren ebenso und damit wandert die Nachricht den Baum hinab. Sind diese Knoten ebenfalls Subscriber wird die Nachricht an die Applikation weitergegeben.
+Der Vorteil von strukturierten Netzwerken ist, dass über einen berechneten Schlüssel der zuständige Knoten gefunden wird. Bei Scribe wird der Root-Knoten des Kanals über den Hashwert des Kanalnamens berechnet. Ein Subscriber lässt nun eine \emph{subscribe}-Nachricht an diesen Knoten routen. Der erste Zwischenknoten auf der Route empfängt diese Nachricht, trägt den Sender in eine Liste ein und subscribt sich selbst an diesem Kanal. Die ursprüngliche Nachricht wird terminiert. Diese Prodezur wiederholt sich auf allen weiteren Knoten bis Root-Knoten. Hier terminiert die Nachricht entgültig. Empfängt ein Zwischenknoten nochmals eine \emph{subscribe}-Nachricht, wird lediglich der Absender in die Liste eingetragen werden. Weitere Nachrichten sind nicht erforderlich.\\
+Ein Knoten, der eine Nachricht publizieren möchte, lässt das Netzwerk ebenfalls eine Nachricht an den Root-Knoten des Systems routen. Dieser Root-Knoten sendet die Nachricht an alle Knoten in seiner Liste. Diese Knoten verfahren ebenso und damit wandert die Nachricht den Baum hinab. Sind diese Knoten ebenfalls Subscriber wird die Nachricht an die Applikation weitergegeben.
 
 \begin{figure}[htbp]
 \centering
@@ -21,7 +22,7 @@ Ein Knoten, der eine Nachricht publizieren möchte, lässt das Netzwerk ebenfall
 \label{fig:multicast_tree}
 \end{figure}
 
-\Fref{fig:multicast_tree} zeigt ein Netzwerk mit den sechs Knoten A-F. Die Verbindungen der Knoten werden durch dünne schwarze Linien dargestellt. Knoten C hat Verbindungen zu A, B, D und F. Knoten A ist der Root-Knoten des im Beispiel verwendeten Kanals, da er für den aus dem Hashwert des Kanalnamens berechneten Schlüssel zuständig ist.
+\Fref{fig:multicast_tree} zeigt ein Netzwerk mit den sechs Knoten A-F. Die Verbindungen der Knoten werden durch dünne schwarze Linien dargestellt. Knoten C hat Verbindungen zu A, B, D und F. In strukturierten Netzwerken können zuständige Knoten berechnet werden. Der Multicast-Tree benötigt einen Knoten, der die Wurzel (im Folgenden \emph{Root-Knoten} genannt) darstellt. Aus Hashwert des Kanalnamens wird ein Schlüssel berechnet. Derjenige Knoten, der für aufgrund der Netzwerkmetrik für diesen Schlüssel zuständig ist, wird Root-Knoten des Kanals. Im abgebildeten Falle ist dies Knoten A.
 
 \paragraph*{Subscribe} Knoten F sendet eine \emph{subscribe}-Nachricht an A. Knoten D muss diese Nachricht weiterleiten, lässt diese aber terminiern und trägt F in die Liste ein. Knoten D sendet nun selbst eine \emph{subscribe}-Nachricht an A. Diese Nachrichten sind in der Grafik durch gebogene schwarze Verbindungslinien mit Pfeil dargestellt. Nachdem sich auch Knoten E für den Kanal eingeschrieben hat, wurden im Netzwerk insgesamt vier Nachrichten versandt: F an D, D an C, C an A und E an C. Wenn die \emph{subscribe}-Nachricht von E C erreicht, wird E lediglich in die Liste eingetragen. Ein erneutes Anmelden von C entfällt.
 
@@ -34,19 +35,21 @@ Obwohl dieses System die Anzahl der zu versendenden Nachrichten drastisch reduzi
 
 Scribe fordert periodische Subscriptions zur Erhöhung der Fehlertoleranz.
 
-\section*{VON}
-\label{chap:related:von}
-\cite{Hu2006VON} %VON
-
-\cite{Backhaus2007Voronoibased} %VAST
-\ac{vast}
+Bayeux \cite{Zhuang2001} ist ein ähnliches System, jedoch auf Basis des Overlay-Netzwerkes Tapestry. Da beide dieser Netwerke der generischen API entsprechen, stellt dies keinen Unterschied dar. Im Gegensatz zu Scribe, erzeugt Bayeux einen Baum der vom Publisher zum Subscriber aufgebaut wird. Aufgrund der unterliegenden Routingstruktur des genutzten Overlay-Netzwerkes können sich diese Pfade unterscheiden.
 
 
-\section*{Mercury}
+Eine Filterung der Nachrichten ist möglich. Im einfachsten Falle, wird der Filter bei jedem Subscriber geprüft, im komplexeren Falle werden die Filter der Subscriber mit zum Root-Knoten geschickt und die Zwischenknoten kombinieren die empfangenen Filter zu einem generellen Filter. Somit ist es möglich, dass eine Nachricht gar nicht an einen Subtree gesendet werden muss.
+
+
+Ein Multicast-Tree ist für weittragende beziehungsweise übergreifende Nachrichten wie Teamspeak oder Systemnachrichten gut gegeignet. Für lokal bezogene Nachrichten (z.B. Positionsupdate) skaliert dieses System jedoch schlecht, da jede einzelne Positionsnachricht alle angemeldeten Knoten ins Netz gesandt wird, jedoch nur für einen Bruchteil relevant ist. Eine Filterung, wie oben angesprochen, 
+
+
+
+\subsection*{Content-based Publish/Subscribe-System}
 \label{chap:related:mercury}
 Mercury \cite{Bharambe2004Mercury} gehört zur Klasse der filterbasierten\footnote{siehe \Fref{chap:grundlagen:pubsub:filterbased}} Publish/Subscribe-Systeme \index{Publish/Subscribe!filterbasiert}.
 
-\paragraph{Arbeitsweise}
+\paragraph*{Arbeitsweise}
 Im System gibt es eine Menge an Attributen, die ihrerseits einen definierten Wertebereich haben. Jedes Attribut wird durch einen eigenen \emph{Hub}, ein Verbund aus Knoten, gebildet. Der Wertebereich ist dabei nicht zwingend symetrisch\footnote{Angenommen, $0<=x<360$: Knoten $A_{[0,270)}$, $B_{[270, 360)}$} auf die Knoten verteilt. Die Knoten eines Hubs sind sich untereinander über Nachbarschaftsmetriken\footnote{Alte Version: forward- und backward-Pointer; Ringstruktur\\Neue Version: Tabelle mit allen Knoten im Hub} bekannt.
 Eine Subscription $S$ ist ein Tupel aus Filterbedingungen über die Attribute, bsp. $S := (5 < x <= 20; y = 15)$. $S$ wird nun an einen beliebigen Knoten eines Hubs gesendet, der für ein Attribut aus den Filterbedingungen zuständig ist. Im Hub wird $S$ nun zu dem Knoten weitergereicht, der den Wertebereich der Filterung abdeckt. Dort wird $S$ in einer Liste gespeichert.
 Eine Publikation $P$ ist ebenfalls ein Tupel mit bestimmten Werten der Attribute, bsp. $P := (x = 10; y = 0)$. $P$ wird an \emph{alle} Hubs gesendet, die für Attribute aus dem Tupel zuständig sind. Dort wird $P$ zum zustädnigen Knoten weitergereicht. Dieser prüft nun die Liste der gespeicherten Subscriptions gegen die neue Publikation. Stimmen beide überein, so wird $P$ an den eingeschriebenen Knoten weitergeleitet.
@@ -54,6 +57,5 @@ Eine Publikation $P$ ist ebenfalls ein Tupel mit bestimmten Werten der Attribute
 
 \cite{BeFiMu2006PubSubQoS}
 
-\cite{PiEyKoSh2007-PubSubAPI}
 
 \cite{KostasKatrinis2005}
