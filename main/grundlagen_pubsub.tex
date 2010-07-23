@@ -113,14 +113,14 @@ Da Knoten nur die Positionsupdates ihrer Nachbarn benötigen, ist es eine Mögli
 
 \subsubsection{Content-based am Beispiel von Mercury}
 \label{chap:related:mercury}
-Mercury \cite{Bharambe2004Mercury} gehört zur Klasse der filterbasierten\footnote{siehe \Fref{chap:grundlagen:pubsub:filterbased}} Publish/Subscribe-Systeme \index{Publish/Subscribe!filterbasiert}.
+Mercury \cite{Bharambe2004Mercury} gehört zur Klasse der filterbasierten Publish/Subscribe-Systeme\index{Publish/Subscribe!filterbasiert}.
 
 \paragraph*{Arbeitsweise}
-Im System gibt es eine Menge an Attributen, die ihrerseits einen definierten Wertebereich haben. Jedes Attribut wird durch einen eigenen \emph{Hub}, ein Verbund aus Knoten, gebildet. Der Wertebereich ist dabei nicht zwingend symetrisch\footnote{Angenommen, $0<=x<360$: Knoten $A_{[0,270)}$, $B_{[270, 360)}$} auf die Knoten verteilt. Die Knoten eines Hubs sind sich untereinander über Nachbarschaftsmetriken\footnote{Alte Version: forward- und backward-Pointer; Ringstruktur\\Neue Version: Tabelle mit allen Knoten im Hub} bekannt.
+Im System gibt es eine Menge an Attributen, die ihrerseits einen definierten Wertebereich haben. Jedes Attribut wird durch einen eigenen \emph{Hub} gebildet. Ein Hub ist ein Verbund aus Knoten, die untereinander über Nachbarschaftsmetriken\footnote{Alte Version: forward- und backward-Pointer; Ringstruktur\\Neue Version: Tabelle mit allen Knoten im Hub} verknüpft sind. Der Wertebereich ist dabei nicht zwingend symmetrisch\footnote{Angenommen, $0<=x<360$: Knoten $A_{[0,270)}$, $B_{[270, 360)}$} auf die Knoten verteilt.
 
-Eine Subscription $S$ ist ein Tupel aus Filterbedingungen über die Attribute, bsp. $S := (5 < x <= 20; y = 15)$ sowie Kontaktinformationen des Knotens. $S$ wird an einen beliebigen Knoten eines Hubs gesendet, der für das Attribut aus der Filterbedingung mit der größten Selektivität zuständig ist. Im Beispiel ist dies Attribut $y$. Im Hub wird $S$ nun zu dem Knoten weitergereicht, der den Wertebereich der Filterung abdeckt. Dort wird $S$ in einer Liste gespeichert.
+Eine Subscription $S$ ist ein Tupel aus Filterbedingungen über die Attribute (z.B. $S := (5 < x <= 20; y = 15)$) sowie Kontaktinformationen des Knotens. $S$ wird an einen beliebigen Knoten eines Hubs gesendet, der für das Attribut aus der Filterbedingung mit der größten Selektivität zuständig ist. Im Beispiel ist dies Attribut $y$. Im Hub wird $S$ nun zu dem Knoten weitergereicht, der den Wertebereich der Filterung abdeckt. Dort wird $S$ in einer Liste gespeichert.
 
-Eine Publikation $P$ ist ebenfalls ein Tupel mit bestimmten Werten der Attribute, bsp. $P := (x = 10; y = 0)$. $P$ wird an \emph{alle} Hubs gesendet und dort zum zustädnigen Knoten weitergereicht. Dieser prüft nun die Liste der gespeicherten Subscriptions gegen die neue Publikation. Stimmen beide überein, so wird $P$ an den eingeschriebenen Knoten weitergeleitet.
+Eine Publikation $P$ ist ebenfalls ein Tupel mit bestimmten Werten der Attribute (z.B. $P := (x = 10; y = 0)$). $P$ wird an \emph{alle} Hubs gesendet und dort zum zustädnigen Knoten weitergereicht. Dieser prüft nun die Liste der gespeicherten Subscriptions gegen die neue Publikation. Stimmen beide überein, so wird $P$ an den eingeschriebenen Knoten weitergeleitet.
 
 \paragraph*{Offene Punkte}
 \begin{itemize}
