@@ -1,2 +1,2 @@
 #!/bin/sh
-scp master.pdf bitterblume:www/Diplomarbeit.pdf 2>/dev/null & 
+scp master.pdf hehejo.de:html/de.hehejo/Diplomarbeit.pdf 2>/dev/null & 
