@@ -5,12 +5,11 @@ Diese Arbeit entwickelt ein Framework auf Basis eines strukturierten P2P-Overlay
 \begin{table}[!h]
 \caption{Verbindungsmatrix}
 \label{tab:konzeption_pubsub:verbindungsmatrix}
-\centering
 \begin{tabular}{llccccccc}
 \toprule
-MsgType & Upcall	& \multicolumn{7}{c}{Policies} \\
+Nachrichten- & Upcall	& \multicolumn{7}{c}{Dimension} \\
 \cmidrule{3-9}
-				&		& Routing & Filter & Deliver & Order & Persistence & Security & Validity \\
+typ				&		& Routing & Filter & Deliver & Order & Persistence & Security & Validity \\
 \midrule
 publish	    & deliver & x & x & x & x & x & x & x \\
 \cmidrule{2-9}
@@ -22,10 +21,11 @@ subscribe	  & deliver & x & x &   &   &   & x & \\
 \midrule
 unsubscribe & deliver & x & x &   &   &   & x & \\
 \cmidrule{2-9}
-			      & forward & x & x &   &   &   & x & \\
+      & forward & x & x &   &   &   & x & \\
 \bottomrule
 \end{tabular}
 \end{table}
+
 
 
 
