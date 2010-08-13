@@ -2,6 +2,31 @@
 \label{chap:konzeption_pubsub}
 Diese Arbeit entwickelt ein Framework auf Basis eines strukturierten P2P-Overlay-Netzwerkes. Die im System nutzbaren Publish/Subscribe-Systeme müssen ebenfalls verteilt arbeiten können. Dabei spielen die Fehlertoleranz und auch die Fähigkeit mit \emph{churn}, d.h. schnellem Wechsel der Mitgliedschaften, umgehen zu können, eine große Rolle.
 
+\begin{table}[!h]
+\caption{Verbindungsmatrix}
+\label{tab:konzeption_pubsub:verbindungsmatrix}
+\centering
+\begin{tabular}{llccccccc}
+\toprule
+MsgType & Upcall	& \multicolumn{7}{c}{Policies} \\
+\cmidrule{3-9}
+				&		& Routing & Filter & Deliver & Order & Persistence & Security & Validity \\
+\midrule
+publish	    & deliver & x & x & x & x & x & x & x \\
+\cmidrule{2-9}
+					  & forward & x & x & x &   &   & x & x \\
+\midrule
+subscribe	  & deliver & x & x &   &   &   & x & \\
+\cmidrule{2-9}
+			      & forward & x & x &   &   &   & x & \\
+\midrule
+unsubscribe & deliver & x & x &   &   &   & x & \\
+\cmidrule{2-9}
+			      & forward & x & x &   &   &   & x & \\
+\bottomrule
+\end{tabular}
+\end{table}
+
 
 
 
