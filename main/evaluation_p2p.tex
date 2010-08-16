@@ -223,14 +223,17 @@ Eine generelle Übersicht der Systeme stellt \Fref{tab:evaluation_fazit} dar. Je
 
 \begin{table}[htbp]
 \centering
-\begin{tabular}{l|c|c|c|c}
- & Routing Hops & Routinginformation & Eintritt & Austritt\\ \hline  
+\label{tab:evaluation_fazit}
+\begin{tabular}{lcccc}
+\toprule
+ & Routing Hops & Routinginformation & Eintritt & Austritt\\ 
+ \cmidrule{2-5}
 Chord & $O(\frac{1}{2}log~n)$ & $O(2log~n) $ & $ O(log^2 n) $ & $ O(log^2 n) $ \\
 Pastry & $O(\frac{1}{b}log~n)$ & $O(\frac{1}{b} (2^b-1) log~n) $ & $ O(log_{2^b}~n) $ & $ O(mlog_b~n) $ \\
-CAN & $O(\frac{d}{2}n^\frac{1}{d})	$ & $O(2 d) $ & $ O(\frac{d}{2}N^\frac{1}{d}) $ & $ O(2 d) $
+CAN & $O(\frac{d}{2}n^\frac{1}{d})	$ & $O(2 d) $ & $ O(\frac{d}{2}N^\frac{1}{d}) $ & $ O(2 d) $ \\
+\bottomrule
 \end{tabular}
-\caption{Vergleich der Systeme Chord, Pastry und CAN anhand einiger Gesichtspunkte. Wenn nicht anders angegeben bezeichnet $log$ $log_2$. $n$ ist die Anzahl der Knoten, $b$ die Anzahl der darstellenden Basis bei Pastry und $d$ die Anzahl der Dimensionen bei CAN. (aus \cite{Goetz2005})}
-\label{tab:evaluation_fazit}
+\caption{Vergleich der Systeme Chord, Pastry und CAN anhand einiger Gesichtspunkte. Wenn nicht anders angegeben bezeichnet $log$ $log_2$. $n$ ist die Anzahl der Knoten, $b$ die Anzahl der Bits der darstellenden Basis bei Pastry und $d$ die Anzahl der Dimensionen bei CAN. (aus \cite{Goetz2005})}
 \end{table}
 
 Xu untersucht den Zusammenhang zwischen Größe der Routinginformationen und Anzahl der Routinghops. Für uniformes Routing (d.h. das Routing ist bei allen Peers gleich) sind $O(log~n)$ beziehungsweise $O(n\frac{1}{d})$ Hops für Routingtabellen der Größe $O(log~n)$ beziehungsweise $O(d)$ die asymtothischen Grenze \cite{Xu2004Fundamental}. Die vorgestellen \ac{dht}-basierten Netzwerke nutzen ein uniformes Routing.
