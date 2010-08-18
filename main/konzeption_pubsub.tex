@@ -2,6 +2,14 @@
 \label{chap:konzeption_pubsub}
 Diese Arbeit entwickelt ein Framework auf Basis eines strukturierten P2P-Overlay-Netzwerkes. Die im System nutzbaren Publish/Subscribe-Systeme müssen ebenfalls verteilt arbeiten können. Dabei spielen die Fehlertoleranz und auch die Fähigkeit mit \emph{churn}, d.h. schnellem Wechsel der Mitgliedschaften, umgehen zu können, eine große Rolle.
 
+\emph{Nicht vergessen}: Auf Knoten die Nachrichten weiterleiten wird \emph{forward} aufgerufen. Auf Knoten die eine Nachricht empfangen wird zuerst \emph{forward} und dann \emph{deliver} aufgerufen. In \emph{forward} kann der Knoten den Nachrichtenversand beenden. Vgl. \Fref{chap:evaluation_p2p:generic_api}!
+
+Die Dimension \emph{Routing} entscheidet darüber ob und welche Nachrichten Typen in \emph{forward} oder \emph{deliver} behandelt werden sollen.\\
+\emph{publish}-Nachrichten werden nicht in \emph{forward} sondern nur in \emph{deliver} behandelt.
+
+Die Dimension \emph{Filter} muss sicherstellen, dass eine \emph{publish}-Nachricht nur an diejenigen Knoten geht, die diese Nachricht auch empfangen wollen. Muss eine solche Nachricht erst zum RootKnoten wandern (bsp. bei Direct oder Multicast) so, darf sie natürlich nicht gefiltert werden!\\
+Dies bedeutet auch, dass bei der Auslieferung einer \emph{publish}-Nachricht nicht mehr gefiltert werden muss. Muss eine solche Nachricht jedoch weiter verteilt werden (bsp: Multicast), dann muss wie oben erwähnt gefiltert werden!
+
 \begin{table}[!h]
 \label{tab:konzeption_pubsub:verbindungsmatrix}
 \begin{tabular}{llccccccc}
