@@ -12,6 +12,7 @@ Dies bedeutet auch, dass bei der Auslieferung einer \emph{publish}-Nachricht nic
 
 \begin{table}[!h]
 \label{tab:konzeption_pubsub:verbindungsmatrix}
+\resizebox{\textwidth}{!}{%
 \begin{tabular}{llccccccc}
 \toprule
 Nachrichten- & Upcall	& \multicolumn{7}{c}{Dimension} \\
@@ -30,7 +31,7 @@ unsubscribe & deliver & + & + &   &   &   & + & \\
 \cmidrule{2-9}
       & forward & + & + &   &   &   & + & \\
 \bottomrule
-\end{tabular}
+\end{tabular}}
 \caption{Verbindungsmatrix}
 \end{table}
 
