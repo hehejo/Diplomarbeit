@@ -1,7 +1,7 @@
 \section{p2p-Netzwerke}
 \label{chap:grundlagen:p2p}
 \missing{noch eine kleine schöne Einleitung}
-Sie sind sehr beliebt, Filesharing, Verteilen von Daten, schneller und kostengünstiger Download (BitTorrent).
+Sie sind sehr beliebt, Filesharing, Verteilen von Daten, schneller und kostengünstiger Download (BitTorrent). Auch Spiele springen auf den Zug auf \cite{Knutsson2004Peertopeer, Triebel2008Peertopeer}.
 
 p2p-Netzwerke lassen sich grundsätzlich in zwei Arten einteilen \cite{Steinmetz2005, Lua2005Survey}: 
 \begin{itemize*}
@@ -16,8 +16,8 @@ Da strukturierte Netze später entstanden sind, lassen sich die einzelnen Netze 
 	\item \emph{3G}: strukturierte Netzwerke mit Fokus auf Anonymität, Authentifizierung, Schutz vor Zensur und verschiedenen Rollen der einzelnen Knoten
 \end{itemize*}
 
-Netzwerke der dritten Generation, wie z.B. GNUnet\footnote{http://www.gnunet.org} \cite{Grothoff2002GNET} werden nicht näher betrachtet, da die zusätzlich angebotene Funktionalität in dieser Arbeit nicht benötigt wird beziehungsweise darauf kein Fokus liegt. Clients werden weiterhin über den Masterserver authentifiziert und sollen naturgemäß nicht anonym agieren. Weiterhin wird angenommen, dass Clients keinerlei Betrugsversuche unternehmen und auch sonst kein schadhaftes Verhalten zeigen.\\
-In \Fref{chap:grundlagen:cheating} wird ein Überblick möglicher Betrugsarten aufgeührt und auf weitere Literatur zur Betrugsverhinderung beziehungsweise Prävention verwiesen.
+Netzwerke der dritten Generation, wie z.B. GNUnet \cite{Grothoff2002GNET} werden nicht näher betrachtet, da die zusätzlich angebotene Funktionalität in dieser Arbeit nicht benötigt wird beziehungsweise darauf kein Fokus liegt. Clients im Spiel sollen sich weiterhin über einen speziellen Server authentifizieren und darüber in das Netzwerk verbinden.\\
+In \Fref{chap:grundlagen:cheating} wird ein Überblick möglicher Betrugsarten aufgeführt und auf weitere Literatur zur Betrugsverhinderung beziehungsweise Prävention verwiesen. Für diese Arbeit wird angenommen, dass Clients keinerlei Betrugsversuche unternehmen und schadhaftes Verhalten zeigen. Jedoch muss das zu entwickelnde Framework den Einbau möglicher Sicherheitskomponenten vorsehen und in seinen Grundzügen Betrugsversuche erschweren.
 
 Im Folgenden werden die Grundzüge der Netzwerke der ersten und zweiten Generation näher beschrieben.
 
@@ -31,12 +31,9 @@ Im Wesentlichen gibt es wiederum zwei unterschiedliche Arten:
 \item dezentralisiert
 \end{itemize*}
 
-Obwohl in dieser Arbeit keine Netze nach dem Motto \emph{Information finden und per Direktverbindung übertragen} sondern eher nach dem Motto \emph{Daten geschickt zwischen den Knoten verteilen} gebraucht werden, werden die verschiedenen Typen am Aspekt des \emph{Filesharing} erklärt, da dieser recht eingängig ist.\\
-\missing{mäh}
+\paragraph{zentralisiert} Knoten im Netz melden eine Liste der verfügbaren Dateien an bekannte Hauptrechner. Suchanfragen werden ebenfalls an diese Rechner gerichtet. Der Suchende erhält eine Liste von potentiellen Peers, die Dateien seiner Suchanfrage entsprecht anbieten. Diese Dateien werden über direkte Verbindungen zwischen den Peers übertragen. Einige Systeme tauschen weitere potentielle Knoten über Peers aus. Die einzelnen Hauptrechner stellen bei dieser Art von System einen \emph{single point of failure} dar \cite{Eberspaecher2005}.
 
-\paragraph{zentralisiert} Knoten im Netz melden ihre verfügbaren Dateien an diverse bekannte Hauptrechner. Suchanfragen werden ebenfalls an diese Rechner gerichtet. Der Suchende erhält eine List von potentiellen Peers, die seiner Suchanfrage entsprechen. Die eigentlichen Dateien werden über direkte Verbindungen zwischen den Peers übertragen. Einige Systeme tauschen weitere potentielle Knoten über Peers aus. Die einzelnen Hauptrechner stellen bei dieser Art von System einen \emph{single point of failure} dar \cite{Eberspaecher2005}.
-
-\paragraph{dezentralisiert} Damit sich ein neuer Knoten in das Netz einklinken kann, muss diesem mindestens ein bestehender Knoten im Netzwerk bekannt sein. Über diesen Peer tauscht der neue Knoten Informationen aus und baut selbst eine Nachbarschaft auf. Damit Dateien gefunden werden können, muss die Suchanfrage durch das Netz geflutet werden. Hierbei wird die Suchanfrage an alle Nachbarn gesendet. Diese senden sie weiter an ihre Nachbarn. Die Suchanfrage kann z.B. mit einer Anzahl an Hops oder einer TTL\footnote{Time to live} in ihrer Reichweite eingegrenzt werden. Potentielle Zyklen müssen bei dieser Art von Suche aufgelöst werden. Sind Peers gefunden, wird ebenfalls eine direkte Verbindung zur Datenübertragung aufgebaut.
+\paragraph{dezentralisiert} In dezentralen Netzen gibt es keine bekannten Hauptrechner. Damit sich ein neuer Knoten in das Netz einklinken kann, muss diesem mindestens ein bestehender Knoten im Netzwerk bekannt sein. Über diesen Peer tauscht der neue Knoten Informationen aus und baut eine Nachbarschaft auf. Damit Dateien gefunden werden können, wird die Suchanfrage an alle Nachbarn geschickt, spricht die Suchanfrage wird durch das Netzwerk geflutet. \missing{Cite für FLOODING} Diese senden sie weiter an ihre Nachbarn. Die Suchanfrage kann z.B. mit einer Anzahl an Hops oder einer TTL\footnote{Time to live} in ihrer Reichweite eingegrenzt werden. Potentielle Zyklen müssen bei dieser Art von Suche aufgelöst werden. Sind Peers gefunden, wird ebenfalls eine direkte Verbindung zur Datenübertragung aufgebaut.
 
 Beispiele für solche Netzwerke sind Napster (zentralisiert), Gnutella oder BitTorrent\footnote{http://www.bittorrent.com/} (dezentralisiert).
 
@@ -44,7 +41,7 @@ Beispiele für solche Netzwerke sind Napster (zentralisiert), Gnutella oder BitT
 Strukturierte Netzwerke\index{Netzwerk!Overlay!strukturiert} der zweiten Generation sind oft dezentraler Natur. Ein Datum muss nicht gesucht werden, da anhand der Struktur des Netzes die zuständigen Knoten berechnet werden können. Daten können ebenfalls via Direktverbindung übertragen werden, meist wird jedoch das Netzwerk auch zum Versand der Nachrichten genutzt. Hierbei werden die Nachrichten über verschiedene Peers geroutet. Der Dezentralität dieser Netze ist geschuldet, dass ein neuer Knoten mindestens einen Peer aus dem Netzwerk kennen muss. Viele Systeme gehen davon aus, dass der neue Knoten aus einer Liste von Peers, den ihm nähsten Knoten\footnote{Nähe im Sinne von kurzer Latenz aber auch räumlicher Nähe} wählen kann und über diesen den Eintritt in das Netz anstößt.
 
 Strukturierte Netzwerke nutzen die Technik der \ac{dht}. Diese ist gut erforscht und kann als Grundlage einer Vielzahl von unterschiedlichen Anwendungen genutzt werden \cite{Wehrle2005, Ghodsi2006AlgorithmsDHT}.\\
-Grundsätzlich ist jedem Knoten ein Schlüssel aus einem Schlüsselraum (\emph{identifier space}) zugeordnet. Ein Knoten ist dabei für einen Bereich aus dem Schlüsselraum zuständig, dieser variiert je nach genutzter Metrik. Für das zu suchende Datum wird nun der Hashwert berechnet - dieser entspricht einem Schüssel. Der suchende Knoten kennt damit den zuständigen Peer und nutzt das zugrunde liegende Overlay-Netzwerk zur Datenübertragung.\\
+Grundsätzlich ist jedem Knoten ein Schlüssel aus einem Schlüsselraum zugeordnet. Ein Knoten ist dabei - je nach genutzter Metrik - für einen Bereich aus dem Schlüsselraum zuständig. Für das zu suchende Datum wird nun der Hashwert berechnet - dieser entspricht einem Schüssel. Der suchende Knoten kennt damit den zuständigen Peer und nutzt das zugrunde liegende Overlay-Netzwerk zur Datenübertragung.\\
 Darauf aufbauend gibt es unterschiedliche Systeme die sich hinsichtlich Organisation, Routing, Ein- und Austritt von Knoten und dem Verhalten im Fehlerfall unterscheiden \cite{Goetz2005, Lua2005Survey}.
 
 Beispiele für solche Netzwerke sind Chord, Pastry, Tapestry oder CAN \cite{Hosseini2007Survey, Rowstron2001, Zhao2001Tapestry,Zhao2004Tapestry, Ratnasamy2001Scalable}. Auf diese wird unter Anderem im \Fref{chap:evaluation_p2p}, das sich der Evaluation dieser Systeme widmet, näher eingegangen.

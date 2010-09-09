@@ -12,7 +12,7 @@ Publish/Subscribe-Systeme sind Forschungszweck vieler wissenschaftlicher Arbeite
 \end{figure}
 
 \paragraph{räumliche Trennung}
-Wie in \Fref{fig:pubsub_black_box} zu sehen ist, trennt das Event-System Publisher und Subscriber räumlich voneinander. Diese Trennung bezieht sich nicht alleine auf verschiedene Schichten einer eine Applikation, sondern kann auch über Applikationsgrenzen oder gar Rechnergrenzen gehen.\\
+Wie in \Fref{fig:pubsub_black_box} zu sehen ist, trennt das Event-System Publisher und Subscriber räumlich voneinander. Diese Trennung bezieht sich nicht alleine auf verschiedene Schichten einer Applikation, sondern kann auch über Applikationsgrenzen oder gar Rechnergrenzen gehen.\\
 Weiterhin skaliert ein solches System besser, da der Publisher nur mit dem Event-System kommuniziert und dieses darauf ausgelegt ist, viele Subscribern zu bedienen.
 
 \cite{PiEyKoSh2007-PubSubAPI} gibt einen Vorschlag für eine generische API\index{Publish/Subscribe!generische API} für Publish/Subscribe-Systeme und unterteilt die Kompabilität verschiedener Systeme in drei Level. Das höchste Level beschreibt einen Datenaustausch der an XML-RPC angelegt ist. Implementieren Systeme dieses Level, so können verschiedene Publish/Subscribe-Systeme miteinander kommunizieren.
@@ -21,7 +21,7 @@ Weiterhin skaliert ein solches System besser, da der Publisher nur mit dem Event
 Publisher und Subscriber sind in ihren Aktionen mit dem Event-System zeitlich getrennt. Ein Publisher muss kein Wissen über Subscriber haben und umgekehrt. Dies bedeutet dass sich ein Subscriber am System anmelden kann, obwohl kein Publisher vorhanden ist. Für Publisher gilt dies analog. Bei \emph{message-passing} ist dies nicht möglich, da die Gegenseite bekannt sein muss.
 
 \paragraph{asynchrone Verarbeitung}
-Das Senden einer Nachricht ist für den Publisher nicht blockierend. Die Auslieferung der Nachricht erfolgt für die Subscriber ebenfalls nicht blockierend, da ihnen die Nachricht per Callback zugestellt wird und damit die Verarbeitung vom Event-System aus gestartet wird.
+Das Senden einer Nachricht ist für den Publisher nicht blockierend. Die Auslieferung der Nachricht erfolgt für die Subscriber ebenfalls nicht blockierend, da ihnen die Nachricht per Callback zugestellt wird und damit die Verarbeitung vom Event-System aus getriggert wird.
 
 
 \subsection{Arten von Publish/Subscribe-Systemen}
@@ -35,7 +35,7 @@ Beide Varianten haben Vor- und Nachteile, die
 
 \subsubsection{Kanalbasiert}
 \label{chap:grundlagen:pubsub:kanalbasiert}
-Nachrichten in kanalbasierten\index{Publish/Subscribe!kanalbasiert} Systemem werden im Kontext von Kanälen oder Topics behandelt. Nachrichten können, nur in Verbindung mit einem Topic an das System übergeben werden. Clients können sich für verschiedene Kanäle einschreiben und erhalten nur diese Nachrichten.
+Nachrichten in kanalbasierten\index{Publish/Subscribe!kanalbasiert} Systemem werden im Kontext von Kanälen oder Topics behandelt. Nachrichten können nur in Verbindung mit einem Topic an das System übergeben werden. Clients können sich für verschiedene Kanäle einschreiben und erhalten nur diese Nachrichten.
 \missing{Das ist nicht schön beschrieben!}
 
 Listing \vref{code:pubsub-topicbased} zeigt die mögliche API eines solchen Systemes, diese variiert aber von System zu System. Jedoch ist klar ersichtlich, dass die API stark vom Kanalnamen geprägt ist. \emph{deliver\_callback} bezeichnet hier eine Funktion, die das System bei neuen Nachrichten aufrufen soll.
@@ -55,7 +55,7 @@ Ein prominenter Vertreter dieser Art ist Scribe \cite{Castro2002Scribe}, dessen 
 
 \subsubsection{Filterbasiert}
 \label{chap:grundlagen:pubsub:filterbased}
-In filterbasierten\index{Publish/Subscribe!filterbasiert} Systemen, gibt es streng genommen nur einen einzigen Kanal. Bei der Anmeldung muss der Client einen Filter übergeben. Das Event-System liefert nur die Nachrichten aus, die auf diesen Filter passen. Wie oben beschrieben, muss das Event-System zur Filterung die Nachrichten lesen können, bzw. müssen diese mit filterbaren Metadaten angereichert werden.\\
+In filterbasierten\index{Publish/Subscribe!filterbasiert} Systemen, gibt es streng genommen nur einen einzigen Kanal. Bei der Anmeldung muss der Client ein Prädikat übergeben. Das Event-System liefert nur die Nachrichten aus, die darauf passen. Wie oben beschrieben, muss das Event-System zur Filterung die Nachrichten lesen können, bzw. müssen diese mit filterbaren Metadaten angereichert werden.\\
 Listing \ref{code:pubsub-contentbased} zeit eine exemplarische API für solche Systeme. Statt eines Kanalnames wird bei der Subscription ein Filter übergeben. Über das zurückgegebene Handle kann sich ein Client wieder abmelden.
 
 Filterbasierte Systeme sind nicht im gleichen Ausmaße optimierbar wie kanalbasierte Systeme, da jeder Client potentiell alle Nachrichten empfangen kann. Durch eine Anpassung der Filter sind diese Systeme jedoch flexibler in der Benutzung.
@@ -69,10 +69,9 @@ Anhand Scribe (kanalbasiert) \cite{Castro2002Scribe} und Mercury (filterbasiert)
 
 \subsubsection*{Multicast-Tree am Beispiel von Scribe}
 \label{chap:related:scribe}
-Eine Umsetzung von Publish/Subscribe-Systemen in verteilen Systemen, ist der Aufbau eines Multicast-Trees\index{Multicast-Tree}, d.h. eines durch die Knoten im Netz gebildeten Baumen in dem die Nachrichten verteilt werden. Am Algorithmus von Scribe wird diese Struktur beschrieben.
+Eine Umsetzung von Publish/Subscribe-Systemen in verteilen Systemen, ist der Aufbau eines Multicast-Trees\index{Multicast-Tree}, d.h. eines durch die Knoten im Netz gebildeten Baumen in dem die Nachrichten verteilt werden. Hierbei wird pro Kanal ein eigener Multicast-Tree aufgebaut. Am Algorithmus von Scribe wird diese Struktur beschrieben.
 
-Scribe basiert auf dem strukturierten Overlay-Netzwerk Pastry \cite{Rowstron2001} und erzeugt einen vom Subscriber zum Publischer aufgebauten Baum \emph{reverse path forwarding tree} \cite{Dalal1978}.\\
-Bayeux \cite{Zhuang2001} ist ein ähnliches System, jedoch auf Basis des Overlay-Netzwerkes Tapestry. Da beide dieser Netwerke der generischen API entsprechen, stellt dies keinen Unterschied dar. Im Gegensatz zu Scribe, erzeugt Bayeux einen Baum der vom Publisher zum Subscriber aufgebaut wird. Aufgrund der unterliegenden Routingstruktur des genutzten Overlay-Netzwerkes können sich diese Pfade unterscheiden.
+Scribe basiert auf dem strukturierten Overlay-Netzwerk Pastry \cite{Rowstron2001} und erzeugt einen vom Subscriber zum Publischer aufgebauten Baum \emph{reverse path forwarding tree} \cite{Dalal1978}.
 
 \begin{figure}[htbp]
 \centering
@@ -107,6 +106,9 @@ Eine Filterung der Nachrichten ist möglich. Im einfachsten Falle, wird der Filt
 Ein Multicast-Tree ist für weittragende beziehungsweise übergreifende Nachrichten wie Teamspeak oder Systemnachrichten gut gegeignet. Für lokal bezogene Nachrichten (z.B. Positionsupdate) skaliert dieses System jedoch schlecht, da jede einzelne Positionsnachricht alle angemeldeten Knoten ins Netz gesandt wird, jedoch nur für einen Bruchteil relevant ist. Eine Filterung, wie oben angesprochen, ist nicht sinnvoll, da benachbarte Knoten nicht unbedingt aus Spielesicht benachbart sind. Somit kann die Anzahl der zu versendenden Nachrichten nicht reduziert werden.\\
 Da Knoten nur die Positionsupdates ihrer Nachbarn benötigen, ist es eine Möglichkeit, dass sich ein Knoten nur bei seinen Nachbarn anmeldet. Zwar müssen in einem Overlay-Netzwerk, die Nachrichten immer noch über andere Knoten verschickt werden, jedoch wird die Anzahl der Hops und Nachrichten geringer sein.
 
+
+
+Bayeux \cite{Zhuang2001} ist ein ähnliches System, jedoch auf Basis des Overlay-Netzwerkes Tapestry. Da beide dieser Netwerke der generischen API entsprechen, stellt dies keinen Unterschied dar. Im Gegensatz zu Scribe, erzeugt Bayeux einen Baum der vom Publisher zum Subscriber aufgebaut wird. Aufgrund der unterliegenden Routingstruktur des genutzten Overlay-Netzwerkes können sich diese Pfade unterscheiden.\\
 \ac{von} geht hier einen ähnlichen aber vom Aufbau des Netzwerkes anderen Ansatz. In diesem Netzwerk ist ein Nachbar in der virtuellen Welt direkt auch ein Nachbar im Netzwerk. Der Nachrichtenaustausch erfolgt nur mit den Nachbarn \cite{Hu2006VON}. \ac{vast} \cite{Backhaus2007Voronoibased} greift das Konzept von \ac{von} auf und testet eine Implementierung auf OpenSIM \cite{Baumgart2007OverSim}.
 
 
