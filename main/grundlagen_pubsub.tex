@@ -69,11 +69,11 @@ Filterbasierte Systeme sind nicht im gleichen Ausmaße optimierbar wie kanalbasi
 \missing{MEHR! Attribute und Wertebereich beim Systemstart fix vs. variabel zur Laufzeit $\rightarrow$ Auswirkung auf Systemaufbau}
 
 \subsection{Umsetzung verteilter Publish/Subscribe-Systeme}
-Anhand Scribe (kanalbasiert) \cite{Castro2002Scribe} und Mercury (filterbasiert) \cite{Bharambe2004Mercury} wird die Umsetzung der in \Fref{chap:konzeption_pubsub} vorgestellten Arten in strukturierten Overlaynetzwerken beschrieben. Obwohl sich \ac{m2etis} im jetzigen Entwicklungsstand auf kanalbasierte Systeme beschränkt, kann der Algorithmuns hinter Mercury interessante Einblicke und Ideen liefern.
+Anhand Scribe (kanalbasiert) \cite{Castro2002Scribe} und Mercury (filterbasiert) \cite{Bharambe2004Mercury} wird die Umsetzung der in diesem Kapitel vorgestellten Arten in strukturierten Overlay-Netzwerken beschrieben. Obwohl sich \ac{m2etis} im jetzigen Entwicklungsstand auf kanalbasierte Systeme beschränkt, kann der Algorithmuns hinter Mercury interessante Einblicke und Ideen liefern.
 
 \subsubsection*{Multicast-Tree am Beispiel von Scribe}
 \label{chap:related:scribe}
-Eine Umsetzung von Publish/Subscribe-Systemen in verteilen Systemen, ist der Aufbau eines Multicast-Trees\index{Multicast-Tree}, d.h. eines durch die Knoten im Netz gebildeten Baumen in dem die Nachrichten verteilt werden. Hierbei wird pro Kanal ein eigener Multicast-Tree aufgebaut. Am Algorithmus von Scribe wird diese Struktur beschrieben.
+Eine Umsetzung von Publish/Subscribe-Systemen in verteilen Systemen, ist der Aufbau eines Multicast-Trees\index{Multicast-Tree}, d.h. eines durch die Knoten im Netz gebildeten Baumes in dem die Nachrichten verteilt werden. Hierbei wird pro Kanal ein eigener Multicast-Tree aufgebaut. Am Algorithmus von Scribe wird diese Struktur beschrieben.
 
 Scribe basiert auf dem strukturierten Overlay-Netzwerk Pastry \cite{Rowstron2001} und erzeugt einen vom Subscriber zum Publischer aufgebauten Baum \emph{reverse path forwarding tree} \cite{Dalal1978}.
 
@@ -84,15 +84,21 @@ Scribe basiert auf dem strukturierten Overlay-Netzwerk Pastry \cite{Rowstron2001
 \label{fig:multicast_tree}
 \end{figure}
 
-\Fref{fig:multicast_tree} zeigt ein Netzwerk mit den sechs Knoten A-F. Die Verbindungen der Knoten werden durch dünne schwarze Linien dargestellt. Knoten C hat Verbindungen zu A, B, D und F. In strukturierten Netzwerken können zuständige Knoten berechnet werden. Der Multicast-Tree benötigt einen Knoten, der die Wurzel (im Folgenden \emph{Root-Knoten} genannt) darstellt. Aus Hashwert des Kanalnamens wird ein Schlüssel berechnet. Derjenige Knoten, der für aufgrund der Netzwerkmetrik für diesen Schlüssel zuständig ist, wird Root-Knoten des Kanals. Im abgebildeten Falle ist dies Knoten A.
+\Fref{fig:multicast_tree} zeigt ein Netzwerk mit den sechs Knoten A-F. Die Verbindungen der Knoten werden durch dünne schwarze Linien dargestellt. Beispielsweise hat Knoten C Verbindungen zu A, B, D und F.\\
+Der Multicast-Tree benötigt einen Knoten, der die Wurzel (im Folgenden \emph{Root-Knoten} genannt) darstellt. Aus Hashwert des Kanalnamens wird ein Schlüssel berechnet. Derjenige Knoten, der für aufgrund der Netzwerkmetrik für diesen Schlüssel zuständig ist, wird Root-Knoten des Kanals. Im abgebildeten Falle ist dies Knoten A.\\
+Weiterhin hält jeder Knoten eine Liste bei ihm angemeldeter Knoten. In der Abbildung wird diese Liste durch geschweifte Klammern nach der Knotenbezeichnung dargestellt.
 
 \paragraph*{Subscribe}
-Knoten F sendet eine \emph{subscribe}-Nachricht an A. Knoten D muss diese Nachricht weiterleiten, lässt diese aber terminiern und trägt F in die Liste ein. Knoten D sendet nun selbst eine \emph{subscribe}-Nachricht an A. Diese Nachrichten sind in der Grafik durch gebogene schwarze Verbindungslinien mit Pfeil dargestellt. Nachdem sich auch Knoten E für den Kanal eingeschrieben hat, wurden im Netzwerk insgesamt vier Nachrichten versandt: F an D, D an C, C an A und E an C. Wenn die \emph{subscribe}-Nachricht von E C erreicht, wird E lediglich in die Liste eingetragen. Ein erneutes Anmelden von C entfällt.
+Knoten F sendet eine \emph{subscribe}-Nachricht an A. Diese Nachrichten sind in der Grafik durch gebogene schwarze Verbindungslinien mit Pfeil dargestellt. Das Netwerk würde diese Nachricht über Knoten D und C an A routen. Knoten D lässt die Nachricht terminiern und trägt F in die Liste der Subscriber ein. Knoten D sendet nun selbst eine subscribe-Nachricht an A. C, über den die Nachricht geroutet wird, terminert diese, trägt D in die Liste ein sendet selbst eine subscribe-Nachricht an A. A erhält nun diese Nachricht und trägt C in die Liste ein. Damit sind nun ingesamt drei Nachrichten verschickt worden.\\
+Wenn sich Knoten E für den Kanal einschreibt, wird die subscribe-Nachricht an A über dne Knoten C geleitet. Dieser terminiert die Nachricht und fügt E der Liste hinzu. Da C selbst angemeldet ist, muss keine weitere Nachricht versendet werden.
 
 Scribe fordert periodische Subscriptions zur Erhöhung der Fehlertoleranz.
 
+\paragraph*{Unsubscribe}
+Der Austritt aus einem Kanal erfolgt ähnlich zur Subscribtion. Die Nachrichten laufen nur bis zum nächsten Knoten und terminieren dort. Der Knoten entfernt den Sender der Nachricht aus seiner Liste und sendet selbst nur eine \emph{unsubscribe}-Nachricht, wenn die Liste leer ist und er selbst nicht angemeldet ist.
+
 \paragraph*{Publish}
-In \Fref{fig:multicast_tree} möchte Knoten B eine Nachricht im Kanal publizieren. B sendet darauf eine Nachricht an den Root-Knoten A, da dieser für diesen Kanal zuständig ist (gebogene türkise Linie). Nun sendet A diese Nachricht an alle Knoten in der Liste (gerader türkiser Pfeil). Knoten C sendet die Publikation von B an die Knoten D und E. E gibt diese Nachricht direkt an die Applikation weiter, während D die Nachricht an F schicken muss.
+In \Fref{fig:multicast_tree} möchte Knoten B eine Nachricht im Kanal publizieren. B sendet darauf eine Nachricht an den Root-Knoten A, da dieser für diesen Kanal zuständig ist (gebogene türkise Linie). Nun sendet A diese Nachricht an alle Knoten in seiner Liste (gerader türkiser Pfeil). Dies ist in der Abbildung nur Knoten C. Dieser sendet sie weiter an D und E. E gibt diese Nachricht direkt an die Applikation weiter, während D die Nachricht an F schicken muss.
 
 
 \paragraph*{Schwächen}
