@@ -12,13 +12,17 @@ Publish/Subscribe-Systeme sind Forschungszweck vieler wissenschaftlicher Arbeite
 \end{figure}
 
 \paragraph{räumliche Trennung}
-Wie in \Fref{fig:pubsub_black_box} zu sehen ist, trennt das Event-System Publisher und Subscriber räumlich voneinander. Diese Trennung bezieht sich nicht alleine auf verschiedene Schichten einer Applikation, sondern kann auch über Applikationsgrenzen oder gar Rechnergrenzen gehen.\\
+Wie in \Fref{fig:pubsub_black_box} zu sehen ist, trennt das Event-System Publisher und Subscriber räumlich voneinander. Diese Trennung bezieht sich nicht alleine auf verschiedene Schichten einer Applikation, sondern kann auch über Applikationsgrenzen oder gar Rechnergrenzen gehen. \missing{Kommunikationsparadigmen, send and forget}\\
 Weiterhin skaliert ein solches System besser, da der Publisher nur mit dem Event-System kommuniziert und dieses darauf ausgelegt ist, viele Subscribern zu bedienen.
 
-\cite{PiEyKoSh2007-PubSubAPI} gibt einen Vorschlag für eine generische API\index{Publish/Subscribe!generische API} für Publish/Subscribe-Systeme und unterteilt die Kompabilität verschiedener Systeme in drei Level. Das höchste Level beschreibt einen Datenaustausch der an XML-RPC angelegt ist. Implementieren Systeme dieses Level, so können verschiedene Publish/Subscribe-Systeme miteinander kommunizieren.
+
+
+Diese Trennung kann so weit gehen, dass verschiedene Publish/Subscribe-Systeme miteinander kommunizieren können. \cite{PiEyKoSh2007-PubSubAPI} gibt einen Vorschlag für eine generische API\index{Publish/Subscribe!generische API} für Publish/Subscribe-Systeme und unterteilt die Kompabilität verschiedener Systeme in drei Level. Das höchste Level beschreibt einen Datenaustausch der an XML-RPC angelegt ist.
 
 \paragraph{zeitliche Trennung}
 Publisher und Subscriber sind in ihren Aktionen mit dem Event-System zeitlich getrennt. Ein Publisher muss kein Wissen über Subscriber haben und umgekehrt. Dies bedeutet dass sich ein Subscriber am System anmelden kann, obwohl kein Publisher vorhanden ist. Für Publisher gilt dies analog. Bei \emph{message-passing} ist dies nicht möglich, da die Gegenseite bekannt sein muss.
+
+\missing{CITE für message-passing}
 
 \paragraph{asynchrone Verarbeitung}
 Das Senden einer Nachricht ist für den Publisher nicht blockierend. Die Auslieferung der Nachricht erfolgt für die Subscriber ebenfalls nicht blockierend, da ihnen die Nachricht per Callback zugestellt wird und damit die Verarbeitung vom Event-System aus getriggert wird.
@@ -31,7 +35,7 @@ Publish/Subscribe-Systeme gibt es grundsätzlich in zwei Ausführungen:
 \item filterbasiert (\emph{content-based})
 \end{itemize}
 
-Beide Varianten haben Vor- und Nachteile, die 
+Beide Varianten haben grundsätzlich andere Arbeitsweisen, die nun näher beschrieben werden.
 
 \subsubsection{Kanalbasiert}
 \label{chap:grundlagen:pubsub:kanalbasiert}
@@ -56,7 +60,7 @@ Ein prominenter Vertreter dieser Art ist Scribe \cite{Castro2002Scribe}, dessen 
 \subsubsection{Filterbasiert}
 \label{chap:grundlagen:pubsub:filterbased}
 In filterbasierten\index{Publish/Subscribe!filterbasiert} Systemen, gibt es streng genommen nur einen einzigen Kanal. Bei der Anmeldung muss der Client ein Prädikat übergeben. Das Event-System liefert nur die Nachrichten aus, die darauf passen. Wie oben beschrieben, muss das Event-System zur Filterung die Nachrichten lesen können, bzw. müssen diese mit filterbaren Metadaten angereichert werden.\\
-Listing \ref{code:pubsub-contentbased} zeit eine exemplarische API für solche Systeme. Statt eines Kanalnames wird bei der Subscription ein Filter übergeben. Über das zurückgegebene Handle kann sich ein Client wieder abmelden.
+Listing \ref{code:pubsub-contentbased} zeigt in Anlehnung an \cite{PiEyKoSh2007-PubSubAPI} eine exemplarische API für solche Systeme. Statt eines Kanalnames wird bei der Subscription ein Filter übergeben. Über das zurückgegebene Handle kann sich ein Client wieder abmelden.
 
 Filterbasierte Systeme sind nicht im gleichen Ausmaße optimierbar wie kanalbasierte Systeme, da jeder Client potentiell alle Nachrichten empfangen kann. Durch eine Anpassung der Filter sind diese Systeme jedoch flexibler in der Benutzung.
 
@@ -65,7 +69,7 @@ Filterbasierte Systeme sind nicht im gleichen Ausmaße optimierbar wie kanalbasi
 \missing{MEHR! Attribute und Wertebereich beim Systemstart fix vs. variabel zur Laufzeit $\rightarrow$ Auswirkung auf Systemaufbau}
 
 \subsection{Umsetzung verteilter Publish/Subscribe-Systeme}
-Anhand Scribe (kanalbasiert) \cite{Castro2002Scribe} und Mercury (filterbasiert) \cite{Bharambe2004Mercury} wird die Umsetzung der in \Fref{chap:konzeption_pubsub} vorgestellten Arten in strukturierten Overlaynetzwerken beschrieben. Obwohl das Framework im jetzigen Entwicklungsstand auf kanalbasierte Systeme beschränkt sein wird \missing{Erklärung warum}, kann der Algorithmuns hinter Mercury interessante Einblicke und Ideen liefern.
+Anhand Scribe (kanalbasiert) \cite{Castro2002Scribe} und Mercury (filterbasiert) \cite{Bharambe2004Mercury} wird die Umsetzung der in \Fref{chap:konzeption_pubsub} vorgestellten Arten in strukturierten Overlaynetzwerken beschrieben. Obwohl sich \ac{m2etis} im jetzigen Entwicklungsstand auf kanalbasierte Systeme beschränkt, kann der Algorithmuns hinter Mercury interessante Einblicke und Ideen liefern.
 
 \subsubsection*{Multicast-Tree am Beispiel von Scribe}
 \label{chap:related:scribe}

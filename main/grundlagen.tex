@@ -1,17 +1,21 @@
 \chapter{Grundlagen}
 \label{chap:grundlagen}
 
+In diesem Kapitel werden die Grundlagen dieser Arbeit, \ac{p2p}-Netzwerke und Publish/Subscribe-System, erläutert. Nach einer kurzen Begriffserklärung wird anhand dem Aufbau von \ac{m2etis} die Struktur des in dieser Arbeit zu entwickelnden Frameworks erklärt. Ein Abschnitt zu Betrug, dessen Aufdeckung bzw. Verhinderung, beendet dieses Kapitel.
+
 \section{Begriffserklärungen}
 
-\missing{FUFUFU}
+Overlay-Netzwerke und \ac{p2p}-Netzwerke sind verschiedene Netzwerke, werden jedoch häufig in einem Atemzug genannt. Diese sind jedoch zwei verschiedene Begrifflichkeiten, deren Unterschiede hier erläutert werden.
 
-\paragraph{Overlay Netzwerk} Ein Overlay-Netzwerk\index{Netzwerk!Overlay} ist ein logischer Aufsatz auf einem bestehenden Netzwerk. Weiterhin zeichnet es sich dadurch aus, dass ein eigener Adressraum genutzt wird und somit das unterliegende Netzwerk überlagert wird. Knoten im Netzwerk können demnach benachbart sein, ohne eine direkte physikalische Verbindung zu haben. Jedes Netzwerk besitzt andere Metriken für Nachbarschaft.\\
-Ein Overlay-Netzwerk bietet neben dem eigenen Adressraum auch Funktionalität zum Versand, Empfang und Routing von Nachrichten \cite{Tannenbaum2003}. 
+\paragraph{Overlay-Netzwerk} Ein Overlay-Netzwerk\index{Netzwerk!Overlay} ist ein logischer Aufsatz auf einem bestehenden Netzwerk. Weiterhin wird ein eigener Adressraum genutzt und damit das unterliegende Netzwerk überlagert wird. Knoten im Netzwerk können demnach benachbart sein, ohne eine direkte physikalische Verbindung zu haben.\\
+Ein Overlay-Netzwerk bietet neben dem eigenen Adressraum auch Funktionalität zum Versand, Empfang und Routing von Nachrichten \cite{Tannenbaum2003}.
+
+Overlay-Netzwerke sind vielschichtiger Natur. So sind z.B. der EMail-Dienst mit seinem eigenen Namensraum, Twitter oder Facebook als Overlay-Netzwerke zu bezeichnen.
 
 \paragraph{\ac{p2p}-Netzwerk} p2p-Netzwerke\index{Netzwerk!p2p} beschreiben den Verbund von Knoten, sogenannten Peers, die miteinander gleichberechtigt kommunizieren können \cite{Steinmetz2005}. p2p-Netzwerke werden meist durch Overlay-Netzwerke realisiert, da Techniken wie beispielsweise IP-Multicast \cite{Deering1990Multicast} nicht weit verbreitet sind und diese vom unterliegenden Netzwerk abstrahieren. Durch deren angebotene Funktionen können viele Arten von p2p-Systemen implementiert werden. Grundlagen dieser Systeme sowie deren unterschiedliche Ansätze werden in \Fref{chap:grundlagen:p2p} näher besprochen.\\
-Die erste Generation dieser Netzwerke, wurde häuft zum Austausch von Dateien verwendet. Daher assoziieren viele Leute \ac{p2p} mit dem Begriff \emph{Filesharing}. p2p-Netzwerke können unter Anderem auch als Kommunikationsnetze genutzt werden \cite{Darlagiannis2006Peertopeer}. \missing{Hier noch ein cooles Paper zum Thema Sensorknoten und deren Netzwerk (p2p) finden!}
+Die erste Generation dieser Netzwerke, wurde häuft zum Austausch von Dateien verwendet. Daher wird vielfach mit dem Begrff \ac{p2p} \emph{Filesharing}, der meist illegale Austausch von Dateien, assoziiert. Jedoch werden p2p-Netzwerke unter Anderem als Kommunikationsnetze genutzt \cite{Darlagiannis2006Peertopeer}. \missing{Hier noch ein cooles Paper zum Thema Sensorknoten und deren Netzwerk (p2p) finden!}
 
-Im Folgenden werden die Begriffe \emph{p2p-Netzwerk} und \emph{Overlay-Netzwerk} in dieser Arbeit synonym benutzt. In vielen zitierten Arbeiten wird von \emph{p2p-overlay network} gesprochen und dies drückt die Anforderung dieser Arbeit an solche Netzwerke aus:\\
+Die Begriffe \emph{p2p-Netzwerk} und \emph{Overlay-Netzwerk} werden in dieser Arbeit synonym benutzt. In vielen zitierten Arbeiten wird von \emph{p2p-overlay network} gesprochen und dies drückt die Anforderung an solche Netzwerke aus:\\
 Ein vom physischen Netzwerk (räumlich) unabhängiger Verbund aus gleichberechtigten Knoten die miteinander kommunizieren können.
 
 \input{main/grundlagen_mmog.tex}
