@@ -10,6 +10,8 @@ Die Dimension \emph{Routing} entscheidet darüber ob und welche Nachrichten Type
 Die Dimension \emph{Filter} muss sicherstellen, dass eine \emph{publish}-Nachricht nur an diejenigen Knoten geht, die diese Nachricht auch empfangen wollen. Muss eine solche Nachricht erst zum RootKnoten wandern (bsp. bei Direct oder Multicast) so, darf sie natürlich nicht gefiltert werden!\\
 Dies bedeutet auch, dass bei der Auslieferung einer \emph{publish}-Nachricht nicht mehr gefiltert werden muss. Muss eine solche Nachricht jedoch weiter verteilt werden (bsp: Multicast), dann muss wie oben erwähnt gefiltert werden!
 
+
+\cite{Fischer2010a, Fischer2010Event}
 \begin{table}[!h]
 \label{tab:konzeption_pubsub:verbindungsmatrix}
 \resizebox{\textwidth}{!}{%
