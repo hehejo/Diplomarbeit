@@ -1,7 +1,7 @@
 \section{Aufbau von M$^2$etis}
 \label{chap:grundlagen:aufbau_metis}
 
-Diese Arbeit entsteht im Rahmen des \ac{m2etis}-Projektes Cite Cite Cite und bla.
+Dieser Abschnitt erläutert den Aufbau von \ac{m2etis} \cite{Fischer2010a, Fischer2010Event} und zeigt den Rahmen dieser Diplomarbeit auf. 
 
 \begin{figure}[htbp]
 \centering
@@ -11,5 +11,8 @@ Diese Arbeit entsteht im Rahmen des \ac{m2etis}-Projektes Cite Cite Cite und bla
 \label{fig:metis_aufbau}
 \end{figure}
 
-\cite{Fischer2010a, Fischer2010Event}
+\Fref{fig:metis_aufbau} zeigt die Aufteilung des Systemes in \emph{Spiel} und \emph{\ac{m2etis}} sowie die zeitliche Trennung in \emph{Konzeption} und \emph{Laufzeit}.
 
+Im ersten Schritt werden die Events im Spiel identifiziert und mit ihrer Semantik beschrieben. Auf der linken Seite finden sich beispielhaft verschiedene Dimensionen (nach \cite{Fischer2010a}) sowie deren unterschiedliche Implementierungen. Diese sind dem emph{\ac{m2etis} Optimierer} bekannt. Dieser verarbeitet im zweiten Schritt unter Zuhilfenahme des \emph{semantischen Modells} und des \emph{Kostenmodells} die semantische Beschreibung der Events und erzeugt einen optimierten \emph{Kanal} für jeden Event. Wie in der Grafik ersichtlich ist, benötigt das Spiel keine  Implementierungsdetails der einzelnen Kanäle um diese im 3. Schritt zur Laufzeit zu nutzen.
+
+Diese Arbeit ist für die Anbindung an das Netzwerk, die Konzeption und prototypische Entwicklung des Publish/Subscribe-Systems sowie der Implementerungen einiger Algorithmen verschiedener Dimensionen zuständig, so dass das Framework einsetzbar ist.
