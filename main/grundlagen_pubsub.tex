@@ -40,7 +40,7 @@ Filterungen sind in diesem Systemen meist nur clientseitig effizient möglich. C
 Um das System im Vorraus filtern zu lassen, müsste ein geeigneter Filter bei der Anmeldung übergeben werden. Damit das Event-System die Nachrichten filter kann, müssen diese in einem vom System lesbaren Format vorliegen. Dies bedeutet, dass das Event-System und die Clients stärker gekoppelt sind oder dass durch selbstbeschreibende Nachrichtenformate die Nachrichtengröße aufgebläht wird.\\
 \cite{PiEyKoSh2007-PubSubAPI} zeigt mit einem System aus XML basierten Nachrichten und XPath Filter das dies möglich ist. Weiterhin verbessert dies, wie oben angesprochen, die Interopabilität verschiedener Systeme.
 
-Können keine selbstbeschreibende Nachrichtenformate genutzt werden, so müssen dem Event-System Callbacks zur Filterung zur Verfügung stehen. Diese Callback können jedoch erst auf Clientseite ausgeführt werden, was einen Transport der Nachricht zum Client bedingt. Dies widerspricht jedoch der Idee der Nachrichtenvermeidung durch Filterung. In \Fref{chap:konzeption_pubsub} wird beschrieben, wie solch eine Filterung jedoch auch gewinnbringend eingesetzt werden kann.
+Können keine selbstbeschreibende Nachrichtenformate genutzt werden, so müssen dem Event-System Callbacks zur Filterung zur Verfügung stehen. Diese Callback können jedoch erst auf Clientseite ausgeführt werden, was einen Transport der Nachricht zum Client bedingt. Dies widerspricht jedoch der Idee der Nachrichtenvermeidung durch Filterung.
 
 Ein prominenter Vertreter dieser Art ist Scribe \cite{Castro2002Scribe}, dessen Funktionsweise in \Fref{chap:related:scribe} genau beschrieben wird.
 
@@ -50,12 +50,10 @@ In filterbasierten\index{Publish/Subscribe!filterbasiert} Systemen, gibt es stre
 
 Filterbasierte Systeme sind nicht im gleichen Ausmaße optimierbar wie kanalbasierte Systeme, da jeder Client potentiell alle Nachrichten empfangen kann. Durch eine Anpassung der Filter sind diese Systeme jedoch flexibler in der Benutzung. Die Definitionen der Attribute und deren Wertebereich haben eine Auswirkung auf den Systemaufbau. Sind diese zur Laufzeit änderbar, so muss das System weitaus generischer arbeiten als dies bei einer feststehenden Menge an Attributen
 
-\missing{MEHR! Attribute und Wertebereich beim Systemstart fix vs. variabel zur Laufzeit $\rightarrow$ Auswirkung auf Systemaufbau}
-
 \subsection{Umsetzung verteilter Publish/Subscribe-Systeme}
 Anhand Scribe (kanalbasiert) \cite{Castro2002Scribe} und Mercury (filterbasiert) \cite{Bharambe2004Mercury} wird die Umsetzung der in diesem Kapitel vorgestellten Arten in strukturierten Overlay-Netzwerken beschrieben. Obwohl sich \ac{m2etis} im jetzigen Entwicklungsstand auf kanalbasierte Systeme beschränkt \cite{Fischer2010a}, kann der Algorithmuns hinter Mercury interessante Einblicke und Ideen liefern.
 
-\subsubsection*{Multicast-Tree am Beispiel von Scribe}
+\subsubsection*{Kanalbasiert am Beispiel von Scribe}
 \label{chap:related:scribe}
 Eine Umsetzung von Publish/Subscribe-Systemen in verteilen Systemen, ist der Aufbau eines Multicast-Trees\index{Multicast-Tree}, d.h. eines durch die Knoten im Netz gebildeten Baumes in dem die Nachrichten verteilt werden. Hierbei wird pro Kanal ein eigener Multicast-Tree aufgebaut. Am Algorithmus von Scribe wird diese Struktur beschrieben.
 
@@ -72,58 +70,53 @@ Scribe basiert auf dem strukturierten Overlay-Netzwerk Pastry \cite{Rowstron2001
 Der Multicast-Tree benötigt einen Knoten, der die Wurzel (im Folgenden \emph{Root-Knoten} genannt) darstellt. Aus Hashwert des Kanalnamens wird ein Schlüssel berechnet. Derjenige Knoten, der für aufgrund der Netzwerkmetrik für diesen Schlüssel zuständig ist, wird Root-Knoten des Kanals. Im abgebildeten Falle ist dies Knoten A.\\
 Weiterhin hält jeder Knoten eine Liste bei ihm angemeldeter Knoten. In der Abbildung wird diese Liste durch geschweifte Klammern nach der Knotenbezeichnung dargestellt.
 
-\paragraph*{Subscribe}
-Knoten F sendet eine \emph{subscribe}-Nachricht an A. Diese Nachrichten sind in der Grafik durch gebogene schwarze Verbindungslinien mit Pfeil dargestellt. Das Netwerk würde diese Nachricht über Knoten D und C an A routen. Knoten D lässt die Nachricht terminiern und trägt F in die Liste der Subscriber ein. Knoten D sendet nun selbst eine subscribe-Nachricht an A. C, über den die Nachricht geroutet wird, terminert diese, trägt D in die Liste ein sendet selbst eine subscribe-Nachricht an A. A erhält nun diese Nachricht und trägt C in die Liste ein. Damit sind nun ingesamt drei Nachrichten verschickt worden.\\
+\paragraph*{Anmelden}
+Knoten F sendet eine \emph{subscribe}-Nachricht an A. Diese Nachrichten sind in der Grafik durch gebogene schwarze Verbindungslinien mit Pfeil dargestellt. Das Netzwerk würde diese Nachricht über Knoten D und C an A routen. Knoten D lässt die Nachricht terminiern und trägt F in die Liste der Subscriber ein. Knoten D sendet nun selbst eine subscribe-Nachricht an A. C, über den die Nachricht geroutet wird, terminert diese, trägt D in die Liste ein sendet selbst eine subscribe-Nachricht an A. A erhält nun diese Nachricht und trägt C in die Liste ein. Damit sind nun ingesamt drei Nachrichten verschickt worden.\\
 Wenn sich Knoten E für den Kanal einschreibt, wird die subscribe-Nachricht an A über dne Knoten C geleitet. Dieser terminiert die Nachricht und fügt E der Liste hinzu. Da C selbst angemeldet ist, muss keine weitere Nachricht versendet werden.
 
 Scribe fordert periodische Subscriptions zur Erhöhung der Fehlertoleranz.
 
-\paragraph*{Unsubscribe}
-Der Austritt aus einem Kanal erfolgt ähnlich zur Subscribtion. Die Nachrichten laufen nur bis zum nächsten Knoten und terminieren dort. Der Knoten entfernt den Sender der Nachricht aus seiner Liste und sendet selbst nur eine \emph{unsubscribe}-Nachricht, wenn die Liste leer ist und er selbst nicht angemeldet ist.
+\paragraph*{Abmelden}
+Der Austritt aus einem Kanal erfolgt ähnlich zur Anmeldung. Die Nachricht läuft nur bis zum nächsten Knoten und terminiert dort. Der Knoten entfernt den Sender der Nachricht aus seiner Liste und sendet selbst nur eine \emph{unsubscribe}-Nachricht, wenn die Liste leer ist und er selbst nicht angemeldet ist.
 
-\paragraph*{Publish}
+\paragraph*{Publizieren}
 In \Fref{fig:multicast_tree} möchte Knoten B eine Nachricht im Kanal publizieren. B sendet darauf eine Nachricht an den Root-Knoten A, da dieser für diesen Kanal zuständig ist (gebogene türkise Linie). Nun sendet A diese Nachricht an alle Knoten in seiner Liste (gerader türkiser Pfeil). Dies ist in der Abbildung nur Knoten C. Dieser sendet sie weiter an D und E. E gibt diese Nachricht direkt an die Applikation weiter, während D die Nachricht an F schicken muss.
 
 
 \paragraph*{Schwächen}
-Hierbei ist klar ersichtlich, dass ein Overhead an Nachrichten entsteht, wenn Knoten F eine Nachricht im Kanal publizieren möchte. Diese Nachricht muss erst von Knoten F zu Knoten A wandern, nur damit A diese Nachricht wieder über die anderen Knoten zurücksendet. Optimierte Versionen dieses Algorithmus können hier ansetzen und zu publizierende Nachrichten nicht mehr an den Knoten senden, der ihnen diese Nachricht geschickt hat. So würde C die Nachricht gleich an E weiterleiten.
-
-
-Obwohl dieses System die Anzahl der zu versendenden Nachrichten drastisch reduziert, ist anzumerken, dass Knotenpunkte Kanalnachrichten bearbeiten müssen, für die sie sich nicht interessieren. Beispielsweise ist Knoten A in \emph{TEAM RED}, ist aber berechneter Root-Knoten des Kanals \emph{TEAMSPEAK.TEAM\_EAGLE}.
-
+Hierbei ist klar ersichtlich, dass ein Overhead an Nachrichten entsteht, wenn Knoten F eine Nachricht im Kanal publizieren möchte. Diese Nachricht muss erst von Knoten F zu Knoten A wandern, damit A diese Nachricht wieder über die anderen Knoten zurücksendet. Optimierte Versionen dieses Algorithmus können hier ansetzen und zu publizierende Nachrichten nicht mehr an den Knoten senden, der ihnen diese Nachricht geschickt hat. So würde C die Nachricht nur noch an E weiterleiten.
 
 \paragraph*{Filterung}
-Eine Filterung der Nachrichten ist möglich. Im einfachsten Falle, wird der Filter bei jedem Subscriber geprüft, im komplexeren Falle werden die Filter der Subscriber mit zum Root-Knoten geschickt und die Zwischenknoten kombinieren die empfangenen Filter zu einem generellen Filter. Somit ist es möglich, dass eine Nachricht gar nicht an einen Subtree gesendet werden muss.
-
+Eine Filterung der Nachrichten ist möglich. Im einfachsten Falle, wird das Prädikat der Anmeldung bei jedem angemeldeten Knoten geprüft. Werden die Prädikate mit der Anmeldungsinformation verbunden, so können die an den Zwischenknoten kombiniert werden und ergeben damit ein generalles Prädikat, das für alle Knoten in diesem Unterbaum gültig ist.
 
 \paragraph*{Eignung}
-Ein Multicast-Tree ist für weittragende beziehungsweise übergreifende Nachrichten wie Teamspeak oder Systemnachrichten gut gegeignet. Für lokal bezogene Nachrichten (z.B. Positionsupdate) skaliert dieses System jedoch schlecht, da jede einzelne Positionsnachricht alle angemeldeten Knoten ins Netz gesandt wird, jedoch nur für einen Bruchteil relevant ist. Eine Filterung, wie oben angesprochen, ist nicht sinnvoll, da benachbarte Knoten nicht unbedingt aus Spielesicht benachbart sind. Somit kann die Anzahl der zu versendenden Nachrichten nicht reduziert werden.\\
-Da Knoten nur die Positionsupdates ihrer Nachbarn benötigen, ist es eine Möglichkeit, dass sich ein Knoten nur bei seinen Nachbarn anmeldet. Zwar müssen in einem Overlay-Netzwerk, die Nachrichten immer noch über andere Knoten verschickt werden, jedoch wird die Anzahl der Hops und Nachrichten geringer sein.
+Ein Multicast-Tree ist für weittragende beziehungsweise übergreifende Nachrichten gut gegeignet. Für Nachrichtentypen mit lokalem Bezug (z.B. Positionsupdate) skaliert dieses System jedoch schlecht, da jede einzelne Positionsnachricht an alle angemeldeten Knoten ins Netz gesandt wird, jedoch nur für einen Bruchteil relevant ist. Eine Filterung, wie oben angesprochen, ist nicht sinnvoll, da benachbarte Knoten nicht unbedingt aus Spielesicht benachbart sind. Somit kann die Anzahl der zu versendenden Nachrichten nicht reduziert werden.
 
-
-
-Bayeux \cite{Zhuang2001} ist ein ähnliches System, jedoch auf Basis des Overlay-Netzwerkes Tapestry. Da beide dieser Netwerke der generischen API entsprechen, stellt dies keinen Unterschied dar. Im Gegensatz zu Scribe, erzeugt Bayeux einen Baum der vom Publisher zum Subscriber aufgebaut wird. Aufgrund der unterliegenden Routingstruktur des genutzten Overlay-Netzwerkes können sich diese Pfade unterscheiden.\\
+\paragraph*{Ähnliche Algorithmen}
+Bayeux \cite{Zhuang2001} ist ein ähnliches System, jedoch auf Basis des Overlay-Netzwerkes Tapestry. Da beide dieser Netwerke der generischen API entsprechen, stellt dies keinen Unterschied dar. Im Gegensatz zu Scribe, erzeugt Bayeux einen Baum der vom Root-Knoten aus aufgebaut wird. Aufgrund der unterliegenden Routingstruktur des genutzten Overlay-Netzwerkes können sich diese Pfade unterscheiden.\\
 \ac{von} geht hier einen ähnlichen aber vom Aufbau des Netzwerkes anderen Ansatz. In diesem Netzwerk ist ein Nachbar in der virtuellen Welt direkt auch ein Nachbar im Netzwerk. Der Nachrichtenaustausch erfolgt nur mit den Nachbarn \cite{Hu2006VON}. \ac{vast} \cite{Backhaus2007Voronoibased} greift das Konzept von \ac{von} auf und testet eine Implementierung auf OpenSIM \cite{Baumgart2007OverSim}.
 
 
 
-\subsubsection{Content-based am Beispiel von Mercury}
+\subsubsection{Filterbasiert am Beispiel von Mercury}
 \label{chap:related:mercury}
-Mercury \cite{Bharambe2004Mercury} gehört zur Klasse der filterbasierten Publish/Subscribe-Systeme\index{Publish/Subscribe!filterbasiert}.
+Mercury \cite{Bharambe2004Mercury} gehört zur Klasse der filterbasierten Publish/Subscribe-Systeme\index{Publish/Subscribe!filterbasiert} und optimiert dieses durch Clusterbildung.
 
 \paragraph*{Arbeitsweise}
-Im System gibt es eine Menge an Attributen, die ihrerseits einen definierten Wertebereich haben. Jedes Attribut wird durch einen eigenen \emph{Hub} gebildet. Ein Hub ist ein Verbund aus Knoten, die untereinander über Nachbarschaftsmetriken\footnote{Alte Version: forward- und backward-Pointer; Ringstruktur\\Neue Version: Tabelle mit allen Knoten im Hub} verknüpft sind. Der Wertebereich ist dabei nicht zwingend symmetrisch\footnote{Angenommen, $0<=x<360$: Knoten $A_{[0,270)}$, $B_{[270, 360)}$} auf die Knoten verteilt.
+Im System gibt es eine Menge an Attributen, die ihrerseits einen definierten Wertebereich haben. Jedes Attribut wird durch einen eigenen \emph{Hub} gebildet. Ein Hub ist ein Verbund aus Knoten, die untereinander über Nachbarschaftsmetriken verknüpft sind. Der Wertebereich ist dabei nicht zwingend symmetrisch auf die Knoten verteilt.
 
+\paragraph*{Anmelden}
 Eine Subscription $S$ ist ein Tupel aus Filterbedingungen über die Attribute (z.B. $S := (5 < x <= 20; y = 15)$) sowie Kontaktinformationen des Knotens. $S$ wird an einen beliebigen Knoten eines Hubs gesendet, der für das Attribut aus der Filterbedingung mit der größten Selektivität zuständig ist. Im Beispiel ist dies Attribut $y$. Im Hub wird $S$ nun zu dem Knoten weitergereicht, der den Wertebereich der Filterung abdeckt. Dort wird $S$ in einer Liste gespeichert.
 
+\paragraph*{Publizieren}
 Eine Publikation $P$ ist ebenfalls ein Tupel mit bestimmten Werten der Attribute (z.B. $P := (x = 10; y = 0)$). $P$ wird an \emph{alle} Hubs gesendet und dort zum zustädnigen Knoten weitergereicht. Dieser prüft nun die Liste der gespeicherten Subscriptions gegen die neue Publikation. Stimmen beide überein, so wird $P$ an den eingeschriebenen Knoten weitergeleitet.
 
-\paragraph*{Offene Punkte}
-\begin{itemize}
-\item Änderung der Attribute zur Laufzeit?
-\item Auswahl der Knoten für einen Hub?
-\item Aufteilung der Wertemenge auf die Knoten?
-\item (imho keine Aussage über die Knotenverbindungen)
-\end{itemize}
+%\paragraph*{Offene Punkte}
+%\begin{itemize*}
+%\item Änderung der Attribute zur Laufzeit?
+%\item Auswahl der Knoten für einen Hub?
+%\item Aufteilung der Wertemenge auf die Knoten?
+%\end{itemize*}
 
-Mirinae ist ein ebenfalls ein content-based Publish/Subscribe-System, stellt den Wertebereich eines Attributes jedoch als Hyperwürfel da, in dem Knoten mehrere Ecken/Kanten darstellen. Eine automatische Anpassung dieser Aufteilung ermöglicht ein schnelles und kurzes Routen der Nachrichten \cite{Choi2005Mirinae}.
+\paragraph*{Ähnliche Algorithmen}
+Mirinae ist ein ebenfalls ein content-based Publish/Subscribe-System, stellt den Wertebereich eines Attributes jedoch als Hyperwürfel da, in dem Knoten mehrere Ecken/Kanten darstellen. Eine automatische Anpassung dieser Aufteilung ermöglicht eine schnelle Anpassung der Routingtabelle und damit einen kurzen Weg für die Nachrichten \cite{Choi2005Mirinae}.
