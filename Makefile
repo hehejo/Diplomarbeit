@@ -8,6 +8,7 @@ full:
 	makeindex -g -l -s index.ist master &
 	bibtex master 
 	pdflatex master
+	bibtex master 
 	pdflatex master
 	
 	
