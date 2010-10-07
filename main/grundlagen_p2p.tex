@@ -1,27 +1,19 @@
 \section{p2p-Netzwerke}
 \label{chap:grundlagen:p2p}
-\missing{noch eine kleine schöne Einleitung}
-Sie sind sehr beliebt, Filesharing, Verteilen von Daten, schneller und kostengünstiger Download (BitTorrent). Auch Spiele springen auf den Zug auf \cite{Knutsson2004Peertopeer, Triebel2008Peertopeer}.
 
-Für und wieder \ac{p2p}, toll. \cite{Roussopoulos20032} 
+p2p-Netzwerke sind die Grundlage aktueller Filesharing-Systeme wie BitTorrent, die einen schnellen und kostengünstigen Download ermöglichen. Der einfache Netzaufbau, die Fehlertoleranz bei ausfallenden Knoten sowie der Wegfall eines obligatorischen Servers lässt diese Netzwerke auch für Computerspiele interessant werden \cite{Knutsson2004Peertopeer, Triebel2008Peertopeer}. Auch für Sensornetzwerke ist der Aufbau eines p2p-Netzwerkes von Vorteil, da z.B. auch durch deren Verarbeitungsmodell wertvolle Resourcen (wie z.B. Batterie) besser genutzt werden können \cite{MuneebAliandKoenLangendoen2007Case, Sioutas2009Building}. Die Kommunikation zwischen den Knoten benötigt weniger Sendeleistung als es eine Verbindungen zu einem - eventuell weit entfernten - Hauptrechner benötigen würde. Roussopoulos stellt in \cite{Roussopoulos20032} einen Entscheidungsbaum für und wieder den Einsatz von p2p-Netzwerken zur Verfügung.
+\missing{Übergang!}
 
-Auch Sensorknoten nutzen P2P: \cite{MuneebAliandKoenLangendoen2007Case}
 
-p2p-Netzwerke lassen sich grundsätzlich in zwei Arten einteilen \cite{Steinmetz2005, Lua2005Survey}: 
-\begin{itemize*}
-\item unstrukturiert\footnote{z.B. Napster, Gnutella}
-\item strukturiert\footnote{z.B. Chord, Pastry}
-\end{itemize*}
-
-Da strukturierte Netze später entstanden sind, lassen sich die einzelnen Netze grob in drei Generationen einteilen \cite{Bo2003PeertoPeer}:
+p2p-Netzwerke lassen sich grundsätzlich als \emph{unstrukturiert\footnote{z.B. Napster, Gnutella}} oder \emph{strukturiert\footnote{z.B. Chord, Pastry}} klassifizieren \cite{Steinmetz2005, Lua2005Survey} und in Generationen einteilen \cite{Bo2003PeertoPeer}:
 \begin{itemize*}
 	\item \emph{1G} unstrukturierte Netzwerke
 	\item \emph{2G} strukturierte Netzwerke
 	\item \emph{3G} strukturierte Netzwerke mit Fokus auf Anonymität, Authentifizierung, Schutz vor Zensur und verschiedenen Rollen der einzelnen Knoten
 \end{itemize*}
 
-Netzwerke der dritten Generation, wie z.B. GNUnet \cite{Bennett2002GNet} werden nicht näher betrachtet, da die zusätzlich angebotene Funktionalität in dieser Arbeit nicht benötigt wird beziehungsweise darauf kein Fokus liegt. Clients im Spiel sollen sich weiterhin über einen speziellen Server authentifizieren und darüber in das Netzwerk verbinden.\\
-In \Fref{chap:grundlagen:cheating} wird ein Überblick möglicher Betrugsarten aufgeführt und auf weitere Literatur zur Betrugsverhinderung beziehungsweise Prävention verwiesen. Für diese Arbeit wird angenommen, dass Clients keinerlei Betrugsversuche unternehmen und schadhaftes Verhalten zeigen. Jedoch muss das zu entwickelnde Framework den Einbau möglicher Sicherheitskomponenten vorsehen und in seinen Grundzügen Betrugsversuche erschweren.
+Netzwerke der dritten Generation, wie z.B. GNUnet \cite{Bennett2002GNet} werden in dieser Arbeit nicht näher betrachtet. Die zusätzlich angebotene Funktionalität wird nicht benötigt beziehungsweise liegt darauf kein Fokus. Die Authentifizerung von Clients im Spiel findet weiterhin durch einen dezdierten Server statt.\\
+In \Fref{chap:grundlagen:cheating} wird ein Überblick möglicher Betrugsarten aufgeführt und auf weitere Literatur zur Betrugsverhinderung beziehungsweise Prävention verwiesen. Für diese Arbeit wird angenommen, dass Clients keinerlei Betrugsversuche unternehmen und kein schadhaftes Verhalten zeigen. Jedoch muss das zu entwickelnde Framework den Einbau möglicher Sicherheitskomponenten vorsehen und in seinen Grundzügen Betrugsversuche erschweren.
 
 Im Folgenden werden die Grundzüge der Netzwerke der ersten und zweiten Generation näher beschrieben.
 
