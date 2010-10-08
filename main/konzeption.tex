@@ -4,11 +4,11 @@ In diesem Kapitel wird die Konzeption des Frameworks zur Verteilungsoptimierung 
 
 Im Optimierungsschritt erzeugt \ac{m2etis} für jeden Eventtypen einen optimierten Kanal der über das Publish/Subscribe-System angesprechbar ist. Dieses bieten die bekannten Methoden \emph{subscribe, unsubscribe} und \emph{publish} an. Jeder Kanal ist entlang den Dimensionen derart optimiert, dass Nachrichten des Eventtypen bestmötlich verarbeitet und über Netzwerk verteilt werden können. Das Netzwerk selbst wird über die \ac{kbr}-API angesprochen, die ihrereseits drei Methoden anbietet um den Nutzer über Knotenein- und austritte sowie über den Knoten zu routende und auch ankommende Nachrichten zu informieren \cite{Dabek2003Towards}. Damit ein Kanal nur Nachrichten bearbeitet die für ihn bestimmt sind, werden eigene Nachrichtentypen am Netzwerk registriert.
 
-Für die logische Umsetzung der in \cite{Fischer2010Event} identifizierten semantischen Dimensionen eines Eventtypen wird der Begriff \emph{Policy} eingeführt. Eine Policy definiert dabei Schnittstelle für verschiedene Strategien (konkrete Implementierung) und deren Auswirkung auf die Nachrichtenverarbeitung im Publish/Subscribe-System. Die folgenden sieben Policies decken die Dimensionen ab \cite{NEW_PAPER}.\missing{CITE: NEW PAPER!}
+Für die logische Umsetzung der in \cite{Fischer2010Event} identifizierten semantischen Dimensionen eines Eventtypen wird der Begriff \emph{Policy} eingeführt. Eine Policy definiert dabei Schnittstelle für verschiedene konkrete Implementierung (genannt Strategie) und deren Auswirkung auf die Nachrichtenverarbeitung im Publish/Subscribe-System. Die folgenden sieben Policies decken die Dimensionen ab \cite{NEW_PAPER}.\missing{CITE: NEW PAPER!}
 
 \begin{description}
 \item[Verteilung] bestimmt die Verteilung der Events und den Aufbau des Multicast-Trees, mittels dem die Nachrichten versandt werden \cite{KostasKatrinis2005}.
-\item[Filterung] erlaubt es zu Anmeldungen Prädikate anzuhängen. Es stellt sicher, dass diese Prädikate nach oben im Multicast-Tree zusammengeführt werden, damit Nachrichten frühzeitig gefiltert werden können.
+\item[Filterung] erlaubt es Anmeldungen Prädikate mitzugeben. Es stellt sicher, dass diese Prädikate nach oben im Multicast-Tree zusammengeführt werden, damit Nachrichten frühzeitig gefiltert werden können.
 \item[Auslieferung] bestimmt das Kommunikationspradigma des Nachrichtenversand und leitet z.B. Bestätigungen über eingegangene Nachrichten an den sendenen Knoten ein.
 \item[Reihenfolge] definiert die Synchronisation der Nachrichten in einem Kanal.
 \item[Persistenz] bietet verschiedene Möglichkeiten versandte Nachrichten zu sichern an.
@@ -16,16 +16,18 @@ Für die logische Umsetzung der in \cite{Fischer2010Event} identifizierten seman
 \item[Validität] prüft die ankommenden Nachrichten auf ihre Validität. Frühzeitig verworfene Nachrichten können das Nachrichtenaufkommen im System stark vermindern.
 \end{description}
 
+Die Verbindung der Publish/Subscribe Methoden und der genutzen \ac{kbr} Methoden ist trival, da jede verschickte Nachricht in den entsprechenden Methoden \emph{forward} und \emph{deliver} verarbeitet wird \cite{Dabek2003Towards}.\\
+Die Verteilung der Policies auf die verschiedenen Nachrichtentypen ist hingegen interessanter und in \Fref{tab:verbindungsmatrix} aufgezeigt. Bei der Verarbeitung von \emph{Publish}-Nachrichten, den eigentlichen Events, wird jede Policy genutzt, da sie den zu optimierenden Dimensionen entsprechen. Die \emph{Subscribe}- und \emph{Unsubscribe}-Nachrichten dienen jedoch nur zum Aufbau des Multicast-Trees bzw. dessen Verwaltung. Aus diesem Grund werden bei diesen Nachrichtentypen nur die Policies Verteilung, Filterung und Sicherheit gebraucht.
 
-The mapping between publish/subscribe and \ac{kbr} actions is straight forward as table \ref{tab:verbindungsmatrix} shows. All policies are involved in the delivery of publish messages. This ensures that these messages arrive at the destination host and are not changed while routing. Subscribe and unsubscribe messages require actions in forward and deliver for routing and filtering purposes, as the decision of their strategies may affect the structure of the multicast-tree.
+Events werden ausschließlich in deliver behandelt, so dass diese Nachrichten bei allem Empfängern ankommen und unterwegs nicht verändert oder terminiert werden können. Dies ist ein kleiner Schritt in die Richtung zur Betrugsverhinderung. Die eingesetzte Verteilungsstrategie - eine konkrete Implementierung der Policy Verteilung - entscheidet darüber, ob Subscribe- und Unsubscribe-Nachrichten in forward und/oder deliver behandelt werden. Nur in foward haben die beiden Strategien Verteilung und Filter die Möglichkeit die zu weiterleitende Nachricht zu verändern oder gar zu terminieren. Dies bedeutet, dass jede Filterstrategie generisch beide Varianten unterstützen muss.
 
 \begin{table}[!h]
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{llccccccc}
 \toprule
-Nachrichten- & KBR	& \multicolumn{7}{c}{Policy für jeden Kanal} \\
+Nachrichten- & KBR	& \multicolumn{7}{c}{Policy pro Kanal} \\
 \cmidrule{3-9}
-typ				&	Aufruf	& Verteilung & Filterung & Auslieferung & Reihenfolge & Persistenz & Sicherheit & Validität \\
+typ				&	Methode	& Verteilung & Filterung & Auslieferung & Reihenfolge & Persistenz & Sicherheit & Validität \\
 \midrule
 publish	    & deliver & + & + & + & + & + & + & + \\
 \midrule
@@ -41,6 +43,8 @@ unsubscribe & deliver & + & + &   &   &   & + & \\
 \caption{Verbindungsmatrix}
 \label{tab:verbindungsmatrix}
 \end{table}
+
+
 
 
 Die Dimension \emph{Filter} muss sicherstellen, dass eine \emph{publish}-Nachricht nur an diejenigen Knoten geht, die diese Nachricht auch empfangen wollen. Muss eine solche Nachricht erst zum RootKnoten wandern (bsp. bei Direct oder Multicast) so, darf sie natürlich nicht gefiltert werden!\\
