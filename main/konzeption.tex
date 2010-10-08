@@ -1,39 +1,21 @@
 \chapter{Konzeption des Frameworks}
 \label{chap:konzeption_pubsub}
-Diese Arbeit entwickelt ein Framework auf Basis eines strukturierten P2P-Overlay-Netzwerkes. Die im System nutzbaren Publish/Subscribe-Systeme müssen ebenfalls verteilt arbeiten können. Dabei spielen die Fehlertoleranz und auch die Fähigkeit mit \emph{churn}, d.h. schnellem Wechsel der Mitgliedschaften, umgehen zu können, eine große Rolle.
+In diesem Kapitel wird die Konzeption des Frameworks zur Verteilungsoptimierung in seinen Einzelheiten erläutert. Ausgehend von den in \cite{Ficher2010a} identifizierten Eventtypen und Optimierungsdimensionen wird im nächsten Abschnitt beschriebene Problemstellung greifbar. Das Framework muss generisch auf vielfältige Weisen anpassbar sein ohne teure Laufzeiteinbußen zu bedingen \cite{NEW_PAPER} \missing{CITE: NEW PAPER!}. Weiterhin darf die Konzeption, \ac{m2etis} als ein einfach zu nutzendes kanalbasiertes Publish/Subscribe-System zu darzustellen nicht aus dem Fokus geraten. Die Problemstellung führt zum Verarbeitungsmodell das beispielhaft getestet wird.
 
-\emph{Nicht vergessen}: Auf Knoten die Nachrichten weiterleiten wird \emph{forward} aufgerufen. Auf Knoten die eine Nachricht empfangen wird zuerst \emph{forward} und dann \emph{deliver} aufgerufen. In \emph{forward} kann der Knoten den Nachrichtenversand beenden. Vgl. \Fref{chap:evaluation_p2p:generic_api}!
+Im Optimierungsschritt erzeugt \ac{m2etis} für jeden Eventtypen einen optimierten Kanal der über das Publish/Subscribe-System angesprechbar ist. Dieses bieten die bekannten Methoden \emph{subscribe, unsubscribe} und \emph{publish} an. Jeder Kanal ist entlang den Dimensionen derart optimiert, dass Nachrichten des Eventtypen bestmötlich verarbeitet und über Netzwerk verteilt werden können. Das Netzwerk selbst wird über die \ac{kbr}-API angesprochen, die ihrereseits drei Methoden anbietet um den Nutzer über Knotenein- und austritte sowie über den Knoten zu routende und auch ankommende Nachrichten zu informieren \cite{Dabek2003Towards}. Damit ein Kanal nur Nachrichten bearbeitet die für ihn bestimmt sind, werden eigene Nachrichtentypen am Netzwerk registriert.
 
-Die Dimension \emph{Routing} entscheidet darüber ob und welche Nachrichten Typen in \emph{forward} oder \emph{deliver} behandelt werden sollen.\\
-\emph{publish}-Nachrichten werden nicht in \emph{forward} sondern nur in \emph{deliver} behandelt.
+Für die logische Umsetzung der in \cite{Fischer2010Event} identifizierten semantischen Dimensionen eines Eventtypen wird der Begriff \emph{Policy} eingeführt. Eine Policy definiert dabei Schnittstelle für verschiedene Strategien (konkrete Implementierung) und deren Auswirkung auf die Nachrichtenverarbeitung im Publish/Subscribe-System. Die folgenden sieben Policies decken die Dimensionen ab \cite{NEW_PAPER}.\missing{CITE: NEW PAPER!}
 
-Die Dimension \emph{Filter} muss sicherstellen, dass eine \emph{publish}-Nachricht nur an diejenigen Knoten geht, die diese Nachricht auch empfangen wollen. Muss eine solche Nachricht erst zum RootKnoten wandern (bsp. bei Direct oder Multicast) so, darf sie natürlich nicht gefiltert werden!\\
-Dies bedeutet auch, dass bei der Auslieferung einer \emph{publish}-Nachricht nicht mehr gefiltert werden muss. Muss eine solche Nachricht jedoch weiter verteilt werden (bsp: Multicast), dann muss wie oben erwähnt gefiltert werden!
+\begin{description}
+\item[Verteilung] bestimmt die Verteilung der Events und den Aufbau des Multicast-Trees, mittels dem die Nachrichten versandt werden \cite{KostasKatrinis2005}.
+\item[Filterung] erlaubt es zu Anmeldungen Prädikate anzuhängen. Es stellt sicher, dass diese Prädikate nach oben im Multicast-Tree zusammengeführt werden, damit Nachrichten frühzeitig gefiltert werden können.
+\item[Auslieferung] bestimmt das Kommunikationspradigma des Nachrichtenversand und leitet z.B. Bestätigungen über eingegangene Nachrichten an den sendenen Knoten ein.
+\item[Reihenfolge] definiert die Synchronisation der Nachrichten in einem Kanal.
+\item[Persistenz] bietet verschiedene Möglichkeiten versandte Nachrichten zu sichern an.
+\item[Sicherheit] gibt eine Schnittestelle zur Nachrichtenverschlüsselung vor.
+\item[Validität] prüft die ankommenden Nachrichten auf ihre Validität. Frühzeitig verworfene Nachrichten können das Nachrichtenaufkommen im System stark vermindern.
+\end{description}
 
-
-\cite{Fischer2010a, Fischer2010Event}
-
-
-\cite{BeFiMu2006PubSubQoS}
-\cite{KostasKatrinis2005}
-
-\section{Problemstellung}
-
-\section{Verarbeitungsmodell}
-Dimensionen $\rightarrow$ Policies $\rightarrow$ Strategien
-
-The processing model describes how the publish/subscribe system abstracts from the \ac{kbr} network, taking into consideration the different dimensions to optimize the event dissemination.
-
-Each channel offers the common publish/subscribe actions: \emph{subscribe, unsubscribe} and \emph{publish}. Each action for each channel is connected with a corresponding type of message sent via the network. The network is accessed via a \ac{kbr}-API providing three methods to inform about new nodes joining the network, a message being forwarded and/or delivered to the user's node \cite{Dabek2003Towards}.
-
-The semantical dimensions introduced in \cite{Fischer2010a} are covered by seven policies. These policies define the interfaces for the implementation of different strategies for each dimension and their implication on the processing of the publish/subscribe messages. We support following policies:
-\\\textbf{Routing} is the logic of event dissemination and creates a multicast-tree. 
-\\\textbf{Filter} permits to attach a filter predicate to subscribtions and ensures that these predicates are merged upwards in the multicast-tree to filter messages as early as possible.
-\\\textbf{Delivery} defines the logic of the message delivery, e.g. acknowledgements.
-\\\textbf{Order} defines the synchronization strategy for a channel.
-\\\textbf{Persistence} provides persistence for messages delivered to the target nodes.
-\\\textbf{Security} may be used to encrypt a channel.
-\\\textbf{Validity} discards invalid messages and therefore decrease the amount of messages.
 
 The mapping between publish/subscribe and \ac{kbr} actions is straight forward as table \ref{tab:verbindungsmatrix} shows. All policies are involved in the delivery of publish messages. This ensures that these messages arrive at the destination host and are not changed while routing. Subscribe and unsubscribe messages require actions in forward and deliver for routing and filtering purposes, as the decision of their strategies may affect the structure of the multicast-tree.
 
@@ -43,7 +25,7 @@ The mapping between publish/subscribe and \ac{kbr} actions is straight forward a
 \toprule
 Nachrichten- & KBR	& \multicolumn{7}{c}{Policy für jeden Kanal} \\
 \cmidrule{3-9}
-typ				&	Aufruf	& Routing & Filter & Delivery & Order & Persistence & Security & Validity \\
+typ				&	Aufruf	& Verteilung & Filterung & Auslieferung & Reihenfolge & Persistenz & Sicherheit & Validität \\
 \midrule
 publish	    & deliver & + & + & + & + & + & + & + \\
 \midrule
@@ -60,6 +42,32 @@ unsubscribe & deliver & + & + &   &   &   & + & \\
 \label{tab:verbindungsmatrix}
 \end{table}
 
+
+Die Dimension \emph{Filter} muss sicherstellen, dass eine \emph{publish}-Nachricht nur an diejenigen Knoten geht, die diese Nachricht auch empfangen wollen. Muss eine solche Nachricht erst zum RootKnoten wandern (bsp. bei Direct oder Multicast) so, darf sie natürlich nicht gefiltert werden!\\
+Dies bedeutet auch, dass bei der Auslieferung einer \emph{publish}-Nachricht nicht mehr gefiltert werden muss. Muss eine solche Nachricht jedoch weiter verteilt werden (bsp: Multicast), dann muss wie oben erwähnt gefiltert werden!
+
+
+\cite{Fischer2010a, Fischer2010Event}
+
+
+\cite{BeFiMu2006PubSubQoS}
+ % Application-Layer Multicast
+
+
+Dimensionen umsetzen, (Kanal so entwickeln dass es genutzt werden kann)
+
+Aufsetzen auf KBR Netzwerk.
+
+Aus den Dimensionen in den Papern werden Policies. Zuordnung ist nicht 1:1. Durch Optimierung wird es für jeden Eventtyp einen Kanal geben, der entlang der Policies optimiert ist und jeweils eine Strategie, = Implementierung einer Policy, nutzt.
+
+Typ und Implementierung der einzelen Kanäle verstehen, einfache kanal PubSub-Api anbieten.
+
+Der Aufbau von \ac{m2etis}\footnote{siehe \Fref{fig:metis_aufbau}} und den in \cite{Fischer2010Event}
+
+
+
+
+\section{Verarbeitungsmodell}
 
 Based on the given mapping, the challenge is to find a generic application order for the policies in the processing model as shown in figure \ref{fig:processing_model}.
 
