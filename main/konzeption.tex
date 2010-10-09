@@ -19,8 +19,6 @@ Für die logische Umsetzung der in \cite{Fischer2010Event} identifizierten seman
 Die Verbindung der Publish/Subscribe Methoden und der genutzen \ac{kbr} Methoden ist trival, da jede verschickte Nachricht durch die Methoden \emph{forward} und \emph{deliver} des Netzwerkes verarbeitet wird \cite{Dabek2003Towards}.\\
 Die Verteilung der Policies auf die verschiedenen Nachrichtentypen ist hingegen interessanter und in \Fref{tab:verbindungsmatrix} aufgezeigt. Bei der Verarbeitung von \emph{Publish}-Nachrichten, den eigentlichen Events, wird jede Policy abgefragt. Die \emph{Subscribe}- und \emph{Unsubscribe}-Nachrichten dienen jedoch nur zum Aufbau und der Verwaltung des Multicast-Treesrm. Aus diesem Grund werden bei diesen Nachrichtentypen nur die Policies Verteilung, Filterung und Sicherheit gebraucht.
 
-Events, also Publish-Nachrichten, werden ausschließlich in deliver behandelt, so dass diese bei allen Empfängern ankommen und unterwegs nicht verändert oder terminiert werden können. Dies ist ein kleiner Schritt in die Richtung zur Betrugsverhinderung. Für Subscribe- und Unsubscribe-Nachrichten entscheided die eingesetzte Verteilungsstrategie darüber, ob diese in forward und/oder deliver behandelt werden. Nur in foward haben die beiden Strategien Verteilung und Filter die Möglichkeit die zu weiterleitende Nachricht zu verändern oder gar zu terminieren. Dies bedeutet, dass jede Filterstrategie generisch beide Varianten unterstützen muss.
-
 \begin{table}[!h]
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{llccccccc}
@@ -44,24 +42,16 @@ unsubscribe & deliver & + & + &   &   &   & + & \\
 \label{tab:verbindungsmatrix}
 \end{table}
 
-
-\cite{Fischer2010a, Fischer2010Event}
-
-\cite{BeFiMu2006PubSubQoS}
-
-
-
-
-Typ und Implementierung der einzelen Kanäle verstehen, einfache kanal PubSub-Api anbieten.
+Events, also Publish-Nachrichten, werden ausschließlich in deliver behandelt, so dass diese bei allen Empfängern ankommen und unterwegs nicht verändert oder terminiert werden können. Dies ist ein kleiner Schritt in die Richtung zur Betrugsverhinderung. Für Subscribe- und Unsubscribe-Nachrichten entscheided die eingesetzte Verteilungsstrategie darüber, ob diese in forward und/oder deliver behandelt werden. Nur in foward haben die beiden Strategien Verteilung und Filter die Möglichkeit die zu weiterleitende Nachricht zu verändern oder gar zu terminieren. Dies bedeutet, dass jede Filterstrategie generisch beide Varianten unterstützen muss.
 
 
 \section{Verarbeitungsmodell}
-
 Based on the given mapping, the challenge is to find a generic application order for the policies in the processing model.
+Die richtige Reihenfolge der Policies bei der Verarbeitung der Nachrichten ist bestimmend für eine gute Blupp.
 
-For the distribution of a message the routing policy has to provide a list of target nodes, to whom the message must be send. Every multicast-tree has one or more corresponding root nodes. Subscribe or unsubscribe messages are always sent to that nodes, while publish messages from a non-root node must always be sent to the root nodes to trigger the publish process. Such messages are flagged \emph{to root}. On the root nodes, this flag is set to \emph{from root}. Nodes sending messages as \emph{from root} return the list of subscribers as target nodes which are filtered according to their predicate given at subscription. Finally the message is encrypted and handed over to the network.
+Beim Erstellen einer Nachricht, werden Verwaltungsinformationen der einzelnen Policies abgefragt und mit der Nachricht verschickt. Anhand dieser Informationen kann die Nachricht auf einem anderen Knoten entsprechend behandelt werden. Subscribe- und Unsubscribenachrichten bestehen nur aus diesen Verwaltungsinformationen, da sie zum Aufbau und der Verwaltung des Multicast-Trees dienen und keine Events transportieren.
 
-
+Der Versand einer Nachricht ist in \Fref{fig:processing_send} bildlich dargestellt. Nachdem die Nachricht erstellt ist, wird die Verteilungspolicy nach einer Liste von Empfängern befragt. Diese ist vom Nachrichtentyp abhängig. Für Subscribe- und Unsubscribenachrichten ist dies immer Rootknoten des Multicast-Trees, da dieser dessen Aufbau kooridiniert, bzw. dies durch die Knoten auf dem Routingpfad durch das Netzwerk geschieht. Ist es eine Publish-Nachricht, so ist der Empfänger der Rootknoten, falls die Nachricht mit \emph{to root} gekennzeichnet ist. Dies ist der Fall, wenn ein Knoten einen Event in das System bringen möchte. Jeder Event muss an den/die Rootknoten geschickt werden, da die Verteilung innerhalb der Methode deliver stattfindet. Hat die Nachricht den/die Rootknoten erreicht, so ist sie mit \emph{from root} gekennzeichnet und die Verteilungsstrategie gibt als Empfänger die eingeschriebenen Knoten aus. Für jeden Eintrag dieser Liste wird nun von der Filterstrategie geprüft, ob die Nachricht auf das mit diesem Knoten verbundene Prädikat passt. Hiermit kann die Anzahl der zu versendenden Nachrichten reduziert werden. Schließlich wird die Nachricht durch die anhand der Sicherheitsstrategie vorgegebene Verschlüsselung kodiert und über das Netzwerk an alle Empfänger gesandt.
 
 \begin{figure}[htbp]
 \centering
@@ -70,6 +60,8 @@ For the distribution of a message the routing policy has to provide a list of ta
 \label{fig:processing_send}
 \end{figure}
 
+Sollten Nachrichten in forward behandelt werden, so werden diese zuerst dekodiert wie es in \Fref{fig:processing_forward} aufgezeigt ist. Die Verteilungs- und Filterpolicies können anhand der Verwaltungsinformationen ihren Zustand anpassen und wenn nötig die Nachricht ändern oder gar stoppen.
+
 \begin{figure}[htbp]
 \centering
 \includegraphics{grafics/processing_forward.pdf}
@@ -77,17 +69,17 @@ For the distribution of a message the routing policy has to provide a list of ta
 \label{fig:processing_forward}
 \end{figure}
 
+Die Abarbeitung der Nachrichten in deliver ist komplexer als die beiden oben genannten Fälle, da hier alle Policies zusammenarbeiten wie es \Fref{fig:processing_deliver} aufzeigt. Nach der Entschlüsselung werden Subscribe- und Unsubscribenachrichten ähnlich wie bei der Behandlung in forward verarbeitet. Die Policies können ihren Zustnad aktualisieren.\\
+Publishnachrichten müssen eine Validitätsprüfung bestehen, bevor entschieden wird, ob sie eine Nachricht \emph{to root}, also an den Rootknoten sind, oder nicht. Der Rootknoten und alle andern Knoten auf dem Verteilungsweg, die selbst Verteilungsaufgaben übernehmen müssen (abhängig von der gewählten Verteilungsstrategie), leiten nun das Verteilen der Nachricht ein. Dazu wird in einem ersten Schritt eine neue Publishnachricht erstellt, alle Verwaltungsinformationen abgefragt und schließlich die Nachricht mit dem obig beschriebenen Verfahren gesendet. Nun wird an diesen Knoten geprüft ob sie selbst angemeldet sind und ob sie in diesem Falle an der Nachricht interessiert sind. Wenn nein, so endet die Bearbeitung. Ansonsten trifft sich der Ablaufpfad an dieser Stelle mit dem Ablaufpfad einfacher Knoten, die lediglich Subscriber sind. Die Synchronisierungspolicy ermöglicht eine Wohlordnung der Nachricht und kann diese sowohl zurückhalten als auch mehrer Nachrichten zurückgeben. Diese Nachrichten werden nun nochmals auf ihre Validität geprüft, da zurückgehaltene Nachrichten inzwischen veraltet sein können. Für jede valide Nachricht wird eine Signalisierung der Zustellung laut Policy, z.B. eine Acknowledgementnachricht zurück an den Sender, ermöglicht. Bevor eine Nachricht an die Applikation übergeben wird, kann sie persistiert werden.
+
 \begin{figure}[htbp]
 \centering
-\includegraphics{grafics/processing_deliver.pdf}
+\resizebox{\textwidth}{!}{%
+\includegraphics{grafics/processing_deliver.pdf}}
 \caption{Verarbeitungsmodell}
 \label{fig:processing_deliver}
 \end{figure}
 
-Decryption is the first action if a message is processed in deliver. After that subscribe and unsubscribe messages are handled separately. These messages are passed to the strategies for routing and filter to alter the multicast tree. Publish messages on the other hand have to pass the validity check. The next step checks whether the message must be spread i.e. distributed to other nodes. That is the case if the actual node is a root node or an intermediate node with distribution responsibility. If yes, the message is distributed using the send-process explained above. Now, the subscription and the predicate of the actual node are checked to ensure a proper delivery if that node is subscribed, too. If the actual node is a simple subscriber and the message is flagged \emph{from root} the predicate is not tested, as it is already checked while sending the message at the publishers side. The two paths merge at the ordering step. As ordering may hold messages back until they are ready the validity has to be checked again. The deliver dimension is called next offering to send acknowledgements back to the sender. Persisting the message is the last action before the message is finally delivered up to the application.\\
-The handling in the forward-action from the \ac{kbr} is similar to deliver as the subscribe or unsubscribe information is extracted and passed to the strategies and they may alter the message.
-
-As failures are not detected activeley in such networks, it is important to automatically renew the subscription. If nodes in the logical multicast-tree fail, the messages are automatically routed via other hosts, rebuilding the tree. However, it is possible that some messages are lost during the recovery.
 
 \subsection{Beispielhafte Strategien}
 For every policy \ac{m2etis} provides one ore more implementations. For example \emph{Direct} or \emph{Multicast} for routing. The framwork permits inclusion of more user-defined strategies. Different types of channel use a different set of implementations for every policy, creating a variety of optimization options. Each implemented strategy must provide additional cost information that is used in the optimizing step and they may add information onto each message to enable the customized treatment.

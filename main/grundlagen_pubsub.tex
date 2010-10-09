@@ -53,6 +53,8 @@ Filterbasierte Systeme sind nicht im gleichen Ausmaße optimierbar wie kanalbasi
 \subsection{Umsetzung verteilter Publish/Subscribe-Systeme}
 Anhand Scribe (kanalbasiert) \cite{Castro2002Scribe} und Mercury (filterbasiert) \cite{Bharambe2004Mercury} wird die Umsetzung der in diesem Kapitel vorgestellten Arten in strukturierten Overlay-Netzwerken beschrieben. Obwohl sich \ac{m2etis} im jetzigen Entwicklungsstand auf kanalbasierte Systeme beschränkt \cite{Fischer2010a}, kann der Algorithmuns hinter Mercury interessante Einblicke und Ideen liefern.
 
+Da ausgefallene Knoten in solchen Netzwerken nicht aktiv erkannt werden, müssen Anmeldungen periodisch erneuert werden. Dies stellt sicher, dass die Nachrichten vom Netzwerk automatisch über andere Knoten geleitet werden und sich so der logische Multicast-Tree wieder aufbauen kann. Dennoch können in der Zwischenzeit Nachrichten verloren gehen.
+
 \subsubsection*{Kanalbasiert am Beispiel von Scribe}
 \label{chap:related:scribe}
 Eine Umsetzung von Publish/Subscribe-Systemen in verteilen Systemen, ist der Aufbau eines Multicast-Trees\index{Multicast-Tree}, d.h. eines durch die Knoten im Netz gebildeten Baumes in dem die Nachrichten verteilt werden. Hierbei wird pro Kanal ein eigener Multicast-Tree aufgebaut. Am Algorithmus von Scribe wird diese Struktur beschrieben.
