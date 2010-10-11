@@ -6,3 +6,40 @@ Our prototypic implementation of the introduced models shows, the applicability 
 With \ac{tmp} it is possible to derive create custom-tailored message headers, depending on the chosen strategies. This ensures small message sizes with a high payload ratio. Each channel itself is therefore in charge to orchestrate strategies for the different policies with regard to our processing model, derived by the semantic description for all optimization dimensions. All described design decisions ensure that the system has a small footprint at runtime and that it can be used without further knowledge of the system internals, the channels or the used strategies.
 
 \emph{Nicht vergessen}: Auf Knoten die Nachrichten weiterleiten wird \emph{forward} aufgerufen. Auf Knoten die eine Nachricht empfangen wird zuerst \emph{forward} und dann \emph{deliver} aufgerufen. In \emph{forward} kann der Knoten den Nachrichtenversand beenden. Vgl. \Fref{chap:evaluation_p2p:generic_api}!
+
+\section{Templates, Template Meta-Programming und Policy-based Design}
+Template Meta-Programming\index{Template Meta-Programming} und policy-based Design\index{policy-based Design} \cite{Alexandrescu2001Modern} sind Paradigmen der Softwareentwicklung in C++ und bedienen sich der dort verfügbaren \emph{Templates}. Policy-based Desgin baut in der hier eklärten Variante auf dem turingvollständigem \ac{tmp} auf.
+
+\subsection{Templates}
+Templates dienen der Generalisierung von Code und werden zur Übersetzungszeit durch den Compiler ausgewertet. Templates sind ein integraler Bestandteil der \ac{stl}\footnote{Siehe auch \url{http://www.cplusplus.com/reference/stl/}} und dienen dort vor Allem zum Erstellen von abstrakten Containerklassen wie zum Beispiel \emph{std::vector}, \emph{std::map} oder \emph{std::set}. Basierend auf dem Konzept des Zugriffs über \emph{Iteratoren}, sind viele aus der Funktionalen Programmierung bekannte Funktionen implementiert, die ebenfalls durch Templates generisch gehalten sind.
+
+Einzelne Funktionen oder komplette Klassen könnten als Template realisiert werden. Zusätzlich der generischen Implementierung können auch spezielle Implementierungen, sog. Spezialisierungen, angegeben werden können. Funktionstemplates lassen sich nur total, Klassentemplates auch partiell spezialisieren. Eine partielle Spezialisierung kann bei mehreren Templateparametern erflolgen. Ungenutzte Templates werden vom Compiler nicht instantiiert, dies bedeutet dass kein ungenutzter Code im fertigem Kompilat vorhanden ist. Dies wiederum verringert die Größe von ausführbaren Dateien oder dynamischen Bibliotheken. Jedoch muss erwähnt werden, dass jede Instanz eines Templates eigenen Code generiert. Dieser lässt sich - dank des Wissens zur Übersetzungszeit - besser optimieren als zur Laufzeit.
+
+In diesem und den folgenden Beispielen soll ein Einblick in die neue Methodik gezeigt werden, daher wird nicht auf eine optimierte Parameterübergabe oder Ähnliches geachtet. \Fref{lst:tmp_easy_spez} zeigt ein einfaches Template. Der Funktion \emph{min} wird als Templateparameter der Typ der Paramter übergeben. Es wird erwartet, dass die übergebenen Typen den Operator $<$ überladen haben. Für den Typ \emph{Pair} ist das Template total spezialisiert und eine separate Implementierung wurde angegeben. Zeilen 18 und 19 zeigen die einzelnen Funktionsaufrufe.
+
+\lstinputlisting[caption={Funktionstemplate}, label=lst:tmp_easy_spez]{listings/tmp_easy_spez.cpp}
+
+Mit Templates lassen sich auch Entscheidungen anhand der übergebenen Templateparamter treffen. In \Fref{lst:tmp_cond} wird anhand des Parameters \emph{isSingleton} entschieden, ob das neue Objekt mit \emph{new} oder per Aufruf der Methode \emph{T::getInstance()} erzeugt werde kann.
+
+\lstinputlisting[caption={Entscheidung via Templates}, label=lst:tmp_cond]{listings/tmp_cond.cpp}
+
+ Der Compiler prüft dabie alle instantiierten Templates syntaktisch. Da Foo die Methode \emph{getInstance} nicht anbietet, kann, obwohl isSingleton mit false instantiert wird, der Code nicht kompiliert werden. Um dieses Problem zu umgehen, beschreibt Alexandrescu in \cite{Alexandrescu2001Modern} das Hilfskonstrukt \emph{Int2Type} das im nächsten Kapitel eingeführt wird.
+
+\subsection{Template Meta-Programming}
+Template Meta-Programming arbeitet mit der vorgestellten Spezialisierung von Templates und wird ebenfalls vom Compiler zum Übersetzungszeitpunkt ausgewählt und basiert rein auf Typinformation.
+
+\ac{tmp} kann dazu genutzt werden, um die Problematik im vorangegangenen Kapitel zu lösen. \Fref{lst:tmp_cond_2} zeigt die Definition von \emph{Int2Type}, einem Typ der zur Übersetzungzeit erzeugt werden kann und den übergebenen Integerwert speichert. Jede Instanz von Int2Type ist ein eigenständiger Typ.\\
+Die statische Methode create (Zeile 8) ruft nun abhängig vom Templateparameter isSingleton die überladene Methode create\_impl auf. Im ersten Fall (Zeile 14) nimmt sie ein Int2Type$<$true$>$, im zweiten Falle (Zeile 19) nur Int2Type$<$false$>$. Da der Compiler nur instantiierte Templates prüfen muss, gibt es nun keine Übersetzungfehler mehr. Der Aufruf bleibt gleich.
+
+\lstinputlisting[caption={Entscheidung via Templates zur Übersetzungzeit}, label=lst:tmp_cond_2]{listings/tmp_cond_2.cpp}
+
+Durch diese Technik können Entscheidungen zur Übersetzungezeit getroffen werden. So können z.b. auch komplexe Berechnungen zur Übersetzungszeit ein- bzw. ausgeschaltet werden. Der zustätzliche Code (z.B. Methodenaufruf) kann durch den Compiler leicht optimiert werden.
+
+Weitere Anwendungsfälle des \ac{TMP}, wie Listen, sind in  \cite{Alexandrescu2001Modern} beschrieben.
+
+\subsection{Policy-based Desgin}
+Policy-based Design kombiniert Vererbung und Templates und ermöglicht es sehr generischen Code zu entwickeln. Hierbei lassen sich sehr gut orthogonale Aspekte ausnutzen, wie Alexandrescu am Beispiel des Smartpointers erläutert.
+
+In \Fref{lst:tmp_pbd} ist ein einfache Ausgabeklasse \emph{Ausgabe} beschrieben, die mittels einem \emph{Decorator} und einem \emph{Printer} parametrisiert wird. Ausgabe leitet von diesen beiden Parametern ab und nutzt deren Funktionalität. Hiermit wird für jeden Printer und jeden Dekorator ein Kontrakt erstellt, den diese zu erfüllen haben. Jeder Decorator muss eine Methode \emph{decorate} anbieten, welche einen \emph{const string\&} als Parameter nimmt. Jeder Printer muss eine Methode \emph{print} anbieten, welche den Rückgabetyp von Decorator::decorate als Parameter nimmt. Diese Kontrakte werden vom Compilier zur Übersetzungzeit in Zeile 24 geprüft. Weitere Varianten für Decorator und Printer sind trivial.
+
+\lstinputlisting[caption={Beispiel für policy-based Desgin}, label=lst:tmp_pbd]{listings/tmp_pbd.cpp}

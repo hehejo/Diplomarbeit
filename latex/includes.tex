@@ -35,6 +35,15 @@
 
 \usepackage[ngerman]{varioref} 		
 \usepackage[german]{fancyref}
+\newcommand*{\fancyreflstlabelprefix}{lst}
+\fancyrefaddcaptions{german}{
+\newcommand*{\Freflstname}{\lstlistingname}
+\newcommand*{\freflstname}{\Freflstname}
+}
+\frefformat{vario}{\fancyreflstlabelprefix}{\Freflstname\fancyrefdefaultspacing#1#3}
+\Frefformat{vario}{\fancyreflstlabelprefix}{\Freflstname\fancyrefdefaultspacing#1#3}
+
+
 \usepackage{url}
 \usepackage[plainpages=false, pdfpagelabels, colorlinks=true, linkcolor=black, menucolor=black, urlcolor=black, citecolor=black, pdftitle={Entwicklung eines Frameworks für die Verteilungsoptimierung in Publish/Subscribe Systemen auf Basis eines strukturierten P2P-Overlay Netzwerks}, pdfauthor={Johannes Held}, pdfsubject={Diplomarbeit}, pdfkeywords={event dissemination, p2p-overlay network, publish/subscribe system, decentralized}]{hyperref}
 
