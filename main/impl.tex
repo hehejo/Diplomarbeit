@@ -8,7 +8,7 @@ With \ac{tmp} it is possible to derive create custom-tailored message headers, d
 \emph{Nicht vergessen}: Auf Knoten die Nachrichten weiterleiten wird \emph{forward} aufgerufen. Auf Knoten die eine Nachricht empfangen wird zuerst \emph{forward} und dann \emph{deliver} aufgerufen. In \emph{forward} kann der Knoten den Nachrichtenversand beenden. Vgl. \Fref{chap:evaluation_p2p:generic_api}!
 
 \section{Templates, Template Meta-Programming und Policy-based Design}
-Template Meta-Programming\index{Template Meta-Programming} und policy-based Design\index{policy-based Design} \cite{Alexandrescu2001Modern} sind Paradigmen der Softwareentwicklung in C++ und bedienen sich der dort verfügbaren \emph{Templates}. Policy-based Desgin baut in der hier eklärten Variante auf dem turingvollständigem \ac{tmp} auf.
+Template Meta-Programming\index{Template Meta-Programming} und policy-based Design\index{policy-based Design} \cite{Alexandrescu2001Modern} sind Paradigmen der Softwareentwicklung in C++ und bedienen sich der dort verfügbaren \emph{Templates}. Policy-based Design baut in der hier eklärten Variante auf dem turingvollständigem \ac{tmp} auf.
 
 \subsection{Templates}
 Templates dienen der Generalisierung von Code und werden zur Übersetzungszeit durch den Compiler ausgewertet. Templates sind ein integraler Bestandteil der \ac{stl}\footnote{Siehe auch \url{http://www.cplusplus.com/reference/stl/}} und dienen dort vor Allem zum Erstellen von abstrakten Containerklassen wie zum Beispiel \emph{std::vector}, \emph{std::map} oder \emph{std::set}. Basierend auf dem Konzept des Zugriffs über \emph{Iteratoren}, sind viele aus der Funktionalen Programmierung bekannte Funktionen implementiert, die ebenfalls durch Templates generisch gehalten sind.
@@ -29,17 +29,19 @@ Mit Templates lassen sich auch Entscheidungen anhand der übergebenen Templatepa
 Template Meta-Programming arbeitet mit der vorgestellten Spezialisierung von Templates und wird ebenfalls vom Compiler zum Übersetzungszeitpunkt ausgewählt und basiert rein auf Typinformation.
 
 \ac{tmp} kann dazu genutzt werden, um die Problematik im vorangegangenen Kapitel zu lösen. \Fref{lst:tmp_cond_2} zeigt die Definition von \emph{Int2Type}, einem Typ der zur Übersetzungzeit erzeugt werden kann und den übergebenen Integerwert speichert. Jede Instanz von Int2Type ist ein eigenständiger Typ.\\
-Die statische Methode create (Zeile 8) ruft nun abhängig vom Templateparameter isSingleton die überladene Methode create\_impl auf. Im ersten Fall (Zeile 14) nimmt sie ein Int2Type$<$true$>$, im zweiten Falle (Zeile 19) nur Int2Type$<$false$>$. Da der Compiler nur instantiierte Templates prüfen muss, gibt es nun keine Übersetzungfehler mehr. Der Aufruf bleibt gleich.
+Die statische Methode create (Zeile 8) ruft nun abhängig vom Templateparameter isSingleton die überladene Methode create\_impl auf. Im ersten Fall (Zeile 14) nimmt diese ein Int2Type$<$true$>$, im zweiten Falle (Zeile 19) nur Int2Type$<$false$>$. Da der Compiler nur instantiierte Templates prüfen muss, gibt es nun keine Übersetzungfehler mehr. Der Aufruf bleibt gleich.
 
 \lstinputlisting[caption={Entscheidung via Templates zur Übersetzungzeit}, label=lst:tmp_cond_2]{listings/tmp_cond_2.cpp}
 
 Durch diese Technik können Entscheidungen zur Übersetzungezeit getroffen werden. So können z.b. auch komplexe Berechnungen zur Übersetzungszeit ein- bzw. ausgeschaltet werden. Der zustätzliche Code (z.B. Methodenaufruf) kann durch den Compiler leicht optimiert werden.
 
-Weitere Anwendungsfälle des \ac{TMP}, wie Listen, sind in  \cite{Alexandrescu2001Modern} beschrieben.
+Weitere Anwendungsfälle des \ac{tmp}, wie Listen, sind in  \cite{Alexandrescu2001Modern} beschrieben.
 
-\subsection{Policy-based Desgin}
+\subsection{Policy-based Design}
 Policy-based Design kombiniert Vererbung und Templates und ermöglicht es sehr generischen Code zu entwickeln. Hierbei lassen sich sehr gut orthogonale Aspekte ausnutzen, wie Alexandrescu am Beispiel des Smartpointers erläutert.
 
 In \Fref{lst:tmp_pbd} ist ein einfache Ausgabeklasse \emph{Ausgabe} beschrieben, die mittels einem \emph{Decorator} und einem \emph{Printer} parametrisiert wird. Ausgabe leitet von diesen beiden Parametern ab und nutzt deren Funktionalität. Hiermit wird für jeden Printer und jeden Dekorator ein Kontrakt erstellt, den diese zu erfüllen haben. Jeder Decorator muss eine Methode \emph{decorate} anbieten, welche einen \emph{const string\&} als Parameter nimmt. Jeder Printer muss eine Methode \emph{print} anbieten, welche den Rückgabetyp von Decorator::decorate als Parameter nimmt. Diese Kontrakte werden vom Compilier zur Übersetzungzeit in Zeile 24 geprüft. Weitere Varianten für Decorator und Printer sind trivial.
 
-\lstinputlisting[caption={Beispiel für policy-based Desgin}, label=lst:tmp_pbd]{listings/tmp_pbd.cpp}
+Solch ein Verhalten wäre auch mit abstrakten Basisklassen und Pointern möglich. Jedoch sind dann virtuelle Funktionsaufrufe (langsam!, teuer!) notwendig. Compiler kann zur Übersetzungszeit besser optimieren. Außerdem lassen sich hier die Techniken der \ac{tmp} anwenden um weiter optimierten Code zu erzeugen. Bsp. eine Spezialisierung für bestimmte Parameter!
+
+\lstinputlisting[caption={Beispiel für policy-based Design}, label=lst:tmp_pbd]{listings/tmp_pbd.cpp}

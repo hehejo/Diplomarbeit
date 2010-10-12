@@ -1,7 +1,3 @@
-#include <string>
-#include <iostream>
-using namespace std;
-
 struct Dec_A {
 	const string decorate(const string& s) const {
 		return "A" + s +"A"
@@ -22,5 +18,4 @@ struct Ausgabe : public Decorator, public Printer {
 };
 
 Ausgabe<Dec_A, Print> bar;
-bar.put("Guten Tag");
-// -> AGuten TagA
+bar.put("Guten Tag"); // -> AGuten TagA
