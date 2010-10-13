@@ -1,18 +1,18 @@
 \chapter{Evaluation p2p Overlay-Netzwerke}
 \label{chap:evaluation_p2p}
 
-Dieses Kapitel bietet einen Überblick über einige p2p-Netzwerke und evaluiert diese anhand gestellter Anforderungen. Diese Evaluation beeinflusst die Entscheidung für ein Overlay-Netzwerk, auf das schließlich, das in dieser Arbeit zu entwickelnde, generische Publish/Subscribe-System gesetzt wird. Die Evaluation bedient sich zahlreicher Arbeiten, die sich alleine dem Vergleich dieser Netzwerke widmen \cite{Lua2005Survey, Goetz2005, Li2004Comparing, Darlagiannis2006Peertopeer, Castro2002Secure, Bo2003PeertoPeer} und geht auch auf ihre Nutzbarkeit als Basis für \emph{Application level multicast} sprich ein Publish/Subscribe-System ein \cite{Hosseini2007Survey, Fahmy2007, Castro2003Evaluation, Ratnasamy2001}.
+Dieses Kapitel bietet einen Überblick über einige p2p-Netzwerke und evaluiert diese anhand gestellter Anforderungen. Diese Evaluation beeinflusst die Entscheidung für ein Overlay-Netzwerk, auf das schließlich das, in dieser Arbeit zu entwickelnde, generische Publish/Subscribe-System gesetzt wird. Die Evaluation bedient sich zahlreicher Arbeiten, die sich alleine dem Vergleich dieser Netzwerke widmen \cite{Lua2005Survey, Goetz2005, Li2004Comparing, Darlagiannis2006Peertopeer, Castro2002Secure, Bo2003PeertoPeer} und geht auch auf ihre Nutzbarkeit als Basis für \emph{Application level multicast} sprich ein Publish/Subscribe-System ein \cite{Hosseini2007Survey, Fahmy2007, Castro2003Evaluation, Ratnasamy2001}.
 
 Zuvor müssen jedoch die eigenen Anforderungen an solche Systeme identifiziert werden. Zu den offensichtlichen Anforderungen wie beispielsweise \emph{Skalierbarkeit} gesellen sich jedoch auch spezielle Anforderungen aus Spielsicht hinzu. Diese sind beispielsweise das Vorhandensein eines dedizierten Servers zur Authentifizierung oder das Übertragen von Applikationswissen auf das Netzwerk um damit dessen Entscheidungen bezüglich Nachbarschaften oder Versand von Nachrichten (Routing) zu beeinflussen.
 
 \section{Anforderungen}
 
-\paragraph{Geringe Latenz} Schnelle Reaktionszeiten und Nachrichtenübermittlung sind bei \ac{mmog} unverzichtbpar. Ebenfalls müssen größere Nachrichten (beispielsweise Update der Welt) schnell übertragen werden damit der Spielfluss nicht behindert wird. Dies lässt sich anhand der Anzahl der Hops beim Nachrichtenversand messen.
+\paragraph{Geringe Latenz} Schnelle Reaktionszeiten und Nachrichtenübermittlung sind bei \ac{mmog} unverzichtbar. Ebenfalls müssen größere Nachrichten (beispielsweise Update der Welt) schnell übertragen werden, damit der Spielfluss nicht behindert wird. Dies lässt sich bespielsweise anhand der Anzahl der Hops beim Nachrichtenversand messen.
 
 \paragraph{Skalierbar} Selbst bei einer großen Anzahl an Knoten soll das Netz nicht kollabieren. Hierbei ist es auch wichtig, dass Knoten nicht unbedingt lange im Spiel sein müssen. Zwar kann davon ausgegangen werden, dass ein durchschnittlicher Spieler längere Zeit im Spiel verbringt, aber durch Netzausfälle oder sonstigen Unbill kann dies stark variieren. Insofern ist es wichtig wie sich die Netzwerke bei großen Fluktationen verhalten \cite{Li2004Comparing}.
 
-\paragraph{Fehlertoleranz bei Knotenausfall} Fallen Knoten aus, muss sich das Netz ohne großen Kommunikationsaufwand selbst reparieren. Ebenfalls mögliche Netzwerkpartitionierungen sind in dieser Arbeit jedoch kein Hindernis, denn der Authentifizierungsserver kann über eine gesonderte Verbindung immer erreicht werden. Über ihn können Informationen angefordert werden um das Netz wieder zu verbinden\\
-Interessant hierbei ist auch die eingebaute Redundanz einiger Systeme, die Daten auf mehrere Knoten verteilen. Wie sich dies im Vergleich von statischen Daten zu sich häufig verändernden Objekten der Spielewelt verhält ist zu untersuchen. 
+\paragraph{Fehlertoleranz bei Knotenausfall} Fallen Knoten aus, muss sich das Netz ohne großen Kommunikationsaufwand selbst reparieren. Ebenfalls mögliche Netzwerkpartitionierungen sind in dieser Arbeit jedoch kein Hindernis, denn der Authentifizierungsserver kann über eine gesonderte Verbindung immer erreicht werden. Über ihn können Informationen angefordert werden um das Netz wieder zu verbinden.\\
+Interessant hierbei ist auch die eingebaute Redundanz einiger Systeme, die Daten auf mehrere Knoten verteilen. Wie sich dies im Vergleich von statischen Daten zu sich häufig verändernden Objekten der Spielewelt verhält, ist zu untersuchen. 
 
 \paragraph{Kommunikation über das Netzwerk} Das Netzwerk soll nicht nur das schnelle Auffinden von Peers ermöglichen, sondern auch einen Transport der Nachricht (Routing) durch das Netzwerk selbst bereitstellen. Die Alternative Direktverbindungen soll nur genutzt werden, wenn eine Datenübertragung im Netzwerk nicht performant genug ist, weil z.B. die Bandbreite der zwischengeschalteten Peers zu gering ist.
 
@@ -21,13 +21,13 @@ Interessant hierbei ist auch die eingebaute Redundanz einiger Systeme, die Daten
 \paragraph{Eingriff in Routingentscheidungen} Applikationswissen hilft auch beim Eingriff in das Routing des Netzes. So können Knoten bevorzugt zur Weiterleitung einer Nachricht ausgewählt werden. Diese Knoten zeichnen sich beispielsweise durch eine große Bandbreite oder spezielle Applikationsmetriken\footnote{Bsp: Spieler befindet sich in der selben Stadt} aus.
 
 \paragraph{Verfügbarkeit als C/C++-Bibliothek} Da der Prototyp dieser Arbeit sowie das Umfeld in C++ entwickelt wird, gibt es damit eine weitere Anforderung an das Netzwerk: Die Verfügbarkeit als C/C++-Bibliothek.\\
-Damit ist das Netzwerk einfach aus bestehendem Code nutzbar ohne dass kostenintensive Brücken zwischen beispielsweise Java und C++ geschlagen werden müssen. Da zudem betriebssystemübergreifend\footnote{In unserem Fall auf Windows und Linux} entwickelt und getestet wird, ist außerdem ein zur Verfügung stehender Quellcode vorteilhaft. Nur dadurch ist es möglich eventuellen betriebssystembezogen Netzwerk- oder Threadcode auf  Boost\footnote{Zahlreiche Bibliotheken für C++: http://www.boost.org} zu portieren um somit eine betriebssystemübergreifende Benutzung zu ermöglichen.
+Damit ist das Netzwerk einfach aus bestehendem Code nutzbar ohne dass kostenintensive Brücken zwischen beispielsweise Java und C++ geschlagen werden müssen. Da zudem betriebssystemübergreifend entwickelt und getestet wird, ist außerdem ein zur Verfügung stehender Quellcode vorteilhaft. Nur dadurch ist es möglich betriebssystembezogen Netzwerk- oder Threadcode auf eine generische Bibliothek (wie zum Beispiel Boost\footnote{Zahlreiche Bibliotheken für C++: http://www.boost.org}) zu portieren um somit eine betriebssystemübergreifende Benutzung zu ermöglichen.
 
-\paragraph{Unterbau eines Publish/Subscribe-Systems} Das Overlay-Netzwerk muss so gestaltet sein, dass es dem Anwendungsfall \emph{Application level multicast} genügt und dessen besondere Anforderungen (auch von Spielseite) her unterstützt.
+\paragraph{Unterbau eines Publish/Subscribe-Systems} Das Overlay-Netzwerk muss so gestaltet sein, dass es dem Anwendungsfall \emph{Application level multicast} genügt und dessen besondere Anforderungen (auch von Spielseite her) unterstützt.
 
-Anhand dieser Anforderungen sind unstrukturierte Netzwerke nicht als Netzwerksystem für dieser Arbeit geeignet. Eine Suche, bzw. Datenübertragung durch Flooding widerspricht klar der Anforderung nach geringer Latenz. Ebenso sind diese Netzwerke auf eine Übertragung via Direktverbindung ausgelegt während für \ac{metis} eine Routing der Nachrichten zwischen Knoten erwünscht ist.
+Anhand dieser Anforderungen sind unstrukturierte Netzwerke nicht als Netzwerksystem für diese Arbeit geeignet. Eine Suche, bzw. Datenübertragung durch Flooding widerspricht klar der Anforderung nach geringer Latenz. Ebenso sind diese Netzwerke auf eine Übertragung via Direktverbindung ausgelegt während für \ac{m2etis} eine Routing der Nachrichten zwischen Knoten erwünscht ist.
 
-Dabek stellt in \cite{Dabek2003Towards} eine generische \ac{api} für \ac{kbr} Systeme vor, wie es viele der strukturierten Netzwerke anbieten vor und zeigt wie darauf aufbauend verschiedene Systeme wie \ac{dht}, \ac{dolr} und \ac{cast}\footnote{entspricht Application level multicast} implementiert werden können. Ebenfalls wird gezeigt wie einige bekannte Systeme (CAN, Chord, Pastry und Tapestry) diese die Anforderungen erfüllen.\\
+Dabek stellt in \cite{Dabek2003Towards} eine generische \ac{api} für \ac{kbr} Systeme vor, wie es viele der strukturierten Netzwerke anbieten und zeigt wie darauf aufbauend verschiedene Systeme wie \ac{dht}, \ac{dolr} und \ac{cast}\footnote{entspricht Application level multicast} implementiert werden können. Zusätzlich beschreibt Dabek wie einige bekannte Systeme (CAN, Chord, Pastry und Tapestry) diese die Anforderungen erfüllen.\\
 Daraus ergibt sich eine weitere spezielle Anforderung an das Overlay-Netzwerk:
 
 \paragraph{Anpassbarkeit an generische \ac{api}} Lässt sich das Netzwerk der generischen \ac{api} anpassen, gewinnt das an Flexibilität, da die Netzwerkschicht ohne große Änderungen an den restlichen Systemschichten ausgetauscht und verändert werden kann.
@@ -63,7 +63,7 @@ Damit ist ein Knoten für alle Daten zuständig, die - bildlich gesehen - im Rin
 
 
 \paragraph{Pastry / Tapestry}
-Pastry \cite{Rowstron2001} und Tapestry \cite{Zhao2001Tapestry,Zhao2004Tapestry} sind sich sehr ähnlich, da beiden auf Plaxtons Arbeit \cite{Plaxton1997Accessing} aufbauen. Auf Unterschiede wird explizit hingewiesen.
+Pastry \cite{Rowstron2001} und Tapestry \cite{Zhao2001Tapestry,Zhao2004Tapestry} sind sich sehr ähnlich, da beide auf Plaxtons Arbeit \cite{Plaxton1997Accessing} aufbauen. Auf Unterschiede wird explizit hingewiesen.
 
 Pastry besitzt ebenfalls einen l-bit wertigen Schlüsselraum, dabei werden Schlüssel als Zahlen zur Basis $2^b$ dargestellt\footnote{l meist 128; b meist 4}, wobei die Wahl von $b$ einen Einfluss auf das Routing hat. Ein Datum ist dem Knoten zugewiesen, dessen ID am nähesten zum Schlüsselwert des Datums liegt.  \Fref{fig:pastry_key_space} zeigt dies beispielhaft für sechs Knoten und fünf Datensätzen. Im Unterschied zu Chord ist hier Knoten $N14$ für $K16$ und Knoten $N54$ für $K55$ zuständig.\\
 \missing{Noch nicht so sehr schön beschrieben!}
@@ -79,7 +79,7 @@ Tapestry erzeugt automatische Redundanz, da hier die Daten auf mehrere Knoten ve
 
 
 \paragraph{CAN}
-Der Schlüsselraum bei CAN \cite{Ratnasamy2001Scalable} ist ein d-dimensionaler Torus. Die Schlüssel werden als d-Tupel (zum Beispiel $(x,y)$ für $d=2$) dargestellt. Wie bei Pastry ist der numerisch näheste Knoten für ein Datum zuständig. Der Schlüsselraum ist in nicht überlappende Zonen eingeteilt und hat eine feste Größe. Jeder Knoten \emph{besitzt} eine solche Zone, über deren Ausmaß er definiert ist, und ist damit für alle Daten zuständig, die in dieser Zone liegen. Ein Schlüssel wird wie bei \ac{dht} üblich über eine segmentierte Hashfunktion berechnet. Jedes Segment bildet dabei eine Dimension ab.
+Der Schlüsselraum bei CAN \cite{Ratnasamy2001Scalable} ist ein d-dimensionaler Torus. Die Schlüssel werden als d-Tupel (zum Beispiel $(x,y)$ für $d=2$) dargestellt. Wie bei Pastry ist der numerisch näheste Knoten für ein Datum zuständig. Der Schlüsselraum ist in nicht überlappende Zonen eingeteilt und hat eine feste Größe. Jeder Knoten \emph{besitzt} eine solche Zone, über deren Ausmaß er definiert ist. Er ist für alle Daten zuständig, deren Schlüssel in dieser Zone liegt. Ein Schlüssel wird wie bei \ac{dht} üblich über eine segmentierte Hashfunktion berechnet. Jedes Segment bildet dabei eine Dimension ab.
 
 \Fref{fig:can_key_space} zeigt einen zweidimensionalen Schlüsselraum mit den drei Knoten A,B und C und fünf Daten. Der Schlüsselraum ist komplett auf die drei Knoten aufgeteilt, wobei A für den Bereich $(0, .5)-(1, 1)$, B für $(0, 0)-(.5, .5)$ und C für $(.5, 0)-(1, .5)$ zuständig ist.
 
@@ -98,10 +98,10 @@ Bei Chord besitzt jeder Knoten eine Verbindung zu seinem direkten Vorgänger und
 Da dies eine sehr ineffizientes  Routing darstellt, pflegt jeder Knoten eine sogenannte \emph{finger table}. Die maximal $l$ Einträge in dieser Tabelle zeigen auf andere Knoten im Ring, so dass der Eintrag in Zeile $i$ von Knoten $n$ denjenigen Knoten enthält der $n$ mit mindestens $2^{i-1}$ folgt.\\
 \Fref{fig:chord_key_space} stellt die Fingertabelle von Knoten $N1$ dar. Die ersten Einträge SUCC(2), SUCC(3) und SUCC(5) verweisen auf Knoten $N5$. Der dritte Eintrag verweist auf $SUCC(9) = N14$. Analog dazu ergeben sich die restlichen Einträge.
 
-Über diese Fingertabelle können Nachrichten eine weiter Strecke auf dem Ring überbrücken und die Routingzeit wird stark verkürzt. Da die IDs in der Tabelle exponentiell zur Basis zwei ansteigen, halbiert sich die Distanz zum Ziel. Damit hat das Routing eine Komplexität von $O(log N)$.
+Über diese Fingertabelle können Nachrichten eine weitere Strecke auf dem Ring überbrücken und die Routingzeit wird stark verkürzt. Da die IDs in der Tabelle exponentiell zur Basis zwei ansteigen, halbiert sich die Distanz zum Ziel. Damit hat das Routing eine Komplexität von $O(log N)$.
 
 \paragraph{Pastry / Tapestry}
-Jeder Knoten verwaltet neben dem ihm zugeteilten Daten drei Strukturen die dem Routing dienen. Diese sind das \emph{leaf set} mit Einträgen zu Knoten die im Schlüsselraum naheliegen, das \emph{neighborhood set} mit Einträgen zu Knoten die aus Netzwerksicht nahe liegen und die Routingtabelle.
+Jeder Knoten verwaltet neben den ihm zugeteilten Daten drei Strukturen die dem Routing dienen. Diese sind das \emph{leaf set} mit Einträgen zu Knoten die im Schlüsselraum naheliegen, das \emph{neighborhood set} mit Einträgen zu Knoten die aus Netzwerksicht nahe liegen und die Routingtabelle.
 
 \begin{figure}[htbp]
 \centering
@@ -125,10 +125,10 @@ Das Routing von Tapestry ist sehr ähnlich zu dem hier vorgestellten Routing, al
 Pastry genügt den Anforderungen der generischen \ac{api} und ruft in jedem Routingschritt die upcall-Funktion route\_message auf. Durch diese kann gezielt in Routingentscheidungen eingegriffen werden und durch Applikationswissen besser gelegene Knoten als Routinghinweis genutzt werden.
 
 \paragraph{CAN} 
-Die gespeichter Routinginformation ist bei CAN am geringsten: Jeder Knoten speichert lediglich seine Nachbarn, das sind Knoten deren Zonen die Zone des Kontens berühren, ab. Über die Zoneninformation jedes Nachbarn wird nun das Routing bestimmt. Eine Nachricht wird nun an den Knoten geschickt, der aufgrund seiner Zoneninformation näher am Ziel ist.
+Die gespeichtere Routinginformation ist bei CAN am Geringsten: Jeder Knoten speichert lediglich seine Nachbarn, das sind Knoten deren Zonen angrenzend sind, ab. Über die Zoneninformation jedes Nachbarn wird nun das Routing bestimmt. Eine Nachricht wird über den Knoten geschickt, der aufgrund seiner Zoneninformation näher am Ziel ist.
 
 In \Fref{fig:can_routing} hat Knoten N1 die vier Knoten N2, N3, N4 und N5 als Nachbarn. Knoten N4 hingegen ist nur mit N1 und N5 benachbart.\\
-Beim Routing kann Applikationswissen genutzt werden, so dass beispielsweise Knoten N2 statt N5 zum Routen der Nachricht von N1 genutzt wird. 
+Beim Routing könnte Applikationswissen genutzt werden; beispielsweise bietet Knoten N2 eine größere Bandbreite als N5 und wird deshalb zum Routen der Nachricht von N1 genutzt. 
 
 \begin{figure}[htbp]
 \centering
@@ -148,14 +148,14 @@ Die Nachbarschaft ist bei Chord begrenzt. Jeder Knoten hat eine Verbindung zu se
 
 \paragraph{Pastry / Tapestry}
 Das neighborhood set (siehe \Fref{fig:pastry_routing_table}) enthält die $|m|$ nähesten Knoten aus Netzwerksicht. Obwohl es im Routing keine Rolle spielt kann es dazu genutzt werden in späteren Entscheidungen geeignete Knoten zu finden.\\
-Da die Größe des leaf set ebenfalls wählbar ist, können hier ebenfalls vermehrt nahe Knoten platziert werden.
+Da die Größe des leaf set ebenfalls wählbar ist, können hier ebenfalls vermehrt nahe Knoten plaziert werden.
 
 \missing{da geht noch was … börp}
 
 \paragraph{CAN}
-Die Nachbarschaft von CAN wurde bereits im vorigen Abschnitt behandelt. Dank deren Einfachheit ist der Ein- und Austritt von Knoten zwar besonders einfach und tangiert nur wenige Knoten im Netz, jedoch kann auf die Nähe aus Netzwerksicht nur beim Eintritt eines Knotens bei der Wahl seiner Koordinate Rücksicht genommen werden.
+Die Nachbarschaft von CAN wurde bereits im vorigen Abschnitt behandelt. Dank deren Einfachheit ist der Ein- und Austritt von Knoten zwar besonders einfach und tangiert nur wenige Knoten im Netz, jedoch kann auf die Nähe aus Netzwerksicht nur beim Eintritt eines Knotens bei der Wahl seiner Koordinaten Rücksicht genommen werden.
 
-Die Erhöhung der Dimension bedingt eine größere Nachbarschaft und damit, neben einem kürzerem Routing, auch die Möglichkeit mehr nahe Knoten zusammenzubringen. Als weiterer Punkt, können in CAN sogenante \emph{Realitäten} genutzt werden. Hierbei werden alle Knoten und Daten mehreren CAN-Netzwerken dergestalt zugeordnet, dass sie andere Koordinaten besitzen. In einem System mit $r$ Realitäten muss ein Knoten demnach $z$ verschiedene Zonen und Nachbarschaften verwalten. Jedoch ist damit jedes Datum redundant im System gespeichert und eine Nachricht kann in der Realität übertragen werden, die die kürzeste Route verspricht.
+Die Erhöhung der Dimension bedingt eine größere Nachbarschaft und damit, neben einem kürzerem Routing, auch die Möglichkeit mehr nahe Knoten zusammenzubringen. Als weiterer Punkt können in CAN sogenante \emph{Realitäten} genutzt werden. Dies sind verschiende CAN-Netzwerke mit unterschiedlicher Hashfunktion zur Berechnung der Schlüssel. Jeder Knoten und jedes Datum ist in jedem dieser Netzwerke vertreten und besitzt einen unterschiedlichen Schlüssel pro Netzwerk. In einem System mit $r$ Realitäten muss ein Knoten demnach $r$ verschiedene Zonen und Nachbarschaften verwalten. Eine Nachricht wird bei jedem Routing Hop über die Realität verschickt, welche die kürzeste Route verspricht.
 
 \missing{Soll ich reinbringen, dass Knoten pro Realität anders gruppiert werden könnten? Nähe, virtueller Ort, Team}
 
@@ -163,7 +163,7 @@ Die Erhöhung der Dimension bedingt eine größere Nachbarschaft und damit, nebe
 \paragraph{Chord}
 Bei Chord kann die ID für einen neuen Knoten $n$ frei gewählt werden, es muss lediglich ein Knoten $b$ im System bekannt sein. n routet eine LOOKUP(n)-Nachricht via b und erfährt somit seinen Nachfolger auf dem Ring. In gleicher Weise vervollständigt $n$ seine Fingertabelle. Weiterhin teilt $n$ seinem Nachfolger mit, dass $n$ sein neuer Vorgänger ist.
 
-Zur Stabilisierung und Vervollständigung der Routinginformationen arbeitet jeder Knoten im Ring periodisch die Funktion \emph{stabilize} ab. Jeder Knoten $a$ fragt seinen Nachfolger $n$ nach dessen Vorgänger $s$. Wenn $a != s$, so ist Knoten $s$ neu in den Ring eingetreten. $a$ informiert den neuen Knoten $s$, dass er sein Vorgänger ist und ändert selbst den eigenen Nachfolger auf $s$ ab. $a$ kennt nun den Bereich seiner Zuständigkeit $[ID_a, PRED(a)[$ und kopiert diese Daten von seinem Nachfolger und weißt diesen auf die Zuständigkeitsänderung hin.\\
+Zur Stabilisierung und Vervollständigung der Routinginformationen arbeitet jeder Knoten im Ring periodisch die Funktion \emph{stabilize} ab. Jeder Knoten $a$ fragt seinen Nachfolger $n$ nach dessen Vorgänger $s$. Wenn $a != s$, so ist Knoten $s$ neu in den Ring eingetreten. $a$ informiert den neuen Knoten $s$, dass er sein Vorgänger ist und ändert selbst den eigenen Nachfolger auf $s$ ab. $a$ kennt nun den Bereich seiner Zuständigkeit $[ID_a, PRED(a)[$ und kopiert diese Daten von seinem Nachfolger und weist diesen auf die Zuständigkeitsänderung hin.\\
 Die Aktualisierung der Fingertabelle \emph{fix\_fingers} wird ebenfalls auf jedem Knoten periodisch angestoßen. Für einen zufällig gewählten Eintrag wird überprüft ob dieser noch aktuell ist.
 
 Die Verzögerte Aktualisierung hat keinen großen Einfluss auf die Korrektheit oder Geschwindigkeit des Routings, da Nachrichten an $a$ über die Nachfolger- beziehungsweise Vorgängerverbindungen der Knoten um $a$ weitergeleitet werden und somit lediglich ein weiterer Knoten involviert ist.\\
@@ -188,12 +188,12 @@ Knotenausfall bedeutet nicht nur einen Ausfall des Knotens, sondern bedingt, das
 Verlässt ein Knoten das Netz, so beeinflusst dies das System nicht. Jedoch ist es effizienter wenn ein verlassender Knoten seinem Vorgänger und Nachfolger dies mitteilt, die Verbindungen angepasst werden und die Daten explizit übertragen werden.
 
 \paragraph{Pastry / Tapestry}
-Einem neuen Knoten $n$ wird von Applikationsseite ein freiwählbarer Schlüssel gegeben. Meist berechnet sich dieser Schlüssel anhand dem Hashwert der IP oder seines öffentlichen Namens. Weiterhin geht das System davon aus, dass $n$ aus einer Liste bekannter Knoten denjenigen Knoten $x$ wählen kann, der aus Netzwerksicht am nähesten ist. Von diesem Knoten kann das neighborhood set kopiert werden. Zum Aufbau der Routingtabelle und des leaf set lässt $n$ via $x$ eine \emph{JOIN}-Nachricht an einen numerisch nahen Schlüssel zu $n$ routen. Diese Nachricht gelangt schließlich zu Knoten $c$, von dem das leaf set kopiert werden kann, da $c$ und $n$ sich nahe sind. Alle Knoten die diese \emph{JOIN}-Nachricht weiterleiten senden ihre Routingtabelle an $n$. Für jeden Routinghop kopiert sich $n$ die entsprechende Zeile aus der Routingtabelle, da ausgehend von keiner Präfixübereinstimmung mit dem nahen Knoten $x$, jeder weitere Hop eine größere Präfixübereinstimmung bringt.\\
+Einem neuen Knoten $n$ wird von Applikationsseite ein freiwählbarer Schlüssel gegeben. Meist berechnet sich dieser Schlüssel anhand dem Hashwert der IP oder seines öffentlichen Namens. Weiterhin geht das System davon aus, dass $n$ aus einer Liste bekannter Knoten denjenigen Knoten $x$ wählen kann, der aus Netzwerksicht am nähesten ist. Von diesem Knoten kann das neighborhood set kopiert werden. Zum Aufbau der Routingtabelle und des leaf set lässt $n$ via $x$ eine \emph{JOIN}-Nachricht an einen numerisch nahen Schlüssel zu $n$ routen. Diese Nachricht gelangt schließlich zu Knoten $c$, von dem das leaf set kopiert werden kann, da $c$ und $n$ sich nahe sind. Alle Knoten die diese \emph{JOIN}-Nachricht weiterleiten, senden ihre Routingtabelle an $n$. Für jeden Routinghop kopiert sich $n$ die entsprechende Zeile aus der Routingtabelle, da ausgehend von keiner Präfixübereinstimmung mit dem nahen Knoten $x$, jeder weitere Hop eine größere Präfixübereinstimmung bringt.\\
 Im Gegensatz zur nachträglichen Aktualisierung bei Chord, wird nun die gesamte Routinginformation an alle bekannte Knoten gesendet. Der neue Knoten ist nun im Netzwerk bekannt und erreichbar.
 
-Ausgefallene Knoten werden ebenfalls anhand von timeouts beim Routing entdeckt. Da die Einträge des neighborhood set nicht im Routing involviert sind, müssen diese periodisch geprüft werden. Fehlerhafte Einträge in der Routingtablle können über einen anderen Eintrag mit gleicher Präfixübereinstimmung kompensiert werden, müssen aber entfernt werden um ein stabiles und sicheres Routing zu ermöglichen. Hierzu können von benachbarten Einträgen Routinginformationen angefordert werden um die entstandene Lücke zu füllen. Ein fehlerhafter Eintrag im leaf set (neighborhood set)Damit hat das Routing eine Komplexität von $O(log N)$. kann auf ähnliche Weise repariert werden, hier werden Informationen von den anderen Einträgen im leaf set  (neighborhood set) angefordert.
+Ausgefallene Knoten werden ebenfalls anhand von timeouts beim Routing entdeckt. Da die Einträge des neighborhood set nicht im Routing involviert sind, müssen diese periodisch geprüft werden. Fehlerhafte Einträge in der Routingtablle können über einen anderen Eintrag mit gleicher Präfixübereinstimmung kompensiert werden, müssen aber entfernt werden um ein stabiles und sicheres Routing zu ermöglichen. Hierzu können von benachbarten Einträgen Routinginformationen angefordert werden um die entstandene Lücke zu füllen. Ein fehlerhafter Eintrag im leaf set oder neighborhood set kann auf ähnliche Weise repariert werden, hier werden Informationen von den anderen Einträgen im leaf set oder neighborhood set angefordert.
 
-Ein verlassender Knoten kann vom System wie ein ausgefallener Knoten behandelt werden, aber wie auch bei Chord ist es nützlich das Verlassen eines Knoten speziell zu behandeln, um die Datenintegrität zu gewährleisten und um unnötigen Nachrichtenversand im System zu vermeiden.
+Der Austritt eines Knotens kann vom System wie ein Ausgefall behandelt werden. Um die Datenintegrität zu gewährleisten und um unnötigen Nachrichtenversand im System zu vermeiden, ist es nützlich den Austritt eines Knotens speziell zu behandeln.
 
 \paragraph{CAN}
 \begin{figure}[htbp]
@@ -203,12 +203,12 @@ Ein verlassender Knoten kann vom System wie ein ausgefallener Knoten behandelt w
 \label{fig:can_new_node}
 \end{figure}
 
-Für den Eintritt eines neuen Knoten n muss wieder ein Knoten b aus dem Netz bekannt sein. Eine Koordinate im Schlüsselraum wird n zugewiesen und eine spezielle \emph{JOIN}-Nachricht via d an die gewählte Koordinate gesendet. Ist diese Nachricht über das normale Routing bei dem für diese Koordinate zuständigem Knoten d angekommen, halbiert dieser seine Zone und weist eine Hälfte dem neuen Knoten n zu. Die Aufteilung der Zonen erfolgt dabei anhand einer Reihenfolge der Dimensionen. Dies vereinfacht die Aufteilungs- sowie die Zusammenführungsprozedur. Letzlich kopiert d alle Daten aus dieser neuen Zone zu n. Knoten d schickt n seine Nachbarschaftsinformationen und trägt diesen selbst als neuen Nachbarn ein. Knoten n teilt seine Anwesenheit sofort seinen neuen Nachbarn mit. Der Neueintritt eines Knotens ist damit auf ein paar Nachrichten zwischen der Nachbarn begrenzt und beineträchtigt das übrige Netzwerk nicht. Über periodische \emph{UPDATE}-Nachrichten halten sich Nachbarn stets aktuell und senden ihre eigene Nachbarschaftsinformationen an ihre Nachbarn.\\
+Für den Eintritt eines neuen Knoten n muss wieder ein Knoten b aus dem Netz bekannt sein. Eine Koordinate im Schlüsselraum wird n zugewiesen und eine spezielle \emph{JOIN}-Nachricht via d an die gewählte Koordinate gesendet. Ist diese Nachricht über das normale Routing bei dem für diese Koordinate zuständigen Knoten d angekommen, halbiert dieser seine Zone und weist eine Hälfte dem neuen Knoten n zu. Die Aufteilung der Zonen erfolgt dabei anhand einer Reihenfolge der Dimensionen. Dies vereinfacht die Aufteilungs- sowie die Zusammenführungsprozedur. Letzlich kopiert d alle Daten aus dieser neuen Zone zu n. Knoten d schickt n seine Nachbarschaftsinformationen und trägt diesen selbst als neuen Nachbarn ein. Knoten n teilt seine Anwesenheit sofort seinen neuen Nachbarn mit. Der Neueintritt eines Knotens ist damit auf ein paar Nachrichten zwischen der Nachbarn begrenzt und beineträchtigt das übrige Netzwerk nicht. Über periodische \emph{UPDATE}-Nachrichten halten sich Nachbarn stets aktuell und senden ihre eigene Nachbarschaftsinformationen an ihre Nachbarn.\\
 In \Fref{fig:can_new_node} ist solch ein Eintritt für Knoten N7 aufgezeigt. Nach Teilung der Zone von N4 verändert sich die Nachbarschaft von N1: Knoten N7 kommt neu hinzu.
 
 Ausstehende \emph{UPDATE}-Nachrichten oder Timeouts weisen auf ausgefallene Knoten hin. Werden diese zum Routen einer Nachricht benutzt stellt dies keine direkte Beeinträchtigung des Netzes dar, da die Nachricht über einen anderen Nachbarn verschickt werden kann. So könnte N1 auch N2 zum Nachrichtenversand nutzen, wenn N5 ausgefallen wäre (vergleiche \Fref{fig:can_routing}).
 
-Ein Knoten der einen ausfallenden Peer entdeckt hat, startet einen Timer, dessen Dauer proportial zur Zonengröße ist. Nach Ablauf sender der Knoten eine spezielle \emph{TAKEOVER}-Nachricht an alle Nachbarn des ausgefallen Knotens\footnote{Dieses Wissen ist durch vorhergegangenge \emph{UPDATE}-Nachrichten bekannt.}. Erreicht eine \emph{TAKEOVER}-Nachricht einen Knoten, stoppt dieser seinen eigenen Timer falls seine Zone größer als die des Sender ist. Andernfalls antwortet er selbst mit seiner \emph{TAKEOVER}-Nachricht. Auf diese Weise wird der Nachbar mit der kleinsten Zone gefunden. Dieser ist nun der neue Besitzer der Zone und fügt seine beiden Zonen zusammen wie es in \Fref{fig:can_new_node} am Beispiel von N2 und N3 ersichtlich ist. N2 (rot dargestellt) ist ausgefallen und N3 vergrößert seine Zone. N2 ist nun nicht mehr in der Nachbarschaft von N1 enthalten. Es ist möglich, dass ein Knoten Besitzer zweier Zonen wird, die nicht zusammenfügbar sind. (Ein Beispiel hierfür ist Knoten N4 der beim Ausfall von N5 dessen Zone übernimmt.) Ein Hintergrundprozess defragmentiert solche Zonen und weist Knoten gegebenenfalls neue Koordinaten zu.\\
+Ein Knoten der einen ausfallenden Peer entdeckt hat, startet einen Timer, dessen Dauer proportial zur Zonengröße ist. Nach Ablauf sender der Knoten eine spezielle \emph{TAKEOVER}-Nachricht an alle Nachbarn des ausgefallen Knotens\footnote{Dieses Wissen ist durch vorhergegangenge \emph{UPDATE}-Nachrichten bekannt.}. Erreicht eine \emph{TAKEOVER}-Nachricht einen Knoten, stoppt dieser seinen eigenen Timer falls seine Zone größer als die des Sender ist. Andernfalls antwortet er selbst mit seiner \emph{TAKEOVER}-Nachricht. Auf diese Weise wird der Nachbar mit der kleinsten Zone gefunden. Dieser ist nun der neue Besitzer der Zone und fügt seine beiden Zonen zusammen wie es in \Fref{fig:can_new_node} am Beispiel von N2 und N3 ersichtlich ist. N2 (rot dargestellt) ist ausgefallen und N3 vergrößert seine Zone. N2 ist nun nicht mehr in der Nachbarschaft von N1 enthalten. Es ist möglich, dass ein Knoten Besitzer zweier Zonen wird, die nicht zusammenfügbar sind. Ein Beispiel hierfür ist Knoten N4 der beim Ausfall von N5 dessen Zone übernimmt. Ein Hintergrundprozess defragmentiert solche Zonen und weist Knoten gegebenenfalls neue Koordinaten zu.\\
 Damit es zu keinem Ausfall von Daten kommt, wird eine periodische Auffrischung der Daten vorgeschlagen.
 
 Möchte ein Knoten l das System verlassen, so sucht er einen Nachbarn mit der kleinsten Zone und sendet diesem seine Daten. Dieser Nachbar informiert nun die alten Nachbarn von l über die geänderte Nachbarschaft.
@@ -220,7 +220,7 @@ Die verschiedenen Systeme werden im \Fref{chap:konzeption_pubsub} zur Konzeption
 \subsection{Fazit}
 Eine generelle Übersicht der Systeme stellt \Fref{tab:evaluation_fazit} dar. Jedes System hat eigene Schwächen und Stärken. So bezahlt CAN einen günstigen Ein- und Austritt der Knoten dank der kleinen Nachbarschaft mit mehr Routing Hops als beispielsweise Chord. Dieses hat durch seine Fingertabelle wiederum mehr Einfluss auf das Routing - aber aktualisiert diese Tabellen teilsweise nachträglich im Hintergrund während dies bei Pastry aktiv geschieht.
 
-\Fref{tab:evaluation_fazit} (Auszug aus \cite{Goetz2005}) listet die durchschnittlich anfallenden Kosten (Routing Hops, Größe der Routinginformation, Nachrichtenanzahl beim Ein- und Austritt) für die drei getesten System auf.
+\Fref{tab:evaluation_fazit} (Auszug aus \cite{Goetz2005}) listet die durchschnittlich anfallenden Kosten (Routing Hops, Größe der Routinginformation, Nachrichtenanzahl beim Ein- und Austritt) für die drei getesteten System auf.
 
 \begin{table}[htbp]
 \centering
@@ -248,10 +248,9 @@ Ein einfaches Ranking der untersuchten Systeme ordnet diese anhand der eingangs 
 \item Chord
 \item CAN
 \end{enumerate*}
-Bei Pastry/Tapestry sind die kürzesten Routen und damit auch oftmals geringste Latenz im Nachrichtenversand zu erwarten, da die Routingtabelle im Vergleich zu Chord und CAN mehr Einträge enthält und diese einfacher mit - aus Netzwerksicht - nahen Peers belegt werden kann. Bei CAN hingegen wird das langsamste Routing erwartet, da Nachrichten nur zwischen benachbarten Knoten ausgetauscht werden kann. Sprünge (via Fingertabellen) sind nicht vorgesehen. Die Erwartungen decken sich mit den Werten in \Fref{tab:evaluation_fazit}.
+Bei Pastry/Tapestry sind die kürzesten Routen und damit auch oftmals geringste Latenz im Nachrichtenversand zu erwarten, da die Routingtabelle im Vergleich zu Chord und CAN mehr Einträge enthält und diese einfacher mit - aus Netzwerksicht - nahen Peers belegt werden kann. Bei CAN hingegen wird das langsamste Routing erwartet, da Nachrichten nur zwischen benachbarten Knoten ausgetauscht werden. Sprünge (via Fingertabellen) sind nicht vorgesehen. Die Erwartungen decken sich mit den Werten in \Fref{tab:evaluation_fazit}.
 
-Li stellt für verschiedene Parametereinstellungen der Netzwerke deren Bandbreite und Latenz gegenüber und untersucht dabei das Verhalten
-bei gehäuften Ein- und Austritten von Knoten. Hier ist Chord leicht im Vorteil, da lediglich der Verweis auf den Nachfolgeknoten für das korrekte Routing erforderlich ist. Bei allen Netzwerken pendelt sich die Latenz im \emph{worst cast} auf 250ms ein \cite{Li2004Comparing}.
+Li stellt für verschiedene Parametereinstellungen der Netzwerke deren Bandbreite und Latenz gegenüber und untersucht dabei das Verhalten bei gehäuften Ein- und Austritten von Knoten. Hier ist Chord leicht im Vorteil, da lediglich der Verweis auf den Nachfolgeknoten für das korrekte Routing erforderlich ist. Bei allen Netzwerken pendelt sich die Latenz im \emph{worst cast} auf 250ms ein \cite{Li2004Comparing}.
 
 Die Vorteile der Kommunikation bei Pastry/Tapestry überwiegen für unseren Anwendungsfall.
 
@@ -264,7 +263,10 @@ Die Vorteile der Kommunikation bei Pastry/Tapestry überwiegen für unseren Anwe
 \item Pastry/Tapestry
 \item Chord
 \end{enumerate*}
-CAN steht hier an erster Stelle, da Ein- und Austritte von Peers nur wenige Knoten im Netz betreffen. Auch bei vielen Ein- und Austritten leidet das Netz unter keiner großen Nachrichtenlast. Allerdings leidet die Kommunikation in großen Netzen (siehe obigen Punkt). Chord liegt auf dem letzten Platz, da das Netzwerk erst durch später aufgerufene Methoden vollkommen funktionsfähig wird (siehe \emph{Eintritt und Austritt (Fehlerfall) von Knoten}). Hier stellt sich nun die Frage, warum ein neuer Knoten $n$ nicht beim Eintritt seinen Nachfolger $p$ nach dessen altem Vorgänger fragt und somit die Zuständigkeit der Daten gleich beim Eintritt klärt? Eine mögliche Antwort ist, dass dadurch viel Overhead durch das Umkopieren von Daten entstehen würden, ohne dass dadurch das Routing bzw. Auffinden der Daten merklich verbessert würde. Im Falle von häufigen Eintritt und Austritt von Knoten würde das Netz lahm gelegt. Pastry und Tapestry liegen auf zweitem Platz; der Aufbau der Routingtabelle erfolgt in vielen kleinen Schritten - dafür ist ein Knoten danach ein vollwertiger Peer im System.
+CAN steht hier an erster Stelle, da Ein- und Austritte von Peers nur wenige Knoten im Netz betreffen. Auch bei vielen Ein- und Austritten leidet das Netz unter keiner großen Nachrichtenlast. Allerdings leidet die Kommunikation in großen Netzen (siehe obigen Punkt). Chord liegt auf dem letzten Platz, da das Netzwerk erst durch später aufgerufene Methoden vollkommen funktionsfähig wird (siehe \emph{Eintritt und Austritt (Fehlerfall) von Knoten}).
+
+Hier stellt sich nun die Frage, warum ein neuer Knoten $n$ nicht beim Eintritt seinen Nachfolger $p$ nach dessen altem Vorgänger fragt und somit die Zuständigkeit der Daten gleich beim Eintritt klärt?\\
+Eine mögliche Antwort ist, dass dadurch viel Overhead durch das Umkopieren von Daten entstehen, ohne dass dadurch das Routing bzw. Auffinden der Daten merklich verbessert würde. Im Falle von häufigen Eintritt und Austritt von Knoten würde das Netz lahm gelegt. Pastry und Tapestry liegen auf Zweitem Platz; der Aufbau der Routingtabelle erfolgt in vielen kleinen Schritten - dafür ist ein Knoten danach ein vollwertiger Peer im System.
 
 \paragraph{Fehlertoleranz bei Knotenausfall}
 Alle Systeme finden ausgefallene Knoten durch periodisch versandte Nachrichten an benachbarte Peers oder durch Timeouts verschickter Nachrichten. Jedes System kompensiert solch einen Fall auf eigene Art und Weise. Bei CAN wird ein Knoten seine mit der verlassenen Zone verbinden, Knoten in Chord aktualisieren ihre Fingertabellen und Peers in Pastry und Tapestry versuchen durch Befragungen anderer Knoten die entstandene Lücke in der Routingtabelle zu füllen. \\In CAN hat ein Knotenausfall allerdings die geringsten Auswirkungen auf das restliche System, da nur die Nachbarknoten involviert sind. Dies ist der kleinen Routingtabelle geschuldet.
@@ -278,7 +280,7 @@ Alle Systeme fordern jedoch die Applikation zu einer periodischen Auffrischung d
 \item Chord
 \item CAN
 \end{enumerate*}
-Allein die Größe der Routingtabelle bedingt, dass bei Pastry und Tapestry mehr Einfluss auf die Zusammenstellung genommen werden kann. Bei CAN gibt es faktisch nur eine Entscheidung bei Eintritt in das Netz, Chord bietet bietet über die Fingertabelle minimaleren Einfluss, währen bei Pastry explizit das Neighborhood Set eingesetzt wird um eventuelle Lücken in der Routingtabelle geschickt zu besetzen.
+Allein die Größe der Routingtabelle bedingt, dass bei Pastry und Tapestry mehr Einfluss auf die Zusammenstellung genommen werden kann. Bei CAN gibt es faktisch nur eine Entscheidung bei Eintritt in das Netz, Chord bietet über die Fingertabelle minimaleren Einfluss, währen bei Pastry explizit das Neighborhood Set eingesetzt wird um eventuelle Lücken in der Routingtabelle geschickt zu besetzen.
 
 \paragraph{Eingriff in Routingentscheidungen}
 \begin{enumerate*}
@@ -294,7 +296,7 @@ Das Routing bei CAN kann nur bedingt beeinflusst werden: An welchen Nachbarn sol
 \item CAN
 \item Chord
 \end{enumerate*}
-Die Implementierung von Scribe und Bayeux für Pastry und Tapestry zeigen dass, diese als Unterbau für \ac{cast} sehr wohl geeignet sind. Aufgrund der mageren Ergebnisse in Castros Untersuchung \cite{Castro2003Evaluation} bleibt CAN trotz interessanter Ideen außen vor. Ebenso kann Chord nicht in Betracht gezogen werden, da es kurzzeitige Inkonsistenzen in der Nachbarschaft (und damit dem Routing) geben kann. Weiterhin wird eine größere Latenz im Nachrichtenversand erwartet, da Nachrichten nur in einer Richtung auf dem Ring weitergeleitet werden.
+Die Implementierung von Scribe und Bayeux für Pastry und Tapestry zeigen, dass diese als Unterbau für \ac{cast} sehr wohl geeignet sind. Aufgrund der mageren Ergebnisse in Castros Untersuchung \cite{Castro2003Evaluation} bleibt CAN trotz interessanter Ideen außen vor. Ebenso kann Chord nicht in Betracht gezogen werden, da es kurzzeitige Inkonsistenzen in der Nachbarschaft (und damit dem Routing) geben kann. Weiterhin wird eine größere Latenz im Nachrichtenversand erwartet, da Nachrichten nur in einer Richtung auf dem Ring weitergeleitet werden.
 
 
 \subsection*{Auswahl des Netzwerkes}

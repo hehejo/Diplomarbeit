@@ -1,7 +1,9 @@
 \chapter{Related Work}
 \label{chap:related}
 
-IPMulticast ist das Beste, Application Multicast ist toll, aber OverlayMulticast ist besser. OverlayMulticast: explizites Erstellen von RoutingKnoten. Widerspricht aber unserem Ansatz, so wenig "zentrale Server" wie möglich zu haben.\cite{Lao2005Comparative}
+IPMulticast ist das Beste, Application Multicast ist toll, aber OverlayMulticast ist besser. OverlayMulticast: explizites Erstellen von RoutingKnoten. Widerspricht aber unserem Ansatz, so wenig ``zentrale Server'' wie möglich zu haben. 
+
+\cite{Lao2005Comparative} % Multicast Protocols: Top, Bottom, or In the Middle
 
 \input{main/related_work_ntree.tex}
 
@@ -12,7 +14,7 @@ IPMulticast ist das Beste, Application Multicast ist toll, aber OverlayMulticast
 
 \section{VON}
 \label{chap:related:von}
-\ac{von} ist ein integriertes System aus Overlaynetzwerk mit Publish/Subscribe-System und zielt direkt auf virtuelle Umgebungen wie \ac{mmog} ab \cite{Hu2006VON}. Jeder Knoten hat demnach eine Koordinate im Raum\footnote{z.B. Spielewelt} und eine \ac{aoi}. Die Welt werden mittels Voronoi-Diagrammen in disjunkte Regionen eingeteilt und somit gibt es für jeden Knoten eine Region. Ein Knoten hat direkte und angrenzende Nachbarn. Bewegt sich der Knoten im Raum, so verändert sich die Aufteilung der Regionen.
+\ac{von} ist ein integriertes System aus Overlaynetzwerk mit Publish/Subscribe-System und zielt direkt auf virtuelle Umgebungen wie \ac{mmog} ab \cite{Hu2006VON}. Jeder Knoten hat demnach eine Koordinate im Raum\footnote{z.B. Spielewelt} und eine \ac{aoi}. Die virtuelle Welt wird mittels Voronoi-Diagrammen in $n$ (Anzahl der Knoten im System) disjunkte Regionen eingeteilt und dadurch auf die Knoten verteilt. Ein Knoten hat direkte und angrenzende Nachbarn. Bewegt sich der Knoten im Raum, so verändert sich die Aufteilung der Regionen.
 
 \ac{vast} \cite{Backhaus2007Voronoibased} greift das Konzept von \ac{von} auf und testet eine Implementierung auf OpenSIM \cite{Baumgart2007OverSim}.
 
