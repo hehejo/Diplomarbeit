@@ -1,5 +1,5 @@
 template <bool isSingleton, class T>
-struct factory {
+struct Factory {
 	static T* create() {
 		if(isSingleton) {
 			return T::getInstance();

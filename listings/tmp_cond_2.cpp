@@ -4,7 +4,7 @@ struct Int2Type {
 };
 
 template <bool isSingleton, class T>
-struct factory {
+struct Factory {
 	static T* create() {
 		return create_impl(Int2Type<isSingleton>());
 	}
