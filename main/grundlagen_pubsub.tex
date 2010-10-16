@@ -63,7 +63,8 @@ Scribe basiert auf dem strukturierten Overlay-Netzwerk Pastry \cite{Rowstron2001
 
 \begin{figure}[htbp]
 \centering
-\includegraphics{grafics/multicast_tree.pdf}
+\resizebox{\textwidth}{!}{%
+\includegraphics{grafics/multicast_tree.pdf}}
 \caption{Schema eines Multicast-Trees}
 \label{fig:multicast_tree}
 \end{figure}
@@ -73,10 +74,10 @@ Der Multicast-Tree benötigt einen Knoten, der die Wurzel (im Folgenden \emph{Ro
 Weiterhin hält jeder Knoten eine Liste bei ihm angemeldeter Knoten. In der Abbildung wird diese Liste durch geschweifte Klammern nach der Knotenbezeichnung dargestellt.
 
 \paragraph*{Anmelden}
-Knoten F sendet eine \emph{subscribe}-Nachricht an A. Diese Nachrichten sind in der Grafik durch gebogene schwarze Verbindungslinien mit Pfeil dargestellt. Das Netzwerk würde diese Nachricht über Knoten D und C an A routen. Knoten D lässt die Nachricht terminiern und trägt F in die Liste der Subscriber ein. Knoten D sendet nun selbst eine subscribe-Nachricht an A. C, über den die Nachricht geroutet wird, terminert diese, trägt D in die Liste ein und sendet selbst eine subscribe-Nachricht an A. A erhält nun diese Nachricht und trägt C in die Liste ein. Damit sind nun ingesamt drei Nachrichten verschickt worden.\\
+Knoten F sendet eine \emph{subscribe}-Nachricht an A. Diese Nachrichten sind in der Grafik durch gebogene gestrichelte schwarze Verbindungslinien mit Pfeil dargestellt. Das Netzwerk würde diese Nachricht über Knoten D und C an A routen. Knoten D lässt die Nachricht terminiern und trägt F in die Liste der Subscriber ein. Knoten D sendet nun selbst eine subscribe-Nachricht an A. C, über den die Nachricht geroutet wird, terminert diese, trägt D in die Liste ein und sendet selbst eine subscribe-Nachricht an A. A erhält nun diese Nachricht und trägt C in die Liste ein. Damit sind nun ingesamt drei Nachrichten verschickt worden.\\
 Wenn sich Knoten E für den Kanal einschreibt, wird die subscribe-Nachricht an A über den Knoten C geleitet. Dieser terminiert die Nachricht und fügt E der Liste hinzu. Da C selbst angemeldet ist, muss keine weitere Nachricht versendet werden.
 
-Scribe fordert periodische Subscriptions zur Erhöhung der Fehlertoleranz.
+Scribe fordert periodische Subscriptions zur Erhöhung der Fehlertoleranz. Ist ein Knoten ausgefallen, routet das Netzwerk die Nachrichten über andere Knoten. Damit kann der Multicast-Tree wieder aufgebaut werden.
 
 \paragraph*{Abmelden}
 Der Austritt aus einem Kanal erfolgt ähnlich zur Anmeldung. Die Nachricht läuft nur bis zum nächsten Knoten und terminiert dort. Der Knoten entfernt den Sender der Nachricht aus seiner Liste und sendet selbst nur eine \emph{unsubscribe}-Nachricht, wenn die Liste leer ist und er selbst nicht angemeldet ist.
@@ -89,10 +90,7 @@ In \Fref{fig:multicast_tree} möchte Knoten B eine Nachricht im Kanal publiziere
 Hierbei ist klar ersichtlich, dass ein Overhead an Nachrichten entsteht, wenn Knoten F eine Nachricht im Kanal publizieren möchte. Diese Nachricht muss erst von Knoten F zu Knoten A wandern, damit A diese Nachricht wieder über die anderen Knoten zurücksendet. Optimierte Versionen dieses Algorithmus können hier ansetzen und zu publizierende Nachrichten nicht mehr an den Knoten senden, der ihnen diese Nachricht geschickt hat. So würde C die Nachricht nur noch an E weiterleiten.
 
 \paragraph*{Filterung}
-Eine Filterung der Nachrichten ist möglich. Im einfachsten Falle wird das Prädikat der Anmeldung bei jedem angemeldeten Knoten geprüft. Werden die Prädikate mit der Anmeldungsinformation verbunden, so können die an den Zwischenknoten kombiniert werden und ergeben damit ein generalles Prädikat, das für alle Knoten in diesem Unterbaum gültig ist.
-
-\paragraph*{Eignung}
-Ein Multicast-Tree ist für weittragende beziehungsweise übergreifende Nachrichten gut gegeignet. Für Nachrichtentypen mit lokalem Bezug (z.B. Positionsupdate) skaliert dieses System jedoch schlecht, da jede einzelne Positionsnachricht an alle angemeldeten Knoten ins Netz gesandt wird, jedoch nur für einen Bruchteil relevant ist. Eine Filterung, wie oben angesprochen, ist nicht sinnvoll, da benachbarte Knoten nicht unbedingt aus Spielesicht benachbart sind. Somit kann die Anzahl der zu versendenden Nachrichten nicht reduziert werden.
+Eine Filterung der Nachrichten ist möglich. Im einfachsten Falle wird das Prädikat der Anmeldung bei jedem angemeldeten Knoten geprüft. Werden die Prädikate mit der Anmeldungsinformation verbunden, können diese an den Zwischenknoten zu einem generellem Prädikat kombiniert werden.
 
 \paragraph*{Ähnliche Algorithmen}
 Bayeux \cite{Zhuang2001} ist ein ähnliches System, jedoch auf Basis des Overlay-Netzwerkes Tapestry \cite{Zhao2004Tapestry}. Tapestry entspricht auch der generischen API, somit stellt dies keinen Unterschied zu Pastry dar. Im Gegensatz zu Scribe, wird bei Bayeux der Multicast-Tree vom Root-Knoten aus aufgebaut. Aufgrund der unterliegenden Routingstruktur des genutzten Overlay-Netzwerkes können sich diese Pfade unterscheiden.\\
@@ -102,10 +100,10 @@ Bayeux \cite{Zhuang2001} ist ein ähnliches System, jedoch auf Basis des Overlay
 
 \subsubsection{Filterbasiert am Beispiel von Mercury}
 \label{chap:related:mercury}
-Mercury \cite{Bharambe2004Mercury} gehört zur Klasse der filterbasierten Publish/Subscribe-Systeme\index{Publish/Subscribe!filterbasiert} und optimiert dieses durch Clusterbildung.
+Zur besseren Vorstellung einer Umsetzung für filterbasierte Publish/Subscribe-Systeme\index{Publish/Subscribe!filterbasiert} wird im folgenden Kapitel Mercury \cite{Bharambe2004Mercury} vorgestellt. Obwohl \ac{m2etis} ein kanalbasiertes Publish/Subscribe-System darstellt \cite{Fischer2010a}, ist es sinnvoll eine möglich Umsetzung eines filterbasierten Systems zu beschreiben um die grundlegenden Unterschiede der Systeme genauer auszuarbeiten. 
 
 \paragraph*{Arbeitsweise}
-Im System gibt es eine Menge an Attributen, die ihrerseits einen definierten Wertebereich haben. Jedes Attribut wird durch einen eigenen \emph{Hub} gebildet. Ein Hub ist ein Verbund aus Knoten, die untereinander über Nachbarschaftsmetriken verknüpft sind. Der Wertebereich ist dabei nicht zwingend symmetrisch auf die Knoten verteilt.
+Im System gibt es eine Menge an Attributen, die ihrerseits einen definierten Wertebereich haben. Jedes Attribut wird durch einen eigenen Verbund aus Knoten, den sogenannten \emph{Hub}, bearbeitet. Der Wertebereich ist dabei nicht zwingend symmetrisch auf die Knoten verteilt.
 
 \paragraph*{Anmelden}
 Eine Subscription $S$ ist ein Tupel aus Filterbedingungen über die Attribute (z.B. $S := (5 < x <= 20; y = 15)$) sowie Kontaktinformationen des Knotens. $S$ wird an einen beliebigen Knoten eines Hubs gesendet, der für das Attribut aus der Filterbedingung mit der größten Selektivität zuständig ist. Im Beispiel ist dies Attribut $y$. Im Hub wird $S$ nun zu dem Knoten weitergereicht, der den Wertebereich der Filterung abdeckt. Dort wird $S$ in einer Liste gespeichert.
