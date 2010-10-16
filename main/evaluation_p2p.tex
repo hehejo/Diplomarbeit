@@ -65,10 +65,9 @@ Damit ist ein Knoten für alle Daten zuständig, die - bildlich gesehen - im Rin
 \paragraph{Pastry / Tapestry}
 Pastry \cite{Rowstron2001} und Tapestry \cite{Zhao2001Tapestry,Zhao2004Tapestry} sind sich sehr ähnlich, da beide auf Plaxtons Arbeit \cite{Plaxton1997Accessing} aufbauen. Auf Unterschiede wird explizit hingewiesen.
 
-Pastry besitzt ebenfalls einen l-bit wertigen Schlüsselraum, dabei werden Schlüssel als Zahlen zur Basis $2^b$ dargestellt\footnote{l meist 128; b meist 4}, wobei die Wahl von $b$ einen Einfluss auf das Routing hat. Ein Datum ist dem Knoten zugewiesen, dessen ID am nähesten zum Schlüsselwert des Datums liegt.  \Fref{fig:pastry_key_space} zeigt dies beispielhaft für sechs Knoten und fünf Datensätzen. Im Unterschied zu Chord ist hier Knoten $N14$ für $K16$ und Knoten $N54$ für $K55$ zuständig.\\
-\missing{Noch nicht so sehr schön beschrieben!}
+Pastry besitzt ebenfalls einen l-bit wertigen Schlüsselraum, dabei werden Schlüssel als Zahlen zur Basis $2^b$ dargestellt\footnote{l meist 128; b meist 4}, wobei die Wahl von $b$ einen Einfluss auf das Routing hat. Ein Datum ist dem Knoten zugewiesen, dessen ID am nähesten zum Schlüsselwert des Datums liegt.  \Fref{fig:pastry_key_space} zeigt dies beispielhaft für gleichen sechs Knoten und fünf Datensätzen wie in \Fref{fig:chord_key_space}. Im Unterschied zu Chord istjedoch Knoten $N14$ für $K16$ und Knoten $N54$ für $K55$ zuständig.
 
-Tapestry erzeugt automatische Redundanz, da hier die Daten auf mehrere Knoten verteilt werden.
+Tapestry erzeugt automatische Redundanz, da dessen Algorithmus die Daten automatisch auf mehrere Knoten verteilt.
 
 \begin{figure}[htbp]
 \centering
@@ -144,8 +143,6 @@ Die durchschnittliche Länge eines Pfades bei $d$ Dimensionen und $n$ Knoten ist
 \paragraph{Chord}
 Die Nachbarschaft ist bei Chord begrenzt. Jeder Knoten hat eine Verbindung zu seinem Vorgänger sowie Nachfolger auf dem Ring und hält Einträge in der Fingertabelle vor. In die Routingentscheidungen kann somit nicht direkt eingegriffen werden.
 
-\missing{routing-upcalls? Eingriff in Entscheidungen?}
-
 \paragraph{Pastry / Tapestry}
 Das neighborhood set (siehe \Fref{fig:pastry_routing_table}) enthält die $|m|$ nähesten Knoten aus Netzwerksicht. Obwohl es im Routing keine Rolle spielt kann es dazu genutzt werden in späteren Entscheidungen geeignete Knoten zu finden.\\
 Da die Größe des leaf set ebenfalls wählbar ist, können hier ebenfalls vermehrt nahe Knoten plaziert werden.
@@ -155,9 +152,8 @@ Da die Größe des leaf set ebenfalls wählbar ist, können hier ebenfalls verme
 \paragraph{CAN}
 Die Nachbarschaft von CAN wurde bereits im vorigen Abschnitt behandelt. Dank deren Einfachheit ist der Ein- und Austritt von Knoten zwar besonders einfach und tangiert nur wenige Knoten im Netz, jedoch kann auf die Nähe aus Netzwerksicht nur beim Eintritt eines Knotens bei der Wahl seiner Koordinaten Rücksicht genommen werden.
 
-Die Erhöhung der Dimension bedingt eine größere Nachbarschaft und damit, neben einem kürzerem Routing, auch die Möglichkeit mehr nahe Knoten zusammenzubringen. Als weiterer Punkt können in CAN sogenante \emph{Realitäten} genutzt werden. Dies sind verschiende CAN-Netzwerke mit unterschiedlicher Hashfunktion zur Berechnung der Schlüssel. Jeder Knoten und jedes Datum ist in jedem dieser Netzwerke vertreten und besitzt einen unterschiedlichen Schlüssel pro Netzwerk. In einem System mit $r$ Realitäten muss ein Knoten demnach $r$ verschiedene Zonen und Nachbarschaften verwalten. Eine Nachricht wird bei jedem Routing Hop über die Realität verschickt, welche die kürzeste Route verspricht.
+Die Erhöhung der Dimension bedingt eine größere Nachbarschaft und damit, neben einem kürzerem Routing, auch die Möglichkeit mehr Knoten nahe zu gruppieren. Als weiterer Punkt können in CAN sogenante \emph{Realitäten} genutzt werden. Dies sind verschiende CAN-Netzwerke mit unterschiedlicher Hashfunktion zur Berechnung der Schlüssel. Jeder Knoten und jedes Datum ist in jedem dieser Netzwerke vertreten und besitzt einen unterschiedlichen Schlüssel pro Netzwerk. In einem System mit $r$ Realitäten muss ein Knoten demnach $r$ verschiedene Zonen und Nachbarschaften verwalten. Eine Nachricht wird bei jedem Routing Hop über die Realität verschickt, welche die kürzeste Route verspricht.
 
-\missing{Soll ich reinbringen, dass Knoten pro Realität anders gruppiert werden könnten? Nähe, virtueller Ort, Team}
 
 \subsection{Eintritt und Austritt (Fehlerfall) von Knoten}
 \paragraph{Chord}
@@ -218,7 +214,7 @@ Da \ac{cast} eine Anwendung der generischen \ac{api}\footnote{siehe \Fref{chap:e
 Die verschiedenen Systeme werden im \Fref{chap:konzeption_pubsub} zur Konzeption des generischen Publish/Subscribe-Systems näher untersucht.
 
 \subsection{Fazit}
-Eine generelle Übersicht der Systeme stellt \Fref{tab:evaluation_fazit} dar. Jedes System hat eigene Schwächen und Stärken. So bezahlt CAN einen günstigen Ein- und Austritt der Knoten dank der kleinen Nachbarschaft mit mehr Routing Hops als beispielsweise Chord. Dieses hat durch seine Fingertabelle wiederum mehr Einfluss auf das Routing - aber aktualisiert diese Tabellen teilsweise nachträglich im Hintergrund während dies bei Pastry aktiv geschieht.
+Eine generelle Übersicht der Systeme stellt \Fref{tab:evaluation_fazit} dar. Jedes System hat eigene Schwächen und Stärken. So bezahlt CAN einen günstigen Ein- und Austritt der Knoten dank der kleinen Nachbarschaft mit mehr Routing Hops als beispielsweise Chord. Dieses hat durch seine Fingertabelle wiederum mehr Einfluss auf das Routing, aktualisiert diese Tabellen jedoch erst nachträglich im Hintergrund während dies bei Pastry aktiv geschieht.
 
 \Fref{tab:evaluation_fazit} (Auszug aus \cite{Goetz2005}) listet die durchschnittlich anfallenden Kosten (Routing Hops, Größe der Routinginformation, Nachrichtenanzahl beim Ein- und Austritt) für die drei getesteten System auf.
 
@@ -243,59 +239,32 @@ Xu untersucht den Zusammenhang zwischen Größe der Routinginformationen und Anz
 Ein einfaches Ranking der untersuchten Systeme ordnet diese anhand der eingangs gestellten Anforderungen.
 
 \paragraph{Geringe Latenz und Kommunikation über das Netzwerk}
-\begin{enumerate*}
-\item Pastry/Tapestry
-\item Chord
-\item CAN
-\end{enumerate*}
 Bei Pastry/Tapestry sind die kürzesten Routen und damit auch oftmals geringste Latenz im Nachrichtenversand zu erwarten, da die Routingtabelle im Vergleich zu Chord und CAN mehr Einträge enthält und diese einfacher mit - aus Netzwerksicht - nahen Peers belegt werden kann. Bei CAN hingegen wird das langsamste Routing erwartet, da Nachrichten nur zwischen benachbarten Knoten ausgetauscht werden. Sprünge (via Fingertabellen) sind nicht vorgesehen. Die Erwartungen decken sich mit den Werten in \Fref{tab:evaluation_fazit}.
 
 Li stellt für verschiedene Parametereinstellungen der Netzwerke deren Bandbreite und Latenz gegenüber und untersucht dabei das Verhalten bei gehäuften Ein- und Austritten von Knoten. Hier ist Chord leicht im Vorteil, da lediglich der Verweis auf den Nachfolgeknoten für das korrekte Routing erforderlich ist. Bei allen Netzwerken pendelt sich die Latenz im \emph{worst cast} auf 250ms ein \cite{Li2004Comparing}.
 
 Die Vorteile der Kommunikation bei Pastry/Tapestry überwiegen für unseren Anwendungsfall.
 
-\missing{Oh, das ist schlecht}
-
-
 \paragraph{Skalierbarkeit}
-\begin{enumerate*}
-\item CAN
-\item Pastry/Tapestry
-\item Chord
-\end{enumerate*}
 CAN steht hier an erster Stelle, da Ein- und Austritte von Peers nur wenige Knoten im Netz betreffen. Auch bei vielen Ein- und Austritten leidet das Netz unter keiner großen Nachrichtenlast. Allerdings leidet die Kommunikation in großen Netzen (siehe obigen Punkt). Chord liegt auf dem letzten Platz, da das Netzwerk erst durch später aufgerufene Methoden vollkommen funktionsfähig wird (siehe \emph{Eintritt und Austritt (Fehlerfall) von Knoten}).
 
-Hier stellt sich nun die Frage, warum ein neuer Knoten $n$ nicht beim Eintritt seinen Nachfolger $p$ nach dessen altem Vorgänger fragt und somit die Zuständigkeit der Daten gleich beim Eintritt klärt?\\
+Hier stellt sich nun die Frage, warum ein neuer Knoten $n$ nicht beim Eintritt seinen Nachfolger $p$ nach dessen altem Vorgänger befragt und somit die Zuständigkeit der Daten gleich beim Eintritt klärt?\\
 Eine mögliche Antwort ist, dass dadurch viel Overhead durch das Umkopieren von Daten entstehen, ohne dass dadurch das Routing bzw. Auffinden der Daten merklich verbessert würde. Im Falle von häufigen Eintritt und Austritt von Knoten würde das Netz lahm gelegt. Pastry und Tapestry liegen auf Zweitem Platz; der Aufbau der Routingtabelle erfolgt in vielen kleinen Schritten - dafür ist ein Knoten danach ein vollwertiger Peer im System.
 
 \paragraph{Fehlertoleranz bei Knotenausfall}
-Alle Systeme finden ausgefallene Knoten durch periodisch versandte Nachrichten an benachbarte Peers oder durch Timeouts verschickter Nachrichten. Jedes System kompensiert solch einen Fall auf eigene Art und Weise. Bei CAN wird ein Knoten seine mit der verlassenen Zone verbinden, Knoten in Chord aktualisieren ihre Fingertabellen und Peers in Pastry und Tapestry versuchen durch Befragungen anderer Knoten die entstandene Lücke in der Routingtabelle zu füllen. \\In CAN hat ein Knotenausfall allerdings die geringsten Auswirkungen auf das restliche System, da nur die Nachbarknoten involviert sind. Dies ist der kleinen Routingtabelle geschuldet.
+Alle Systeme finden ausgefallene Knoten durch periodisch versandte Nachrichten an benachbarte Peers oder durch Timeouts verschickter Nachrichten. Jedes System kompensiert solch einen Fall auf eigene Art und Weise. Bei CAN wird ein Knoten seine mit der verlassenen Zone verbinden, Knoten in Chord aktualisieren ihre Fingertabellen und Peers in Pastry und Tapestry versuchen durch Befragungen anderer Knoten die entstandene Lücke in der Routingtabelle zu füllen. \\
+In CAN hat ein Knotenausfall allerdings die geringsten Auswirkungen auf das restliche System, da nur die Nachbarknoten involviert sind. Dies ist der kleinen Routingtabelle geschuldet.
 
 Alle Systeme fordern jedoch die Applikation zu einer periodischen Auffrischung der gespeicherten Daten auf und bieten selbst kaum Redundanz (Ausnahme Tapestry) an.
 
 
 \paragraph{Bestimmung der Nachbarschaft}
-\begin{enumerate*}
-\item Pastry/Tapestry
-\item Chord
-\item CAN
-\end{enumerate*}
 Allein die Größe der Routingtabelle bedingt, dass bei Pastry und Tapestry mehr Einfluss auf die Zusammenstellung genommen werden kann. Bei CAN gibt es faktisch nur eine Entscheidung bei Eintritt in das Netz, Chord bietet über die Fingertabelle minimaleren Einfluss, währen bei Pastry explizit das Neighborhood Set eingesetzt wird um eventuelle Lücken in der Routingtabelle geschickt zu besetzen.
 
 \paragraph{Eingriff in Routingentscheidungen}
-\begin{enumerate*}
-\item Pastry/Tapestry
-\item Chord
-\item CAN
-\end{enumerate*}
 Das Routing bei CAN kann nur bedingt beeinflusst werden: An welchen Nachbarn soll die Nachricht geschickt werden. Chord hingegen bietet mit seiner Fingertabelle mehr Variationsmöglichkeiten - allerdings nur für die zu überbrückende Distanz im Schlüsselraum. Pastry und Tapestry verbinden diese Variationen mit vielfältigen Nachbarschaftsoptionen (siehe oben).
 
 \paragraph{Unterbau für \ac{cast}}
-\begin{enumerate*}
-\item Pastry/Tapestry
-\item CAN
-\item Chord
-\end{enumerate*}
 Die Implementierung von Scribe und Bayeux für Pastry und Tapestry zeigen, dass diese als Unterbau für \ac{cast} sehr wohl geeignet sind. Aufgrund der mageren Ergebnisse in Castros Untersuchung \cite{Castro2003Evaluation} bleibt CAN trotz interessanter Ideen außen vor. Ebenso kann Chord nicht in Betracht gezogen werden, da es kurzzeitige Inkonsistenzen in der Nachbarschaft (und damit dem Routing) geben kann. Weiterhin wird eine größere Latenz im Nachrichtenversand erwartet, da Nachrichten nur in einer Richtung auf dem Ring weitergeleitet werden.
 
 
