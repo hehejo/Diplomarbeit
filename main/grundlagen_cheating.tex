@@ -1,7 +1,7 @@
 \section{Betrug}\index{Betrug}
 \label{chap:grundlagen:cheating}
-Betrug und Betrugsverhinderung bzw. Betrugsvermeidung sind nicht Thema dieser Arbeit. Das zu entwickelnde Framework bietet genug Freiheiten betrugsresistente Publish/Subscribe-Algorithmen einzusetzen oder entsprechende Systeme auf das Framework zu setzen.\\
-Dennoch soll dieses Kapitel einen kleinen Überlick über das Thema und die aktuelle Forschung dazu geben.
+Betrug und Betrugsverhinderung beziehungsweise Betrugsvermeidung sind nicht Thema dieser Arbeit. Das zu entwickelnde Framework bietet genug Freiheiten betrugsresistente Publish/Subscribe-Algorithmen einzusetzen oder entsprechende Systeme auf das Framework zu setzen.\\
+Dennoch soll dieses Kapitel einen kleinen Überblick über das Thema und die aktuelle Forschung dazu geben.
 
 Betrügerisches Verhalten (Cheating) ist in p2p-Systemen einfacher als in Client/Server-Systemen, da die Kommunikation nicht zwingend über einen (vom Betreiber kontrollierten) Server läuft. Mit gefälschten Nachrichten für Statusmeldungen, wie Positionsänderungen, oder zur Entscheidungsfindung über die Reihenfolge von Aktionen können andere Knoten massiv benachteiligt werden. Das Wissen über das zugrunde liegende System wird genutzt um gezielt wichtige Aspekte des Spieles zu manipulieren.
 
@@ -11,7 +11,7 @@ Webb \cite{Webb2007Cheating} gibt eine Übersicht über Betrug in Netzwerkspiele
 Als Beispiel für einen \emph{Protocol level cheat} wird das Ausnutzen des \emph{Dead-Reckoning}-Verfahrens\index{Dead-Reckoning} \cite{Pantel2002} beschrieben. Dead-Reckoning kaschiert die Latenz im Netzwerk und bietet dem Spieler durch vorberechnete Aktionen der anderen Spieler einen konstanten Spielfluss. Hierbei akzeptiert das System eine gewisse Anzahl an ausgefallenen/verlorenen Updates eines Knotens bevor unterschiedliche Aktionen aus Spielsicht durchgeführt werden.\\
 Hält ein Spieler nun eigene Updates zurück, können in der Zeit bis zum geforderten Update die Informationen der anderen Spieler ausgewertet werden. Das Spiel kann somit zu eigenen Gunsten beeinflusst werden. Algorithmen die diese Problematik angehen, werden entwickelt \cite{Aggarwal2005}.
 
-Kabus \cite{Kabus2005Addressing} beschreibt grundsätzliche Techniken die in p2p-Systemen genutzt werden um Betrug aufzudecken beziehungsweise zu verhindern. Beispielsweise können für eine Konsensus\index{Betrug!Konsensus} über Spieleraktionen zufällig Knoten gewählt werden. Diese validieren die Aktionen und können effektiv Betrug verhindern. Natürlich müssen solche Verfahren mit einem erhören Aufwand an Nachrichten teuer erkauft werden.\\
+Kabus \cite{Kabus2005Addressing} beschreibt grundsätzliche Techniken die in p2p-Systemen genutzt werden um Betrug aufzudecken beziehungsweise zu verhindern. Beispielsweise können für eine Konsenses\index{Betrug!Konsenses} über Spieleraktionen zufällig Knoten gewählt werden. Diese validieren die Aktionen und können effektiv Betrug verhindern. Solche Verfahren gehen mit einem erhören Aufwand an Nachrichten einher.\\
 Eine weitere Möglichkeit der Betrugsverhinderung ist das Einsetzen von \emph{trusted hardware}\index{Betrug!trusted hardware} wie es bei Spielkonsolen häufig eingesetzt wird. Hier verhindert die Hardware Spielveränderungen oder den Start von externen Betrugsprogramme, die beispielsweise die Avatarsteuerung übernehmen. Dennoch besitzen auch solche Systeme Schwachstellen und können hintergangen werden.\\
 Zur Betrugsaufdeckung führt Kabus die Prüfung von Logdateien an.
 
