@@ -52,7 +52,7 @@ Zur Entscheidungsfindung werden die Netzwerke anhand folgender Gesichtspunkte ve
 \paragraph{Chord}
 Chord \cite{Stoica2003} legt die l-bit wertigen Schlüssel (meist Zahlen im Bereich $[0,2^l-1]$) auf einem eindimensionalen Ring modulo $2^l$ im Uhrzeigersinn an. Jedem Knoten und jedem Datum ist ein eindeutiger Schlüssel zugewiesen, diese sind \emph{ID} und \emph{key} benannt. Ein Datum $X$ ist dem Knoten zugewiesen, dessen ID größer gleich dem key ist. Dieser Knoten wird Nachfolger von X, \emph{SUCC(X)}, genannt. Analog dazu gibt es auch einen Vorgänger von X, \emph{PRED(X)}.
 
-Damit ist ein Knoten für alle Daten zuständig, die - bildlich gesehen - im Ring gegen den Uhrzeigersinn vor ihm liegen. In \Fref{fig:chord_key_space} ist dies mit $l=6$ für sechs Knoten und fünf Datenpunkten gezeigt. Knoten 14 (N14) ist für das Datum mit Schlüssel 10 (K10) zuständig. Knoten 32 ist für K16 und K25. K51 ist bei N51 zu finden. Aufgrund der Ringstruktur ist N1 für K55 zuständig.
+Damit ist ein Knoten für alle Daten zuständig, die - bildlich gesehen - im Ring gegen den Uhrzeigersinn vor ihm liegen. In \Fref{fig:chord_key_space} ist dies mit $l=6$ für sechs Knoten und fünf Datenpunkten gezeigt. Knoten 14 (N14) ist für das Datum mit Schlüssel 10 (K10) zuständig. Knoten 32 ist für K16 und K24 verantwortlich. K51 ist bei N51 zu finden. Aufgrund der Ringstruktur ist N1 für K55 zuständig.
 
 \begin{figure}[htbp]
 \centering
@@ -65,7 +65,7 @@ Damit ist ein Knoten für alle Daten zuständig, die - bildlich gesehen - im Rin
 \paragraph{Pastry / Tapestry}
 Pastry \cite{Rowstron2001} und Tapestry \cite{Zhao2001Tapestry,Zhao2004Tapestry} sind sich sehr ähnlich, da beide auf Plaxtons Arbeit \cite{Plaxton1997Accessing} aufbauen. Auf Unterschiede wird explizit hingewiesen.
 
-Pastry besitzt ebenfalls einen l-bit wertigen Schlüsselraum, dabei werden Schlüssel als Zahlen zur Basis $2^b$ dargestellt\footnote{l meist 128; b meist 4}, wobei die Wahl von $b$ einen Einfluss auf das Routing hat. Ein Datum ist dem Knoten zugewiesen, dessen ID den kleines Abstand zum Schlüsselwert des Datums hat.  \Fref{fig:pastry_key_space} zeigt dies beispielhaft für gleichen sechs Knoten und fünf Datensätzen wie in \Fref{fig:chord_key_space}. Im Unterschied zu Chord ist jedoch Knoten $N14$ für $K16$ und Knoten $N54$ für $K55$ zuständig.
+Pastry besitzt ebenfalls einen l-bit wertigen Schlüsselraum, dabei werden Schlüssel als Zahlen zur Basis $2^b$ dargestellt\footnote{l meist 128; b meist 4}, wobei die Wahl von $b$ einen Einfluss auf das Routing hat. Ein Datum ist dem Knoten zugewiesen, dessen ID den kleinesten Abstand zum Schlüsselwert des Datums hat.  \Fref{fig:pastry_key_space} zeigt dies beispielhaft für gleichen sechs Knoten und fünf Datensätzen wie in \Fref{fig:chord_key_space}. Im Unterschied zu Chord ist jedoch Knoten $N14$ für $K16$ und Knoten $N54$ für $K55$ zuständig.
 
 Tapestry erzeugt automatische Redundanz, da dessen Algorithmus die Daten automatisch auf mehrere Knoten verteilt.
 
@@ -100,19 +100,19 @@ Da dies eine sehr ineffizientes  Routing darstellt, pflegt jeder Knoten eine sog
 Über diese Fingertabelle können Nachrichten eine weitere Strecke auf dem Ring überbrücken und die Routingzeit wird stark verkürzt. Da die IDs in der Tabelle exponentiell zur Basis zwei ansteigen, halbiert sich die Distanz zum Ziel. Damit hat das Routing eine Komplexität von $O(log N)$.
 
 \paragraph{Pastry / Tapestry}
-Jeder Knoten verwaltet neben den ihm zugeteilten Daten drei Strukturen die dem Routing dienen. Diese sind das \emph{leaf set} mit Einträgen zu Knoten die im Schlüsselraum naheliegen, das \emph{neighborhood set} mit Einträgen zu Knoten die aus Netzwerksicht nahe liegen und die Routingtabelle.
+Jeder Knoten verwaltet neben den ihm zugeteilten Daten drei Strukturen die dem Routing dienen. Diese sind das \emph{leaf set} mit Einträgen zu Knoten die im Schlüsselraum benachbart sind, das \emph{neighborhood set} mit Einträgen zu Knoten die aus Netzwerksicht nahe liegen und die Routingtabelle selbst.
 
 \begin{figure}[htbp]
 \centering
 \includegraphics{grafics/pastry_routing_table.pdf}
-\caption{Routing table, leaf set und neighborhood set (nach \cite{Goetz2005}) des Knoten 103220 für $l=12, b=2$. Einträge in Zeile $i$ haben einen Präfix der Länge $i$ mit dem Knoten $103220$ gemein. Die Übereinstimmungen sind zur Verdeutlichung fett hervorgehoben.}
+\caption{Routing table, leaf set und neighborhood set (nach \cite{Goetz2005}) des Knoten 103220 für $l=12, b=2$. Einträge in Zeile $i$ haben einen Präfix der Länge $i$ mit dem Knoten $103220$ gemein.}
 \label{fig:pastry_routing_table}
 \end{figure}
 
 Die Routingtabelle besteht aus $\frac{l}{b}$ Reihen mit je $2^b -1$ Einträgen. \Fref{fig:pastry_routing_table} zeigt dies beispielhaft für Knoten $103220$ mit $l=12, b=2$. Einträge in Zeile $i$ haben einen Präfix der Länge $i$ mit dem Knoten $103220$ gemein. Die Übereinstimmungen sind in der Abbildung fett hervorgehoben. Ist kein passender Knoten bekannt, wird das entsprechende Feld nicht ausgefüllt. Damit hat die Routingtabelle Ähnlichkeiten zur Fingertabelle bei Chord. Ein Knoten hat ungenaues Wissen über entfernte Knoten. Der Detailgrad an Routinginformationen erhöht sich pro Zeile in der Routingtabelle. Wenn im System nur sehr wenig Knoten vorhanden sind, dann sind die letzten Reihen der Routingtabelle ebenfalls nur spärlich belegt. Im Durchschnitt sind bei $n$ Knoten im System nur $log_{2^b} n$ Einträge belegt.\\
 Bei der Belegung der Routingtabelle werden bei gleichem Präfix diejenigen Knoten gewählt, die aus Netzwerksicht näher sind.
 
-Das leaf set enthält die $l$ numerisch nahen Knoten, $\frac{l}{2}$ davon sind kleiner und $\frac{l}{2}$ größer als der aktuelle Knoten. Neben Informationen zu Routingentscheidungen wird es zur Reparatur genutzt, wenn nahe gelegene Knoten ausfallen.
+Das leaf set enthält die $l$ numerisch nahen Knoten, $\frac{l}{2}$ davon sind kleiner und $\frac{l}{2}$ größer als der aktuelle Knoten. Neben Informationen zu Routingentscheidungen wird es zur Reparatur genutzt, sollten nahe gelegene Knoten ausfallen.
 
 Das eigentlich Routing unterscheidet zwei Fälle: Zuerst prüft der Knoten ob der Schlüssel $k$ im Bereich seines leaf set ist. Ist dies der Fall, wird die Nachricht an den entsprechenden Knoten gesendet. Ist dieser Knoten für den Schlüssel zuständig, endet das Routing. Fällt $k$ nicht in den Bereich des leaf set, wird die Nachricht via Routingtabelle an einen entfernteren Knoten gesendet. Hierzu wird ein Eintrag gewählt, der eine größere beziehungsweise die größte Prefixübereinstimmung mit $k$ hat. Existiert kein solcher Eintrag, wird die Nachricht an den numerisch nächsten Knoten (zu $k$) mit gleicher Präfixübereinstimmung geschickt.\\
 Da Nachrichten immer an Knoten mit einer größeren Übereinstimmung oder an nähere Knoten mit gleicher Präfixübereinstimmung gesendet werden, können keine Zyklen auftreten.
@@ -120,8 +120,6 @@ Da Nachrichten immer an Knoten mit einer größeren Übereinstimmung oder an nä
 Dadurch verringert sich die Anzahl der Knoten mit längeren Präfixübereinstimmungen in jedem Schritt um mindestens den Faktor $2^b$. Somit hat das Routing eine Komplexität von $O(log_{2^b} N)$.
 
 Das Routing von Tapestry ist sehr ähnlich zu dem hier vorgestellten Routing, allerdings nutzt Tapestry ein suffix-basiertes System. Ebenso speichert Tapestry in einem Eintrag der Routingtabelle mehrer mögliche Peers. So kann bei einem Ausfall schneller ein Ersatz gefunden werden.
-
-Pastry genügt den Anforderungen der generischen \ac{api} und ruft in jedem Routingschritt die upcall-Funktion route\_message auf. Durch diese kann gezielt in Routingentscheidungen eingegriffen werden und durch Applikationswissen besser gelegene Knoten als Routinghinweis genutzt werden.
 
 \paragraph{CAN} 
 Die gespeicherte Routinginformation ist bei CAN am Geringsten: Jeder Knoten speichert lediglich seine Nachbarn, das sind Knoten deren Zonen angrenzend sind, ab. Über die Zoneninformation jedes Nachbarn wird nun das Routing bestimmt. Eine Nachricht wird über den Knoten geschickt, der aufgrund seiner Zoneninformation näher am Ziel ist.
@@ -147,7 +145,6 @@ Die Nachbarschaft ist bei Chord begrenzt. Jeder Knoten hat eine Verbindung zu se
 Das neighborhood set (siehe \Fref{fig:pastry_routing_table}) enthält $|m|$ Knoten die aus Netzwerksicht nahe sind. Obwohl es im Routing keine Rolle spielt kann es dazu genutzt werden in späteren Entscheidungen geeignete Knoten zu finden.\\
 Da die Größe des leaf set ebenfalls wählbar ist, können hier ebenfalls vermehrt nahe Knoten platziert werden.
 
-\missing{da geht noch was … börp}
 
 \paragraph{CAN}
 Die Nachbarschaft von CAN wurde bereits im vorigen Abschnitt behandelt. Dank deren Einfachheit ist der Ein- und Austritt von Knoten zwar besonders einfach und tangiert nur wenige Knoten im Netz, jedoch kann auf die Nähe aus Netzwerksicht nur beim Eintritt eines Knotens bei der Wahl seiner Koordinaten Rücksicht genommen werden.
@@ -159,7 +156,7 @@ Die Erhöhung der Dimension bedingt eine größere Nachbarschaft und damit, nebe
 \paragraph{Chord}
 Bei Chord kann die ID für einen neuen Knoten $n$ frei gewählt werden, es muss lediglich ein Knoten $b$ im System bekannt sein. n routet eine LOOKUP(n)-Nachricht via b und erfährt somit seinen Nachfolger auf dem Ring. In gleicher Weise vervollständigt $n$ seine Fingertabelle. Weiterhin teilt $n$ seinem Nachfolger mit, dass $n$ sein neuer Vorgänger ist.
 
-Zur Stabilisierung und Vervollständigung der Routinginformationen arbeitet jeder Knoten im Ring periodisch die Funktion \emph{stabilize} ab. Jeder Knoten $a$ fragt seinen Nachfolger $n$ nach dessen Vorgänger $s$. Wenn $a != s$, so ist Knoten $s$ neu in den Ring eingetreten. $a$ informiert den neuen Knoten $s$, dass er sein Vorgänger ist und ändert selbst den eigenen Nachfolger auf $s$ ab. $a$ kennt nun den Bereich seiner Zuständigkeit $[ID_a, PRED(a)[$ und kopiert diese Daten von seinem Nachfolger und weist diesen auf die Zuständigkeitsänderung hin.\\
+Zur Stabilisierung und Vervollständigung der Routinginformationen arbeitet jeder Knoten im Ring periodisch die Funktion \emph{stabilize} ab. Jeder Knoten $a$ fragt seinen Nachfolger $n$ nach dessen Vorgänger $s$. Wenn $a != s$, so ist Knoten $s$ neu in den Ring eingetreten. $a$ informiert den neuen Knoten $s$, dass er sein Vorgänger ist und ändert selbst den eigenen Nachfolger auf $s$ ab. $s$ kennt nun den Bereich seiner Zuständigkeit $[ID_a, ID_s)[$ und kopiert diese Daten von seinem Nachfolger und weist diesen auf die Zuständigkeitsänderung hin.\\
 Die Aktualisierung der Fingertabelle \emph{fix\_fingers} wird ebenfalls auf jedem Knoten periodisch angestoßen. Für einen zufällig gewählten Eintrag wird überprüft ob dieser noch aktuell ist.
 
 Die Verzögerte Aktualisierung hat keinen großen Einfluss auf die Korrektheit oder Geschwindigkeit des Routings, da Nachrichten an $a$ über die Nachfolger- beziehungsweise Vorgängerverbindungen der Knoten um $a$ weitergeleitet werden und somit lediglich ein weiterer Knoten involviert ist.\\
@@ -210,8 +207,7 @@ Damit es zu keinem Ausfall von Daten kommt, wird eine periodische Auffrischung d
 Möchte ein Knoten l das System verlassen, so sucht er einen Nachbarn mit der kleinsten Zone und sendet diesem seine Daten. Dieser Nachbar informiert nun die alten Nachbarn von l über die geänderte Nachbarschaft.
 
 \subsection{Nutzbarkeit als Basis für \ac{cast}}
-Da \ac{cast} eine Anwendung der generischen \ac{api}\footnote{siehe \Fref{chap:evaluation_p2p:generic_api}} ist und die drei Netzwerke dieser genügen, sind sie als Basis für \ac{cast} nutzbar. Für Pastry und Tapestry gibt es die Publish/Subscribe-Systeme Scribe und Bayeux die nach dem Prinzip des \emph{Multicast-Tree} aufgebaut sind \cite{Castro2002Scribe, Zhuang2001}. Für CAN existiert ein System namens CAN-Multicast, welches allerdings die Nachrichten per \emph{flooding} verschickt \cite{Ratnasamy2001}.\\
-Die verschiedenen Systeme werden im \Fref{chap:konzeption_pubsub} zur Konzeption des generischen Publish/Subscribe-Systems näher untersucht.
+Da \ac{cast} eine Anwendung der generischen \ac{api}\footnote{siehe \Fref{chap:evaluation_p2p:generic_api}} ist und die drei Netzwerke dieser genügen, sind sie als Basis für \ac{cast} nutzbar. Für Pastry und Tapestry gibt es die Publish/Subscribe-Systeme Scribe und Bayeux die nach dem Prinzip des \emph{Multicast-Tree} aufgebaut sind \cite{Castro2002Scribe, Zhuang2001}. Für CAN existiert ein System namens CAN-Multicast, welches allerdings die Nachrichten per \emph{flooding} verschickt \cite{Ratnasamy2001}.
 
 \subsection{Fazit}
 Eine generelle Übersicht der Systeme stellt \Fref{tab:evaluation_fazit} dar. Jedes System hat eigene Schwächen und Stärken. So bezahlt CAN einen günstigen Ein- und Austritt der Knoten dank der kleinen Nachbarschaft mit mehr Routing Hops als beispielsweise Chord. Dieses hat durch seine Fingertabelle wiederum mehr Einfluss auf das Routing, aktualisiert diese Tabellen jedoch erst nachträglich im Hintergrund während dies bei Pastry aktiv geschieht.

@@ -5,7 +5,7 @@ Es muss ohne Wissen über die verschiedenen Optimierungen verwendbar sein.
 
 Im Optimierungsschritt erzeugt \ac{m2etis} für jeden semantisch Typen einen optimierten Kanal der über das Publish/Subscribe-System ansprechbar ist\footnote{siehe \Fref{chap:grundlagen:aufbau_metis}}. Dieses bieten die bekannten Methoden \emph{subscribe, unsubscribe} und \emph{publish} an. Jeder Kanal ist entlang den Dimensionen derart optimiert, dass Nachrichten bestmöglich verarbeitet und über das Netzwerk verteilt werden können.
 
-Das Netzwerk selbst wird über die bereits erwähnte \ac{kbr}-API angesprochen. Drei Methoden, sogenannte ``upcalls"\footnote{Technisch gesehen eine Callbackmethode der Applikation, welche svom Netzwerk aufgerufen wird.},  informieren über Ein- und Austritte von Knoten sowie über zu routende und auch ankommende Nachrichten an einem Knoten. Andere Methoden ermöglichen die Abfrage von Netzwerkinformationen\footnote{siehe auch \Fref{chap:evaluation_p2p:generic_api}}.
+Das Netzwerk selbst wird über die bereits erwähnte \ac{kbr}-API angesprochen. Drei Methoden, sogenannte ``upcalls"\footnote{Technisch gesehen eine Callbackmethode der Applikation, welche vom Netzwerk aufgerufen wird.},  informieren über Ein- und Austritte von Knoten sowie über zu routende und auch ankommende Nachrichten an einem Knoten. Andere Methoden ermöglichen die Abfrage von Netzwerkinformationen \cite{Dabek2003Towards}.
 
 \section{Umsetzung der Dimensionen}
 Für die logische Umsetzung der in \cite{Fischer2010Event} identifizierten semantischen Dimensionen eines Eventtyps wird der Begriff \emph{Policy} eingeführt.\\
