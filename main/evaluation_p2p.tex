@@ -27,14 +27,14 @@ Damit ist das Netzwerk einfach aus bestehendem Code nutzbar ohne dass kosteninte
 
 Anhand dieser Anforderungen sind unstrukturierte Netzwerke nicht als Netzwerksystem für diese Arbeit geeignet. Eine Suche, beziehungsweise Datenübertragung durch Flooding widerspricht klar der Anforderung nach geringer Latenz. Ebenso sind diese Netzwerke auf eine Übertragung via Direktverbindung ausgelegt während für \ac{m2etis} eine Routing der Nachrichten zwischen Knoten erwünscht ist.
 
-Dabek stellt in \cite{Dabek2003Towards} eine generische \ac{api} für \ac{kbr} Systeme vor, wie es viele der strukturierten Netzwerke anbieten und zeigt wie darauf aufbauend verschiedene Systeme wie \ac{dht}, \ac{dolr} und \ac{cast}\footnote{entspricht Application level multicast} implementiert werden können. Zusätzlich beschreibt Dabek wie einige bekannte Systeme (CAN, Chord, Pastry und Tapestry) diese die Anforderungen erfüllen.\\
-Daraus ergibt sich eine weitere spezielle Anforderung an das Overlay-Netzwerk:
 
-\paragraph{Anpassbarkeit an generische \ac{api}} Lässt sich das Netzwerk der generischen \ac{kbr}-API anpassen, gewinnt das an Flexibilität, da die Netzwerkschicht ohne große Änderungen an den restlichen Systemschichten ausgetauscht und verändert werden kann.
+\paragraph{Anpassbarkeit an generische KBR-API}
+Dabek moniert in \cite{Dabek2003Towards} die unterschiedlichen Schnittstellen der verschiedenen strukturierten p2p-Netzwerke die auf dem Prinzip der \ac{kbr} agieren. Dies mache es aus Entwicklersicht schwer, vom Netzwerk zu abstrahieren und dieses gegebenenfalls zu wechseln. Er untersucht verschiedene strukturierte p2p-Netzwerke, identifiziert ein Set von Funktionen  und zeigt wie darauf aufbauend verschiedene Systeme wie \ac{dht}, \ac{dolr} und \ac{cast}, dies entspricht application level multicast, implementiert werden können.\\
+Dabek beschreibt wie einige bekannte Systeme (CAN, Chord, Pastry und Tapestry) diese die Anforderungen erfüllen.
 
+Lässt sich das Netzwerk an die generische KBR-API nach Dabek anpassen, gewinnt das an Flexibilität, da die Netzwerkschicht ohne große Änderungen an den restlichen Systemschichten ausgetauscht und verändert werden kann.
 
-\input{main/evaluation_p2p_genericapi.tex}
-
+%\input{main/evaluation_p2p_genericapi.tex}
 
 \section{Evaluation}
 In diesem Kapitel werden die vier bekannten Systeme Chord \cite{Stoica2003}, Pastry \cite{Rowstron2001}, Tapestry \cite{Zhao2001Tapestry,Zhao2004Tapestry} und CAN \cite{Ratnasamy2001Scalable} miteinander verglichen. Die ersten drei sind in ihrem Aufbau ähnlich (der Schlüsselraum ist auf einem Ring verteilt) und unterscheiden sich in der Art des Routings. CAN hingegen bildet den Schlüsselraum auf ein d-dimensionalen kartesisches Koordinatensystem ab. Alle vier Systeme sind laut \cite{Dabek2003Towards} im Hinblick auf die generische \ac{api} nutzbar.
