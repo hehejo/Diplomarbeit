@@ -1,6 +1,6 @@
 \chapter{Konzeption des Frameworks}
 \label{chap:konzeption_pubsub}
-In diesem Kapitel wird die Konzeption des Frameworks zur Verteilungsoptimierung in seinen Einzelheiten erläutert. Ausgehend von den in \cite{Fischer2010a} identifizierten Typen von Events und deren orthogonalen Dimensionen zur Optimierung wird die, im nächsten Abschnitt beschriebene, Problemstellung greifbar. Das Framework muss die vielfältige Anpassung einzelner Kanäle ermöglichen ohne dies mit Einbußen zur Laufzeit zu erkaufen \cite{NEW_PAPER} \missing{CITE: NEW PAPER!}. Ein weiterer wichtiger Fokus dieser Arbeit ist \ac{m2etis} als ein einfach nutzbares kanalbasiertes Publish/Subscribe-System zu präsentieren:\\
+In diesem Kapitel wird die Konzeption des Frameworks zur Verteilungsoptimierung in seinen Einzelheiten erläutert. Ausgehend von den in \cite{Fischer2010a} identifizierten Typen von Events und deren orthogonalen Dimensionen zur Optimierung wird die, im nächsten Abschnitt beschriebene, Problemstellung greifbar. Das Framework muss die vielfältige Anpassung einzelner Kanäle ermöglichen ohne dies mit Einbußen zur Laufzeit zu erkaufen. Ein weiterer wichtiger Fokus dieser Arbeit ist \ac{m2etis} als ein einfach nutzbares kanalbasiertes Publish/Subscribe-System zu präsentieren:\\
 Es muss ohne Wissen über die verschiedenen Optimierungen verwendbar sein.
 
 Im Optimierungsschritt erzeugt \ac{m2etis} für jeden semantisch Typen einen optimierten Kanal der über das Publish/Subscribe-System ansprechbar ist\footnote{siehe \Fref{chap:grundlagen:aufbau_metis}}. Dieses bieten die bekannten Methoden \emph{subscribe, unsubscribe} und \emph{publish} an. Jeder Kanal ist entlang den Dimensionen derart optimiert, dass Nachrichten bestmöglich verarbeitet und über das Netzwerk verteilt werden können.
@@ -9,7 +9,7 @@ Das Netzwerk selbst wird über die bereits erwähnte \ac{kbr}-API angesprochen. 
 
 \section{Umsetzung der Dimensionen}
 Für die logische Umsetzung der in \cite{Fischer2010Event} identifizierten semantischen Dimensionen eines Eventtyps wird der Begriff \emph{Policy} eingeführt.\\
-Eine Policy definiert die Schnittstelle für verschiedene konkrete Implementierungen (genannt Strategie) und deren Auswirkung auf die Nachrichtenverarbeitung im Publish/Subscribe-System. Die folgenden sieben Policies decken die Dimensionen ab \cite{NEW_PAPER}.\missing{CITE: NEW PAPER!}
+Eine Policy definiert die Schnittstelle für verschiedene konkrete Implementierungen (genannt Strategie) und deren Auswirkung auf die Nachrichtenverarbeitung im Publish/Subscribe-System. Die folgenden sieben Policies decken die Dimensionen ab.
 
 \begin{description}
 \item[Verteilung] bestimmt die Verteilungsart der einzelnen Events und den Aufbau des logischen Multicast-Trees, mittels dem die Nachrichten versandt werden \cite{KostasKatrinis2005}.

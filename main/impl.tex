@@ -5,8 +5,6 @@ Our prototypic implementation of the introduced models shows, the applicability 
 
 With \ac{tmp} it is possible to derive create custom-tailored message headers, depending on the chosen strategies. This ensures small message sizes with a high payload ratio. Each channel itself is therefore in charge to orchestrate strategies for the different policies with regard to our processing model, derived by the semantic description for all optimization dimensions. All described design decisions ensure that the system has a small footprint at runtime and that it can be used without further knowledge of the system internals, the channels or the used strategies.
 
-\emph{Nicht vergessen}: Auf Knoten die Nachrichten weiterleiten wird \emph{forward} aufgerufen. Auf Knoten die eine Nachricht empfangen wird zuerst \emph{forward} und dann \emph{deliver} aufgerufen. In \emph{forward} kann der Knoten den Nachrichtenversand beenden. Vgl. \Fref{chap:evaluation_p2p:generic_api}!
-
 \section{Templates, Template Meta-Programming und Policy-based Design}
 Template Meta-Programming\index{Template Meta-Programming} und policy-based Design\index{policy-based Design} \cite{Alexandrescu2001Modern} sind Paradigmen der Softwareentwicklung in C++ und bedienen sich der dort verfügbaren \emph{Templates}. Policy-based Design baut in der hier erklärten Variante auf dem turingvollständigem \ac{tmp} auf.
 

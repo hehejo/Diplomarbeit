@@ -264,17 +264,13 @@ Das Routing bei CAN kann nur bedingt beeinflusst werden: An welchen Nachbarn sol
 \paragraph{Unterbau für \ac{cast}}
 Die Implementierung von Scribe und Bayeux für Pastry und Tapestry zeigen, dass diese als Unterbau für \ac{cast} sehr wohl geeignet sind. Aufgrund der mageren Ergebnisse in Castros Untersuchung \cite{Castro2003Evaluation} bleibt CAN trotz interessanter Ideen außen vor. Ebenso kann Chord nicht in Betracht gezogen werden, da es kurzzeitige Inkonsistenzen in der Nachbarschaft (und damit dem Routing) geben kann. Weiterhin wird eine größere Latenz im Nachrichtenversand erwartet, da Nachrichten nur in einer Richtung auf dem Ring weitergeleitet werden.
 
-
 \subsection*{Auswahl des Netzwerkes}
-Pastry ist als Javabibliothek\footnote{http://www.freepastry.org} verfügbar und die Entwicklung von Tapestry (ebenfalls in Java implementiert) wurde mit Version 2.01 eingestellt.
-
-Chimera \cite{Allen2006Chimera} ist der Nachfolger von Tapestry und vereint laut Homepage\footnote{http://current.cs.ucsb.edu/projects/chimera/index.html} das Beste von Pastry und Tapestry in sich: 
-\missing{PFUI! Lieber schreiben, dass es keine Publikationen gibt, weil es keine neue Forschung ist, sondern einfach nur ne Neuimplementierung die Sachen aufgreift!!}
-\missing{Philipp:  vlt kannst noch schreiben, dass implementierungsspeziefische Details eigentlich nicht in die Entscheidung eingehen und du dich daher für das Prinzip von Pastry bzw. Tapestry entscheidest, oder eben Chimera.}
-
+Die Konzeption des Netzes ist ausschlaggebender als Implementierungsdetails. Die Evaluation zeigt, dass ein Netzwerkaufbau wie bei Pastry/Tapestry  ein möglicher Kandidat ist.\\
+Pastry ist als Javabibliothek\footnote{\url{http://www.freepastry.org}} verfügbar und die Entwicklung von Tapestry (ebenfalls in Java implementiert) wurde mit Version 2.01 eingestellt. Chimera \cite{Allen2006Chimera} ist der Nachfolger von Tapestry und vereint das Beste von Pastry und Tapestry in sich\footnote{siehe \url{http://current.cs.ucsb.edu/projects/chimera/index.html}}: 
 \begin{quote}
-Chimera is a light-weight C implementation of a \emph{next-generation} structured overlay that provides similar functionality as prefix-routing protocols Tapestry and Pastry.  Chimera gains simplicity and robustness from its use of Pastry's leafsets, and efficient routing from Tapestry's locality algorithms.  In addition to these properties, Chimera also provides efficient detection of node and network failures, and reroutes messages around them to maintain connectivity and throughput.  
+Chimera is a light-weight C implementation of a ``next-generation'' structured overlay that provides similar functionality as prefix-routing protocols Tapestry and Pastry.  Chimera gains simplicity and robustness from its use of Pastry's leafsets, and efficient routing from Tapestry's locality algorithms.  In addition to these properties, Chimera also provides efficient detection of node and network failures, and reroutes messages around them to maintain connectivity and throughput.  
 \end{quote}
 
-Der frei verfügbare Code (veröffentlicht unter GPL), die Anpassbarkeit und die Unterstützung der Zielplattformen Linux und Windows sprechen stark für Chimera als Netzwerkunterbau für das in dieser Arbeit zu entwickelnde generische Publish/Subscribe-System.\\
-Da Chimera der generischen \ac{api} entspricht, könnte es bei gravierenden Problemen durch ein anderes System ausgetauscht werden, ohne das restliche System zu beeinflussen.
+Der frei verfügbare Code (veröffentlicht unter GPL), die Anpassbarkeit und die Unterstützung der Zielplattformen Linux und Windows sprechen für Chimera. Weiterhin entspricht Chimera der generischen \ac{api} und kann bei gravierenden Problemen durch ein anderes System ausgetauscht werden, ohne das restliche System zu beeinflussen.
+
+In diesem Kapitel wurden die drei Netzwerke Chord, Pastry/Tapestry und CAN verglichen und ihre unterschiedlichen Arbeitsweisen erklärt. Es zeigt sich, dass das Konzept von Pastry/Trapestry für \ac{m2etis} gut geeignet ist. Damit ist der erste Teil dieser Arbeit, die Auswahl eines geeigneten Netzwerkes, abgeschlossen. Das nächste Kapitel befasst sich nun mit der Konzeption des Frameworks, das auf dem Netzwerk aufsetzt.
