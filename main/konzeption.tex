@@ -1,11 +1,8 @@
 \chapter{Konzeption des Frameworks}
 \label{chap:konzeption_pubsub}
-In diesem Kapitel wird die Konzeption des Frameworks zur Verteilungsoptimierung in seinen Einzelheiten erläutert. Ausgehend von den in \cite{Fischer2010a} identifizierten Typen von Events und deren orthogonalen Dimensionen zur Optimierung wird die, im nächsten Abschnitt beschriebene, Problemstellung greifbar. Das Framework muss die vielfältige Anpassung einzelner Kanäle ermöglichen ohne dies mit Einbußen zur Laufzeit zu erkaufen. Ein weiterer wichtiger Fokus dieser Arbeit ist \ac{m2etis} als ein einfach nutzbares kanalbasiertes Publish/Subscribe-System zu präsentieren:\\
+In diesem Kapitel wird die Konzeption des Frameworks zur Verteilungsoptimierung in seinen Einzelheiten erläutert.\\
+Ausgehend von den in \cite{Fischer2010a} identifizierten Typen von Events und deren orthogonalen Dimensionen zur Optimierung wird die, im nächsten Abschnitt beschriebene, Problemstellung greifbar. Das Framework muss die vielfältige Anpassung einzelner Kanäle ermöglichen ohne dies mit Einbußen zur Laufzeit zu erkaufen. Ein weiterer wichtiger Fokus dieser Arbeit ist es \ac{m2etis} als ein einfach zu benutzendes kanalbasiertes Publish/Subscribe-System zu präsentieren:\\
 Es muss ohne Wissen über die verschiedenen Optimierungen verwendbar sein.
-
-Im Optimierungsschritt erzeugt \ac{m2etis} für jeden semantisch Typen einen optimierten Kanal der über das Publish/Subscribe-System ansprechbar ist\footnote{siehe \Fref{chap:grundlagen:aufbau_metis}}. Dieses bieten die bekannten Methoden \emph{subscribe, unsubscribe} und \emph{publish} an. Jeder Kanal ist entlang den Dimensionen derart optimiert, dass Nachrichten bestmöglich verarbeitet und über das Netzwerk verteilt werden können.
-
-Das Netzwerk selbst wird über die bereits erwähnte \ac{kbr}-API angesprochen. Drei Methoden, sogenannte ``upcalls"\footnote{Technisch gesehen eine Callbackmethode der Applikation, welche vom Netzwerk aufgerufen wird.},  informieren über Ein- und Austritte von Knoten sowie über zu routende und auch ankommende Nachrichten an einem Knoten. Andere Methoden ermöglichen die Abfrage von Netzwerkinformationen \cite{Dabek2003Towards}.
 
 \section{Umsetzung der Dimensionen}
 Für die logische Umsetzung der in \cite{Fischer2010Event} identifizierten semantischen Dimensionen eines Eventtyps wird der Begriff \emph{Policy} eingeführt.\\
@@ -24,7 +21,7 @@ Eine Policy definiert die Schnittstelle für verschiedene konkrete Implementieru
 Im Optimierungsschritt erzeugt \ac{m2etis} für jeden semantisch Typen einen optimierten Kanal der über das Publish/Subscribe-System ansprechbar ist\footnote{siehe \Fref{chap:grundlagen:aufbau_metis}}. Dieses bieten die bekannten Methoden \emph{subscribe, unsubscribe} und \emph{publish} an. Jeder Kanal ist entlang den Dimensionen derart optimiert, dass Nachrichten bestmöglich verarbeitet und über das Netzwerk verteilt werden können.\\
 Das Netzwerk selbst wird über die bereits erwähnte \ac{kbr}-API angesprochen. Drei Methoden, sogenannte ``upcalls''\footnote{Technisch gesehen eine Callbackmethode der Applikation, welche vom Netzwerk aufgerufen wird.},  informieren über Ein- und Austritte von Knoten sowie über zu routende und auch ankommende Nachrichten an einem Knoten. Andere Methoden ermöglichen die Abfrage von Netzwerkinformationen \cite{Dabek2003Towards}.
 
-Die Verbindung der Publish/Subscribe Methoden und den genutzten Methoden der KBR-API ist trivial: Jede verschickte Nachricht wird durch die Methoden \emph{forward} und \emph{deliver} des Netzwerkes verarbeitet.\\
+Die Verbindung der Publish/Subscribe Methoden mit der KBR-API ist trivial: Jede verschickte Nachricht wird durch die Methoden \emph{forward} und \emph{deliver} des Netzwerkes verarbeitet. Strategien hingegen können weitere Methoden zum Informationsgewinn nutzen.\\
 Die Verteilung der Policies auf die verschiedenen Nachrichtentypen ist hingegen interessanter und in \Fref{tab:verbindungsmatrix} aufgezeigt. Hierbei ist zu beachten, dass \emph{Publish}-Nachrichten den eigentlichen Events entsprechen, deren Verteilung optimiert wird, und dass {Subscribe}- und \emph{Unsubscribe}-Nachrichten nur zum Aufbau und der Verwaltung des Multicast-Trees dienen. Bei diesen Nachrichtentypen sind nur die Policies Verteilung, Filterung und Sicherheit involviert, während für Publish-Nachrichten alle Policies beteiligt sind.
 
 \begin{table}[!h]
@@ -50,18 +47,23 @@ publish	    & deliver & + & + & + & + & + & + & + \\
 \label{tab:verbindungsmatrix}
 \end{table}
 
-Events, also Publish-Nachrichten, werden ausschließlich in deliver behandelt, so dass diese bei allen Empfängern ankommen und unterwegs nicht verändert oder terminiert werden können. Dies ist ein kleiner Schritt in die Richtung zur Betrugsverhinderung. Für Subscribe- und Unsubscribe-Nachrichten entscheidet die eingesetzte Verteilungsstrategie darüber, ob diese in forward und/oder deliver behandelt werden. Nur in foward ist die Nachricht durch Verteilung und Filter veränderbar. Weiterhin kann die Verteilung der Nachricht auch terminiert werden, wenn dies der Verteilungsalorithmus wünscht.
+Durch die Behandlung aller Publish-Nachrichten -- also Events -- ausschließlich in deliver, wird sichergestellt, dass diese bei allen Empfängern ankommen und unterwegs nicht verändert oder unterbrochen werden.
+
+Eine Ausweitung der anderen Policies auf die anderen Nachrichtentypen ist nicht nötig. Anmeldungen und Abmeldungen bedingen keiner speziellen Reihenfolge und müssen auch nicht gespeichert werden. Eine spezielle Zustellungsgarantie für diese Nachrichten ist kontraproduktiv:  Anmeldungen müssen -- systembedingt -- periodisch wiederholt werden. Eine Zustellbestätigung würde die Anzahl der Verwaltungsnachrichten im System stark erhöhen.
+
+Die eingesetzte Verteilungsstrategie entscheidet darüber, ob Subscribe- und Unsubscribe-Nachrichten in forward und/oder deliver behandelt werden. Nur in foward ist die Nachricht durch Verteilung und Filter veränderbar und kann auch durch den Verteilungsalgorithmus terminiert werden.
 
 Die Reihenfolge der Policies wird im nächsten Abschnitt beschrieben. Sie ist bestimmend für eine effiziente Bearbeitung jeder einzelnen Nachricht.
 
 \section{Verarbeitungsmodell}
-Beim Erstellen einer Nachricht, werden Verwaltungsinformationen der einzelnen Policies abgefragt und mit der Nachricht verschickt. Anhand dieser Informationen kann die Nachricht auf einem anderen Knoten entsprechend behandelt werden. Subscribe- und Unsubscribenachrichten bestehen nur aus diesen Verwaltungsinformationen, da sie zum Aufbau und der Verwaltung des Multicast-Trees dienen und keine Events transportieren.
+Beim Erstellen einer Nachricht, werden Verwaltungsinformationen der einzelnen Policies abgefragt und mit der Nachricht verschickt. Anhand dieser Informationen kann die Nachricht auf einem anderen Knoten entsprechend behandelt werden. Subscribe- und Unsubscribe-Nachrichten bestehen nur aus Verwaltungsinformationen, da sie zum Aufbau und der Verwaltung des Multicast-Trees dienen und keine Events transportieren.
 
-Das von der Verteilungspolicy erzeugte System ist ein logischer Multicast-Tree. Dies bedeutet, dass es einen oder mehere Knoten, im folgenden Rootknoten genannt, gibt, die die Wurzel des Multicast-Trees darstellen. In \Fref{chap:related:scribe} wurde ein möglicher Aufbau anhand von Scribe beschrieben. Nachbarschaftszentrierte Algorithmen, die z.B. an VON \cite{Hu2006VON} angelehnt sind, können mehere Knoten als Wurzel eines Multicast-Trees haben. 
+Das von der Verteilungspolicy erzeugte System ist ein logischer Multicast-Tree. Es gibt einen oder mehere Knoten, im folgenden Rootknoten genannt, welche die Wurzel des Multicast-Trees darstellen. Scribe, in \Fref{chap:related:scribe} beschrieben, besitzt einen Rootknoten pro Kanal. Nachbarschaftszentrierte Algorithmen, die zum Beispiel an VON \cite{Hu2006VON} angelehnt sind, haben mehere Knoten als Wurzel. 
 
 Der Versand einer Nachricht ist in \Fref{fig:processing_send} dargestellt. Nachdem die Nachricht erstellt ist, wird die Verteilungspolicy nach einer Liste von Empfängern befragt. Diese ist vom Nachrichtentyp abhängig.\\
-Für Subscribe- und Unsubscribenachrichten sind dies immer die Rootknoten des Multicast-Trees, da diese dessen Aufbau koordinieren, beziehungsweise dies durch die Knoten auf dem Routingpfad durch das Netzwerk geschieht.\\
-Publish-Nachrichten werden an die Rootknoten geschickt, falls die Nachricht mit \emph{to root} gekennzeichnet ist. Dies ist der Fall, wenn ein Knoten einen Event in das System bringen möchte. Jeder Event muss an die Rootknoten geschickt werden, da die Verteilung selbst durch die Methode deliver ausgeführt wird. Hat die Nachricht die Rootknoten erreicht, wird sie mit \emph{from root} gekennzeichnet und die Verteilungsstrategie gibt als Empfänger die eingeschriebenen Knoten aus. Für jeden Eintrag dieser Liste wird nun von der Filterstrategie geprüft, ob die Nachricht auf das mit diesem Knoten verbundene Prädikat passt und an diesen verschickt werden soll. Schließlich wird die Nachricht durch die anhand der Sicherheitsstrategie vorgegebene Verschlüsselung kodiert und über das Netzwerk an alle Empfänger gesandt.
+Für Subscribe- und Unsubscribe-Nachrichten sind dies immer die Rootknoten, denn diese, und/oder die Knoten auf dem Routingpfad, koordinieren den Aufbau.\\
+Publish-Nachrichten werden an die Rootknoten geschickt, falls die Nachricht mit \emph{to root} gekennzeichnet ist. Dies ist der Fall, wenn ein Knoten einen Event in das System bringen möchte. Ein Event muss  immer an die Rootknoten geschickt werden, denn die Verteilung wird in der Methode deliver ausgeführt. Hat die Nachricht die Rootknoten erreicht, wird sie mit \emph{from root} gekennzeichnet und die Verteilungsstrategie gibt als Empfänger die eingeschriebenen Knoten aus. Für jeden Eintrag dieser Liste wird nun von der Filterstrategie geprüft, ob die Nachricht auf das mit diesem Knoten verbundene Prädikat passt und an diesen verschickt werden soll.\\
+Schließlich wird die Nachricht durch die anhand der Sicherheitsstrategie vorgegebene Verschlüsselung kodiert und über das Netzwerk an alle Empfänger gesandt.
 
 \begin{figure}[htbp]
 \centering
