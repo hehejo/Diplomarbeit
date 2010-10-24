@@ -21,24 +21,27 @@ Eine Policy definiert die Schnittstelle für verschiedene konkrete Implementieru
 \item[Validität] prüft die ankommenden Nachrichten auf ihre Validität. Frühzeitig verworfene Nachrichten vermindern das Nachrichtenaufkommen im System stark.
 \end{description}
 
-Die Verbindung der Publish/Subscribe Methoden und der genutzten \ac{kbr} Methoden ist trivial: Jede verschickte Nachricht wird durch die Methoden \emph{forward} und \emph{deliver} des Netzwerkes verarbeitet wird \cite{Dabek2003Towards}.\\
-Die Verteilung der Policies auf die verschiedenen Nachrichtentypen ist hingegen interessanter und in \Fref{tab:verbindungsmatrix} aufgezeigt. Bei der Verarbeitung von \emph{Publish}-Nachrichten, den eigentlichen Events, ist jede Policy beteiligt. Die \emph{Subscribe}- und \emph{Unsubscribe}-Nachrichten dienen nur zum Aufbau und der Verwaltung des Multicast-Trees. Aus diesem Grund sind bei diesen Nachrichtentypen nur die Policies Verteilung, Filterung und Sicherheit involviert.
+Im Optimierungsschritt erzeugt \ac{m2etis} für jeden semantisch Typen einen optimierten Kanal der über das Publish/Subscribe-System ansprechbar ist\footnote{siehe \Fref{chap:grundlagen:aufbau_metis}}. Dieses bieten die bekannten Methoden \emph{subscribe, unsubscribe} und \emph{publish} an. Jeder Kanal ist entlang den Dimensionen derart optimiert, dass Nachrichten bestmöglich verarbeitet und über das Netzwerk verteilt werden können.\\
+Das Netzwerk selbst wird über die bereits erwähnte \ac{kbr}-API angesprochen. Drei Methoden, sogenannte ``upcalls''\footnote{Technisch gesehen eine Callbackmethode der Applikation, welche vom Netzwerk aufgerufen wird.},  informieren über Ein- und Austritte von Knoten sowie über zu routende und auch ankommende Nachrichten an einem Knoten. Andere Methoden ermöglichen die Abfrage von Netzwerkinformationen \cite{Dabek2003Towards}.
+
+Die Verbindung der Publish/Subscribe Methoden und den genutzten Methoden der KBR-API ist trivial: Jede verschickte Nachricht wird durch die Methoden \emph{forward} und \emph{deliver} des Netzwerkes verarbeitet.\\
+Die Verteilung der Policies auf die verschiedenen Nachrichtentypen ist hingegen interessanter und in \Fref{tab:verbindungsmatrix} aufgezeigt. Hierbei ist zu beachten, dass \emph{Publish}-Nachrichten den eigentlichen Events entsprechen, deren Verteilung optimiert wird, und dass {Subscribe}- und \emph{Unsubscribe}-Nachrichten nur zum Aufbau und der Verwaltung des Multicast-Trees dienen. Bei diesen Nachrichtentypen sind nur die Policies Verteilung, Filterung und Sicherheit involviert, während für Publish-Nachrichten alle Policies beteiligt sind.
 
 \begin{table}[!h]
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{llccccccc}
 \toprule
-Nachrichten- & KBR	& \multicolumn{7}{c}{Policy pro Kanal} \\
+\multirow{2}{2cm}{Nachrichten\-typ} & \multirow{2}{2cm}{KBR-API Methode}	& \multicolumn{7}{c}{Policy pro Kanal} \\
 \cmidrule{3-9}
-typ			&	Methode	& Verteilung & Filterung & Zustellung & Reihenfolge & Persistenz & Sicherheit & Validität \\
-\midrule
+			&	& Verteilung & Filterung & Zustellung & Reihenfolge & Persistenz & Sicherheit & Validität \\
+\toprule 
 publish	    & deliver & + & + & + & + & + & + & + \\
 \midrule
-subscribe	& deliver & + & + &   &   &   & + & \\
+\multirow{2}{*}{subscribe}	& deliver & + & + &   &   &   & + & \\
 \cmidrule{2-9}
 			& forward & + & + &   &   &   & + & \\
 \midrule
-unsubscribe & deliver & + & + &   &   &   & + & \\
+\multirow{2}{*}{unsubscribe} & deliver & + & + &   &   &   & + & \\
 \cmidrule{2-9}
 			& forward & + & + &   &   &   & + & \\
 \bottomrule
