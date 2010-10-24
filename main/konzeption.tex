@@ -73,7 +73,7 @@ Schließlich wird die Nachricht durch die anhand der Sicherheitsstrategie vorgeg
 \label{fig:processing_send}
 \end{figure}
 
-Sollten Nachrichten in forward behandelt werden, so werden diese zuerst dekodiert wie es in \Fref{fig:processing_forward} aufgezeigt ist. Die Verteilungs- und Filterpolicies können anhand der Verwaltungsinformationen ihren Zustand anpassen und wenn nötig die Nachricht ändern oder gar stoppen.
+Werden Nachrichten in forward behandelt, müssen diese erst dekodiert werden, wie es in \Fref{fig:processing_forward} aufgezeigt ist. Die Verteilungs- und Filterpolicies können anhand der Verwaltungsinformationen ihren Zustand anpassen und wenn nötig die Nachricht ändern oder gar stoppen.
 
 \begin{figure}[htbp]
 \centering
@@ -84,7 +84,7 @@ Sollten Nachrichten in forward behandelt werden, so werden diese zuerst dekodier
 \end{figure}
 
 Die Abarbeitung der Nachrichten in deliver ist komplexer als die beiden oben genannten Fälle, da hier alle Policies zusammenarbeiten wie es \Fref{fig:processing_deliver} aufzeigt. Nach der Entschlüsselung werden Subscribe- und Unsubscribenachrichten ähnlich wie bei der Behandlung in forward verarbeitet. Die Policies können ihren Zustand aktualisieren.\\
-Publishnachrichten müssen eine Validitätsprüfung bestehen, bevor entschieden wird, ob sie eine Nachricht \emph{to root}, also an die Rootknoten sind, oder nicht. Jeder Rootknoten und alle anderen Knoten auf dem Verteilungsweg, die selbst Verteilungsaufgaben übernehmen müssen (abhängig von der gewählten Verteilungsstrategie), leiten nun das Verteilen der Nachricht ein. Dazu wird in einem ersten Schritt eine neue Publishnachricht erstellt, alle Verwaltungsinformationen abgefragt und schließlich die Nachricht mit dem obig beschriebenen Verfahren gesendet. Nun wird an diesen Knoten geprüft ob sie selbst an diesem Kanal angemeldet sind und ob sie in diesem Falle an der Nachricht interessiert sind. Wenn nicht, endet die Bearbeitung der Nachricht. Ansonsten trifft sich der Ablaufpfad an dieser Stelle mit dem Ablaufpfad einfacher Knoten, die lediglich Subscriber sind. Die Synchronisierungspolicy ermöglicht eine Wohlordnung der Nachricht und kann diese sowohl komplett zurückhalten als auch mehrere Nachrichten zurückgeben, falls durch die aktuelle Nachricht weitere Nachrichten ``freigeschaltet" werden. Diese Nachrichten werden nun nochmals auf ihre Validität geprüft, da zurückgehaltene Nachrichten inzwischen veraltet sein können. Für jede valide Nachricht wird eine Signalisierung der Zustellung laut Policy, z.B. eine Acknowledgementnachricht zurück an den Sender, ermöglicht. Bevor die Nachricht schließlich an die Applikation übergeben wird, kann sie persistiert werden.
+Publishnachrichten müssen eine Validitätsprüfung bestehen, bevor entschieden wird, ob sie eine Nachricht \emph{to root}, also an die Rootknoten sind, oder nicht. Jeder Rootknoten und alle anderen Knoten auf dem Verteilungsweg, die selbst Verteilungsaufgaben übernehmen müssen (abhängig von der gewählten Verteilungsstrategie), leiten nun das Verteilen der Nachricht ein. Dazu wird in einem ersten Schritt eine neue Publishnachricht erstellt, alle Verwaltungsinformationen abgefragt und schließlich die Nachricht mit dem obig beschriebenen Verfahren gesendet. Nun wird an diesen Knoten geprüft ob sie selbst an diesem Kanal angemeldet sind und ob sie in diesem Falle an der Nachricht interessiert sind. Wenn nicht, endet die Bearbeitung der Nachricht. Ansonsten trifft sich der Ablaufpfad an dieser Stelle mit dem Ablaufpfad einfacher Knoten, die lediglich Subscriber sind. Die Synchronisierungspolicy ermöglicht eine Wohlordnung der Nachricht und kann diese sowohl komplett zurückhalten als auch mehrere Nachrichten zurückgeben, falls durch die aktuelle Nachricht weitere Nachrichten ``freigeschaltet'' werden. Alle Nachrichten werden nun nochmals auf ihre Validität geprüft, da zurückgehaltene Nachrichten inzwischen veraltet sein können. Für jede valide Nachricht wird eine Signalisierung der Zustellung laut Policy, zum Beispiel eine Bestätigungsnachricht zurück an den Sender, ermöglicht. Bevor die Nachricht schließlich an die Applikation übergeben wird, kann sie persistiert werden.
 
 \begin{figure}[htbp]
 \centering
@@ -94,7 +94,7 @@ Publishnachrichten müssen eine Validitätsprüfung bestehen, bevor entschieden 
 \label{fig:processing_deliver}
 \end{figure}
 
-Im nächsten Kapitel wird das Verarbeitungsmodell anhand einiger Strategieen getestet.
+Im nächsten Kapitel wird das Verarbeitungsmodell anhand einiger Strategien getestet.
 
 \subsection{Beispielhafte Strategien}
 For every policy \ac{m2etis} provides one ore more implementations. For example \emph{Direct} or \emph{Multicast} for routing. The framwork permits inclusion of more user-defined strategies. Different types of channel use a different set of implementations for every policy, creating a variety of optimization options. Each implemented strategy must provide additional cost information that is used in the optimizing step and they may add information onto each message to enable the customized treatment.
