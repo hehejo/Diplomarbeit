@@ -53,3 +53,26 @@ Diese Möglichkeit der Parametrisierung vom Klassen gibt es prinzipell auch zur 
 
 
 In dieser Arbeit kommt \ac{tmp} im Zusammenspiel mit policy-based Design bei der Entwicklung des einzelnen Kanals zur Anwendung. Durch die Optimierungen zur Übersetzungszeit wird schlanker Code ohne unnötigen Ballast zur Laufzeit erzeugt.
+
+\section{Implementierungsdetails}
+\subsection{Netzwerkabstraktion}
+\begin{itemize*}
+\item Abstrakte Basisklasse für Netzwerk
+\item Abstrakte Basisklasse für Netzwerkupcalls
+\item Wrapperklassen für jedes Netzwerk
+\end{itemize*}
+
+
+\subsection{PubSubabstraktion}
+\begin{itemize*}
+\item PubSubController spricht mit Netzwerk
+\item PubSubSystem spricht mit Applikation und leitet Anfragen an Channel weiter
+\item Channel nutzt Controller zum Netzwerkzugriff
+\item $\rightarrow$ Möglichkeit verschiedene Netzwerke zu nutzen!
+\end{itemize*}
+
+\subsection{Channel}
+\begin{itemize*}
+\item Channel mit TMP und policy-based Design
+\item viele verschiedene Strategien
+\end{itemize*}
