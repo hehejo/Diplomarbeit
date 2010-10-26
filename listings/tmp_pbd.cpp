@@ -12,7 +12,7 @@ struct Print {
 
 template <class Decorator, class Printer>
 struct Ausgabe : public Decorator, public Printer {
-	void put(string s) const {
+	void put(const string& s) const {
 		Printer::print(Decorator::decorate(s));
 	}
 };
