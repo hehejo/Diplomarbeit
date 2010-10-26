@@ -1,5 +1,7 @@
 .PHONY: fast full doppel
 
+export TEXINPUTS=:_sty
+
 fast:
 	pdflatex master
 	pdflatex doppelmaster
