@@ -208,7 +208,7 @@ Eine periodische Auffrischung der Datensätze soll auch hier einen Verlust im Fe
 Möchte ein Knoten l das System verlassen, so sucht er einen Nachbarn mit der kleinsten Zone und sendet diesem seine Daten. Dieser Nachbar informiert nun die alten Nachbarn von l über die geänderte Nachbarschaft.
 
 \subsection*{Tauglichkeit als Basis für Publish/Subscribe}
-Publish/Subscribe-Systeme können als Anwendungsfall von \ac{cast} gesehen werden. Dies ist selbst eine Anwendung der generischen KBR-API\footnote{siehe \Fref{chap:evaluation_p2p:generic_api}}. Alle untersuchten Netzwerke genügen dieser und sind somit als Basis für \ac{cast} nutzbar.
+Publish/Subscribe-Systeme können als Anwendungsfall von \ac{cast} gesehen werden. Dies ist selbst eine Anwendung der generischen KBR-API. Alle untersuchten Netzwerke genügen dieser und sind somit als Basis für \ac{cast} nutzbar.
 
 Für Pastry und Tapestry gibt es die Publish/Subscribe-Systeme Scribe und Bayeux die nach dem Prinzip des \emph{Multicast-Tree} aufgebaut sind \cite{Castro2002Scribe, Zhuang2001}.\\
 Für CAN existiert ein System namens CAN-Multicast, welches allerdings die Nachrichten per \emph{flooding} verschickt \cite{Ratnasamy2001}.
