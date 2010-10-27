@@ -1,7 +1,24 @@
 \chapter{Zusammenfassung und Ausblick} 
 \label{chap:zus}
-In dieser Arbeit wurde die Konzeption und prototypische Implementierung eines Frameworks zur optimierten Verteilung von Events in Publish/Subscribe-System auf einem strukturiertem p2p-Overlay Netzwerk gezeigt. Es wurde erklärt, dass jeder optimierte Kanal für einen Eventtypen steht und wie die verschiedenen Dimensionen durch Policies abgebildet werden und deren verschiedene Strategien eingewoben werden. Das Verarbeitungsmodell zeigt die Verbindung und das Zusammenspiel der einzelnen Strategien.
+
+Diese Arbeit befasste sich mit der Konzeption und prototypischen Implementierung eines Frameworks zur optimierten Verteilung von Events in Publish/Subscribe-System auf einem strukturiertem p2p-Overlay Netzwerk.\\
+Nach der Einführung von \ac{m2etis} wurden die Grundlagen zu Overlay- und p2p-Netzwerken gelegt. Eine Kapitel über betrügerisches Verhalten und dessen Verhinderung runden die Einführung ab.\\
+Im zweiten Abschnitt der Arbeit wurden die drei Overlay-Netzwerke Chord, Pastry/Tapestry und CAN vorgestellt und miteinander verglichen um einen auf die identifizierte Anforderungen passenden Netzwerktyp für \ac{m2etis} zu finden. Mit Chimera hat sich ein freies Netzwerksystem gefunden, dass das gut geeignete Konzept von Pastry/Tapestry umsetzt.\\
+Auf die Evaluation folgte die Konzeption des Frameworks. Die in \cite{Fischer2010Event} identifizierten orthogonalen Dimensionen sind durch sieben Policies abgedeckt, welche Auswirkungen auf die Nachrichtenverteilung und damit die Bearbeitung der Events haben. Im Abschnitt zum Verarbeitungsmodell wird die Reihenfolge der verschiedenen Policies und ihr Zusammenspiel bei der Verarbeitung der Nachrichten erklärt. Die beispielhafte Anwendung verschiedenster Verteilungsstrategien zeigen die Mächtigkeit und Offenheit des Modells viele Implmentierungen zu unterstützen und garantiert damit eine Optmierung der Eventverteilung.\\
+Eine Einführung in Template Meta-Programming stellt einige die zur Reduzierung von Overhead zur Laufzeit genutzten Techniken vor. Einblicke in die Implementierung des Frameworks zeigen die Abstraktionsebenen des Frameworks auf und komplettieren dieses Kapitel.
+
+
+\subsection*{Ausblick}
+\begin{itemize}
+\item verschiedene Strategien
+\item Kostenmodell
+\item semantisches Modell
+\item DSL zur Beschreibung der Eventtypen
+\item Netzwerksimulator OverSim \cite{Baumgart2007OverSim}
+\item Tuning Kotenmodell
+\item Tuning Parameter
+\item Test Optimizer
+\end{itemize}
 
 Als weitere Arbeiten in diesem Gebiet steht die Entwicklung des Optimierers und der Kostenmodelle an nächster Stelle. Eine domänenspezifische Sprache zur semantischen Beschreibung der Typen rundet diesen ab. Zur Parametrisierung der verschiedenen Strategien kann das System vorübergehend an ein simuliertes Netzwerk wie OverSim \cite{Baumgart2007OverSim} angeschlossen werden. Weitere Algorithmen müssen in das System eingebracht und ausgemessen werden. Durch die flexible Architektur ist es möglich mehrere logische Netzwerke zu nutzen und bestimmten Eventtypen zuzuordnen.
 
-\missing{mehr mehr!}
