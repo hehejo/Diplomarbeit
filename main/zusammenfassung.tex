@@ -1,24 +1,6 @@
 \chapter{Zusammenfassung und Ausblick} 
 \label{chap:zus}
+Diese Arbeit befasste sich mit der Konzeption und prototypischen Implementierung eines Frameworks zur optimierten Verteilung von Events in Publish/Subscribe-System auf Basis eines strukturierten p2p-Overlay Netzwerks.\\
+Die Evaluation der p2p-Netzwerke hat gezeigt, dass das Konzept von Pastry/Tapestry für \ac{m2etis} geeignet ist, da vielfältige Eingriffe in Routingentscheidungen möglich sind. Ausgefallene Knoten werden zügig ersetzt und behindern das Routing von Nachrichten nur wenig. Mit  Chimera hat sich zudem ein freies System gefunden, dass dieses Konzept umsetzt. Die beispielhafte Anwendung zweier verschiendener Verteilungsstrategien, namentlich Scribe und ein Algorithmus der an VON angelegt ist, zeigen die Mächtigkeit und Offenheit des Verarbeitungsmodells. Dieses garaniert damit eine Vielzahl von Möglichkeiten die Eventverteilung zu optimieren. Die Implementierung des Publish/Subscribe-Systems nutzt viele Techniken der Template Meta-Programmierung um den zusätzlichen Verwaltungsaufwand zur Laufzeit zu minimieren. Dabei wurde stets darauf geachtet, dass das Framework ohne Kenntnis der eingesetzten Optimierungen nutzbar bleibt.
 
-Diese Arbeit befasste sich mit der Konzeption und prototypischen Implementierung eines Frameworks zur optimierten Verteilung von Events in Publish/Subscribe-System auf einem strukturiertem p2p-Overlay Netzwerk.\\
-Nach der Einführung von \ac{m2etis} wurden die Grundlagen zu Overlay- und p2p-Netzwerken gelegt. Eine Kapitel über betrügerisches Verhalten und dessen Verhinderung runden die Einführung ab.\\
-Im zweiten Abschnitt der Arbeit wurden die drei Overlay-Netzwerke Chord, Pastry/Tapestry und CAN vorgestellt und miteinander verglichen um einen auf die identifizierte Anforderungen passenden Netzwerktyp für \ac{m2etis} zu finden. Mit Chimera hat sich ein freies Netzwerksystem gefunden, dass das gut geeignete Konzept von Pastry/Tapestry umsetzt.\\
-Auf die Evaluation folgte die Konzeption des Frameworks. Die in \cite{Fischer2010Event} identifizierten orthogonalen Dimensionen sind durch sieben Policies abgedeckt, welche Auswirkungen auf die Nachrichtenverteilung und damit die Bearbeitung der Events haben. Im Abschnitt zum Verarbeitungsmodell wird die Reihenfolge der verschiedenen Policies und ihr Zusammenspiel bei der Verarbeitung der Nachrichten erklärt. Die beispielhafte Anwendung verschiedenster Verteilungsstrategien zeigen die Mächtigkeit und Offenheit des Modells viele Implmentierungen zu unterstützen und garantiert damit eine Optmierung der Eventverteilung.\\
-Eine Einführung in Template Meta-Programming stellt einige die zur Reduzierung von Overhead zur Laufzeit genutzten Techniken vor. Einblicke in die Implementierung des Frameworks zeigen die Abstraktionsebenen des Frameworks auf und komplettieren dieses Kapitel.
-
-
-\subsection*{Ausblick}
-\begin{itemize}
-\item verschiedene Strategien
-\item Kostenmodell
-\item semantisches Modell
-\item DSL zur Beschreibung der Eventtypen
-\item Netzwerksimulator OverSim \cite{Baumgart2007OverSim}
-\item Tuning Kotenmodell
-\item Tuning Parameter
-\item Test Optimizer
-\end{itemize}
-
-Als weitere Arbeiten in diesem Gebiet steht die Entwicklung des Optimierers und der Kostenmodelle an nächster Stelle. Eine domänenspezifische Sprache zur semantischen Beschreibung der Typen rundet diesen ab. Zur Parametrisierung der verschiedenen Strategien kann das System vorübergehend an ein simuliertes Netzwerk wie OverSim \cite{Baumgart2007OverSim} angeschlossen werden. Weitere Algorithmen müssen in das System eingebracht und ausgemessen werden. Durch die flexible Architektur ist es möglich mehrere logische Netzwerke zu nutzen und bestimmten Eventtypen zuzuordnen.
-
+Damit das gesamte System \ac{m2etis} zu seiner vollen Blüte reifen kann, sind weitere Komponenten erforderlich. Im nächsten Schritt muss ein Kostenmodell erstellt werden, damit die bisherigen Strategien und die weiteren zu implementierenden Strategien mit ihren Kosten ausgezeichnet werden können. Für die verschiedenen Policies gilt es entsprechende Strategien zu finden, die ihrer Aufgabe, unterschiedliche Ansätze zur Optimierung beizutragen, gerecht werden. Zeitgleich kann das semantische Modell zur Beschreibung von Eventtypen erstellt werden und mit einer domänenspezifischen Beschreibungssprache (DSL) abgerundet werden. Der \ac{m2etis}-Optimierer ist schießlich nötig um die semantischen Beschreibungen auszuwerten und anhand des Kostenmodells und weiterer Parameter optimierte Kanäle für jeden Eventtypen zu erzeugen. Diese weiteren Parameter sind beispielsweise Einstellungen für das Netzwerk oder Intervalle für periodische Neuanmeldungen. Diese und die genauen Werte für das Kostenmodell können im Zusammenspiel mit einem Netzwerksimulator wie OverSim \cite{Baumgart2007OverSim} ausgemessen werden, für dessen Anbindung des Simulators ein Netzwerkwrapper geschrieben werden muss. Sind diese Komponenten vorhanden, kann \ac{m2etis} als Ganzes evaluiert werden um es mit anderen Systeme, wie Donnybrook \cite{Bharambe2008Donnybrook}, VON \cite{Hu2006VON} oder NTree \cite{GauthierDickey2005Using}, zu vergleichen.
