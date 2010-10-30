@@ -13,27 +13,16 @@ Für weitere Netzwerke können auf einfache Art und Weise Wrapperklassen geschri
 \label{fig:uml}
 \end{figure}
 
+Die \emph{Applikation} greift auf das Publish/Subscribe-System über den Singleton \emph{PubSubSytem} zu. Beiden ist der optimierte \emph{Channel} nur über die abstrakten Basisklassen \emph{IChannel} beziehungsweise \emph{IChannelOwn} zugänglich. Diese bieten lediglich die drei üblichen Methoden für Publish/Subscribe-Systeme\footnote{subscribe, unsubscribe und publish} an. Dadurch ist die Komplexität der Klasse Channel verdeckt. Der Channel ist eine mit policy-based Design erstellte Templateklassen\footnote{siehe \Fref{chap:impl_tmp} im Anhang zur Erklärung}. Die verschiedenen Strategien -- in \Fref{fig:uml} ebenfalls nicht dargestellt -- werden dem Channel als Policies übergeben. Durch \ac{tmp} ist es zudem möglich jeden Channel auf die gewählten Policies abzustimmen. Weiterhin wird für jeden Channel ein optimierten Header erzeugt, dessen Größe an Nutzlast von den gewählten Policies abhängig ist. Durch diese Maßnahmen wird der Overhead zur Laufzeit stark reduziert. 
 
+Die Klasse \emph{PubSubController} implementiert das Interface \emph{P2PCallback} und kann sich somit für die Callbacks des Netzwerkes registrieren. Der PubSubController ist die Schnittstelle des Publish/Subscribe-Systems mit dem \ac{p2p}-Netzwerk und bietet die benötigte Funktionalität für die Klasse Channel. Zudem werden die ankommenden Nachrichten in deliver über eine Queue und einen Dispatch-Thread an die einzelnen Kanäle verteilt. \emph{PubSubSystemImpl} kennt die verschiedenen Netzwerkwrapper (in \Fref{fig:uml} ist dies ChimeraWrapper) und instantiiert für jedes genutztes Netzwerk einen PubSubController und übergibt diesen an jeden einzelnen Channel. Mit verschiedene Instanzen des PubSubControllers können somit auch verschiedene Netzwerke angesprochen werden und entsprechend der Optimierung für verschiedene Channel eingesetzt werden. Innerhalb der Klasse PubSubSystemImpl werden Instanzten der optimierten Kanäle als Klassenvariablen verwaltet.
 
-Die \emph{Applikation} spricht mit dem Singleton \emph{PubSubSytem}, beide können den \emph{Channel} nur über die abstrakte Basisklasse \emph{IChannel} beziehungsweise \emph{IChannelOwn} ansprechen. Durch diese beiden Basisklassen wird die Komplexität der durch Policies optimierten Klasse Channel verdeckt. Der Channel ist eine Templateklassen mit Policies\footnote{siehe \Fref{chap:impl_tmp} im Anhang zur Erklärung}. Die verschiedenen Strategien -- in \Fref{fig:uml} ebenfalls nicht dargestellt -- werden benutzt um den Channel zu spezialisieren. Durch \ac{tmp} ist es weiterhin möglich jeden Channel auf die gewählten Policies abzustimmen. Zur Übersetzungszeit wird zum Beispiel unbenötigter Code entfertn. Weiterhin wird ein optimierten Header erzeugt, dessen Größe an Nutzlast von den von den gewählten Policies abhängig ist. Durch diese Maßnahmen wird der Overhead zur Laufzeit stark reduziert. 
-
-Die Klasse \emph{PubSubController} implementiert das Interface \emph{P2PCallback} und kann sich somit für die Callbacks des Netzwerkes registrieren. Weiterhin bietet diese Klasse die von Channel benötigte Funktionalität. \emph{PubSubSystemImpl} kennt die Netzwerkwrapperklassen (in \Fref{fig:uml} ChimeraWrapper) und verbindet diese über den PubSubController mit dem Channel. Mit verschiedene Instanzen des PubSubControllers können somit auch verschiedene Netzwerke angesprochen werden und entsprechend der Optimierung für verschiedene Channel eingesetzt werden.
-
-
-\subsection{PubSubabstraktion}
-\begin{itemize*}
-\item PubSubController spricht mit Netzwerk
-\item PubSubSystem spricht mit Applikation und leitet Anfragen an Channel weiter
-\item Channel nutzt Controller zum Netzwerkzugriff
-\item $\rightarrow$ Möglichkeit verschiedene Netzwerke zu nutzen!
-\end{itemize*}
-
-\subsection{Optimierungsschritt}
-\begin{itemize*}
-\item komplett: ChannelList
-\item komplett: PubSubSystemImpl
-\item teilsweise: PubSubSystem
-\end{itemize*}
+Im Optimierungsschritt müssen daher folgende Klassen generiert und angepasst werden:
+\begin{description}
+\item[ChannelList.h] In dieser Datei ist eine Liste der vorhandenen Kanäle als ``enum'' abgelegt. Diese Einträge müssen bei der Kommunikation mit dem PubSubSytem genutzt werden um den entsprechenden Kanal zu wählen.
+\item[PubSubSystemImpl.h] Diese Klasse muss komplett generiert werden. Sie hat Zugriff auf alle zur Optimierung genutzten Strategien und den daraus erzeugten Instanzen der Templateklasse Channel. Zudem können hier die verschiedenen Netzwerke mit den verschiedenen Kanälen durch die Klasse PubSubController verbunden werden. 
+\item[PubSubSytem.cpp] Die Klasse PubSubSystem greift direkt auf die in PubSubSystemImpl definierten Kanäle (als IChannelOwn*) zu. Da diese erst im Optimierungschritt bekannt sind, muss dies ebenfalls generiert werden, soll ein Abgleich beziehungsweise eine Suche zur Laufzeit vermieden werden.
+\end{description}
 
 \lstinputlisting[caption={Zugriff auf M$^2$etis aus Benutzersicht}, label=lst:pubsub_usage]{listings/pubsub_usage.cpp}
 
