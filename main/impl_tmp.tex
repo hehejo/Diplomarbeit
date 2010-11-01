@@ -1,6 +1,6 @@
 \section{Templates, Template Meta-Programming und Policy-based Design}
 \label{chap:impl_tmp}
-Template Meta-Programming\index{Template Meta-Programming} und policy-based Design\index{policy-based Design} \cite{Alexandrescu2001Modern} sind Paradigmen der Softwareentwicklung in C++ und bedienen sich der dort verfügbaren \emph{Templates}. Policy-based Design baut in der hier erklärten Variante auf dem turingvollständigem \ac{tmp} auf.
+\acf{tmp}\index{Template Meta-Programming} und policy-based Design\index{policy-based Design} \cite{Alexandrescu2001Modern} sind Paradigmen der Softwareentwicklung in C++ und bedienen sich der dort verfügbaren \emph{Templates}. Policy-based Design baut in der hier erklärten Variante auf dem turingvollständigem \ac{tmp} auf.
 
 \subsection{Templates}
 Templates dienen der Generalisierung von Code und werden zur Übersetzungszeit durch den Compiler ausgewertet. Templates sind ein integraler Bestandteil der \ac{stl}\footnote{Siehe auch \url{http://www.cplusplus.com/reference/stl/}} und dienen dort vor Allem zum Erstellen von abstrakten Containerklassen wie zum Beispiel \emph{std::vector}, \emph{std::map} oder \emph{std::set}. Basierend auf dem Konzept des Zugriffs über \emph{Iteratoren}, sind viele aus der Funktionalen Programmierung bekannte Funktionen implementiert, die ebenfalls durch Templates generisch gehalten sind.
