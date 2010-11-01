@@ -1,21 +1,8 @@
 \chapter{Einleitung}
 \label{chap:einleitung}
+Die Spielewelt veränderte sich von Einzelspieler bzw. rundenbasierten Gruppenspielen an einem PC dank der fortschreitenden Übertragungstechniken und der günstigen Zugangspreise zu im Netzwerk gespielten \ac{mmog}. Diese Spielewelten sind meist nach dem Client-Server Prinzip aufgebaut, bei dem die virtuellen Welten auf Servern gehostet werden und die einzelnen Spieler ihre Aktionen in der Welt mit diesen Servern abgleichen müssen. Es muss nicht näher erläutert werden, dass diese Server -- trotz ihrer horrenden Kosten -- einen Flaschenhals darstellen. Bei beliebten Spielen steigt die Anzahl der benötigten Server stark an  und dennoch wird das Spiel meist in verschiedene Welten (sogenannte Realms) aufgeteilt. Da diese untereinander nicht verbunden sind, kann dies widerum das Spieleerlebnis einschränken.
 
-Die Spielewelt verändert sich von Einzelspieler bzw. rundenbasierten Gruppenspielen an einem PC dank der fortschreitenden Übertragungstechniken zu im Netzwerk gespielten \ac{mmog}.
-
-Um was geht's hier:\\
-Framework auf Basis eines strukturierten p2p-overlay Netzwerkes zur Verteilungsoptimierung von Events in Publish/Subscribe-Systemen.
-
-\begin{itemize*}
-\item vielfältige Ansätze \cite{Bharambe2008Donnybrook} %donnybrook, VAST
-\item dezentral $\rightarrow$ Overlay Netzwerk
-\item Pub/Sub Systeme \cite{Knutsson2004Peertopeer, Triebel2008Peertopeer} %peer2peer support
-\end{itemize*}
-
-Also im Grunde ein paar \emph{Motivationen} zusammenschreiben. :-)
-
-\cite{Fischer2010Event, Fischer2010a} % Toms Paper
+Obwohl es vielfältige Möglichkeiten gibt bekannte, dezentrale Techniken wie \ac{p2p}-Netzwerke zu nutzen um das Client-Server Prinzip solcher Spiele zu ersetzen, ist bisher noch kein Umstieg zu erkennen \cite{Knutsson2004Peertopeer, Triebel2008Peertopeer}. Einige Ansätze wie Donnybrook \cite{Bharambe2008Donnybrook} oder VAST \cite{Backhaus2007Voronoibased}, die Optimierungen auf Basis eines \ac{p2p}-Netzwerkes durchführen existieren. Jedoch bieten diese nicht die Bandbreite an Optimierung die \ac{m2etis} anbietet \cite{Fischer2010Event}. Statt das System auf einen Eventtypen\footnote{vei VAST ist dies beispielsweise die Position} hinzu optimieren, strebt \ac{m2etis} eine Optimierung aller im Spiel genutzten Eventtypen auf Basis eines Publish/Subscribe-Systems an \cite{Fischer2010a}. Diese Arbeit entwickelt das grundlegende Framework zur Kommunikation mit dem \ac{p2p}-Netzwerk sowie dem optimierten Publish/Subscribe-System.
 
 \section{Aufbau der Arbeit}
-Im ersten Kapitel werden nach einer Einführung von \ac{m2etis} die Grundlagen zu Overlay- und p2p-Netzwerken gelegt. Ein Abschnitt über betrügerisches Verhalten und dessen Verhinderung rundet die Einführung ab. Das nächste Kapitel dieser Arbeit widmet sich der Evaluation der drei Overlay-Netzwerke Chord, Pastry/Tapestry und CAN. Das Kapitel über die Konzeption des Frameworks handelt von der Umsetzung der in \cite{Fischer2010Event} identifizierten orthogonalen Dimensionen durch Policies und deren Reihenfolge und Zusammenspiel im Verarbeitungsmodell. Einblicke in die prototypische Implementierung zeigen die Abstraktionsebenen des Frameworks. Die Einführung in Template Meta-Programming stellt zudem die zur Reduzierung von Overhead zur Laufzeit genutzten Techniken vor und findet sich im Anhang dieser Arbeit.
-\missing{Prot. Impl. noch schöner beschreiben.}
+Im ersten Kapitel werden nach einer Einführung von \ac{m2etis} die Grundlagen zu Overlay- und p2p-Netzwerken gelegt. Ein Abschnitt über betrügerisches Verhalten und dessen Verhinderung rundet die Einführung ab. Das nächste Kapitel dieser Arbeit widmet sich der Evaluation der drei Overlay-Netzwerke Chord, Pastry/Tapestry und CAN. Das Kapitel über die Konzeption des Frameworks handelt von der Umsetzung der in \cite{Fischer2010Event} identifizierten orthogonalen Dimensionen durch Policies und deren Reihenfolge und Zusammenspiel im Verarbeitungsmodell. Einblicke in die prototypische Implementierung zeigen die Abstraktionsebenen des Frameworks und dessen einfache Handhabbarkeit. Die Einführung in Template Meta-Programming stellt zudem die zur Reduzierung von Overhead zur Laufzeit genutzten Techniken vor und findet sich im Anhang dieser Arbeit.
