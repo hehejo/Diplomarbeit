@@ -1,0 +1,52 @@
+\subsection{CAN}
+\label{chap:evaluation_can}
+
+\subsubsection*{Aufbau und Struktur}
+Der Schlüsselraum bei CAN \cite{Ratnasamy2001Scalable} ist ein d-dimensionaler Torus. Die Schlüssel werden als d-Tupel (zum Beispiel $(x,y)$ für $d=2$) dargestellt. Wie bei Pastry ist der numerisch nächst gelegene Knoten für ein Datum zuständig. Der Schlüsselraum ist in nicht überlappende Zonen eingeteilt und hat eine feste Größe. Jeder Knoten \emph{besitzt} eine solche Zone, über deren Ausmaß er definiert ist. Er ist für alle Daten zuständig, deren Schlüssel in dieser Zone liegt. Ein Schlüssel wird wie bei \ac{dht} üblich über eine segmentierte Hashfunktion berechnet. Jedes Segment bildet dabei eine Dimension ab.
+
+\Fref{fig:can_key_space} zeigt einen zweidimensionalen Schlüsselraum mit den drei Knoten A,B und C und fünf Daten. Der Schlüsselraum ist komplett auf die drei Knoten aufgeteilt, wobei A für den Bereich $(0, .5)-(1, 1)$, B für $(0, 0)-(.5, .5)$ und C für $(.5, 0)-(1, .5)$ zuständig ist.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{grafics/can_key_space.pdf}
+\caption{2-dimensionaler Schlüsselraum für CAN mit drei Knoten (A, B, C) und fünf Daten (schwarze Punkte).}
+\label{fig:can_key_space}
+\end{figure}
+
+\subsubsection*{Routing} 
+Die gespeicherte Routinginformation ist bei CAN am Geringsten: Jeder Knoten speichert lediglich seine Nachbarn, das sind Knoten deren Zonen angrenzend sind, ab. Über die Zoneninformation jedes Nachbarn wird nun das Routing bestimmt. Eine Nachricht wird über den Knoten geschickt, der aufgrund seiner Zoneninformation näher am Ziel ist.
+
+In \Fref{fig:can_routing} hat Knoten N1 die vier Knoten N2, N3, N4 und N5 als Nachbarn. Knoten N4 hingegen ist nur mit N1 und N5 benachbart.\\
+Beim Routing könnte Applikationswissen genutzt werden; beispielsweise bietet Knoten N2 eine größere Bandbreite als N5 und wird deshalb zum Routen der Nachricht von N1 genutzt. 
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{grafics/can_routing.pdf}
+\caption{Routing und Nachbarschaft bei CAN. Nachbarschaft von $N1 = \{N2, N3, N4, N5\}$ Routing der Nachricht von $N1$ zu $K$ via $N5$. Eine alternative Route via $N2$ ist gestrichelt dargestellt.}
+\label{fig:can_routing}
+\end{figure}
+
+Die durchschnittliche Länge eines Pfades bei $d$ Dimensionen und $n$ Knoten ist $O(d\cdot n^\frac{1}{d})$. Sind die Zonen gleich aufgeteilt, so besitzt jeder Knoten max. $2d$ Nachbarn und die Anzahl an Hops verringert sich auf $O(\frac{4}{d}\cdot n^\frac{1}{d})$.
+
+\subsubsection*{Nachbarschaft}
+Die Nachbarschaft von CAN wurde bereits im vorigen Abschnitt behandelt. Dank deren Einfachheit ist der Ein- und Austritt von Knoten zwar besonders einfach und tangiert nur wenige Knoten im Netz, jedoch kann auf die Nähe aus Netzwerksicht nur beim Eintritt eines Knotens bei der Wahl seiner Koordinaten Rücksicht genommen werden.
+
+Die Erhöhung der Dimension bedingt eine größere Nachbarschaft und damit, neben einem kürzerem Routing, auch die Möglichkeit mehr Knoten nahe zu gruppieren. Zusätzlich können in CAN sogenannte \emph{Realitäten} genutzt werden. Dies sind verschiedene CAN-Netzwerke mit unterschiedlicher Hashfunktion zur Berechnung der Schlüssel. Jeder Knoten und jedes Datum ist in jedem dieser Netzwerke vertreten und besitzt einen unterschiedlichen Schlüssel pro Netzwerk. In einem System mit $r$ Realitäten muss ein Knoten demnach $r$ verschiedene Zonen und Nachbarschaften verwalten. Eine Nachricht wird bei jedem Routing Hop über die Realität verschickt, welche die kürzeste Route verspricht.
+
+\subsubsection*{Eintritt und Austritt (Fehlerfall) von Knoten}
+\begin{figure}[htbp]
+\centering
+\includegraphics{grafics/can_new_node.pdf}
+\caption{Eintritt und Fehlerfall bei CAN. Nach Eintritt von Knoten $N7$ und Aufteilung der Zone von $N4$ ist die Nachbarschaft von $N1 = \{N2, N3, N4, N5, N7\}$. Nach dem Ausfall von $N2$ (rot) vereinigt $N3$ die Zonen.}
+\label{fig:can_new_node}
+\end{figure}
+
+Für den Eintritt eines neuen Knoten n muss wieder ein Knoten b aus dem Netz bekannt sein. Eine Koordinate im Schlüsselraum wird n zugewiesen und eine spezielle \emph{JOIN}-Nachricht via d an die gewählte Koordinate gesendet. Ist diese Nachricht über das normale Routing bei dem für diese Koordinate zuständigen Knoten d angekommen, halbiert dieser seine Zone und weist eine Hälfte dem neuen Knoten n zu. Die Aufteilung der Zonen erfolgt dabei anhand einer Reihenfolge der Dimensionen. Dies vereinfacht die Aufteilungs- sowie die Zusammenführungsprozedur. Letztlich kopiert d alle Daten aus dieser neuen Zone zu n. Knoten d schickt n seine Nachbarschaftsinformationen und trägt diesen selbst als neuen Nachbarn ein. Knoten n teilt seine Anwesenheit sofort seinen neuen Nachbarn mit. Der Neueintritt eines Knotens ist damit auf ein paar Nachrichten zwischen der Nachbarn begrenzt und beeinträchtigt das übrige Netzwerk nicht. Über periodische \emph{UPDATE}-Nachrichten halten sich Nachbarn stets aktuell und senden ihre eigene Nachbarschaftsinformationen an die benachbarten Knoten.\\
+\Fref{fig:can_new_node} zeigt den Eintritt für Knoten N7. Nach Teilung der Zone von N4 verändert sich die Nachbarschaft von N1: Knoten N7 kommt neu hinzu.
+
+Ausstehende \emph{UPDATE}-Nachrichten oder Timeouts weisen auf ausgefallene Knoten hin. Werden diese zum Routen einer Nachricht benutzt stellt dies keine direkte Beeinträchtigung des Netzes dar, da die Nachricht über einen anderen Nachbarn verschickt werden kann. So könnte N1 auch N2 zum Nachrichtenversand nutzen, wenn N5 ausgefallen wäre (vergleiche \Fref{fig:can_routing}).
+
+Ein Knoten der einen ausfallenden Peer entdeckt hat, startet einen Timer, dessen Dauer proportional zur Zonengröße ist. Nach Ablauf sendet der Knoten eine spezielle \emph{TAKEOVER}-Nachricht an alle Nachbarn des ausgefallen Knotens\footnote{Dieses Wissen ist durch vorherige \emph{UPDATE}-Nachrichten bekannt.}. Erreicht eine \emph{TAKEOVER}-Nachricht einen Knoten, stoppt dieser seinen eigenen Timer falls seine Zone größer als die des Sender ist. Andernfalls antwortet er selbst mit seiner \emph{TAKEOVER}-Nachricht. Auf diese Weise wird der Nachbar mit der kleinsten Zone gefunden. Dieser ist nun der neue Besitzer der Zone und fügt seine beiden Zonen zusammen wie es in \Fref{fig:can_new_node} am Beispiel von N2 und N3 ersichtlich ist. N2 (rot dargestellt) ist ausgefallen und N3 vergrößert seine Zone. N2 ist nun nicht mehr in der Nachbarschaft von N1 enthalten. Es ist möglich, dass ein Knoten Besitzer zweier Zonen wird, welche sich nicht als eine Zone darstellen lassen. Ein Beispiel hierfür ist Knoten N4 der beim Ausfall von N5 dessen Zone übernimmt. Ein Hintergrundprozess defragmentiert solche Zonen und weist Knoten gegebenenfalls neue Koordinaten zu.\\
+Eine periodische Auffrischung der Datensätze soll auch hier einen Verlust im Fehlerfall schnell kompensieren.
+
+Möchte ein Knoten l das System verlassen, so sucht er einen Nachbarn mit der kleinsten Zone und sendet diesem seine Daten. Dieser Nachbar informiert nun die alten Nachbarn von l über die geänderte Nachbarschaft.
