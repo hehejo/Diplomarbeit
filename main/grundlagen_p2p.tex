@@ -1,19 +1,16 @@
 \section{p2p-Netzwerke}
 \label{chap:grundlagen:p2p}
 
-p2p-Netzwerke sind die Grundlage aktueller Filesharing-Systeme wie BitTorrent, die einen schnellen Download ermöglichen. Der einfache Netzaufbau, die Fehlertoleranz bei ausfallenden Knoten sowie der Wegfall eines Servers lässt diese Netzwerke auch für Computerspiele interessant werden \cite{Knutsson2004Peertopeer, Triebel2008Peertopeer}. Auch für Sensornetzwerke ist der Aufbau eines p2p-Netzwerkes von Vorteil. Es können wertvolle Ressourcen (z.B. Batterie) besser genutzt werden \cite{MuneebAliandKoenLangendoen2007Case, Sioutas2009Building}, da die Kommunikation zwischen den Knoten weniger Sendeleistung benötigt als es eine Verbindungen zu einem - eventuell weit entfernten - Hauptrechner benötigen würde. Roussopoulos stellt in \cite{Roussopoulos20032} einen Entscheidungsbaum für und wider den Einsatz von p2p-Netzwerken zur Verfügung.
+p2p-Netzwerke sind die Grundlage aktueller Filesharing-Systeme wie BitTorrent. Der einfache Netzaufbau, die Fehlertoleranz bei ausfallenden Knoten sowie der Wegfall eines Servers lässt diese Netzwerke auch für Computerspiele interessant werden \cite{Knutsson2004Peertopeer, Triebel2008Peertopeer}. Roussopoulos stellt in \cite{Roussopoulos20032} einen Entscheidungsbaum für und wider den Einsatz von p2p-Netzwerken zur Verfügung. Auch für Sensornetzwerke ist der Aufbau eines p2p-Netzwerkes von Vorteil. Es können wertvolle Ressourcen (z.B. Batterie) besser genutzt werden \cite{MuneebAliandKoenLangendoen2007Case, Sioutas2009Building}, da die Kommunikation zwischen den Knoten weniger Sendeleistung benötigt als es eine Verbindungen zu einem -- eventuell weit entfernten -- Hauptrechner benötigen würde. Solche Netzwerke können beispielsweise zur Erkennung von Waldbränden genutzt werden. Sensorknoten werden über dem zu überwachenden Gebiet abgeworfen und sammeln Daten wie Temperatur und Luftfeuchtigkeit. Verbunden in einem großen p2p-Netzwerk werden die Daten untereinander ausgetauscht. Zur dezentralen Verwaltung und Abfrage genügt es an einem Sensorknoten die Daten abzufragen.
 
-p2p-Netzwerke lassen sich grundsätzlich als \emph{unstrukturiert\footnote{z.B. Napster, Gnutella}} oder \emph{strukturiert\footnote{z.B. Chord, Pastry}} klassifizieren \cite{Steinmetz2005, Lua2005Survey} und in Generationen einteilen \cite{Bo2003PeertoPeer}:
+p2p-Netzwerke lassen sich grundsätzlich als \emph{unstrukturiert} oder \emph{strukturiert} klassifizieren \cite{Steinmetz2005, Lua2005Survey} und in Generationen einteilen \cite{Bo2003PeertoPeer}:
 \begin{itemize*}
 	\item \emph{1G} unstrukturierte Netzwerke
 	\item \emph{2G} strukturierte Netzwerke
 	\item \emph{3G} strukturierte Netzwerke mit Fokus auf Anonymität, Authentifizierung, Schutz vor Zensur und verschiedenen Rollen der einzelnen Knoten
 \end{itemize*}
 
-Netzwerke der dritten Generation, wie z.B. GNUnet \cite{Bennett2002GNet} werden in dieser Arbeit nicht näher betrachtet. Die zusätzlich angebotene Funktionalität wird zum gegenwärtigem Stand von \ac{m2etis} nicht benötigt. Die Authentifizierung von Clients im Spiel findet weiterhin durch einen dezidierten Server statt.\\
-In \Fref[plain]{chap:grundlagen:cheating} wird ein Überblick möglicher Betrugsarten aufgeführt und auf weitere Literatur zur Betrugsverhinderung beziehungsweise Prävention verwiesen. Für diese Arbeit wird angenommen, dass Clients keinerlei Betrugsversuche unternehmen und kein schadhaftes Verhalten zeigen. Jedoch muss das zu entwickelnde Framework den Einbau möglicher Sicherheitskomponenten vorsehen und in seinen Grundzügen Betrugsversuche erschweren.
-
-Im Folgenden werden Netzwerke der ersten und zweiten Generation näher beschrieben.
+Netzwerke der dritten Generation, wie z.B. GNUnet \cite{Bennett2002GNet} werden in dieser Arbeit nicht näher betrachtet. Die zusätzlich angebotene Funktionalität wird nicht benötigt und würde ob ihrer Komplexität das zu entwickelnde System aufblähen. Die Beschreibung widmet sich im Folgenden den Netzwerken der ersten und zweiten Generation.
 
 \subsection{Unstrukturierte Netzwerke}
 Unstrukturierte Netzwerke\index{Netzwerk!Overlay!unstrukturiert} zeichnen sich dadurch aus, dass alle Informationen und Dateien durch Suchalgorithmen \cite{Lv2002} gefunden werden müssen. \\
@@ -36,4 +33,4 @@ Hier wird deutlich, dass diese Netzwerke eher der Kommunikation diesen als dem A
 
 Darauf aufbauend gibt es unterschiedliche Systeme die sich hinsichtlich Organisation, Routing, Ein- und Austritt von Knoten und dem Verhalten im Fehlerfall unterscheiden \cite{Goetz2005, Lua2005Survey}.
 
-Beispiele für solche Netzwerke sind Chord, Pastry, Tapestry oder CAN \cite{Hosseini2007Survey, Rowstron2001, Zhao2001Tapestry,Zhao2004Tapestry, Ratnasamy2001Scalable}. Auf diese wird im \Fref[plain]{chap:evaluation_p2p}, das sich der Evaluation widmet, näher eingegangen.
+Beispiele für solche Netzwerke sind Chord \cite{Hosseini2007Survey}, Pastry \cite{Rowstron2001}, Tapestry \cite{Zhao2001Tapestry,Zhao2004Tapestry} oder CAN \cite{Ratnasamy2001Scalable}. Auf diese wird im \Fref[plain]{chap:evaluation_p2p}, das sich der Evaluation widmet, näher eingegangen.

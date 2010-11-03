@@ -24,10 +24,7 @@ Interessant hierbei ist auch die eingebaute Redundanz einiger Systeme, die Daten
 \paragraph{Verfügbarkeit als C/C++-Bibliothek} Da der Prototyp dieser Arbeit in C++ entwickelt wird, muss das Netzwerk als C/C++-Bibliothek verfügbar sein. So kann das Netzwerk einfach angesprochen werden ohne dass kostenintensive Brücken zwischen beispielsweise Java und C++ geschlagen werden müssen. Da zudem betriebssystemübergreifend entwickelt und getestet wird, ist außerdem ein zur Verfügung stehender Quellcode vorteilhaft.
 
 \paragraph{Anpassbarkeit an generische KBR-API}
-Dabek moniert in \cite{Dabek2003Towards} die unterschiedlichen Schnittstellen der verschiedenen strukturierten p2p-Netzwerke die auf dem Prinzip der \ac{kbr} agieren. Dies mache es aus Entwicklersicht schwer, vom Netzwerk zu abstrahieren und dieses gegebenenfalls zu wechseln. Er untersucht verschiedene strukturierte p2p-Netzwerke, identifiziert ein Set von Funktionen  und zeigt wie darauf aufbauend verschiedene Systeme wie \ac{dht} und \ac{cast}, dies entspricht application level multicast, implementiert werden können.\\
-Dabek beschreibt wie einige bekannte Systeme (CAN, Chord, Pastry und Tapestry) diese Anforderungen erfüllen.
-
-Lässt sich das Netzwerk an die generische KBR-API nach Dabek anpassen, gewinnt das an Flexibilität, da die Netzwerkschicht ohne große Änderungen an den restlichen Systemschichten ausgetauscht und verändert werden kann.
+Dabek beschreibt wie einige bekannte Systeme (CAN, Chord, Pastry und Tapestry) an die generische KBR-API\footnote{siehe \Fref{chap:grundlagen:api}} angepasst werden können \cite{Dabek2003Towards}.
 
 \section{Evaluation der p2p-Netzwerke Chord, Pastry/Tapestry und CAN}
 In diesem Kapitel werden die vier bekannten Systeme Chord \cite{Stoica2003}, Pastry \cite{Rowstron2001}, Tapestry \cite{Zhao2001Tapestry,Zhao2004Tapestry} und CAN \cite{Ratnasamy2001Scalable} miteinander verglichen. Die ersten drei sind in ihrem Aufbau ähnlich (der Schlüsselraum ist auf einem Ring verteilt) und unterscheiden sich in der Art des Routings. CAN hingegen bildet den Schlüsselraum auf ein d-dimensionales kartesisches Koordinatensystem ab. Alle vier Systeme sind laut \cite{Dabek2003Towards} im Hinblick auf die generische \ac{api} nutzbar.
@@ -35,6 +32,9 @@ In diesem Kapitel werden die vier bekannten Systeme Chord \cite{Stoica2003}, Pas
 \input{main/evaluation_chord.tex}
 \input{main/evaluation_pastry.tex}
 \input{main/evaluation_can.tex}
+
+\section{Auswahl des p2p-Netzwerkes}
+\missing{schöne Überleitung}
 
 Zur Entscheidungsfindung werden die Netzwerke anhand folgender Gesichtspunkte verglichen:
 \begin{itemize*}
@@ -55,7 +55,7 @@ Für CAN existiert ein System namens CAN-Multicast, welches allerdings die Nachr
 \subsection*{Fazit}
 Eine generelle Übersicht der Systeme stellt \Fref{tab:evaluation_fazit} dar. Jedes System hat eigene Schwächen und Stärken. So bezahlt CAN einen günstigen Ein- und Austritt der Knoten dank der kleinen Nachbarschaft mit mehr Routing Hops als beispielsweise Chord. Dieses hat durch seine Fingertabelle wiederum mehr Einfluss auf das Routing, aktualisiert diese Tabellen jedoch erst nachträglich im Hintergrund während dies bei Pastry aktiv geschieht.
 
-\Fref{tab:evaluation_fazit} (Auszug aus \cite{Goetz2005}) listet die durchschnittlich anfallenden Kosten (Routing Hops, Größe der Routinginformation, Nachrichtenanzahl beim Ein- und Austritt) für die drei getesteten System auf.
+\Fref{tab:evaluation_fazit} (Auszug aus \cite{Goetz2005}) listet die durchschnittlich anfallenden Kosten (Routing Hops, Größe der Routinginformation, Nachrichtenanzahl beim Ein- und Austritt) für die drei getesteten System auf. $n$ ist die Anzahl der Knoten, $b$ die Anzahl der Bits der darstellenden Basis bei Pastry und $d$ die Anzahl der Dimensionen bei CAN.
 
 \begin{table}[htbp]
 \centering
@@ -69,7 +69,7 @@ Pastry & $O(\frac{1}{b}log_2~n)$ & $O(\frac{1}{b} (2^b-1) log_2~n) $ & $ O(log_{
 CAN & $O(\frac{d}{2}n^\frac{1}{d})	$ & $O(2 d) $ & $ O(\frac{d}{2}n^\frac{1}{d}) $ & $ O(2 d) $ \\
 \bottomrule
 \end{tabular}
-\caption{Vergleich der Systeme Chord, Pastry und CAN anhand einiger Gesichtspunkte. $n$ ist die Anzahl der Knoten, $b$ die Anzahl der Bits der darstellenden Basis bei Pastry und $d$ die Anzahl der Dimensionen bei CAN. (aus \cite{Goetz2005})}
+\caption[Vergleich der Systeme Chord, Pastry und CAN]{Vergleich der Systeme Chord, Pastry und CAN anhand einiger Gesichtspunkte}
 \end{table}
 
 Für uniformes Routing (d.h. das Routing ist bei allen Peers gleich) sind $O(log~n)$ beziehungsweise $O(n\frac{1}{d})$ Hops für Routingtabellen der Größe $O(log~n)$ beziehungsweise $O(d)$ die asymptotischen Grenze \cite{Xu2004Fundamental}. Die vorgestellten \ac{dht}-basierten Netzwerke nutzen ein uniformes Routing.
