@@ -4,6 +4,8 @@ In diesem Kapitel wird die Konzeption des Frameworks zur Verteilungsoptimierung 
 Ausgehend von den in \cite{Fischer2010a} identifizierten Typen von Events und deren orthogonalen Dimensionen zur Optimierung wird die, im nächsten Abschnitt beschriebene, Problemstellung greifbar. Das Framework muss die vielfältige Anpassung einzelner Kanäle ermöglichen ohne dies mit Einbußen zur Laufzeit zu erkaufen. Ein weiterer wichtiger Fokus dieser Arbeit ist es \ac{m2etis} als ein einfach zu benutzendes kanalbasiertes Publish/Subscribe-System zu präsentieren:\\
 Es muss ohne Wissen über die verschiedenen Optimierungen verwendbar sein.
 
+\input{main/konzeption_metis.tex}
+
 \section{Umsetzung der Dimensionen}
 Für die logische Umsetzung der in \cite{Fischer2010Event} identifizierten semantischen Dimensionen eines Eventtyps wird der Begriff \emph{Policy} eingeführt.\\
 Eine Policy definiert die Schnittstelle für verschiedene konkrete Implementierungen (genannt Strategie) und deren Auswirkung auf die Nachrichtenverarbeitung im Publish/Subscribe-System. Die folgenden sieben Policies decken die Dimensionen ab.
