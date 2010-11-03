@@ -4,19 +4,19 @@
 \subsubsection*{Aufbau und Struktur}
 Chord \cite{Stoica2003} legt die l-bit wertigen Schlüssel (meist Zahlen im Bereich $[0,2^l-1]$) auf einem eindimensionalen Ring modulo $2^l$ im Uhrzeigersinn an. Jedem Knoten und jedem Datum ist ein eindeutiger Schlüssel zugewiesen, diese werden als \emph{ID} und \emph{key} benannt. Ein Datensatz $X$ ist dem Knoten zugewiesen, dessen ID größer gleich dem key ist. Dieser Knoten wird Nachfolger von X, \emph{SUCC(X)}, genannt. Analog dazu gibt es auch einen Vorgänger von X, \emph{PRED(X)}.
 
-Damit ist ein Knoten für alle Daten zuständig, die - bildlich gesehen - im Ring gegen den Uhrzeigersinn vor ihm liegen. In \Fref{fig:chord_key_space} ist dies mit $l=6$ für sechs Knoten und fünf Datenpunkten gezeigt. Knoten 14 (N14) ist für das Datum mit Schlüssel 10 (K10) zuständig. Knoten 32 ist für K16 und K24 verantwortlich. K51 ist bei N51 zu finden. Aufgrund der Ringstruktur ist N1 für K55 zuständig.
-
 \begin{figure}[htbp]
 \centering
 \includegraphics{grafics/chord_key_space.pdf}
-\caption{Schlüsselraum ($l=6$) für Chord mit sechs Knoten ($Nx$) und fünf Daten ($Kx$). Die gestrichelten Pfeile stellen die Einträge der Fingertabelle für Knoten $N1$ dar.}
+\caption{Schlüsselraum für Chord mit sechs Knoten ($Nx$) und fünf Daten ($Kx$).}
 \label{fig:chord_key_space}
 \end{figure}
+
+Damit ist ein Knoten für alle Daten zuständig, die - bildlich gesehen - im Ring gegen den Uhrzeigersinn vor ihm liegen. In \Fref{fig:chord_key_space} ist dies mit $l=6$ für sechs Knoten und fünf Datenpunkten gezeigt. Knoten 14 (N14) ist für das Datum mit Schlüssel 10 (K10) zuständig. Knoten 32 ist für K16 und K24 verantwortlich. K51 ist bei N51 zu finden. Aufgrund der Ringstruktur ist N1 für K55 zuständig. Die gestrichelten Pfeile stellen die Einträge der Fingertabelle für Knoten $N1$ dar. 
 
 \subsubsection*{Routing}
 Bei Chord besitzt jeder Knoten eine Verbindung zu seinem direkten Vorgänger und seinem direkten Nachfolger. Eine Nachricht wird an den Nachfolger geschickt, bis sie zum zuständigen Knoten gelangt. Bei einer \emph{LOOKUP(x)}-Nachricht\footnote{Suche für key x Knoten N, so dass gilt: $N = SUCC(x)$.} prüft jeder involvierte Knoten A, ob sein Nachfolger für den Schlüssel zuständig ist, d.h. $ID_A < x \le SUCC(A)$. Ist dies der Fall, so sendet Knoten A die Antwort SUCC(A) rückwärts den Pfad der Nachricht zurück. Bei normalem Nachrichtenaustausch wird die Nachricht an den entsprechenden Knoten weitergeleitet.
 
-Da dies eine sehr ineffizientes  Routing darstellt, pflegt jeder Knoten eine sogenannte \emph{finger table}. Die maximal $l$ Einträge in dieser Tabelle zeigen auf andere Knoten im Ring, so dass der Eintrag in Zeile $i$ von Knoten $n$ denjenigen Knoten enthält der $n$ mit mindestens $2^{i-1}$ folgt.\\
+Da dies eine sehr ineffizientes  Routing darstellt, pflegt jeder Knoten eine sogenannte Fingertabelle. Die maximal $l$ Einträge in dieser Tabelle zeigen auf andere Knoten im Ring, so dass der Eintrag in Zeile $i$ von Knoten $n$ denjenigen Knoten enthält der $n$ mit mindestens $2^{i-1}$ folgt.\\
 \Fref{fig:chord_key_space} stellt die Fingertabelle von Knoten $N1$ dar. Die ersten Einträge SUCC(2), SUCC(3) und SUCC(5) verweisen auf Knoten $N5$. Der dritte Eintrag verweist auf $SUCC(9) = N14$. Analog dazu ergeben sich die restlichen Einträge.
 
 Über diese Fingertabelle können Nachrichten eine weitere Strecke auf dem Ring überbrücken und die Routingzeit wird stark verkürzt. Da die IDs in der Tabelle exponentiell zur Basis zwei ansteigen, halbiert sich die Distanz zum Ziel. Damit besitzt das Routing eine Komplexität von $O(log N)$.
@@ -39,11 +39,11 @@ Dies bedeutet allerdings, dass der neue Knoten $n$ erst später von seinem Vorg�
 \centering
 \resizebox{\textwidth}{!}{%
 \includegraphics{grafics/chord_new_node.pdf}}
-\caption{Schlüsselraum von Chord nach Ankunft von Knoten $N20$. Die Zuständigkeit für $K16$ sowie die Fingertabelle von $N1$ (gestrichelte Linien) wurden angepasst.}
+\caption{Schlüsselraum von Chord nach Ankunft von Knoten $N20$. }
 \label{fig:chord_new_node}
 \end{figure}
 
-\Fref{fig:chord_new_node} verdeutlicht den Neueintritt von Knoten $N20$. Die Änderungen sind in grün dargestellt. $N1$ passt seine Fingertabelle an und $N20$ ist für $K16$ zuständig.
+\Fref[plain]{fig:chord_new_node} verdeutlicht den Neueintritt von Knoten $N20$. Die Änderungen sind in grün dargestellt: $N1$ passt seine Fingertabelle an und $N20$ ist für $K16$ zuständig.
 
 Der Ausfall von Knoten wird über \emph{Timeouts} ermittelt. Im Falle eines Timeouts, wird die Nachricht an den besten bekannten Vorgänger des ausgefallenen Knotens weitergeleitet. Im schlimmsten Falle ist dies der Nachfolger des sendenden Knotens. Daraus wird ersichtlich, dass ein valider Nachfolger notwendig ist. Somit hält jeder Knoten eine Liste von möglichen Nachfolgern vor, die während \emph{stabilize} erstellt werden kann. Für fehlerhafte Knoten in der Fingertabelle kann \emph{fix\_fingers} explizit aufgerufen werden.
 
