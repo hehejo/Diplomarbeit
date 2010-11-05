@@ -1,8 +1,6 @@
 \section{Publish/Subscribe-Systeme}
 \label{chap:grundlagen:pubsub}
-Publish/Subscribe-Systeme sind Forschungszweck vieler wissenschaftlicher Arbeiten \cite{Liu2003Survey, Banerjee2001Comparative}. Themen wie Sicherheit \cite{FiegeSecurity}, ``Quality of Service'' \cite{BeFiMu2006PubSubQoS} oder Verteilungsoptimierung \cite{Muhl2002LargeScale, Castro2002Scribe} sind gut erforscht und beschrieben.
-
-Publish/Subscribe-Systeme lassen sich konzeptionell als Event-Systeme betrachten. Auf Grund ihres Aufbaus und der Skalierung  in orthogonalen Dimensionen\index{Publish/Subscribe!orthogonale Dimensionen} \emph{Raum}, \emph{Zeit} sowie \emph{Verarbeitungsmodell} eignen sich diese gut zur Verteilung von Events in dezentralen Umgebungen \cite{PatrickTh2003Many}. Diese Dimensionen werden im Folgenden genauer erläutert.
+Publish/Subscribe-Systeme sind Forschungszweck vieler wissenschaftlicher Arbeiten. Liu gibt einen Überlick über diese Systeme \cite{Liu2003Survey} während Banerjee verschiedene Protokolle in Multicast-Systemen vergleicht \cite{Banerjee2001Comparative}. Themen wie Sicherheit \cite{FiegeSecurity}, ``Quality of Service'' \cite{BeFiMu2006PubSubQoS} oder Verteilungsoptimierung \cite{Muhl2002LargeScale, Castro2002Scribe} sind gut erforscht und beschrieben. In diesem Kapitel werden nur dezentrale Publish/Subscribe-Systeme beschrieben, da nur diese im Rahmen dieser Arbeit eingebunden werden. Publish/Subscribe-Systeme lassen sich konzeptionell als eventbasierte Systeme betrachten. Auf Grund ihres Aufbaus und der Skalierung  in orthogonalen Dimensionen\index{Publish/Subscribe!orthogonale Dimensionen} \emph{Raum}, \emph{Zeit} sowie \emph{Verarbeitungsmodell} eignen sich diese gut zur Verteilung von Events in dezentralen Umgebungen \cite{PatrickTh2003Many}. Diese Dimensionen werden im Folgenden genauer erläutert.
 
 \begin{figure}[htbp]
 \centering
@@ -11,15 +9,9 @@ Publish/Subscribe-Systeme lassen sich konzeptionell als Event-Systeme betrachten
 \label{fig:pubsub_black_box}
 \end{figure}
 
-\paragraph{räumliche Trennung}
-Das Event-System trennt Publisher und Subscriber voneinander, wie es in Wie in \Fref{fig:pubsub_black_box} dargestellt. Diese Trennung bezieht sich nicht nur auf verschiedene Komponenten einer Applikation, sondern kann auch über Applikationsgrenzen oder gar Rechnergrenzen gehen.
 
-Diese Trennung kann so weit gehen, dass verschiedene Publish/Subscribe-Systeme miteinander kommunizieren können. Pietzuch gibt einen Vorschlag für eine generische API\index{Publish/Subscribe!generische API} für Publish/Subscribe-Systeme und unterteilt die Kompabilität verschiedener Systeme in drei Level. Das höchste Level beschreibt einen Datenaustausch der an XML-RPC angelegt ist \cite{PiEyKoSh2007-PubSubAPI}.
+Das Event-System trennt Publisher und Subscriber voneinander, wie es in Wie in \Fref{fig:pubsub_black_box} dargestellt. Diese Trennung bezieht sich nicht nur auf verschiedene Komponenten einer Applikation, sondern kann auch über Applikationsgrenzen oder gar Rechnergrenzen gehen. Publisher und Subscriber sind in ihren Aktionen mit dem Event-System zeitlich getrennt. Ein Publisher muss kein Wissen über Subscriber haben und umgekehrt. Dies bedeutet dass sich ein Subscriber am System anmelden kann obwohl kein Publisher vorhanden ist. Für Publisher gilt dies analog. Bei einem Fernaufrufsystem wie \emph{message-passing} ist dies nicht möglich, da die Gegenseite bekannt sein muss.
 
-\paragraph{zeitliche Trennung}
-Publisher und Subscriber sind in ihren Aktionen mit dem Event-System zeitlich getrennt. Ein Publisher muss kein Wissen über Subscriber haben und umgekehrt. Dies bedeutet dass sich ein Subscriber am System anmelden kann obwohl kein Publisher vorhanden ist. Für Publisher gilt dies analog. Bei einem Fernaufrufsystem wie \emph{message-passing} ist dies nicht möglich, da die Gegenseite bekannt sein muss.
-
-\paragraph{asynchrone Verarbeitung}
 Das Senden einer Nachricht ist für den Publisher nicht blockierend und entspricht dem Kommunikationsparadigma ``send and forget''. Subscriber warten zudem nicht aktiv auf neue Nachrichten, sondern werden per Callback über neue Nachrichten informiert. Damit wird die Verarbeitung vom Event-System aus getriggert.
 
 
