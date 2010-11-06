@@ -17,14 +17,12 @@ Interessant hierbei ist auch die eingebaute Redundanz einiger Systeme, die Daten
 
 \paragraph{Kommunikation über das Netzwerk} Das Netzwerk soll nicht nur das schnelle Auffinden von Peers ermöglichen, sondern auch einen Transport der Nachricht (Routing) durch das Netzwerk selbst bereitstellen.
 
-\paragraph{Bestimmung der Nachbarschaft} Eine dynamische Bestimmung der Nachbarschaftsgröße kann von Vorteil sein. So könnten Knoten mit mehr Bandbreite (beziehungsweise entsprechenden anderen Metriken) mehr direkte Verbindungen halten als Knoten mit geringer Bandbreite (oder geringer Spieldauer).
-
 \paragraph{Eingriff in Routingentscheidungen} Applikationswissen hilft auch beim Eingriff in das Routing des Netzes. So können Knoten bevorzugt zur Weiterleitung einer Nachricht ausgewählt werden. Diese Knoten zeichnen sich beispielsweise durch eine große Bandbreite oder spezielle Applikationsmetriken\footnote{Bsp: Spieler befindet sich in der selben Stadt} aus.
 
 \paragraph{Verfügbarkeit als C/C++-Bibliothek} Da der Prototyp dieser Arbeit in C++ entwickelt wird, muss das Netzwerk als C/C++-Bibliothek verfügbar sein. So kann das Netzwerk einfach angesprochen werden ohne dass kostenintensive Brücken zwischen beispielsweise Java und C++ geschlagen werden müssen. Da zudem betriebssystemübergreifend entwickelt und getestet wird, ist außerdem ein zur Verfügung stehender Quellcode vorteilhaft.
 
 \paragraph{Anpassbarkeit an generische KBR-API}
-Dabek beschreibt wie einige bekannte Systeme (CAN, Chord, Pastry und Tapestry) an die generische KBR-API\footnote{siehe \Fref{chap:grundlagen:api}} angepasst werden können \cite{Dabek2003Towards}.
+Das gewählte System sollte mit der von Dabek beschriebenen generische KBR-API\footnote{siehe \Fref{chap:grundlagen:api}} kompatibel sein.
 
 \section[Evaluation dreier p2p-Netzwerke]{Evaluation der der Netzwerke Chord, Pastry/Tapestry und CAN}
 In diesem Kapitel werden die vier bekannten Systeme Chord \cite{Stoica2003}, Pastry \cite{Rowstron2001}, Tapestry \cite{Zhao2001Tapestry,Zhao2004Tapestry} und CAN \cite{Ratnasamy2001Scalable} miteinander verglichen. Die ersten drei sind in ihrem Aufbau ähnlich (der Schlüsselraum ist auf einem Ring verteilt) und unterscheiden sich in der Art des Routings. CAN hingegen bildet den Schlüsselraum auf ein d-dimensionales kartesisches Koordinatensystem ab. Alle vier Systeme sind laut \cite{Dabek2003Towards} im Hinblick auf die generische \ac{api} nutzbar.
