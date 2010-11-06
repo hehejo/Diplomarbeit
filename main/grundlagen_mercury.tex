@@ -1,22 +1,13 @@
-\subsection*{Umsetzung eines filterbasierten Systemes am Beispiel von Mercury}
+\subsection[Umsetzung eines filterbasierten Systemes]{Umsetzung eines filterbasierten Systemes am Beispiel von Mercury}
 \label{chap:related:mercury}
 Zur besseren Vorstellung einer Umsetzung für filterbasierte Publish/Subscribe-Systeme\index{Publish/Subscribe!filterbasiert} wird im folgenden Kapitel Mercury \cite{Bharambe2004Mercury} vorgestellt. Obwohl \ac{m2etis} ein kanalbasiertes Publish/Subscribe-System darstellt \cite{Fischer2010a}, ist es sinnvoll eine möglich Umsetzung eines filterbasierten Systems zu beschreiben um die grundlegenden Unterschiede der Systeme genauer auszuarbeiten. 
 
-\paragraph*{Arbeitsweise}
 Im System gibt es eine Menge an Attributen, die ihrerseits einen definierten Wertebereich haben. Jedes Attribut wird durch einen eigenen Verbund aus Knoten, den sogenannten \emph{Hub}, bearbeitet. Der Wertebereich ist dabei nicht zwingend symmetrisch auf die Knoten verteilt.
 
-\paragraph*{Anmelden}
+\paragraph{Subscribe}
 Eine Subscription $S$ ist ein Tupel aus Filterbedingungen über die Attribute (z.B. $S := (5 < x <= 20; y = 15)$) sowie Kontaktinformationen des Knotens. $S$ wird an einen beliebigen Knoten eines Hubs gesendet, der für das Attribut aus der Filterbedingung mit der größten Selektivität zuständig ist. Im Beispiel ist dies Attribut $y$. Im Hub wird $S$ nun zu dem Knoten weitergereicht, der den Wertebereich der Filterung abdeckt. Dort wird $S$ in einer Liste gespeichert.
 
-\paragraph*{Publizieren}
+\paragraph{Publish}
 Eine Publikation $P$ ist ebenfalls ein Tupel mit bestimmten Werten der Attribute (z.B. $P := (x = 10; y = 0)$). $P$ wird an \emph{alle} Hubs gesendet und dort zum zuständigen Knoten weitergereicht. Dieser prüft nun die Liste der gespeicherten Subscriptions gegen die neue Publikation. Stimmen beide überein, so wird $P$ an den eingeschriebenen Knoten weitergeleitet.
 
-%\paragraph*{Offene Punkte}
-%\begin{itemize*}
-%\item Änderung der Attribute zur Laufzeit?
-%\item Auswahl der Knoten für einen Hub?
-%\item Aufteilung der Wertemenge auf die Knoten?
-%\end{itemize*}
-
-\paragraph*{Ähnliche Algorithmen}
 Mirinae ist ebenfalls ein filterbasiertes Publish/Subscribe-System, stellt den Wertebereich eines Attributes jedoch als Hyperwürfel dar. Eine automatische Anpassung dieser Aufteilung ermöglicht eine schnelle Anpassung der Routingtabelle und damit einen kurzen Weg für die Nachrichten \cite{Choi2005Mirinae}.
