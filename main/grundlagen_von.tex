@@ -1,3 +1,12 @@
 \subsection{VON}
 \label{chap:related:von}
-\ac{von} geht hier einen ähnlichen aber vom Aufbau des Netzwerkes anderen Ansatz. In diesem Netzwerk ist ein Nachbar in der virtuellen Welt direkt auch ein Nachbar im Netzwerk. Der Nachrichtenaustausch erfolgt nur mit den Nachbarn \cite{Hu2006VON}. \ac{vast} \cite{Backhaus2007Voronoibased} greift das Konzept von \ac{von} auf und testet eine Implementierung auf OpenSIM \cite{Baumgart2007OverSim}.
+\ac{von} ist in seinen Grundzügen stark unterschiedlich zu den bisher vorgestellen Umsetzung. \ac{von} nutzt das \ac{p2p}-Netzwerk nicht nur als Kommumnikationsmedium, sondern nutzt dessen Struktur auch als Verteilungsstruktur es Publish/Subscribe-Systems \cite{Hu2006VON}. VON zielt auf die Verteilungsoptimierung von Events zur Positonsänderun, muss allerdings über Applikationswissen verfügen: Die Position des Spielers. \ac{vast} \cite{Backhaus2007Voronoibased} greift das Konzept von \ac{von} auf und testet eine Implementierung auf OpenSIM \cite{Baumgart2007OverSim}.
+
+\begin{figure}[htbp]
+\centering
+\includegraphics{grafics/voronoi_von_backhaus.pdf}
+\caption{Struktur eines VON-Netzwerkes (aus \cite{Backhaus2007Voronoibased})}
+\label{fig:von}
+\end{figure}
+
+\Fref{fig:von} zeigt einen Aufbau eines VON-Netzwerks. Die Spielwelt wird anhand der Position der einzelnen Knoten in Voronoi-Diagramme unterteilt. Jeder Knoten hat damit einen eigenen Bereich und hält Verbindungen zu seinen Nachbarn und kennt angrenzende Nachbarn im Bereich seiner \ac{aoi}. Anmeldungen im Publish/Subscribe-System sind implizit, denn Publikationen, also Positionsänderungen, werden von einem Knoten an alle direkt angrenzenden Nachbarn (``enclosing neighbor'' in \Fref{fig:von}) gesendet. Um das System konsistent zu halten werden dabei auch Informationen über ``boundary neighbors'' ausgetauscht.
