@@ -7,8 +7,7 @@ Es muss ohne Wissen über die verschiedenen Optimierungen verwendbar sein.
 \input{main/konzeption_metis.tex}
 
 \section{Umsetzung der Dimensionen}
-Für die logische Umsetzung der in \cite{Fischer2010Event} identifizierten semantischen Dimensionen eines Eventtyps wird der Begriff \emph{Policy} eingeführt.\\
-Eine Policy definiert die Schnittstelle für verschiedene konkrete Implementierungen (genannt Strategie) und deren Auswirkung auf die Nachrichtenverarbeitung im Publish/Subscribe-System. Die folgenden sieben Policies decken die Dimensionen ab.
+Zuerst müssen die von Fischer identifizierten semantischen Dimensionen von Eventtypen umgesetzt werden \cite{Fischer2010Event}. Für die logische Umsetzung wird der Begriff \emph{Policy} eingeführt. Eine Policy definiert die Schnittstelle für verschiedene konkrete Implementierungen (genannt Strategie) und deren Auswirkung auf die Nachrichtenverarbeitung im Publish/Subscribe-System. Die folgenden sieben Policies decken die Dimensionen ab.
 
 \begin{description}
 \item[Verteilung] bestimmt die Verteilungsart der einzelnen Events und den Aufbau des logischen Multicast-Trees, mittels dem die Nachrichten versandt werden \cite{KostasKatrinis2005}.
@@ -20,8 +19,7 @@ Eine Policy definiert die Schnittstelle für verschiedene konkrete Implementieru
 \item[Validität] prüft die ankommenden Nachrichten auf ihre Validität. Frühzeitig verworfene Nachrichten vermindern das Nachrichtenaufkommen im System stark.
 \end{description}
 
-Im Optimierungsschritt erzeugt \ac{m2etis} für jeden semantisch Typen einen optimierten Kanal der über das Publish/Subscribe-System ansprechbar ist. Dieses bietet die bekannten Methoden \emph{subscribe, unsubscribe} und \emph{publish} an. Jeder Kanal ist entlang den Dimensionen derart optimiert, dass Nachrichten bestmöglich verarbeitet und über das Netzwerk verteilt werden können.\\
-Das Netzwerk selbst wird über die bereits erwähnte \ac{kbr}-API angesprochen. Drei Methoden, sogenannte ``upcalls''\footnote{Technisch gesehen eine Callbackmethode der Applikation, welche vom Netzwerk aufgerufen wird.},  informieren über Ein- und Austritte von Knoten sowie über zu routende und auch ankommende Nachrichten an einem Knoten. Andere Methoden ermöglichen die Abfrage von Netzwerkinformationen \cite{Dabek2003Towards}.
+Im Optimierungsschritt erzeugt \ac{m2etis} für jeden semantisch Typen einen optimierten Kanal der über das Publish/Subscribe-System ansprechbar ist. Dieses bietet die bekannten Methoden \emph{subscribe, unsubscribe} und \emph{publish} an. Jeder Kanal ist entlang den Dimensionen derart optimiert, dass Nachrichten bestmöglich verarbeitet und über das Netzwerk verteilt werden können. Das Netzwerk selbst wird über die bereits erwähnte \ac{kbr}-API angesprochen. 
 
 Die Verbindung der Publish/Subscribe Methoden mit der KBR-API ist trivial: Jede verschickte Nachricht wird durch die Methoden \emph{forward} und \emph{deliver} des Netzwerkes verarbeitet. Strategien hingegen können weitere Methoden zum Informationsgewinn nutzen.\\
 Die Verteilung der Policies auf die verschiedenen Nachrichtentypen ist hingegen interessanter und in \Fref{tab:verbindungsmatrix} dargestellt. Hierbei ist zu beachten, dass \emph{Publish}-Nachrichten den eigentlichen Events entsprechen, deren Verteilung optimiert wird, und dass \emph{Subscribe}- und \emph{Unsubscribe}-Nachrichten nur zum Aufbau und der Verwaltung des Multicast-Trees dienen. Hierzu sind nur die Policies Verteilung, Filterung und Sicherheit nötig, während für Publish-Nachrichten alle Policies involviert sind.
