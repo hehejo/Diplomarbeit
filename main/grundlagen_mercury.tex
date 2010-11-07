@@ -1,11 +1,22 @@
 \subsection[Umsetzung eines filterbasierten Systemes]{Umsetzung eines filterbasierten Systemes am Beispiel von Mercury}
 \label{chap:related:mercury}
-Zur besseren Vorstellung einer Umsetzung für filterbasierte Publish/Subscribe-Systeme\index{Publish/Subscribe!filterbasiert} wird im folgenden Kapitel Mercury vorgestellt. Im System gibt es eine Menge an Attributen, die ihrerseits einen definierten Wertebereich haben. Jedes Attribut wird durch einen eigenen Verbund aus Knoten, dem sogenannten \emph{Hub}, bearbeitet. Der Wertebereich ist dabei nicht zwingend symmetrisch auf die Knoten verteilt.
+Zur besseren Vorstellung einer Umsetzung für filterbasierte Publish/Subscribe-Systeme\index{Publish/Subscribe!filterbasiert} wird im folgenden Kapitel Mercury vorgestellt. Im System gibt es ein Set von Attributen, die ihrerseits einen definierten Wertebereich haben. Mercury limitiert die Datentypen auf Zahlen und Strings. In \Fref{fig:mercury} ist sind dies ``x'' und ``y'' mit je einem Intervall ganzer Zahlen als Wertebereich. Jedes Attribut wird durch einen eigenen Verbund aus Knoten, dem sogenannten \emph{Hub}, bearbeitet. Der Wertebereich ist dabei nicht zwingend symmetrisch auf die Knoten verteilt, wie in der Grafik durch die verschiedenen Größen der Kreissegmente dargestellt ist. 
+
+\begin{figure}[htbp]
+\centering
+\resizebox{\textwidth}{!}{%
+\includegraphics{grafics/mercury.pdf}}
+\caption{Aufbau von Mercury}
+\label{fig:mercury}
+\end{figure}
 
 \paragraph{Subscribe}
-Eine Subscription $S$ ist ein Tupel aus Filterbedingungen über die Attribute (z.B. $S := (5 < x <= 20; y = 15)$) sowie Kontaktinformationen des Knotens. $S$ wird an einen beliebigen Knoten eines Hubs gesendet, der für das Attribut aus der Filterbedingung mit der größten Selektivität zuständig ist. Im Beispiel ist dies Attribut $y$. Im Hub wird $S$ nun zu dem Knoten weitergereicht, der den Wertebereich der Filterung abdeckt. Dort wird $S$ in einer Liste gespeichert.
+Eine Subscription $S$ ist ein Tupel aus Filterbedingungen über die Attribute, zum Beispiel $S := (5 < x <= 20; y = 15)$, sowie Kontaktinformationen des Knotens. Für jede Subscribtion wird das Attribut mit der größten Selektivität ausgewählt; im Beispiel ist dies Attribut $y$. $S$ wird nun an einen beliebigen Knoten aus dem zuständigen Hubs gesendet. Im Hub wird $S$ nun zu dem Knoten weitergereicht, der den Wertebereich der Filterung abdeckt und dort in einer Liste gespeichert. Es ist ebenso möglich, dass eine Anmeldung -- je nach abgedeckem Wertebereich -- bei mehreren Knoten abgespeichert wird.
+
+\paragraph{Unsubscribe}
+Zur Abmeldung muss ein entsprechendes ``Negativ''-Tupel zur Anmeldung an den selben Hub wie das Anmeldetupel gesendet werden. Am richtigen Knoten angekommen, wird der Listeneintrag entfernt.
 
 \paragraph{Publish}
-Eine Publikation $P$ ist ebenfalls ein Tupel mit bestimmten Werten der Attribute (z.B. $P := (x = 10; y = 0)$). $P$ wird an \emph{alle} Hubs gesendet und dort zum zuständigen Knoten weitergereicht. Dieser prüft nun die Liste der gespeicherten Subscriptions gegen die neue Publikation. Stimmen beide überein, so wird $P$ an den eingeschriebenen Knoten weitergeleitet.
+Eine Publikation $P$ ist ebenfalls ein Tupel mit bestimmten Werten der Attribute, wie zum Beispiel $P := (x = 10; y = 0)$. Im Unterschied zur Anmeldung wird eine Publikation an \emph{alle} Hubs gesendet und dort zum jeweils zuständigen Knoten weitergereicht. Dieser gleicht $P$ mit den gespeicherten Anmeldetupel ab und senden $P$ an den zugehörigen Knoten.
 
 Mirinae ist ebenfalls ein filterbasiertes Publish/Subscribe-System, stellt den Wertebereich eines Attributes jedoch als Hyperwürfel dar. Eine automatische Anpassung dieser Aufteilung ermöglicht eine schnelle Anpassung der Routingtabelle und damit einen kurzen Weg für die Nachrichten \cite{Choi2005Mirinae}.
