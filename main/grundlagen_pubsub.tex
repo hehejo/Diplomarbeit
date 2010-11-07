@@ -18,11 +18,11 @@ Publisher und Subscriber werden durch das Event-System voneinander getrennt, wie
 Publish/Subscribe-Systeme lassen sich grundsätzlich in zwei Varianten einteilen: \emph{kanalbasiert}\index{Publish/Subscribe!kanalbasiert} und \emph{filterbasiert}\index{Publish/Subscribe!filterbasiert}. In kanalbasierten Systemen werden die Nachrichten einzelnen Kategorien zugeordnet. Subscriber können sich für Nachrichten dieser Kategorien anmelden und bekommen diese zugestellt. Filterbasierte Systeme haben diese Einteilung nicht. Für das System gilt ein Wertebereich und bei der Anmeldung kann ein Prädikat über diesen angegeben werden. Der Knoten empfängt nun nur gefilterte Nachrichten, das heißt nur Nachrichten die auf das übergebene Prädikat passen.
 \missing{Wie schaut's aus mit Toms Liebling: hybride Systeme? Filterung auf einem Kanal}
 
-Ein prominenter Vertreter verteilter, kanalbasierter Systeme ist Scribe \cite{Castro2002Scribe}, dessen Funktionsweise im nächsten Abschnitt beschrieben wird.
+Ein prominenter Vertreter verteilter, kanalbasierter Systeme ist Scribe, dessen Funktionsweise im nächsten Abschnitt beschrieben wird.
 
 \input{main/grundlagen_scribe.tex}
 
-Nach diesem Einblick einer möglichen Umsetzung kanalbasiertem Publish/Subscribe, gibt der kommende Abschnitt am Beispiel von Mercury \cite{Bharambe2004Mercury} eine Vorstellung davon, wie filterbasierte Systeme in einem dezentralem Netzwerk implementiert sein können.
+Nach diesem Einblick einer möglichen Umsetzung kanalbasiertem Publish/Subscribe, gibt der kommende Abschnitt am Beispiel von Mercury eine Vorstellung davon, wie filterbasierte Systeme\index{Publish/Subscribe!filterbasiert} in einem dezentralem Netzwerk implementiert sein können.
 
 \input{main/grundlagen_mercury.tex}
 \input{main/grundlagen_von.tex}
