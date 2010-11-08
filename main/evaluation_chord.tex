@@ -13,21 +13,21 @@ Chord \cite{Stoica2003} legt die l-bit wertigen Schlüssel (meist Zahlen im Bere
 
 Damit ist ein Knoten für alle Daten zuständig, die - bildlich gesehen - im Ring gegen den Uhrzeigersinn vor ihm liegen. In \Fref{fig:chord_key_space} ist dies mit $l=6$ für sechs Knoten und fünf Datenpunkten gezeigt. Knoten 14 (N14) ist für das Datum mit Schlüssel 10 (K10) zuständig. Knoten 32 ist für K16 und K24 verantwortlich. K51 ist bei N51 zu finden. Aufgrund der Ringstruktur ist N1 für K55 zuständig. Die gestrichelten Pfeile stellen die Einträge der Fingertabelle für Knoten $N1$ dar. 
 
-\subsubsection*{Routing}
+\subsubsection{Routing}
 Bei Chord besitzt jeder Knoten eine Verbindung zu seinem direkten Vorgänger und seinem direkten Nachfolger. Eine Nachricht wird an den Nachfolger geschickt, bis sie zum zuständigen Knoten gelangt. Bei einer \emph{LOOKUP(x)}-Nachricht\footnote{Suche für key x Knoten N, so dass gilt: $N = SUCC(x)$.} prüft jeder involvierte Knoten A, ob sein Nachfolger für den Schlüssel zuständig ist, d.h. $ID_A < x \le SUCC(A)$. Ist dies der Fall, so sendet Knoten A die Antwort SUCC(A) rückwärts den Pfad der Nachricht zurück. Bei normalem Nachrichtenaustausch wird die Nachricht an den entsprechenden Knoten weitergeleitet.
 
 Da dies eine sehr ineffizientes  Routing darstellt, pflegt jeder Knoten eine sogenannte Fingertabelle. Die maximal $l$ Einträge in dieser Tabelle zeigen auf andere Knoten im Ring, so dass der Eintrag in Zeile $i$ von Knoten $n$ denjenigen Knoten enthält der $n$ mit mindestens $2^{i-1}$ folgt.\\
-\Fref{fig:chord_key_space} stellt die Fingertabelle von Knoten $N1$ dar. Die ersten Einträge SUCC(2), SUCC(3) und SUCC(5) verweisen auf Knoten $N5$. Der dritte Eintrag verweist auf $SUCC(9) = N14$. Analog dazu ergeben sich die restlichen Einträge.
+\Fref{fig:chord_key_space} stellt auch die Fingertabelle von Knoten $N1$ dar. Die ersten Einträge SUCC(2), SUCC(3) und SUCC(5) verweisen auf Knoten $N5$. Der dritte Eintrag verweist auf $SUCC(9) = N14$. Analog dazu ergeben sich die restlichen Einträge.
 
 Über diese Fingertabelle können Nachrichten eine weitere Strecke auf dem Ring überbrücken und die Routingzeit wird stark verkürzt. Da die IDs in der Tabelle exponentiell zur Basis zwei ansteigen, halbiert sich die Distanz zum Ziel. Damit besitzt das Routing eine Komplexität von $O(log N)$.
 
-\subsubsection*{Nachbarschaft}
+\subsubsection{Nachbarschaft}
 Die Nachbarschaft ist bei Chord begrenzt. Jeder Knoten hat eine Verbindung zu seinem Vorgänger sowie Nachfolger auf dem Ring und hält Einträge in der Fingertabelle vor. In die Routingentscheidungen kann somit nicht direkt eingegriffen werden.
 
-\subsubsection*{Eintritt und Austritt (Fehlerfall) von Knoten}
-Bei Chord kann die ID für einen neuen Knoten $n$ frei gewählt werden, es muss lediglich ein Knoten $b$ im System bekannt sein. n routet eine LOOKUP(n)-Nachricht via b und erfährt somit seinen Nachfolger auf dem Ring. In gleicher Weise vervollständigt $n$ seine Fingertabelle. Weiterhin teilt $n$ seinem Nachfolger mit, dass $n$ sein neuer Vorgänger ist.
+\subsubsection{Eintritt und Austritt (Fehlerfall) von Knoten}
+Bei Chord kann die ID für einen neuen Knoten $n$ frei aus dem Wertebereich des Schlüsselraums gewählt werden, es muss lediglich ein Knoten $b$ im System bekannt sein. n routet eine LOOKUP(n)-Nachricht via b und erfährt somit seinen Nachfolger auf dem Ring. In gleicher Weise vervollständigt $n$ seine Fingertabelle. Weiterhin teilt $n$ seinem Nachfolger mit, dass $n$ sein neuer Vorgänger ist.
 
-Zur Stabilisierung und Vervollständigung der Routinginformationen arbeitet jeder Knoten im Ring periodisch die Funktion \emph{stabilize} ab. Jeder Knoten $a$ fragt seinen Nachfolger $n$ nach dessen Vorgänger $s$. Wenn $a != s$, so ist Knoten $s$ neu in den Ring eingetreten. $a$ informiert den neuen Knoten $s$, dass er sein Vorgänger ist und ändert selbst den eigenen Nachfolger auf $s$ ab. $s$ kennt nun den Bereich seiner Zuständigkeit $[ID_a, ID_s)[$ und kopiert diese Daten von seinem Nachfolger und weist diesen auf die Zuständigkeitsänderung hin.\\
+Zur Stabilisierung und Vervollständigung der Routinginformationen arbeitet jeder Knoten im Ring periodisch die Funktion \emph{stabilize} ab. Jeder Knoten $a$ fragt seinen Nachfolger $n$ nach dessen Vorgänger $s$. Wenn $a$ ungleich $s$ ist, muss Knoten $s$ neu in den Ring eingetreten sein. $a$ informiert den neuen Knoten $s$, dass er sein Vorgänger ist und ändert selbst den eigenen Nachfolger auf $s$ ab. $s$ kennt nun den Bereich seiner Zuständigkeit $[ID_a, ID_s[$ und kopiert diese Daten von seinem Nachfolger und weist diesen auf die Zuständigkeitsänderung hin.\\
 Die Aktualisierung der Fingertabelle \emph{fix\_fingers} wird ebenfalls auf jedem Knoten periodisch angestoßen. Für einen zufällig gewählten Eintrag wird überprüft ob dieser noch aktuell ist.
 
 Die verzögerte Aktualisierung hat keinen großen Einfluss auf die Korrektheit oder Geschwindigkeit des Routings, da Nachrichten an $a$ über die Nachfolger- beziehungsweise Vorgängerverbindungen der Knoten um $a$ weitergeleitet werden und somit lediglich ein weiterer Knoten involviert ist.\\
