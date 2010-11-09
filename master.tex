@@ -62,20 +62,6 @@
 
 \automark[chapter]{section}
 
-% Index soll Stichwortverzeichnis heissen
-\newpage
-\renewcommand{\indexname}{Stichwortverzeichnis}
-	 
-% Stichwortverzeichnis soll im Inhaltsverzeichnis auftauchen
-\phantomsection
-\addcontentsline{toc}{chapter}{\indexname}
-
-\markleft{\indexname}
-\markright{\indexname}
-\printindex
-
-\automark[chapter]{section}
-
 \bibliographystyle{alphadin}
 \bibliography{bib/literatur}
 %%% Wenn folgende Zeile nicht auskommentiert wird, steht alles im Litverzeichnis
