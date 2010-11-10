@@ -9,19 +9,19 @@ Einzelne Funktionen oder komplette Klassen könnten als Template realisiert werd
 
 In diesem und den folgenden Beispielen soll ein Einblick in die neue Methodik gezeigt werden, daher wird nicht auf eine optimierte Parameterübergabe oder Ähnliches geachtet. \Fref{lst:tmp_easy_spez} zeigt ein einfaches Template. Der Funktion \emph{min} wird als Templateparameter der Typ der Parameter übergeben. Es wird erwartet, dass die übergebenen Typen den Operator $<$ überladen haben. Für den Typ \emph{Pair} ist das Template total spezialisiert und eine separate Implementierung wurde angegeben. Zeilen 18 und 19 zeigen die einzelnen Funktionsaufrufe.
 
-\lstinputlisting[caption={einfaches Funktionstemplate}, label=lst:tmp_easy_spez]{listings/tmp_easy_spez.cpp}
+\lstinputlisting[caption={einfaches Funktionstemplate}, label=lst:tmp_easy_spez, float=t]{listings/tmp_easy_spez.cpp}
 
 Ebenso können Templates geschachtelt übergeben werden, wie es \Fref{lst:tmp_tmp} zeigt. Hier wird dem \emph{WidgetFactory} ein Template übergeben mit dessen Hilfe er Objekte des Typs Widget erstellen kann. Beim Aufruf in Zeile 19 muss der Entwickler dennoch Typ angeben obwohl eine WidgetFactory nur Objekte des Typs Widget erzeugt, wie es der Name impliziert.
 
-\lstinputlisting[caption={einfaches Klassentemplate}, label=lst:tmp_tmp]{listings/tmp_tmp.cpp}
+\lstinputlisting[caption={einfaches Klassentemplate}, label=lst:tmp_tmp, float=t]{listings/tmp_tmp.cpp}
 
 \Fref{lst:tmp_tmp_2} zeigt die Lösung mit ``Template Template'' Parametern. Hier wird der WidgetFactory ein Template übergeben. Dieses Template ist noch nicht spezifiziert und benötigt weiterhin den Typ des zu erstellenden Objektes. Unterschied zum vorherigem Listing ist in Zeile 5 und am Aufruf in Zeile 10 zu sehen. WidgetFactory übergibt den Typ an das Template. Der Entwickler muss sich nun nicht mehr um den Typ kümmern. Damit wird der Code weniger fehleranfällig.
 
-\lstinputlisting[caption={verbessertes Klassentemplate mit Template Template}, label=lst:tmp_tmp_2]{listings/tmp_tmp_2.cpp}
+\lstinputlisting[caption={verbessertes Klassentemplate mit Template Template}, label=lst:tmp_tmp_2, float=!t]{listings/tmp_tmp_2.cpp}
 
 Mit Templates lassen sich auch Entscheidungen anhand der übergebenen Templateparamter treffen. In \Fref{lst:tmp_cond} wird anhand des Parameters \emph{isSingleton} entschieden, ob das neue Objekt mit \emph{new} oder per Aufruf der Methode \emph{T::getInstance()} erzeugt werden kann.
 
-\lstinputlisting[caption={Entscheidung via Templates}, label=lst:tmp_cond]{listings/tmp_cond.cpp}
+\lstinputlisting[caption={Entscheidung via Templates}, label=lst:tmp_cond, float=t]{listings/tmp_cond.cpp}
 
 Der Compiler prüft dabei alle Templates syntaktisch. Obwohl isSingleton mit ``false'' instantiert wird, kann der Code nicht kompiliert werden, denn die Methode \emph{getInstance} wird von Foo nicht angeboten. Um dieses Problem zu umgehen, beschreibt Alexandrescu in \cite{Alexandrescu2001Modern} das Hilfskonstrukt \emph{Int2Type} das im nächsten Kapitel eingeführt wird.
 
@@ -30,7 +30,7 @@ Template Meta-Programming arbeitet mit der vorgestellten Spezialisierung von Tem
 
 \ac{tmp} kann dazu genutzt werden, um die Problematik im vorangegangenen Kapitel zu lösen. \Fref{lst:tmp_cond_2} zeigt die Definition von \emph{Int2Type}. Int2Type speichert den übergebenen Integerwert und erzeugt daraus pro Wert einen eigenen Typ. Mit überladenen Funktionen kann nun eine Auswahl zur Übersetzungszeit erfolgen. Die statische Methode create (Zeile 8) ruft nun abhängig vom Templateparameter isSingleton die überladene Methode create\_impl auf. Im ersten Fall (Zeile 14) nimmt diese ein Int2Type$<$true$>$, im zweiten Falle (Zeile 19) nur Int2Type$<$false$>$. Da der Compiler nur instantiierte Templates prüfen muss, gibt es nun keine Übersetzungsfehler mehr. Der Entwickler muss seinen Aufruf nicht anpassen.
 
-\lstinputlisting[caption={Entscheidung via Templates zur Übersetzungzeit}, label=lst:tmp_cond_2]{listings/tmp_cond_2.cpp}
+\lstinputlisting[caption={Entscheidung via Templates zur Übersetzungzeit}, label=lst:tmp_cond_2, float=t]{listings/tmp_cond_2.cpp}
 
 Durch diese Technik können Entscheidungen zur Übersetzungszeit getroffen werden. So können z.b. auch komplexe Berechnungen zur Übersetzungszeit ein- beziehungsweise ausgeschaltet werden. Der zusätzliche Code (z.B. Methodenaufruf) kann durch den Compiler leicht optimiert werden.
 
@@ -41,7 +41,7 @@ In \Fref{lst:tmp_pbd} ist ein einfaches Beispiel mit einer Ausgabeklasse (\emph{
 
 Ausgabe wird in diesem Zusammenhang als ``Host-Klasse'', Dec\_A und Printer als ``Policy-Klasse'' bezeichnet. Da die Host-Klasse von ihren Policy-Klassen ableitet, kann die Host-Klasse in eine Policy-Klasse gecastet werden. So können nützliche Informationen abgefragt oder speziell angepasste Methoden der Policy-Klasse aufgerufen werden. Der Nutzer einer solchen mit Policies angereicherten Klasse bekommt dadurch sehr viele Freiheiten. Mögliche Sonderfälle spricht Aleandrescu an und bietet angepasste Lösungen.
 
-\lstinputlisting[caption={Beispiel für policy-based Design}, label=lst:tmp_pbd]{listings/tmp_pbd.cpp}
+\lstinputlisting[caption={Beispiel für policy-based Design}, label=lst:tmp_pbd, float=t]{listings/tmp_pbd.cpp}
 
 Diese Möglichkeit der Parametrisierung vom Klassen gibt es prinzipell auch zur Laufzeit. Hier wird jede Policy durch einen Pointer auf eine abstrakte Basisklasse abgebildet. Jedoch hat dies einige Nachteile zur Laufzeit. Zum einen sind die Interfaces der Policy-Klassen festgeschrieben und die Host-Klasse leitet nicht von diesen ab. Zusätzlich sind virtuelle Funktionsaufrufe ``teuer'', da diese in der sogenannten ``VTable'' zur Laufzeit abgeprüft werden müssen. Diese Überprüfung kann durch den Compiler nicht entfernt oder optimiert werden. 
 
