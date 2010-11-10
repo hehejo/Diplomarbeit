@@ -28,15 +28,12 @@ In diesem Kapitel werden die vier bekannten Systeme Chord \cite{Stoica2003}, Pas
 \input{main/evaluation_can.tex}
 
 \section{Auswahl des p2p-Netzwerkes}
-\missing{schöne Überleitung}
-
-Eine generelle Übersicht der Systeme stellt \Fref{tab:evaluation_fazit} dar. Jedes System hat eigene Schwächen und Stärken. So bezahlt CAN einen günstigen Ein- und Austritt der Knoten dank der kleinen Nachbarschaft mit mehr Routing Hops als beispielsweise Chord. Dieses hat durch seine Fingertabelle wiederum mehr Einfluss auf das Routing, aktualisiert diese Tabellen jedoch erst nachträglich im Hintergrund während dies bei Pastry aktiv geschieht.
+Nach der Vorstellung der verschiedenen Netzwerke werden diese im Folgenen verglichen um ein geeignetes System als Netzwerk für \ac{m2etis} zu finden. Jedes System hat eigene Schwächen und Stärken. So bezahlt CAN einen günstigen Ein- und Austritt der Knoten dank der kleinen Nachbarschaft mit mehr Routing Hops als beispielsweise Chord. Dieses hat durch seine Fingertabelle wiederum mehr Einfluss auf das Routing, aktualisiert diese Tabellen jedoch erst nachträglich im Hintergrund während dies bei Pastry aktiv geschieht.
 
 \Fref{tab:evaluation_fazit} (Auszug aus \cite{Goetz2005}) listet die durchschnittlich anfallenden Kosten (Routing Hops, Größe der Routinginformation, Nachrichtenanzahl beim Ein- und Austritt) für die drei getesteten System auf. $n$ ist die Anzahl der Knoten, $b$ die Anzahl der Bits der darstellenden Basis bei Pastry und $d$ die Anzahl der Dimensionen bei CAN.
 
 \begin{table}[htbp]
 \centering
-\label{tab:evaluation_fazit}
 \begin{tabular}{lcccc}
 \toprule
  & Routing Hops & Routinginformation & Eintritt & Austritt\\ 
@@ -47,6 +44,7 @@ CAN & $O(\frac{d}{2}n^\frac{1}{d})	$ & $O(2 d) $ & $ O(\frac{d}{2}n^\frac{1}{d})
 \bottomrule
 \end{tabular}
 \caption[Vergleich der Systeme Chord, Pastry und CAN]{Vergleich der Systeme Chord, Pastry und CAN anhand einiger Gesichtspunkte}
+\label{tab:evaluation_fazit}
 \end{table}
 
 Für uniformes Routing (d.h. das Routing ist bei allen Peers gleich) sind $O(log~n)$ beziehungsweise $O(n\frac{1}{d})$ Hops für Routingtabellen der Größe $O(log~n)$ beziehungsweise $O(d)$ die asymptotischen Grenze \cite{Xu2004Fundamental}. Die vorgestellten \ac{dht}-basierten Netzwerke nutzen ein uniformes Routing.
