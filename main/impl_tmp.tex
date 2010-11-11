@@ -15,7 +15,7 @@ Ebenso können Templates geschachtelt übergeben werden, wie es \Fref{lst:tmp_tm
 
 \lstinputlisting[caption={einfaches Klassentemplate}, label=lst:tmp_tmp, float=t]{listings/tmp_tmp.cpp}
 
-\Fref{lst:tmp_tmp_2} zeigt die Lösung mit ``Template Template'' Parametern. Hier wird der WidgetFactory ein Template übergeben. Dieses Template ist noch nicht spezifiziert und benötigt weiterhin den Typ des zu erstellenden Objektes. Unterschied zum vorherigem Listing ist in Zeile 5 und am Aufruf in Zeile 10 zu sehen. WidgetFactory übergibt den Typ an das Template. Der Entwickler muss sich nun nicht mehr um den Typ kümmern. Damit wird der Code weniger fehleranfällig.
+\Fref{lst:tmp_tmp_2} zeigt die Lösung mit ``Template Template'' Parametern. Hier wird der WidgetFactory ein Template übergeben. Dieses Template ist noch nicht spezifiziert und benötigt weiterhin den Typ des zu erstellenden Objektes. Der Unterschied zum vorherigem Listing ist in Zeile 5 und am Aufruf in Zeile 10 zu sehen. WidgetFactory übergibt den Typ an das Template. Der Entwickler ist nicht mehr für die Auswahl des korrekten Typs zuständig.
 
 \lstinputlisting[caption={verbessertes Klassentemplate mit Template Template}, label=lst:tmp_tmp_2, float=!t]{listings/tmp_tmp_2.cpp}
 

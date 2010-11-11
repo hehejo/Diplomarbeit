@@ -11,7 +11,7 @@ Im System von Mercury \cite{Bharambe2004Mercury} gibt es ein Set von Attributen,
 \end{figure}
 
 \paragraph{Subscribe}
-Eine Subscription $S$ ist ein Tupel aus Filterbedingungen über die Attribute, zum Beispiel $S := (5 < x <= 20; y = 15)$, sowie Kontaktinformationen des Knotens. Für jede Subscribtion wird das Attribut mit der größten Selektivität ausgewählt; im Beispiel ist dies Attribut $y$. $S$ wird nun an einen beliebigen Knoten aus dem zuständigen Hubs gesendet. Im Hub wird $S$ nun zu dem Knoten weitergereicht, der den Wertebereich der Filterung abdeckt und dort in einer Liste gespeichert. Es ist ebenso möglich, dass eine Anmeldung -- je nach abgedeckem Wertebereich -- bei mehreren Knoten abgespeichert wird.
+Eine Subscription $S$ ist ein Tupel aus Filterbedingungen über die Attribute, zum Beispiel $S := (5 < x <= 20; y = 15)$, sowie Kontaktinformationen des Knotens. Für jede Subscribtion wird das Attribut mit der größten Selektivität ausgewählt; im Beispiel ist dies Attribut $y$. $S$ wird nun an einen beliebigen Knoten aus dem zuständigen Hubs gesendet. Im Hub wird $S$ nun zu dem Knoten weitergereicht, der den Wertebereich der Filterung abdeckt und dort in einer Liste gespeichert. Es ist ebenso möglich, dass eine Anmeldung -- je nach abgedecktem Wertebereich -- bei mehreren Knoten abgespeichert wird.
 
 \paragraph{Unsubscribe}
 Zur Abmeldung muss ein entsprechendes ``Negativ''-Tupel zur Anmeldung an den selben Hub wie das Anmeldetupel gesendet werden. Am richtigen Knoten angekommen, wird der Listeneintrag entfernt.

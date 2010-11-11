@@ -28,7 +28,7 @@ In diesem Kapitel werden die vier bekannten Systeme Chord \cite{Stoica2003}, Pas
 \input{main/evaluation_can.tex}
 
 \section{Auswahl des p2p-Netzwerkes}
-Nach der Vorstellung der verschiedenen Netzwerke werden diese im Folgenen verglichen um ein geeignetes System als Netzwerk für \ac{m2etis} zu finden. Jedes System hat eigene Schwächen und Stärken. So bezahlt CAN einen günstigen Ein- und Austritt der Knoten dank der kleinen Nachbarschaft mit mehr Routing Hops als beispielsweise Chord. Dieses hat durch seine Fingertabelle wiederum mehr Einfluss auf das Routing, aktualisiert diese Tabellen jedoch erst nachträglich im Hintergrund während dies bei Pastry aktiv geschieht.
+Nach der Vorstellung der verschiedenen Netzwerke werden diese im Folgenden verglichen um ein geeignetes System als Netzwerk für \ac{m2etis} zu finden. Jedes System hat eigene Schwächen und Stärken. So bezahlt CAN einen günstigen Ein- und Austritt der Knoten dank der kleinen Nachbarschaft mit mehr Routing Hops als beispielsweise Chord. Dieses hat durch seine Fingertabelle wiederum mehr Einfluss auf das Routing, aktualisiert diese Tabellen jedoch erst nachträglich im Hintergrund während dies bei Pastry aktiv geschieht.
 
 \Fref{tab:evaluation_fazit} (Auszug aus \cite{Goetz2005}) listet die durchschnittlich anfallenden Kosten (Routing Hops, Größe der Routinginformation, Nachrichtenanzahl beim Ein- und Austritt) für die drei getesteten System auf. $n$ ist die Anzahl der Knoten, $b$ die Anzahl der Bits der darstellenden Basis bei Pastry und $d$ die Anzahl der Dimensionen bei CAN.
 
@@ -73,9 +73,11 @@ Allein die Größe der Routingtabelle bedingt, dass bei Pastry und Tapestry mehr
 Das Routing bei CAN kann nur bedingt beeinflusst werden. Chord hingegen bietet mit seiner Fingertabelle mehr Variationsmöglichkeiten - allerdings nur für die zu überbrückende Distanz im Schlüsselraum. Pastry und Tapestry verbinden diese Variationen mit vielfältigen Nachbarschaftsoptionen.
 
 Zusammenfassend zeigen die obigen Punkte, dass Pastry/Tapestry als Netzwerk für \ac{m2etis} gut geeignet ist. Pastry selbst ist als Javabibliothek\footnote{\url{http://www.freepastry.org}} verfügbar und die Entwicklung von Tapestry (ebenfalls in Java implementiert) wurde mit Version 2.01 eingestellt. Chimera \cite{Allen2006Chimera} ist der Nachfolger von Tapestry und vereint das Beste von Pastry und Tapestry in sich\footnote{siehe \url{http://current.cs.ucsb.edu/projects/chimera/index.html}}: 
+\selectlanguage{english}
 \begin{quote}
 Chimera is a light-weight C implementation of a ``next-generation'' structured overlay that provides similar functionality as prefix-routing protocols Tapestry and Pastry.  Chimera gains simplicity and robustness from its use of Pastry's leafsets, and efficient routing from Tapestry's locality algorithms.  In addition to these properties, Chimera also provides efficient detection of node and network failures, and reroutes messages around them to maintain connectivity and throughput.  
 \end{quote}
+\selectlanguage{ngerman} 
 
 Der frei verfügbare Code (veröffentlicht unter GPL), die Anpassbarkeit und die Unterstützung der Zielplattformen Linux und Windows sprechen für Chimera. Weiterhin entspricht Chimera der generischen \ac{api} und kann bei gravierenden Problemen durch ein anderes System ausgetauscht werden, ohne das restliche System zu beeinflussen. Die Konzeption des Netzwerkes ist ausschlaggebender als eigentliche Implementierung und daher wird Chimera als Netzwerk für \ac{m2etis} gewählt.
 
