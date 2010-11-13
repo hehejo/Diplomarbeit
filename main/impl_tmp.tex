@@ -15,7 +15,7 @@ Ebenso können Templates geschachtelt übergeben werden, wie es \Fref{lst:tmp_tm
 
 \lstinputlisting[caption={einfaches Klassentemplate}, label=lst:tmp_tmp, float=t]{listings/tmp_tmp.cpp}
 
-\Fref{lst:tmp_tmp_2} zeigt die Lösung mit ``Template Template'' Parametern. Hier wird der WidgetFactory ein Template übergeben. Dieses Template ist noch nicht spezifiziert und benötigt weiterhin den Typ des zu erstellenden Objektes. Der Unterschied zum vorherigem Listing ist in Zeile 5 und am Aufruf in Zeile 10 zu sehen. WidgetFactory übergibt den Typ an das Template. Der Entwickler ist nicht mehr für die Auswahl des korrekten Typs zuständig.
+\Fref{lst:tmp_tmp_2} zeigt die Lösung mit \enquote{Template Template} Parametern. Hier wird der WidgetFactory ein Template übergeben. Dieses Template ist noch nicht spezifiziert und benötigt weiterhin den Typ des zu erstellenden Objektes. Der Unterschied zum vorherigem Listing ist in Zeile 5 und am Aufruf in Zeile 10 zu sehen. WidgetFactory übergibt den Typ an das Template. Der Entwickler ist nicht mehr für die Auswahl des korrekten Typs zuständig.
 
 \lstinputlisting[caption={verbessertes Klassentemplate mit Template Template}, label=lst:tmp_tmp_2, float=!t]{listings/tmp_tmp_2.cpp}
 
@@ -23,7 +23,7 @@ Mit Templates lassen sich auch Entscheidungen anhand der übergebenen Templatepa
 
 \lstinputlisting[caption={Entscheidung via Templates}, label=lst:tmp_cond, float=t]{listings/tmp_cond.cpp}
 
-Der Compiler prüft dabei alle Templates syntaktisch. Obwohl isSingleton mit ``false'' instantiert wird, kann der Code nicht kompiliert werden, denn die Methode \emph{getInstance} wird von Foo nicht angeboten. Um dieses Problem zu umgehen, beschreibt Alexandrescu in \cite{Alexandrescu2001Modern} das Hilfskonstrukt \emph{Int2Type} das im nächsten Kapitel eingeführt wird.
+Der Compiler prüft dabei alle Templates syntaktisch. Obwohl isSingleton mit \enquote{false} instantiert wird, kann der Code nicht kompiliert werden, denn die Methode \emph{getInstance} wird von Foo nicht angeboten. Um dieses Problem zu umgehen, beschreibt Alexandrescu in \cite{Alexandrescu2001Modern} das Hilfskonstrukt \emph{Int2Type} das im nächsten Kapitel eingeführt wird.
 
 \subsection{Template Meta-Programming}
 Template Meta-Programming arbeitet mit der vorgestellten Spezialisierung von Templates und wird ebenfalls vom Compiler zum Übersetzungszeitpunkt ausgewählt und basiert rein auf Typinformation.
@@ -39,11 +39,11 @@ Policy-based Design kombiniert Vererbung und Templates und ermöglicht es generi
 
 In \Fref{lst:tmp_pbd} ist ein einfaches Beispiel mit einer Ausgabeklasse (\emph{Ausgabe}) beschrieben, die mittels einem \emph{Decorator} und einem \emph{Printer} parametrisiert wird. Ausgabe leitet von diesen beiden Typen ab und nutzt deren Funktionalität. Dadurch erzeugt der Compiler implizit Anforderungen die diese Parameter zu erfüllen haben. Jeder Decorator muss eine Methode \emph{decorate} anbieten, welche einen \emph{const string\&} als Parameter nimmt. Jeder Printer muss eine Methode \emph{print} anbieten, welche den Rückgabetyp von Decorator::decorate als Parameter nimmt. Diese Kontrakte werden vom Compiler zur Übersetzungszeit in Zeile 24 geprüft. Weitere Varianten für Decorator und Printer sind trivial.
 
-Ausgabe wird in diesem Zusammenhang als ``Host-Klasse'', Dec\_A und Printer als ``Policy-Klasse'' bezeichnet. Da die Host-Klasse von ihren Policy-Klassen ableitet, kann die Host-Klasse in eine Policy-Klasse gecastet werden. So können nützliche Informationen abgefragt oder speziell angepasste Methoden der Policy-Klasse aufgerufen werden. Der Nutzer einer solchen mit Policies angereicherten Klasse bekommt dadurch sehr viele Freiheiten. Mögliche Sonderfälle spricht Aleandrescu an und bietet angepasste Lösungen.
+Ausgabe wird in diesem Zusammenhang als \enquote{Host-Klasse'', Dec\_A und Printer als ``Policy-Klasse} bezeichnet. Da die Host-Klasse von ihren Policy-Klassen ableitet, kann die Host-Klasse in eine Policy-Klasse gecastet werden. So können nützliche Informationen abgefragt oder speziell angepasste Methoden der Policy-Klasse aufgerufen werden. Der Nutzer einer solchen mit Policies angereicherten Klasse bekommt dadurch sehr viele Freiheiten. Mögliche Sonderfälle spricht Aleandrescu an und bietet angepasste Lösungen.
 
 \lstinputlisting[caption={Beispiel für policy-based Design}, label=lst:tmp_pbd, float=t]{listings/tmp_pbd.cpp}
 
-Diese Möglichkeit der Parametrisierung vom Klassen gibt es prinzipell auch zur Laufzeit. Hier wird jede Policy durch einen Pointer auf eine abstrakte Basisklasse abgebildet. Jedoch hat dies einige Nachteile zur Laufzeit. Zum einen sind die Interfaces der Policy-Klassen festgeschrieben und die Host-Klasse leitet nicht von diesen ab. Zusätzlich sind virtuelle Funktionsaufrufe ``teuer'', da diese in der sogenannten ``VTable'' zur Laufzeit abgeprüft werden müssen. Diese Überprüfung kann durch den Compiler nicht entfernt oder optimiert werden. 
+Diese Möglichkeit der Parametrisierung vom Klassen gibt es prinzipell auch zur Laufzeit. Hier wird jede Policy durch einen Pointer auf eine abstrakte Basisklasse abgebildet. Jedoch hat dies einige Nachteile zur Laufzeit. Zum einen sind die Interfaces der Policy-Klassen festgeschrieben und die Host-Klasse leitet nicht von diesen ab. Zusätzlich sind virtuelle Funktionsaufrufe \enquote{teuer'', da diese in der sogenannten ``VTable} zur Laufzeit abgeprüft werden müssen. Diese Überprüfung kann durch den Compiler nicht entfernt oder optimiert werden. 
 
 
 In dieser Arbeit kommt \ac{tmp} im Zusammenspiel mit policy-based Design bei der Entwicklung des einzelnen Kanals zur Anwendung. Durch die Optimierungen zur Übersetzungszeit wird schlanker Code ohne unnötigen Ballast zur Laufzeit erzeugt.
