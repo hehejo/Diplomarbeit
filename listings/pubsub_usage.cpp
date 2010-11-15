@@ -13,13 +13,13 @@ void deliver(const string& node, const MessageT& message) {
 
 int main() {
 	PubSubSystem::getInstance().init(7000);
-	IChannel* bcast = PubSubSystem::getInstance().getChannelHandle(BROADCAST);
+	IChannel* bcast = PubSubSystem::getInstance().getChannelHandle(ANY_ALL);
 	
 	app_deliver_func f = boost::bind(deliver, "[node 1]", _1);
-	PubSubSystem::getInstance().init(7001, "localhost", 7000).subscribe(BROADCAST, f);
+	PubSubSystem::getInstance().init(7001, "localhost", 7000).subscribe(ANY_ALL, f);
 	
 	app_deliver_func f_2 = boost::bind(deliver, "[node 2]", _1);
-	PubSubSystem::getInstance().init(7002, "localhost", 7000).subscribe(BROADCAST, f_2);
+	PubSubSystem::getInstance().init(7002, "localhost", 7000).subscribe(ANY_ALL, f_2);
 	
 	while(true) {
 			bcast->publish("Nachricht an Alle.");
