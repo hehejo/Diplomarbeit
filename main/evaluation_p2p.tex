@@ -1,7 +1,7 @@
 \chapter{Evaluation strukturierter p2p Overlay-Netzwerke}
 \label{chap:evaluation_p2p}
 
-Dieses Kapitel bietet einen Überblick über einige p2p-Netzwerke und evaluiert diese anhand gestellter Anforderungen. Diese Evaluation beeinflusst die Entscheidung für ein Overlay-Netzwerk, das die Grundlage des zu entwickelnden verteilte Publish/Subscribe-System bildet. Diese Evaluation bedient sich zahlreicher Arbeiten, die sich alleine dem Vergleich dieser Netzwerke widmen \cite{Lua2005Survey, Goetz2005, Li2004Comparing, Darlagiannis2006Peertopeer, Castro2002Secure, Bo2003PeertoPeer} und geht auch auf ihre Nutzbarkeit als Basis für \emph{Application level multicast} sprich ein Publish/Subscribe-System ein \cite{Hosseini2007Survey, Fahmy2007, Castro2003Evaluation, Ratnasamy2001}.
+Dieses Kapitel bietet einen Überblick über einige p2p-Netzwerke und evaluiert diese anhand gestellter Anforderungen. Diese Evaluation beeinflusst die Entscheidung für ein Overlay-Netzwerk, das die Grundlage des zu entwickelnden dezentrale Publish/Subscribe-System bildet. Diese Evaluation bedient sich zahlreicher Arbeiten, die sich alleine dem Vergleich dieser Netzwerke widmen \cite{Lua2005Survey, Goetz2005, Li2004Comparing, Darlagiannis2006Peertopeer, Castro2002Secure, Bo2003PeertoPeer} und geht auch auf ihre Nutzbarkeit als Basis für \emph{Application level multicast} sprich ein Publish/Subscribe-System ein \cite{Hosseini2007Survey, Fahmy2007, Castro2003Evaluation, Ratnasamy2001}.
 
 Zuvor müssen jedoch die Anforderungen von \acp{mmve} an solche Systeme identifiziert werden. Diese Anforderungen werden bei der Auswahl der Netzwerkes in Betracht gezogen.
 
@@ -9,11 +9,11 @@ Zuvor müssen jedoch die Anforderungen von \acp{mmve} an solche Systeme identifi
 
 \paragraph{Geringe Latenz} Schnelle Reaktionszeiten und Nachrichtenübermittlung sind bei \ac{mmog} unverzichtbar. Ebenfalls müssen größere Nachrichten schnell übertragen werden, damit der Informationsfluss zur korrekten Darstellung der virtuellen Umgebung nicht behindert wird. Dies lässt sich beispielsweise anhand der Anzahl der Hops beim Nachrichtenversand messen, ist aber letzlich abhängig von der zur Verfügung stehenden Bandbreite jedes einzelnen Knotens.
 
-\paragraph{Skalierbarkeit und Fehlertoleranz bei Knotenausfall} Selbst bei einer großen Anzahl an Knoten soll das Netz nicht kollabieren. Hierbei ist es auch wichtig, dass Knoten keine erforderliche Durchschnittszeit im Netz integriert sein müssen. Es kann davon ausgegangen sein, dass ein durchschnittlicher Spieler eines \acp{mmog} längere Zeit im Spiel angemeldet ist. Li untersucht in \cite{Li2004Comparing} wie sich p2p-Netzwerke bei großen Fluktuationen verhalten.
+\paragraph{Skalierbarkeit und Fehlertoleranz bei Knotenausfall} Selbst bei einer großen Anzahl an Knoten soll das Netz nicht kollabieren. Hierbei ist es auch wichtig, dass Knoten keine erforderliche Mindestzeit angemeldet sein müssen. Es kann aber davon ausgegangen werden, dass ein durchschnittlicher Spieler eines \acp{mmog} längere Zeit im Spiel angemeldet ist. Li untersucht in \cite{Li2004Comparing} wie sich p2p-Netzwerke bei großen Fluktuationen verhalten.
 
 \paragraph{Kommunikation über das Netzwerk} Das Netzwerk soll nicht nur das schnelle Auffinden von Peers ermöglichen, sondern auch einen Transport der Nachricht (Routing) durch das Netzwerk selbst bereitstellen.
 
-\paragraph{Eingriff in Routingentscheidungen} Applikationswissen hilft auch beim Eingriff in das Routing des Netzes. So können Knoten bevorzugt zur Weiterleitung einer Nachricht ausgewählt werden. Diese Knoten zeichnen sich beispielsweise durch eine große Bandbreite oder spezielle Applikationsmetriken\footnote{Bsp: Spieler befindet sich in der selben Stadt} aus.
+\paragraph{Eingriff in Routingentscheidungen} Applikationswissen hilft auch beim Eingriff in das Routing des Netzes. So können Knoten bevorzugt zur Weiterleitung einer Nachricht ausgewählt werden. Diese Knoten zeichnen sich beispielsweise durch eine große Bandbreite oder spezielle Applikationsmetriken\footnote{Bsp: Spieler befindet sich in der selben Stadt} aus. \missing{ja und?! Was bringt's?}
 
 \paragraph{Verfügbarkeit als C/C++-Bibliothek} Da der Prototyp dieser Arbeit in C++ entwickelt wird, muss das Netzwerk als C/C++-Bibliothek verfügbar sein. So kann das Netzwerk einfach angesprochen werden ohne dass kostenintensive Brücken zwischen beispielsweise Java und C++ geschlagen werden müssen. Da zudem betriebssystemübergreifend entwickelt und getestet wird, ist außerdem ein zur Verfügung stehender Quellcode vorteilhaft.
 
@@ -47,7 +47,7 @@ CAN & $O(\frac{d}{2}n^\frac{1}{d})	$ & $O(2 d) $ & $ O(\frac{d}{2}n^\frac{1}{d})
 \label{tab:evaluation_fazit}
 \end{table}
 
-Für uniformes Routing (d.h. das Routing ist bei allen Peers gleich) sind $O(log~n)$ beziehungsweise $O(n\frac{1}{d})$ Hops für Routingtabellen der Größe $O(log~n)$ beziehungsweise $O(d)$ die asymptotischen Grenze \cite{Xu2004Fundamental}. Die vorgestellten \ac{dht}-basierten Netzwerke nutzen ein uniformes Routing.
+Für uniformes Routing (d.h. das Routing ist bei allen Peers gleich) sind $O(log~n)$ beziehungsweise $O(n\frac{1}{d})$ Hops für Routingtabellen der Größe $O(log~n)$ beziehungsweise $O(d)$ die asymptotischen Grenzen \cite{Xu2004Fundamental}. Die vorgestellten \ac{dht}-basierten Netzwerke nutzen ein uniformes Routing.
 
 
 \paragraph{Geringe Latenz und Kommunikation über das Netzwerk}
@@ -70,7 +70,7 @@ Alle Systeme fordern jedoch die Applikation zu einer periodischen Auffrischung d
 Allein die Größe der Routingtabelle bedingt, dass bei Pastry und Tapestry mehr Einfluss auf die Zusammenstellung genommen werden kann. Bei CAN gibt es faktisch nur eine Entscheidung bei Eintritt in das Netz, Chord bietet über die Fingertabelle minimalen Einfluss, während bei Pastry explizit das Neighborhood Set eingesetzt wird, um eventuelle Lücken in der Routingtabelle geschickt zu besetzen.
 
 \paragraph{Eingriff in Routingentscheidungen}
-Das Routing bei CAN kann nur bedingt beeinflusst werden. Chord hingegen bietet mit seiner Fingertabelle mehr Variationsmöglichkeiten - allerdings nur für die zu überbrückende Distanz im Schlüsselraum. Pastry und Tapestry verbinden diese Variationen mit vielfältigen Nachbarschaftsoptionen.
+Das Routing bei CAN kann nur bedingt beeinflusst werden. Chord hingegen bietet mit seiner Fingertabelle mehr Variations\-möglichkeiten -- allerdings nur für die zu überbrückende Distanz im Schlüsselraum. Pastry und Tapestry verbinden diese Variationen mit vielfältigen Nachbarschaftsoptionen.
 
 Zusammenfassend zeigen die obigen Punkte, dass Pastry/Tapestry als Netzwerk für \ac{m2etis} gut geeignet ist. Pastry selbst ist als Javabibliothek\footnote{\url{http://www.freepastry.org}} verfügbar und die Entwicklung von Tapestry (ebenfalls in Java implementiert) wurde mit Version 2.01 eingestellt. Chimera \cite{Allen2006Chimera} ist der Nachfolger von Tapestry und vereint das Beste von Pastry und Tapestry in sich\footnote{siehe \url{http://current.cs.ucsb.edu/projects/chimera/index.html}}: 
 \selectlanguage{english}

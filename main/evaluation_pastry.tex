@@ -4,7 +4,7 @@
 \subsubsection{Aufbau und Struktur}
 Pastry \cite{Rowstron2001} und Tapestry \cite{Zhao2001Tapestry,Zhao2004Tapestry} sind sich sehr ähnlich, da beide auf Plaxtons Arbeit \cite{Plaxton1997Accessing} aufbauen. Daher wird auf Tapestry nicht näher eingegangen, da die Unterschiede für das Konzept dieser Systeme nicht relevant sind.
 
-Pastry besitzt ebenfalls einen l-bit wertigen Schlüsselraum, dabei werden Schlüssel als Zahlen zur Basis $2^b$ dargestellt\footnote{l meist 128; b meist 4}, wobei die Wahl von $b$ einen Einfluss auf das Routing hat. Ein Datum ist dem Knoten zugewiesen, dessen ID den kleinesten Abstand zum Schlüsselwert des Datums hat.\\
+Pastry besitzt ebenfalls einen l-bit wertigen Schlüsselraum, dabei werden Schlüssel als Zahlen zur Basis $2^b$ dargestellt, wobei die Wahl von $b$ einen Einfluss auf das Routing hat, da dieser die Größe der Routingtabelle beeinflusst. Ein Datensatz ist dem Knoten zugewiesen, dessen ID den kleinesten Abstand zum Schlüsselwert des Datensatzes hat.\\
 \Fref{fig:pastry_key_space} zeigt dies beispielhaft für die gleichen sechs Knoten und fünf Datensätzen wie in \Fref[plain]{fig:chord_key_space}. Im Unterschied zu Chord ist jedoch Knoten $N14$ für $K16$ und Knoten $N54$ für $K55$ zuständig.
 
 
@@ -16,7 +16,7 @@ Pastry besitzt ebenfalls einen l-bit wertigen Schlüsselraum, dabei werden Schl�
 \end{figure}
 
 \subsubsection{Routing}
-Jeder Knoten verwaltet neben den ihm zugeteilten Daten drei Strukturen die dem Routing dienen. Diese sind das \emph{leaf set} mit Einträgen zu Knoten die im Schlüsselraum benachbart sind, das \emph{neighborhood set} mit Einträgen zu Knoten die aus Netzwerksicht nahe liegen und die Routingtabelle selbst. In \Fref{fig:pastry_routing_table} sind nur die Schlüssel, nicht aber Kontaktinformation wie IP-Adresse und Port dargestellt. Über diese kann zum Nachrichtenversand eine Direktverbindung genutzt werden.
+Jeder Knoten verwaltet neben den ihm zugeteilten Daten drei Strukturen die dem Routing dienen. Diese sind das \emph{leaf set} mit Einträgen zu Knoten die im Schlüsselraum benachbart sind, das \emph{neighborhood set} mit Einträgen zu Knoten die aus Netzwerksicht nahe liegen und die Routingtabelle selbst. In \Fref{fig:pastry_routing_table} sind nur die Schlüssel, nicht aber Kontaktinformation, wie IP-Adresse und Port dargestellt. Über diese kann zum Nachrichtenversand eine Direktverbindung genutzt werden.
 
 \begin{figure}[htbp]
 \centering
@@ -30,7 +30,7 @@ Bei der Belegung der Routingtabelle werden bei gleichem Präfix diejenigen Knote
 
 Das leaf set enthält die $l$ numerisch nahen Knoten, $\frac{l}{2}$ davon sind kleiner und $\frac{l}{2}$ größer als der aktuelle Knoten. Neben Informationen zu Routingentscheidungen wird es zur Reparatur genutzt, sollten nahe gelegene Knoten ausfallen.
 
-Das eigentlich Routing unterscheidet zwei Fälle: Zuerst prüft der Knoten ob der Schlüssel $k$ im Bereich seines leaf set ist. Ist dies der Fall, wird die Nachricht an den entsprechenden Knoten gesendet. Ist dieser Knoten für den Schlüssel zuständig, endet das Routing. Fällt $k$ nicht in den Bereich des leaf set, wird die Nachricht via Routingtabelle an einen entfernteren Knoten gesendet. Hierzu wird ein Eintrag gewählt, der eine größere beziehungsweise die größte Prefixübereinstimmung mit $k$ hat. Existiert kein solcher Eintrag, wird die Nachricht an den numerisch nächsten Knoten (zu $k$) mit gleicher Präfixübereinstimmung geschickt.\\
+Das eigentliche Routing unterscheidet zwei Fälle: Zuerst prüft der Knoten ob der Schlüssel $k$ im Bereich seines leaf set ist. Ist dies der Fall, wird die Nachricht an den entsprechenden Knoten gesendet. Ist dieser Knoten für den Schlüssel zuständig, endet das Routing. Fällt $k$ nicht in den Bereich des leaf set, wird die Nachricht via Routingtabelle an einen entfernteren Knoten gesendet. Hierzu wird ein Eintrag gewählt, der eine größere beziehungsweise die größte Prefixübereinstimmung mit $k$ hat. Existiert kein solcher Eintrag, wird die Nachricht an den numerisch nächsten Knoten (zu $k$) mit gleicher Präfixübereinstimmung geschickt.\\
 Da Nachrichten immer an Knoten mit einer größeren Übereinstimmung oder an nähere Knoten mit gleicher Präfixübereinstimmung gesendet werden, können keine Zyklen auftreten.
 
 Dadurch verringert sich die Anzahl der Knoten mit längeren Präfixübereinstimmungen in jedem Schritt um mindestens den Faktor $2^b$. Somit hat das Routing eine Komplexität von $O(log_{2^b} N)$.
