@@ -1,12 +1,23 @@
 \section{Szenario}
 \label{chap:grundlagen:szenario}
-Angenommen, wir sehen einem Spieler eines typischen \ac{mmog} über die Schulter. Er wird seinen Avatar durch die Welt bewegen und mit anderen Spielern interagieren. Ein einfaches Quest zu Spielbeginn ist beispielsweise die Suche nach einem, von einem Gegner bewachten, Gegenstand. Unser Spieler muss eine Blume finden, den Gegner besiegen und die Blume aufnehmen. Diese wird zum Abschluss des Quests dem Auftraggeber gebracht und der Avatar berichtet darüber in der Gilde (ein Zusammenschluss von Spielern).\\
-In diesem kleinen Beispielszenario finden sich unterschiedliche Eventtypen wie \enquote{Bewegung}, \enquote{Sprechen}, \enquote{Kampf} und \enquote{Gegenstand aufnehmen}. Die Bewegung des Avatars durch die Welt ist nur für diejenigen Spieler interessant, die diesen Avatar sehen können. Das Gespräch interessiert jedoch nur die Spieler, deren Avatare in diesem Gespräche beteiligt sind. Die einzelnen Events vom Typ \enquote{Kampf} müssen hingegen synchronisiert werden um einen fairen Schlagabtausch zu gewährleisten. Das Event \enquote{Blume aufgenommen} muss zudem abgespeichert werden um die Blume im Inventar des Avatars abzulegen und über eine Spielesession hinweg aktuell zu halten. Dieser Event ist jedoch nur für diesen Benutzer interessant.
+Angenommen, wir sehen einem Spieler eines typischen \ac{mmog} über die Schulter. Er wird seinen Avatar durch die Welt bewegen und mit anderen Spielern interagieren. Ein einfaches Quest zu Spielbeginn ist beispielsweise die Suche nach einem, von einem Gegner bewachten, Gegenstand. Unser Spieler muss eine Blume finden, den Gegner besiegen und die Blume aufnehmen. Diese wird zum Abschluss des Quests dem Auftraggeber gebracht und der Avatar berichtet darüber in der Gilde\footnote{Ein Zusammenschluss von Spielern}.\\
+In diesem kleinen Beispielszenario finden sich unterschiedliche Eventtypen wie \enquote{Bewegung}, \enquote{Sprechen}, \enquote{Kampf} und \enquote{Gegenstand aufnehmen}. Die Bewegung eines Avatars durch die Welt, muss prinzipiell an alle Spieler weitergeleitet werden, damit diese zum Beispiel ihre Anzeige anpassen können. Hier lassen sich bereits Optimierungen anhand der \ac{aoi} jeden einzelnen Avatars durchführen, wie es beispielsweise im Ansatz von Donnybrook geschieht \cite{Bharambe2008Donnybrook}. Gesprächsnachrichten sind nur für die im Gespräch beteiligten Spieler relevant -- unabhängig von deren Aufenthaltsort in der virtuellen Welt. Events vom Typ \enquote{Kampf} müssen hingegen auf den einzelnen Knoten synchronisiert werden um einen fairen Schlagabtausch zu gewährleisten. Das Event \enquote{Blume aufgenommen} muss hingegen abgespeichert werden um die Blume im Inventar des Avatars abzulegen und über eine Spielsession hinweg konsistent zu halten.
 
 \subsection{Semantische Beschreibung von Eventtypen}
+Das Szenario beinhaltet verschiedene \emph{Eventtypen} und Instanzen dieser \emph{Events}, welche über das Netzwerk verteilt werden. Beispielsweise ist \enquote{Spieler A bewegt sich $\delta(x,y,z)$} eine konkrete Ausprägung des Eventtypen \enquote{Bewegung}. Nur Eventtypen werden anhand verschiedener Dimensionen klassifiziert -- diese werden im Folgenden beschrieben. Die Verteilung der konkreten Events wird dann anhand dieser Dimensionen optimiert.
 
-\missing{Jetzt was sind Eventtypen, Events und die Dimensionen zur Klassifizierung von Eventtypen?}
+Das Beispielszenario spricht bereits die Dimensionen \enquote{Kontext}, \enquote{Synchronisation} und \enquote{Persitenz} an. Fischer identifiziert insgesamt sieben Dimensionen zur Klassifizierung von Eventtypen in \ac{mmog} \cite{Fischer2010Event}:
 
- identifizieren und anhand verschiedner Dimensionen wie ``Kontext'', ``Persitenz'', ``Synchronität'' oder ``Validität'' klassifizieren \cite{Fischer2010Event}.
+\begin{description}
+\item[Kontext] Jeder Eventtyp hat einen gewissen Kontext in der virtuellen Welt. Dies kann beispielsweise ein räumlicher (Avatar innerhalb einer \ac{aoi}) oder sozialer (Avatare befinden sich in einer sozialen Gruppe) Kontext sein.
 
+\item[Synchronisation] Zwischen Events könnten kausale Zusammenhänge existieren, beziehungsweise muss deren zeitliche Reihenfolge berücksichtigt werden, da sie konsumierbare Güter (wie beispielsweise oben genannte Blume) beinhalten.
 
+\item[Persistenz] Events die bespielsweise das Inventar eines Spielers beeinflussen oder dauerhafte Auswirkungen auf die virtuelle Welt haebn, müssen in geeigneter Form abgespeichert werden. Dadurch ist gesichert, dass die Welt über Spielsessions konsistent erscheint.
+
+\item[Sicherheit] In verteilten Systemen steigt die Gefahr durch betrügerisches Verhalten. Einige Events müssen beispielsweise verschlüsselt übertragen werden.
+
+\item[Validität] Validität bezieht sich im Gegensatz zu Synchronisation auf genau einen Event und beschreibt dessen Gültigkeit. Beispielsweise kann hier 
+
+\item[Zustellung]
+\end{description}
