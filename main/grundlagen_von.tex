@@ -13,3 +13,5 @@
 \Fref{fig:von} zeigt einen Aufbau eines VON-Netzwerks. Die Spielwelt wird anhand der Position der einzelnen Knoten in Voronoi-Diagramme unterteilt. Jeder Knoten hat damit einen eigenen Bereich und hält Verbindungen zu seinen Nachbarn und kennt angrenzende Nachbarn im Bereich seiner \ac{aoi}. \enquote{enclosing neighbors} sind angrenzende Nachbarn, deren gesamter zugehöriger Bereich innerhalb der \ac{aoi} des Knotens liegt. \enquote{boundary neighbors} sind nicht angrenzende Knoten, deren eigener Bereich nicht vollkommen innerhalb der \ac{aoi} liegt.
 
 \textbf{Anmeldungen} im Publish/Subscribe-System sind implizit, denn \textbf{Publikationen}, also Positionsänderungen, werden von einem Knoten an alle direkt angrenzenden Nachbarn (\enquote{enclosing neighbor} in \Fref{fig:von}) gesendet. Damit das System konsistent bleibt, werden dabei auch Informationen über andere Nachbarn ausgetauscht. Mit jeder Positionsänderung verändern sich die Aufteilungen des Voronoi-Diagrammes und damit müssen auch die Nachbarschaften angepasst werden.
+
+Ebenfalls mit Delauny-Triangulierung arbeitet \cite{Liebeherr2002Applicationlayer}.
