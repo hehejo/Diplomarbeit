@@ -1,23 +1,31 @@
 \section{Szenario}
 \label{chap:grundlagen:szenario}
 Angenommen, wir sehen einem Spieler eines typischen \ac{mmog} über die Schulter. Er wird seinen Avatar durch die Welt bewegen und mit anderen Spielern interagieren. Ein einfaches Quest zu Spielbeginn ist beispielsweise die Suche nach einem, von einem Gegner bewachten, Gegenstand. Unser Spieler muss eine Blume finden, den Gegner besiegen und die Blume aufnehmen. Diese wird zum Abschluss des Quests dem Auftraggeber gebracht und der Avatar berichtet darüber in der Gilde\footnote{Ein Zusammenschluss von Spielern}.\\
-In diesem kleinen Beispielszenario finden sich unterschiedliche Eventtypen wie \enquote{Bewegung}, \enquote{Sprechen}, \enquote{Kampf} und \enquote{Gegenstand aufnehmen}. Die Bewegung eines Avatars durch die Welt, muss prinzipiell an alle Spieler weitergeleitet werden, damit diese zum Beispiel ihre Anzeige anpassen können. Hier lassen sich bereits Optimierungen anhand der \ac{aoi} jeden einzelnen Avatars durchführen, wie es beispielsweise im Ansatz von Donnybrook geschieht \cite{Bharambe2008Donnybrook}. Gesprächsnachrichten sind nur für die im Gespräch beteiligten Spieler relevant -- unabhängig von deren Aufenthaltsort in der virtuellen Welt. Events vom Typ \enquote{Kampf} müssen hingegen auf den einzelnen Knoten synchronisiert werden um einen fairen Schlagabtausch zu gewährleisten. Das Event \enquote{Blume aufgenommen} muss hingegen abgespeichert werden um die Blume im Inventar des Avatars abzulegen und über eine Spielsession hinweg konsistent zu halten.
+In diesem kleinen Beispielszenario finden sich unterschiedliche Eventtypen wie \emph{Bewegung}, \emph{Sprechen}, \emph{Kampf} und \emph{Gegenstand aufnehmen}. Die Bewegung eines Avatars durch die Welt, muss prinzipiell an alle Spieler weitergeleitet werden, damit diese zum Beispiel ihre Anzeige anpassen können. Hier lassen sich bereits Optimierungen anhand der \ac{aoi} jeden einzelnen Avatars durchführen, wie es beispielsweise im Ansatz von Donnybrook geschieht \cite{Bharambe2008Donnybrook}. Gesprächsnachrichten sind nur für die im Gespräch beteiligten Spieler relevant -- unabhängig von deren Aufenthaltsort in der virtuellen Welt. Events vom Typ \emph{Kampf} müssen hingegen auf den einzelnen Knoten synchronisiert werden um einen fairen Schlagabtausch zu gewährleisten. Das Event \emph{Blume aufgenommen} muss hingegen abgespeichert werden um die Blume im Inventar des Avatars abzulegen und über eine Spielsession hinweg konsistent zu halten. Es ist offensichtlich, dass eine unterschiedliche Verteilungsstrategie der verschiedenen Eventtypen das generelle Nachrichtenaufkommen im System beeinflussen und optimieren kann.
 
 \subsection{Semantische Beschreibung von Eventtypen}
-Das Szenario beinhaltet verschiedene \emph{Eventtypen} und Instanzen dieser \emph{Events}, welche über das Netzwerk verteilt werden. Beispielsweise ist \enquote{Spieler A bewegt sich $\delta(x,y,z)$} eine konkrete Ausprägung des Eventtypen \enquote{Bewegung}. Nur Eventtypen werden anhand verschiedener Dimensionen klassifiziert -- diese werden im Folgenden beschrieben. Die Verteilung der konkreten Events wird dann anhand dieser Dimensionen optimiert.
+Das Szenario beinhaltet verschiedene \emph{Eventtypen} und Instanzen dieser \emph{Events}, welche als Nachrichten über das Netzwerk verteilt werden. Beispielsweise ist \texttt{Spieler A bewegt sich $\Delta$(x,y,z)} eine konkrete Ausprägung des Eventtypen \emph{Bewegung}. Nur Eventtypen werden anhand verschiedener Dimensionen klassifiziert und werden im Folgenden beschrieben. In einem späteren Optimierungsschritt wird diese semantische Beschreibung durch \ac{m2etis} ausgewertet, um das kanalbasierte Publish/Subscribe-System entlang der Dimensionen zu optimieren \cite{Fischer2010a}. Die Semantik der Eventtypklassifikation sowie deren Auswertung wird im Folgenden nicht weiter beschrieben. Diese Arbeit beschäftigt sich mit der Konzeption des Publish/Subscribe-Systems als erste Komponente. Eine genauere Beschreibung der Komponenten von \ac{m2etis} findet sich in \Fref{chap:aufbau_metis}.
 
 Das Beispielszenario spricht bereits die Dimensionen \enquote{Kontext}, \enquote{Synchronisation} und \enquote{Persitenz} an. Fischer identifiziert insgesamt sieben Dimensionen zur Klassifizierung von Eventtypen in \ac{mmog} \cite{Fischer2010Event}:
 
 \begin{description}
 \item[Kontext] Jeder Eventtyp hat einen gewissen Kontext in der virtuellen Welt. Dies kann beispielsweise ein räumlicher (Avatar innerhalb einer \ac{aoi}) oder sozialer (Avatare befinden sich in einer sozialen Gruppe) Kontext sein.
 
-\item[Synchronisation] Zwischen Events könnten kausale Zusammenhänge existieren, beziehungsweise muss deren zeitliche Reihenfolge berücksichtigt werden, da sie konsumierbare Güter (wie beispielsweise oben genannte Blume) beinhalten.
+\item[Synchronisation] Zwischen Events eines Eventtypen könnten kausale Zusammenhänge existieren, beziehungsweise muss deren zeitliche Reihenfolge berücksichtigt werden.
 
-\item[Persistenz] Events die bespielsweise das Inventar eines Spielers beeinflussen oder dauerhafte Auswirkungen auf die virtuelle Welt haebn, müssen in geeigneter Form abgespeichert werden. Dadurch ist gesichert, dass die Welt über Spielsessions konsistent erscheint.
+\item[Persistenz] Events, welche das Inventar eines Spielers beeinflussen oder dauerhafte Auswirkungen auf den Zustand der virtuelle Welt ausüben, müssen in geeigneter Form abgespeichert werden. Dadurch ist gesichert, dass die Welt über Spielsessions konsistent erscheint.
 
-\item[Sicherheit] In verteilten Systemen steigt die Gefahr durch betrügerisches Verhalten. Einige Events müssen beispielsweise verschlüsselt übertragen werden.
+\item[Sicherheit] Diese Dimension beschreibt den Bedarf an betrugsverhindernden Maßnahmen für einen Eventtyp. Eine sicher übetragene Nachricht kann nicht verändert oder korrumpiert werden und gibt den empfangenden Knoten somit eine Garantie über den unveränderten Inhalt des Nachrcht.
 
-\item[Validität] Validität bezieht sich im Gegensatz zu Synchronisation auf genau einen Event und beschreibt dessen Gültigkeit. Beispielsweise kann hier 
+\item[Validität] Validität bezieht sich im Gegensatz zu Synchronisation auf genau einen Event und beschreibt dessen Gültigkeit. Hat ein Eventtyp bespielsweise ein zeitliche Auswirkung, kann dies hiermit modeliert werden.
 
-\item[Zustellung]
+\item[Zustellung] Diese Dimension beschreibt die Zustellungseigenschaften eines Events. Beispielsweise muss diese \emph{garantiert} sein oder erfodert eine Bestätigung.
 \end{description}
+
+Der Nutzer von \ac{m2etis} identifiziert die vorkommenden Eventtypen in der zu entwickelnden Applikation und führt eine semantische Klassifizierung dieser anhand dieser sieben Dimensionen durch. Die Eventtypen \emph{Bewegung} und \emph{Gegenstand aufnehmen} lassen sich beispielsweise wie folgt anhand den Dimensionen klassifizieren:\\
+Bewegungsnachrichten haben einen räumlichen Kontext (meist benachbarte Avatare), müssen nicht synchronisiert oder abgespeichert werden. Sie haben eine gewisse zeitliche Gültigkeit und benötigen keine Zustellungbestätigung noch müssen sie verschlüsselt übertragen werden.
+Events des Typs \emph{Gegenstand aufnehmen} beeinflussen die ganze Welt und müssen, ob ihrer Auswirkung auf den Zustand dieser, gespeichert werden. Eine Synchronisation dieser Nachrichten ist nötig, da beispielsweise zwei Avatare den selben Gegenstand aufnehmen wollen, dieser jedoch nur einmal vorhanden ist. Weiterhin sind diese Events unbegrenzt gültig und erfodern eine garantierte Zustellung.
+
+
+
+
