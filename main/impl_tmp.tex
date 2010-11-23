@@ -19,11 +19,11 @@ Ebenso können Templates geschachtelt übergeben werden, wie es \Fref{lst:tmp_tm
 
 \lstinputlisting[caption={verbessertes Klassentemplate mit Template Template}, label=lst:tmp_tmp_2, float=!t]{listings/tmp_tmp_2.cpp}
 
-Mit Templates lassen sich auch Entscheidungen anhand der übergebenen Templateparamter treffen. In \Fref{lst:tmp_cond} wird anhand des Parameters \\texttt{{isSingleton} entschieden, ob das neue Objekt mit \\texttt{{new} oder per Aufruf der Methode \\texttt{{T::getInstance()} erzeugt werden kann.
+Mit Templates lassen sich auch Entscheidungen anhand der übergebenen Templateparamter treffen. In \Fref{lst:tmp_cond} wird anhand des Parameters \texttt{isSingleton} entschieden, ob das neue Objekt mit \texttt{new} oder per Aufruf der Methode \texttt{T::getInstance()} erzeugt werden kann.
 
 \lstinputlisting[caption={Entscheidung via Templates}, label=lst:tmp_cond, float=t]{listings/tmp_cond.cpp}
 
-Der Compiler prüft dabei alle Templates syntaktisch. Obwohl \texttt{isSingleton} mit \enquote{false} instantiert wird, kann der Code nicht kompiliert werden, denn die Methode \\texttt{{getInstance} wird von Foo nicht angeboten. Um dieses Problem zu umgehen, beschreibt Alexandrescu in \cite{Alexandrescu2001Modern} das Hilfskonstrukt \texttt{Int2Type} das im nächsten Kapitel eingeführt wird.
+Der Compiler prüft dabei alle Templates syntaktisch. Obwohl \texttt{isSingleton} mit \texttt{false} instantiert wird, kann der Code nicht kompiliert werden, denn die Methode \texttt{getInstance} wird von \emph{Foo} nicht angeboten. Um dieses Problem zu umgehen, beschreibt Alexandrescu in \cite{Alexandrescu2001Modern} das Hilfskonstrukt \texttt{Int2Type} das im nächsten Kapitel eingeführt wird.
 
 \subsection{Template Meta-Programming}
 Template Meta-Programming arbeitet mit der vorgestellten Spezialisierung von Templates und wird ebenfalls vom Compiler zum Übersetzungszeitpunkt ausgewählt und basiert rein auf Typinformation.
