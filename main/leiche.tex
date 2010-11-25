@@ -3,3 +3,17 @@ Ausgefallene Knoten können aktiv anhand von periodischen \enquote{heartbeat}-Na
 oder Verteilungsoptimierung \cite{Muhl2002LargeScale} sind ebenfalls Forschungsthemen und ausführlich bearbeitet.
 
 Auch Cugola sieht Publish/Subscribe-Systeme als ein geeignetes Kommunikationssystem für verteilte Knoten \cite{Cugola2002Using}.
+
+
+Zuvor müssen jedoch die Anforderungen von \acp{mmve} an solche Systeme identifiziert werden. Diese Anforderungen werden bei der Auswahl des Netzwerkes in Betracht gezogen.
+
+\section{Anforderungen an p2p-Netzwerke}
+
+\paragraph{Geringe Latenz} 
+
+\paragraph{Skalierbarkeit und Fehlertoleranz bei Knotenausfall} 
+
+\paragraph{Eingriff in Routingentscheidungen} 
+
+\paragraph{Bestimmung der Nachbarschaft}
+Allein die Größe der Routingtabelle bedingt, dass bei Pastry und Tapestry mehr Einfluss auf die Zusammenstellung genommen werden kann. Bei CAN gibt es faktisch nur eine Entscheidung bei Eintritt in das Netz, Chord bietet über die Fingertabelle minimalen Einfluss, während bei Pastry explizit das Neighborhood Set eingesetzt wird, um eventuelle Lücken in der Routingtabelle geschickt zu besetzen.
