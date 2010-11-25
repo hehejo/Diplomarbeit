@@ -1,8 +1,8 @@
-\section{Moderne Entwicklung mit C++}
+\chapter{Moderne Entwicklung mit C++}
 \label{chap:impl_tmp}
 \acf{tmp}\index{Template Meta-Programming} und policy-based Design\index{policy-based Design} \cite{Alexandrescu2001Modern} sind Paradigmen der Software-Entwicklung in C++ und bedienen sich der dort verfügbaren \emph{Templates}. Policy-based Design baut in der hier erklärten Variante auf dem turingvollständigen \ac{tmp} auf.
 
-\subsection{Templates}
+\section{Templates}
 Templates dienen der Generalisierung von Code und werden zur Übersetzungszeit durch den Compiler ausgewertet. Templates sind ein integraler Bestandteil der \ac{stl}\footnote{Siehe auch \url{http://www.cplusplus.com/reference/stl/}} und dienen dort vor allem zum Erstellen abstrakter Containerklassen wie zum Beispiel \texttt{std::vector}, \texttt{std::map} oder \texttt{std::set}. Basierend auf dem Konzept des Zugriffs über \texttt{Iteratoren} sind viele aus der Funktionalen Programmierung bekannte Funktionen implementiert, die ebenfalls durch Templates generisch gehalten sind.
 
 Einzelne Funktionen oder komplette Klassen könnten als Templates realisiert werden. Zusätzlich zu der generischen Implementierung können auch spezielle Implementierungen, sog. Spezialisierungen, angegeben werden. Funktionstemplates lassen sich nur total, Klassentemplates auch partiell spezialisieren. Eine partielle Spezialisierung kann bei mehreren Templateparametern erfolgen. Ungenutzte Templates werden vom Compiler nicht instantiiert, dies bedeutet, dass kein ungenutzter Code im fertigen Kompilat vorhanden ist. Dies wiederum verringert die Größe ausführbarer Dateien oder Bibliotheken. Jedoch muss erwähnt werden, dass jede Instanz eines Templates eigenen Code generiert. Dieser lässt sich -- dank des Wissens zur Übersetzungszeit -- besser optimieren als zur Laufzeit.
@@ -25,7 +25,7 @@ Mit Templates lassen sich auch Entscheidungen anhand der übergebenen Templatepa
 
 Der Compiler prüft dabei alle Templates syntaktisch. Obwohl \texttt{isSingleton} mit \texttt{false} instantiert wird, kann der Code nicht kompiliert werden, denn die Methode \texttt{getInstance} wird von \emph{Foo} nicht angeboten. Um dieses Problem zu umgehen, beschreibt Alexandrescu in \cite{Alexandrescu2001Modern} das Hilfskonstrukt \texttt{Int2Type}, das im nächsten Kapitel eingeführt wird.
 
-\subsection{Template Meta-Programming}
+\section{Template Meta-Programming}
 Template Meta-Programming arbeitet mit der vorgestellten Spezialisierung von Templates und wird ebenfalls vom Compiler zum Übersetzungszeitpunkt ausgewählt und basiert rein auf Typinformation.
 
 \ac{tmp} kann dazu genutzt werden, die Problematik im vorangegangenen Kapitel zu lösen. \Fref{lst:tmp_cond_2} zeigt die Definition von \texttt{Int2Type}. \texttt{Int2Type} speichert den übergebenen Integerwert und erzeugt daraus pro Wert einen eigenen Typ. Mit überladenen Funktionen kann nun eine Auswahl zur Übersetzungszeit erfolgen. Die statische Methode \texttt{create} (Zeile 8) ruft nun abhängig vom Templateparameter \texttt{isSingleton} die überladene Methode \texttt{create\_impl} auf. Im ersten Fall (Zeile 14) nimmt diese ein \texttt{Int2Type$<$true$>$}, im zweiten Falle (Zeile 19) nur \texttt{Int2Type$<$false$>$}. Da der Compiler nur instantiierte Templates prüfen muss, gibt es nun keine Übersetzungsfehler mehr. Der Entwickler muss seinen Aufruf nicht anpassen.
@@ -34,7 +34,7 @@ Template Meta-Programming arbeitet mit der vorgestellten Spezialisierung von Tem
 
 Durch diese Technik können Entscheidungen zur Übersetzungszeit getroffen werden. So können zum Beispiel auch komplexe Berechnungen zur Übersetzungszeit ein- beziehungsweise ausgeschaltet werden. Der zusätzliche Code, hier Methodenaufrufe, kann durch den Compiler leicht optimiert werden.
 
-\subsection{Policy-based Design}
+\section{Policy-based Design}
 Policy-based Design kombiniert Vererbung und Templates und ermöglicht es, generischen Code zu entwickeln. Hierbei lassen sich sehr gut orthogonale Aspekte ausnutzen, wie Alexandrescu am Beispiel eines SmartPointers erläutert.
 
 In \Fref{lst:tmp_pbd} ist ein einfaches Beispiel mit einer Ausgabeklasse (\texttt{Ausgabe}) beschrieben, die mittels den Klassen \texttt{Decorator} und \texttt{Printer} parametrisiert wird. \texttt{Ausgabe} leitet von diesen beiden Typen ab und nutzt deren Funktionalität. Dadurch erzeugt der Compiler implizit Anforderungen, die diese Parameter zu erfüllen haben. Jeder Decorator muss eine Methode \texttt{decorate} anbieten, welche einen \texttt{const string\&} als Parameter nimmt. Jeder Printer muss eine Methode \texttt{print} anbieten, welche den Rückgabetyp von Decorator::decorate als Parameter nimmt. Diese Kontrakte werden vom Compiler zur Übersetzungszeit in Zeile 24 geprüft. Weitere Varianten für Decorator und Printer sind trivial.
