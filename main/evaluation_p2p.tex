@@ -1,34 +1,19 @@
 \chapter{Evaluation strukturierter p2p-Overlay-Netzwerke}
 \label{chap:evaluation_p2p}
 
-Dieses Kapitel bietet einen Überblick über einige p2p-Netzwerke und evaluiert diese anhand gestellter Anforderungen. Diese Evaluation beeinflusst die Entscheidung für ein Overlay-Netzwerk, das die Grundlage des zu entwickelnden dezentralen Publish/Subscribe-Systems bildet. Diese Evaluation bedient sich zahlreicher Arbeiten, die sich alleine dem Vergleich dieser Netzwerke widmen \cite{Lua2005Survey, Goetz2005, Li2004Comparing, Darlagiannis2006Peertopeer, Castro2002Secure, Bo2003PeertoPeer} und geht auch auf ihre Nutzbarkeit als Basis für \emph{Application level multicast} sprich ein Publish/Subscribe-System ein \cite{Hosseini2007Survey, Fahmy2007, Castro2003Evaluation, Ratnasamy2001}.
-
-Zuvor müssen jedoch die Anforderungen von \acp{mmve} an solche Systeme identifiziert werden. Diese Anforderungen werden bei der Auswahl des Netzwerkes in Betracht gezogen.
-
-\section{Anforderungen an p2p-Netzwerke}
-
-\paragraph{Geringe Latenz} Schnelle Reaktionszeiten und Nachrichtenübermittlung sind bei \ac{mmog} unverzichtbar. Ebenfalls müssen größere Nachrichten schnell übertragen werden, damit der Informationsfluss zur korrekten Darstellung der virtuellen Umgebung nicht behindert wird. Dies lässt sich beispielsweise anhand der Anzahl der Hops beim Nachrichtenversand messen, ist aber letztlich abhängig von der zur Verfügung stehenden Bandbreite jedes einzelnen Knotens.
-
-\paragraph{Skalierbarkeit und Fehlertoleranz bei Knotenausfall} Selbst bei einer großen Anzahl an Knoten soll das Netz nicht kollabieren. Hierbei ist es auch wichtig, dass Knoten keine erforderliche Mindestzeit angemeldet sein müssen. Es kann aber davon ausgegangen werden, dass ein durchschnittlicher Spieler eines \acp{mmog} längere Zeit im Spiel angemeldet ist. Li untersucht in \cite{Li2004Comparing}, wie sich p2p-Netzwerke bei großen Fluktuationen verhalten.
-
-\paragraph{Kommunikation über das Netzwerk} Das Netzwerk soll nicht nur das schnelle Auffinden von Peers ermöglichen, sondern auch einen Transport der Nachricht (Routing) durch das Netzwerk selbst bereitstellen.
-
-\paragraph{Eingriff in Routingentscheidungen} Applikationswissen hilft auch beim Eingriff in das Routing des Netzes. So können Knoten bevorzugt zur Weiterleitung einer Nachricht ausgewählt werden. Diese Knoten zeichnen sich beispielsweise durch eine große Bandbreite oder spezielle Applikationsmetriken\footnote{Bsp: Spieler befindet sich in der selben Stadt} aus. \missing{ja und?! Was bringt's?}
-
-\paragraph{Verfügbarkeit als C/C++-Bibliothek} Da der Prototyp dieser Arbeit in C++ entwickelt wird, muss das Netzwerk als C/C++-Bibliothek verfügbar sein. So kann das Netzwerk einfach angesprochen werden, ohne dass kostenintensive Brücken zwischen beispielsweise Java und C++ geschlagen werden müssen. Da zudem betriebssystemübergreifend entwickelt und getestet wird, ist außerdem ein zur Verfügung stehender Quellcode vorteilhaft.
-
-\paragraph{Anpassbarkeit an generische KBR-API}
-Das gewählte System sollte mit der von Dabek beschriebenen generischen \ac{kbr}-API\footnote{siehe \Fref{chap:grundlagen:api}} kompatibel sein.
+Dieses Kapitel bietet einen Überblick über einige p2p-Netzwerke und wägt deren Konzepte gegeneinander ab um ein geeignetes p2p-Overlay-Netzwerk für \ac{m2etis} zu finden. Diese Evaluation bedient sich zahlreicher Arbeiten, die sich alleine dem Vergleich dieser Netzwerke widmen \cite{Lua2005Survey, Goetz2005, Li2004Comparing, Darlagiannis2006Peertopeer, Castro2002Secure, Bo2003PeertoPeer} und geht auch auf ihre Nutzbarkeit als Basis für \emph{Application level multicast} sprich ein Publish/Subscribe-System ein \cite{Hosseini2007Survey, Fahmy2007, Castro2003Evaluation, Ratnasamy2001}.
 
 \section[Evaluation dreier p2p-Netzwerke]{Evaluation der Netzwerke Chord, Pastry/Tapestry und CAN}
-In diesem Kapitel werden die vier bekannten Systeme Chord \cite{Stoica2003}, Pastry \cite{Rowstron2001}, Tapestry \cite{Zhao2001Tapestry,Zhao2004Tapestry} und CAN \cite{Ratnasamy2001Scalable} miteinander verglichen. Die ersten drei sind in ihrem Aufbau ähnlich (der Schlüsselraum ist auf einem Ring verteilt) und unterscheiden sich in der Art des Routings. CAN hingegen bildet den Schlüsselraum auf ein d-dimensionales kartesisches Koordinatensystem ab. Alle vier Systeme sind laut \cite{Dabek2003Towards} an die generische \ac{api} anpassbar.
+In diesem Kapitel werden die Systeme Chord \cite{Stoica2003}, Pastry \cite{Rowstron2001} und Tapestry \cite{Zhao2001Tapestry,Zhao2004Tapestry}, und CAN \cite{Ratnasamy2001Scalable} vorgestellt und miteinander verglichen. Die ersten drei sind in ihrem Aufbau ähnlich (der Schlüsselraum ist auf einem Ring verteilt) und unterscheiden sich in der Art des Routings. CAN hingegen bildet den Schlüsselraum auf ein d-dimensionales kartesisches Koordinatensystem ab. 
 
 \input{main/evaluation_chord.tex}
 \input{main/evaluation_pastry.tex}
 \input{main/evaluation_can.tex}
 
 \section{Auswahl des p2p-Netzwerkes}
-Nach der Vorstellung der verschiedenen Netzwerke werden diese im Folgenden verglichen, um ein geeignetes System als Netzwerk für \ac{m2etis} zu finden. Jedes System hat eigene Schwächen und Stärken. So bezahlt CAN einen günstigen Ein- und Austritt der Knoten dank der kleinen Nachbarschaft mit mehr Routinghops als beispielsweise Chord. Dieses hat durch seine Fingertabelle wiederum mehr Einfluss auf das Routing, aktualisiert diese Tabellen jedoch erst nachträglich im Hintergrund, während dies bei Pastry aktiv geschieht.
+Nach der Vorstellung der verschiedenen Netzwerke werden diese im Folgenden verglichen, um ein geeignetes System als Netzwerk für \ac{m2etis} zu finden. Die Kriterien sind \emph{Geringe Latenz und Kommunikation über das Netzwerk}, \emph{Skalierbarkeit}, \emph{Ein- und Austritt von Knoten und Fehlertoleranz bei Knotenausfall}, \emph{Eingriff in Routingentscheidungen} sowie \emph{Anpassbarkeit an generische KBR-API} und werden im Kontext von \acp{mmve} gesehen.
+
+Jedes System hat eigene Schwächen und Stärken: CAN bezahlt einen günstigen Ein- und Austritt der Knoten dank der kleinen Nachbarschaft mit mehr Routinghops als beispielsweise Chord. Dieses hat durch seine Fingertabelle wiederum mehr Einfluss auf das Routing, aktualisiert diese Tabellen jedoch erst nachträglich im Hintergrund, während dies bei Pastry aktiv geschieht.
 
 \Fref{tab:evaluation_fazit} (Auszug aus \cite{Goetz2005}) listet die durchschnittlich anfallenden Kosten (Routinghops, Größe der Routinginformation, Nachrichtenanzahl beim Ein- und Austritt) für die drei getesteten Systeme auf. $n$ ist die Anzahl der Knoten, $b$ die Anzahl der Bits der darstellenden Basis bei Pastry und $d$ die Anzahl der Dimensionen bei CAN.
 
@@ -47,38 +32,25 @@ CAN & $O(\frac{d}{2}n^\frac{1}{d})	$ & $O(2 d) $ & $ O(\frac{d}{2}n^\frac{1}{d})
 \label{tab:evaluation_fazit}
 \end{table}
 
-Für uniformes Routing (d.h. das Routing ist bei allen Peers gleich) sind $O(log~n)$ beziehungsweise $O(n\frac{1}{d})$ Hops für Routingtabellen der Größe $O(log~n)$ beziehungsweise $O(d)$ die asymptotische Grenze \cite{Xu2004Fundamental}. Die vorgestellten \ac{dht}-basierten Netzwerke nutzen ein uniformes Routing.
+Für uniformes Routing\footnote{Das Routing wird auf allen Knoten gleich behandelt ausgeführt.} sind $O(log~n)$ beziehungsweise $O(n\frac{1}{d})$ Hops für Routingtabellen der Größe $O(log~n)$ beziehungsweise $O(d)$ die asymptotische Grenze \cite{Xu2004Fundamental}. Die vorgestellten \ac{dht}-basierten Netzwerke nutzen ein uniformes Routing.
 
 
-\paragraph{Geringe Latenz und Kommunikation über das Netzwerk}
+\paragraph{Geringe Latenz und Kommunikation über das Netzwerk} Schnelle Reaktionszeiten und Nachrichtenübermittlung sind bei \acp{mmog} unverzichtbar. Auch größere Nachrichten müssen schnell übertragen werden, damit der Informationsfluss zur korrekten Darstellung der virtuellen Umgebung nicht behindert wird. Dies lässt sich beispielsweise anhand der Anzahl der Hops beim Nachrichtenversand oder über die \ac{rtt} messen, ist aber letztlich abhängig von der zur Verfügung stehenden Bandbreite jedes einzelnen Knotens.
+
 Bei Pastry/Tapestry sind die kürzesten Routen und damit auch oftmals die geringste Latenz im Nachrichtenversand zu erwarten, da die Routingtabelle im Vergleich zu Chord und CAN mehr Einträge enthält und diese einfacher mit -- aus Netzwerksicht -- nahen Peers belegt werden kann. Bei CAN hingegen wird das langsamste Routing erwartet, da Nachrichten nur zwischen benachbarten Knoten ausgetauscht werden. Sprünge (via Fingertabellen) sind nicht vorgesehen. Die Erwartungen decken sich mit den Werten in \Fref{tab:evaluation_fazit}.
 
-Li stellt für verschiedene Parametereinstellungen der Netzwerke deren Bandbreite und Latenz gegenüber und untersucht dabei das Verhalten bei gehäuften Ein- und Austritten von Knoten. Hier ist Chord leicht im Vorteil, da lediglich der Verweis auf den Nachfolgeknoten für das korrekte Routing erforderlich ist. Bei allen Netzwerken pendelt sich die Latenz im \emph{worst case} auf 250 ms ein \cite{Li2004Comparing}.
+\paragraph{Skalierbarkeit} Auch bei einer großen Anzahl an Knoten muss das Netz schnelle Reaktionszeiten und Nachrichtenübermittlung ermöglichen. Unabhänig von der Ausdehnung des Netzwerkes müssen größere Nachrichten zügig übertragen werden können, damit der Informationsfluss zur korrekten Darstellung der virtuellen Umgebung nicht behindert wird. Dies lässt sich beispielsweise anhand der Anzahl der Hops beim Nachrichtenversand oder über die \ac{rtt} messen, ist aber letztlich abhängig von der zur Verfügung stehenden Bandbreite jedes einzelnen Knotens.
 
-Die Vorteile der Kommunikation bei Pastry/Tapestry überwiegen für unseren Anwendungsfall.
+\paragraph{Ein- und Austritt von Knoten und Fehlertoleranz bei Knotenausfall} Ein- und Austritte in das Netzwerk sollen keine großen Auswirkungen auf die schon im Netzwerk befindlichen Peers haben, jedoch so gehandhabt werden, dass das Netzwerk als Ganzen von den neuen Knoten profitieren kann.\\
+Ein- und Austritte von Peers betreffen bei CAN nur wenige Knoten und das Netz leidet unter keiner großen Nachrichtenlast. Allerdings leidet die Kommunikation in großen Netzen (siehe obigen Punkt). Bei Chord wird das Netzwerk erst durch später aufgerufene Methoden vollkommen funktionsfähig (siehe \emph{Eintritt und Austritt (Fehlerfall) von Knoten}). Bei Pastry und Tapestry erfolgt der Aufbau der Routingtabelle in vielen kleinen Schritten -- dafür ist ein Knoten danach ein vollwertiger Peer im System. Ausgefallene Knoten müssen zügig erkannt und ersetzt werden, damit der Versand von Events nicht behindert wird. Alle Systeme finden ausgefallene Knoten durch periodisch versandte Nachrichten an benachbarte Peers oder durch Timeouts verschickter Nachrichten. Jedes System kompensiert solch einen Fall auf eigene Art und Weise. Bei CAN wird ein Knoten seine Zone mit der verlassenen Zone verbinden, Knoten in Chord aktualisieren ihre Fingertabellen und Peers in Pastry und Tapestry versuchen durch Befragungen anderer Knoten die entstandene Lücke in der Routingtabelle zu füllen. Ein Knotenausfall hat bei CAN allerdings die geringsten Auswirkungen auf das restliche System, da nur die Nachbarknoten involviert sind. Dies ist der kleinen Routingtabelle geschuldet.
 
-\paragraph{Skalierbarkeit}
-CAN steht hier an erster Stelle, da Ein- und Austritte von Peers nur wenige Knoten im Netz betreffen. Auch bei vielen Ein- und Austritten leidet das Netz unter keiner großen Nachrichtenlast. Allerdings leidet die Kommunikation in großen Netzen (siehe obigen Punkt). Chord liegt auf dem letzten Platz, da das Netzwerk erst durch später aufgerufene Methoden vollkommen funktionsfähig wird (siehe \emph{Eintritt und Austritt (Fehlerfall) von Knoten}).  Pastry und Tapestry liegen auf dem zweitem Platz; der Aufbau der Routingtabelle erfolgt in vielen kleinen Schritten -- dafür ist ein Knoten danach ein vollwertiger Peer im System.
+Li stellt für verschiedene Parametereinstellungen der Netzwerke deren Bandbreite und Latenz gegenüber und untersucht dabei das Verhalten bei gehäuften Ein- und Austritten von Knoten, sogenanntem \emph{Churn}. Hier ist Chord leicht im Vorteil, da lediglich der Verweis auf den Nachfolgeknoten für das korrekte Routing erforderlich ist. Bei allen Netzwerken pendelt sich die Latenz im \emph{worst case} auf 250 ms ein \cite{Li2004Comparing}. Churn sollte in \acp{mmve} selten vorkommen, da Spieler insgesamt länger in der virtuellen Welt verbleiben und somit die Verbindung mit dem Netzwerk länger besteht.
 
-\paragraph{Fehlertoleranz bei Knotenausfall}
-Alle Systeme finden ausgefallene Knoten durch periodisch versandte Nachrichten an benachbarte Peers oder durch Timeouts verschickter Nachrichten. Jedes System kompensiert solch einen Fall auf eigene Art und Weise. Bei CAN wird ein Knoten seine Zone mit der verlassenen Zone verbinden, Knoten in Chord aktualisieren ihre Fingertabellen und Peers in Pastry und Tapestry versuchen durch Befragungen anderer Knoten die entstandene Lücke in der Routingtabelle zu füllen. Ein Knotenausfall hat bei CAN allerdings die geringsten Auswirkungen auf das restliche System, da nur die Nachbarknoten involviert sind. Dies ist der kleinen Routingtabelle geschuldet.
+\paragraph{Eingriff in Routingentscheidungen} Lassen sich Routingentscheidungen des Netzwerks verändern oder beeinflussen, ist es möglich Applikationswissen einfließen zu lassen um den Nachrichtentransport zu optimieren.\\
+Das Routing bei CAN kann nur bedingt beeinflusst werden, da zum Routen von Nachrichten nur $2d$ Nachbarn zur Auswahl stehen. Chord hingegen bietet mit seiner Fingertabelle mehr Variations\-möglichkeiten -- allerdings nur für die zu überbrückende Distanz im Schlüsselraum. Pastry und Tapes\-try verbinden diese Variationen mit vielfältigen Nachbarschaftsoptionen.
 
-Alle Systeme fordern jedoch die Applikation zu einer periodischen Auffrischung der gespeicherten Daten auf und bieten selbst kaum Redundanz (Ausnahme Tapestry) an.
+\paragraph{Anpassbarkeit an generische KBR-API}
+Alle vorgestellen System sind mit der von Dabek beschriebenen generischen \ac{kbr}-API\footnote{siehe \Fref{chap:grundlagen:api}} kompatibel und somit leicht integierbar.
 
-
-\paragraph{Bestimmung der Nachbarschaft}
-Allein die Größe der Routingtabelle bedingt, dass bei Pastry und Tapestry mehr Einfluss auf die Zusammenstellung genommen werden kann. Bei CAN gibt es faktisch nur eine Entscheidung bei Eintritt in das Netz, Chord bietet über die Fingertabelle minimalen Einfluss, während bei Pastry explizit das Neighborhood Set eingesetzt wird, um eventuelle Lücken in der Routingtabelle geschickt zu besetzen.
-
-\paragraph{Eingriff in Routingentscheidungen}
-Das Routing bei CAN kann nur bedingt beeinflusst werden. Chord hingegen bietet mit seiner Fingertabelle mehr Variations\-möglichkeiten -- allerdings nur für die zu überbrückende Distanz im Schlüsselraum. Pastry und Tapes\-try verbinden diese Variationen mit vielfältigen Nachbarschaftsoptionen.
-
-Zusammenfassend zeigen die obigen Punkte, dass das Konzept hinter Pastry/Tapestry als Netzwerk für \ac{m2etis} gut geeignet ist. Pastry selbst ist als Java-Bibliothek\footnote{\url{http://www.freepastry.org}} verfügbar und die Entwicklung von Tapestry (ebenfalls in Java implementiert) wurde mit Version 2.01 eingestellt. Chimera \cite{Allen2006Chimera} ist der Nachfolger von Tapestry und vereint das Beste von Pastry und Tapestry in sich\footnote{siehe \url{http://current.cs.ucsb.edu/projects/chimera/index.html}}: 
-\selectlanguage{english}
-\begin{quote}
-Chimera is a light-weight C implementation of a \enquote{next-generation} structured overlay that provides similar functionality as prefix-routing protocols Tapestry and Pastry.  Chimera gains simplicity and robustness from its use of Pastry's leafsets, and efficient routing from Tapestry's locality algorithms.  In addition to these properties, Chimera also provides efficient detection of node and network failures, and reroutes messages around them to maintain connectivity and throughput.  
-\end{quote}
-\selectlanguage{ngerman} 
-
-Der frei verfügbare Code (veröffentlicht unter GPL), die Anpassbarkeit und die Unterstützung der Zielplattformen Linux und Windows sprechen für Chimera. Weiterhin entspricht Chimera der generischen \ac{api} und kann bei gravierenden Problemen durch ein anderes System ausgetauscht werden, ohne das restliche System zu beeinflussen. Die Konzeption des Netzwerkes ist ausschlaggebender als eigentliche Implementierung und daher wird Chimera als Netzwerk für \ac{m2etis} gewählt.
-
-In diesem Kapitel wurden die drei Netzwerke Chord, Pastry/Tapestry und CAN verglichen und ihre unterschiedlichen Arbeitsweisen erklärt. Es zeigt sich, dass das Konzept von Pastry/Trapestry für \ac{m2etis} gut geeignet ist. Damit ist der erste Teil dieser Arbeit, die Auswahl eines geeigneten Netzwerkes, abgeschlossen. Das nächste Kapitel befasst sich nun mit der Konzeption der Publish/Subscribe-Komponente, die auf diesem Netzwerk aufsetzt.
+Zusammenfassend zeigen die obigen Punkte, dass das Konzept hinter Pastry/Tapestry als Netzwerk für \ac{m2etis} gut geeignet ist.\\
+In diesem Kapitel wurden drei Netzwerke Chord, Pastry/Tapestry und CAN vorgestellt und die Unterschiede ihrer Arbeitsweise aufgezeigt. Der nächste Teil dieser Arbeit befasst sich nun mit der Konzeption der Publish/Subscribe-Komponente, die auf dem gewählten p2p-Netzwerk-Konzept aufsetzen wird.
