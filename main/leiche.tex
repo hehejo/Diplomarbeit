@@ -17,3 +17,7 @@ Zuvor müssen jedoch die Anforderungen von \acp{mmve} an solche Systeme identifi
 
 \paragraph{Bestimmung der Nachbarschaft}
 Allein die Größe der Routingtabelle bedingt, dass bei Pastry und Tapestry mehr Einfluss auf die Zusammenstellung genommen werden kann. Bei CAN gibt es faktisch nur eine Entscheidung bei Eintritt in das Netz, Chord bietet über die Fingertabelle minimalen Einfluss, während bei Pastry explizit das Neighborhood Set eingesetzt wird, um eventuelle Lücken in der Routingtabelle geschickt zu besetzen.
+
+
+Beispielsweise fügt eine zeitstempelbasierte Strategie zur Validitäsprüfung bei der Erstellung einer \emph{Publish}-Nachricht dieser den aktuellen Zeitstempel hinzu. Anhand diesem Zeitstempel kann bei der Prüfung einer Nachricht entschieden werden, ob ein entsprechendes Zeitintervall seit dem Versand abgelaufen ist und die Nachricht damit üngültig ist. Ein einfacher Ansatz zur Nachrichtensynchronisation ist ebenfalls mit Zeitstempeln möglich. In \Fref[plain]{chap:impl} wird die Schnittstelle für diese Strategien aufgezeigt.
+
