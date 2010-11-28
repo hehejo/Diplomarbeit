@@ -13,6 +13,8 @@ full:
 	pdflatex master
 	pdflatex doppelmaster
 	
+crop: 
+	cd grafics; ./cropem.rb
 	
 copy: full
 	scp master.pdf hehejo.de:html/de.hehejo/Diplomarbeit.pdf 2>/dev/null & 
