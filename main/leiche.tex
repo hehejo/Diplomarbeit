@@ -21,3 +21,5 @@ Allein die Größe der Routingtabelle bedingt, dass bei Pastry und Tapestry mehr
 
 Beispielsweise fügt eine zeitstempelbasierte Strategie zur Validitäsprüfung bei der Erstellung einer \emph{Publish}-Nachricht dieser den aktuellen Zeitstempel hinzu. Anhand diesem Zeitstempel kann bei der Prüfung einer Nachricht entschieden werden, ob ein entsprechendes Zeitintervall seit dem Versand abgelaufen ist und die Nachricht damit üngültig ist. Ein einfacher Ansatz zur Nachrichtensynchronisation ist ebenfalls mit Zeitstempeln möglich. In \Fref[plain]{chap:impl} wird die Schnittstelle für diese Strategien aufgezeigt.
 
+
+Für jede einzelne Policy bietet \ac{m2etis} mehrere konkrete Implementierungen an und lässt sich mit benutzerdefinierten Strategien weiter auf die Anforderungen der Applikation anpassen\footnote{siehe \Fref{fig:metis_aufbau}}.
