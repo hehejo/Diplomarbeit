@@ -91,18 +91,27 @@ Die Klasse \texttt{PubSubSystemImpl} und damit auch die optimierten Kanäle werd
 
 \lstinputlisting[caption={Ausschnitt des zu generierenden Abschnittes von \texttt{PubSubSystem.cpp}}, label=lst:pubsubsystem, float=!t]{listings/pubsubsystem.cpp}
 
-
-
-
-
 \section{Implementierungsdetails der Klasse \texttt{Channel}}
-\lstinputlisting[caption={Zugriff auf M$^2$etis aus Benutzersicht}, label=lst:ovpd, float=t]{listings/ovpd.cpp}
+In diesem Abschnitt werden Ausschnitte der Klasse \texttt{Channel} gezeigt um damit verschiedene Implementierungsdetails aufzuzeigen. Als erstes wird die Umsetzung eines Teils des Verarbeitungsmodells beim Empfang einer \emph{Pubslish}-Nachricht in \texttt{deliver} gezeigt. \Fref[plain]{fig:processing_deliver_ovpd} zeigt diesen Teil des Verarbeitungsmodells als Ausschnitt und in \Fref{lst:ovpd} ist der zugehörige Codeausschnitt der Klasse \texttt{Channel} dargestellt. In der Zeile 2 werden die Verwaltungsinformationen der Nachricht ausgelesen und in einem \texttt{Header} gespeichert.  Die Schleife -- beginnend in Zeile 6 -- zeigt die weitere Verarbeitung der \emph{freigegebenen} Nachrichten bishin zur Übergabe an die Applikation (Zeile 16). Die gewählte Strategie der Policy \emph{Reihenfolge} -- hier über \texttt{Order} ansprechbar -- bekommt die zu bearbeitende Nachricht mitsamt einiger Verwaltungsinformationen übergeben. Der Rückgabewert dieser Methode ist eine Liste von \emph{freigegebenen} Nachrichten zusammen mit den weiter benötigten Verwaltunsginformationen. Anhand diesen, kann die Strategie zur \emph{Validierung} -- über \texttt{Validity} ansprechbar -- in Zeile 13 prüfen ob die Nachricht gültig ist oder verworfen werden muss (Zeile 14). Als letzter Schritt vor der Übergabe der Nachricht an die Applikation, kann in Zeile 15, der Event oder dessen Auswirkung auf die virtuelle Welt abgespeichert werden.
+
+\lstinputlisting[caption={Verarbeitung einer \emph{Publish}-Nachricht in \texttt{deliver}}, label=lst:ovpd, float=t]{listings/ovpd.cpp}
 
 \begin{figure}[htbp]
 \centering
-%\resizebox{\textwidth}{!}{%
-\includegraphics{grafics/processing_deliver_ovpd.pdf}%}
+\resizebox{\textwidth}{!}{%
+\includegraphics{grafics/processing_deliver_ovpd.pdf}}
 \caption{Ausschnitt der Nachrichtenverarbeitung in \texttt{deliver}}
 \label{fig:processing_deliver_ovpd}
 \end{figure}
+
+Das nächste Beispiel zeigt in \Fref{lst:publish} die Erstellung einer \emph{Publish}-Nachricht und allgemein den Versand einer Nachricht. In der Methode \texttt{publish} werden die Verwaltungsinformationen aller Strategien abgefragt. Der \emph{Filterung} wird zusätzlich die Nachricht übergeben, anhand der die gewählte Strategie Metadaten zu Filterung erzeugen kann. In Zeile 10 wird der ersteller \texttt{Header} und die Nachricht an \texttt{sendMessages} unter Angabe des Types (\texttt{publish\_}) übergeben.\\
+Im ersten Abschnitt dieser Methode (Zeilen 14 bis 18) wird der übergebene Nachrichtentyp in einen generischen Typ umgewandelt. Der Nachrichtnentyp entspricht der Nachrichtennummer im Netzwerk und muss daher für die Verteilungspolicy umgewandelt werden. Im zweiten Abschnitt (Zeilen 20 bis 25) wird die eigentliche Nachricht erstellt und verschlüsselt.\\
+Für den Fall einer \emph{Publish}-Nachricht wird im dritten Abschnitt (Zeilen 27 bis 34) wird ermittelt ob die Verteilungsstrategie eine Filterung der Empfängerliste wünscht.\\
+Im letzten Abschnitt dieser Methode (Zeilen 36 bis 40), wird die Liste der Empfänger von der Verteilungsstrategie errechnet und in Zeile 39 -- nach erfolgter Prüfung -- über das Netzwerk versandt.
+
+\lstinputlisting[caption={Versenden einer \emph{Publish}-Nachricht}, label=lst:publish, float=t]{listings/publish.cpp}
+
+Das nächste \Fref{lst:header} zeigt Auszüge der, an die gewählten Strategien angepasste, Klasse \texttt{Header}, die als Klasse innerhalb der Klasse \texttt{Channel} implementiert ist und damit Zugriff auf die, der Klasse \texttt{Channel} übergebenen, Policys hat. Die Größe des Feldes für Verwaltungsinformationen wird anhand der Werte der einzelnen Strategien berechnet. \texttt{KeySize} ist die Länge der Stringrepräsentation eines Schlüssels im Netzwerk und wird der Klasse \texttt{Channel} als Policy übergeben. Jede Strategie \emph{muss} über das Feld \texttt{size} zur Übersetzungszeit angeben, wie viele \texttt{chars} sie zur Speicherung ihrer Metadaten pro Nachricht benötigt. Damit kann die benötigte Größe in Zeile 11 berechnet werden und ein entsprechendes \texttt{char[]} in Zeile 13 erstellt werden. Das restliche Codebespiel zeigt einige der Zugriffsmethoden auf die einzelnen Metadaten. Auch hier ist ersichtlich, dass diese bereits zur Übersetzungszeit mit exakten Werten erstellt werden und somit effektiv gegen Pufferüberlauf schützen. 
+
+\lstinputlisting[caption={An die gewählten Strategien angepasster Klasser \texttt{Header}}, label=lst:header, float=t]{listings/header.h}
 
