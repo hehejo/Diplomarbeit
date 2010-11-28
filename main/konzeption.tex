@@ -77,7 +77,7 @@ Zur Behandlung von Nachrichten in \texttt{forward} werden diese erst dekodiert, 
 \centering
 \resizebox{\textwidth}{!}{%
 \includegraphics{grafics/processing_forward.pdf}}
-\caption{Verarbeitung von Nachrichten in forward}
+\caption{Verarbeitung von Nachrichten in \texttt{forward}}
 \label{fig:processing_forward}
 \end{figure}
 
@@ -85,7 +85,7 @@ Zur Behandlung von Nachrichten in \texttt{forward} werden diese erst dekodiert, 
 \centering
 \resizebox{\textwidth}{!}{%
 \includegraphics{grafics/processing_deliver.pdf}}
-\caption{Verarbeitung von Nachrichten in deliver}
+\caption{Verarbeitung von Nachrichten in \texttt{deliver}}
 \label{fig:processing_deliver}
 \end{figure}
 
@@ -93,7 +93,6 @@ Die Abarbeitung der Nachrichten in \texttt{deliver} ist komplexer als die beiden
 Eine \emph{Publish}-Nachricht muss die Validitätsprüfung bestehen, bevor sie weiter verarbeitet wird. Abhängig von der Verwaltungsinformation dieser Nachricht, entscheidet die Verteilungsstrategie, ob diese Nachricht weiter verteilt oder nur noch zugestellt werden muss. Ist eine Nachricht zur Verteilung vorgesehen, wird im ersten Schritt eine neue \emph{Publish}-Nachricht mit entsprechenden Verwaltungsinformationen erzeugt und mit dem beschriebenen Verfahren gesendet. Nun wird weiterhin geprüft, ob die Nachricht an diesem Knoten selbst zugestellt werden soll, das bedeutet ob der aktuelle Knoten selbst am Kanal angemeldet ist. Falls dies zutrifft wird zudem das Prädikat abgeprüft. Passen Nachricht und Prädikat zusammen, trifft sich der Ablaufpfad an dieser Stelle\footnote{\emph{Nachricht synchronisieren} in Grafik \Fref[plain]{fig:processing_deliver}} mit dem Ablaufpfad der Knoten, die keine spezielle Verteilungsaufgabe haben. Diese zusätzliche Prüfung ist notwendig, da Rootknoten die Nachrichten ohne Prüfung ihres Prädikates zugestellt werden.\\
 Die Synchronisierungspolicy ermöglicht nun eine Wohlgeordnetheit aller Nachrichten des Eventtyps. Sie kann die zu bearbeitende Nachricht sowohl komplett zurückhalten als auch mehrere Nachrichten zurückgeben, falls durch die aktuelle Nachricht weitere Nachrichten \enquote{freigeschaltet} werden. Alle Nachrichten werden nun nochmals auf ihre Validität geprüft, da zurückgehaltene Nachrichten inzwischen veraltet sein können.\\
 Für jede valide Nachricht wird eine Signalisierung der Zustellung entsprechend der gewählten Strategie, zum Beispiel eine Bestätigungsnachricht zurück an den Sender, ermöglicht. Bevor die Nachrichten schließlich an die Applikation übergeben werden, können sie -- oder ihre Auswirkung auf den Zustand der virtuellen Welt -- abgespeichert werden. Diese letzten Schritte werden in \Fref{chap:impl} aufgegriffen und anhand eines Codebeispieles nochmals erläutert.
-
 
 
 Der nächste Abschnitt prüft das eingeführte Verarbeitungsmodell anhand zweier Verteilungsstrategien auf seine Tauglichkeit. Eine ausführliche Evaluation möglicher Algorithmen zur Implementierung der Policies würde den Rahmen dieser Arbeit, die sich mit der Konzeption des Publish/Subscribe-Frameworks befasst, sprengen. Aus diesem Grund beschränkt sich der folgende Abschnitt auf zwei Strategien zur Verteilung von Events. Weiterhin haben die anderen Policies keinen direkten Einfluss auf die Verteilung eines Events, sondern lediglich der Nachrichtenverarbeitung auf einem Knoten dienen. Die Verteilungspolicy hat jedoch einen höheren Stellenwert, denn sie wirkt sich direkt auf die Art der Verteilung und die Anzahl der zu verschickenden Nachrichten im System aus und ist das Rückgrad -- die Verteilung der Events -- des Publish/Subscribe-Systems. Die Policy Filterung hat ebenfalls Einfluss auf die Anzahl der Nachrichten im System -- ihre Strategien können jedoch nur im Zusammenhang mit dem verschickten Nachrichtenformat beschrieben werden, das zum Entwicklungszeitpunkt des Frameworks nicht bekannt ist und von Anwendungsfall zu Anwendungsfall veränderlich ist. Das Verarbeitungsmodell ermöglicht es der gewählten Filterungskomponente Nachrichten mit Metadaten zur Filterung anzureichern. Anhand dieser Metadaten und der eigentlichen Nachricht kann die gewählte Strategie die Filterung durchzuführen.
