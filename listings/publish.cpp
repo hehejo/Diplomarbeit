@@ -7,15 +7,14 @@ void publish(const net::MessageT& message_text) {
 	header.putPersistence(Persistence::getPublishPayload());
 	header.putValidity(Validity::getPublishPayload());
 	header.putFilter(Filter::getPublishPayload(message_text));
-	sendMessages(publish_, header, message_text);
+	sendMessages(PUBLISH, header, message_text);
 }
 
-void sendMessages(int msg_type, const Header& h, const net::MessageT& payload) const {
-	MsgType type;
-	if (msg_type == subscribe_)		type = SUBSCRIBE;
-	else if (msg_type == unsubscribe_)		type = UNSUBSCRIBE;
-	else if (msg_type == publish_)		type = PUBLISH;
-	else	type = UNKNOWN;
+void sendMessages(MsgType type, const Header& h, const net::MessageT& payload) const {
+	int msg_type;
+	if (type == SUBSCRIBE)          msg_type = subscribe_;
+	else if (type == UNSUBSCRIBE)   msg_type = unsubscribe_;
+	else if (	type == PUBLISH)      msg_type = publish_;
 
 	MessageT sending;
 	sending.resize(h.size+payload.size());
