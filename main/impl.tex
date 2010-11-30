@@ -12,7 +12,7 @@ Chimera is a light-weight C implementation of a \enquote{next-generation} struct
 \end{quote}
 \selectlanguage{ngerman} 
 
-Pastry\footnote{\url{http://www.freepastry.org} (26.\,11.\,2010)} und Tapestry sind als Java-Bibliotheken verfügbar und die Entwicklung von Tapestry wurde mit Version 2.01 eingestellt. Chimeras frei verfügbarer Code (veröffentlicht unter GPL) und die Kompabilität mit der generischen KBR-API sprechen weiterhin für Chimera. Bei gravierenden Problemen kann es somit durch ein anderes Netzwerk ausgetauscht werden, ohne dass diese Änderung großen Einfluss auf die restlichen Komponenten von \ac{m2etis} hat. 
+Pastry\footnote{\url{http://www.freepastry.org} (26.\,11.\,2010)} und Tapestry sind als Java-Bibliotheken verfügbar. Die Entwicklung von Tapestry wurde mit Version 2.01 eingestellt. Chimeras frei verfügbarer Code (veröffentlicht unter GPL) und die Kompabilität mit der generischen KBR-API sprechen weiterhin für Chimera. Bei gravierenden Problemen kann es somit durch ein anderes Netzwerk ausgetauscht werden, ohne dass diese Änderung großen Einfluss auf die restlichen Komponenten von \ac{m2etis} hat. 
 
 
 \section{Aufbau der Publish/Subscribe-Komponente}
@@ -87,7 +87,7 @@ Der \ac{m2etis}-Optimierer muss die Datei \texttt{ChannelList.h} komplett generi
 
 
 \subsubsection*{\texttt{PubSubSystem.cpp}}
-Die Klasse \texttt{PubSubSystemImpl} und damit auch die optimierten Kanäle werden erst im Optimierungsschritt erzeugt. Die Klasse \texttt{PubSubSystem} hat jedoch direkten Zugriff auf in \texttt{PubSubSystemImpl} enthaltenen Kanäle und muss daher ebenfalls im Optimerungsschritt angepasst werden. \Fref[plain]{lst:pubsubsystem} zeigt mit der Methode \texttt{getChannelHandle} einen Ausschnitt des generierten Codes. \texttt{impl\_} ist eine Klassenvariabele auf eine Instanz von \texttt{PubSubSystemImpl}. Das Codebeispiel zeigt, das \texttt{PubSubSystem} als Dispatcher arbeitet und die entsprechenden Kanäle anhand der \texttt{ChannelList} auswählt. Dieser Zugriff ist nur möglich, das \texttt{PubSubSystem} als \texttt{friend} der Klasse \texttt{PubSubSystemImpl} (\Fref[plain]{lst:pubsubsystemimpl} Zeile 7) definiert ist.
+Die Klasse \texttt{PubSubSystemImpl} und damit auch die optimierten Kanäle werden erst im Optimierungsschritt erzeugt. Die Klasse \texttt{PubSubSystem} hat jedoch direkten Zugriff auf in \texttt{PubSubSystemImpl} enthaltenen Kanäle und muss daher ebenfalls im Optimerungsschritt angepasst werden. \Fref[plain]{lst:pubsubsystem} zeigt mit der Methode \texttt{getChannelHandle} einen Ausschnitt des generierten Codes. \texttt{impl\_} ist eine Klassenvariable auf eine Instanz von \texttt{PubSubSystemImpl}. Das Codebeispiel zeigt, das \texttt{PubSubSystem} als Dispatcher arbeitet und die entsprechenden Kanäle anhand der \texttt{ChannelList} auswählt. Dieser Zugriff ist nur möglich, da \texttt{PubSubSystem} als \texttt{friend} der Klasse \texttt{PubSubSystemImpl} (\Fref[plain]{lst:pubsubsystemimpl} Zeile 7) definiert ist.
 
 \lstinputlisting[caption={Ausschnitt des zu generierenden Abschnittes von \texttt{PubSubSystem.cpp}}, label=lst:pubsubsystem, float=!t]{listings/pubsubsystem.cpp}
 

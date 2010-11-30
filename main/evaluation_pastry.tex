@@ -16,7 +16,7 @@ Pastry besitzt wie Chord einen $l$ bit-wertigen Schlüsselraum, dabei werden Sch
 \end{figure}
 
 \subsubsection{Routing}
-Jeder Knoten verwaltet neben den ihm zugeteilten Datensätzen drei Strukturen, die dem Routing dienen. Diese sind das \emph{leaf set} mit Einträgen zu Knoten, die im Schlüsselraum benachbart sind, das \emph{neighborhood set} mit Einträgen zu Knoten, die aus Netzwerksicht nahe liegen, und die Routingtabelle selbst. In \Fref{fig:pastry_routing_table} sind nur die Schlüssel, nicht aber Kontaktinformation, wie IP-Adresse und Port dargestellt.
+Jeder Knoten verwaltet neben den ihm zugeteilten Datensätzen drei Strukturen, die dem Routing dienen. Diese sind das \emph{leaf set} mit Einträgen zu Knoten, die im Schlüsselraum benachbart sind, das \emph{neighborhood set} mit Einträgen zu Knoten, die aus Netzwerksicht nahe liegen, und die Routingtabelle selbst. In \Fref{fig:pastry_routing_table} diese für Knoten $103220$ aufgezeigt und enthalten nur die Schlüssel, nicht aber Kontaktinformation.
 
 \begin{figure}[htbp]
 \centering
@@ -36,7 +36,7 @@ Da Nachrichten immer an Knoten mit einer größeren Übereinstimmung oder an nä
 Dadurch verringert sich die Anzahl der Knoten mit längeren Präfixübereinstimmungen in jedem Schritt um mindestens den Faktor $2^b$. Somit hat das Routing eine Komplexität von $O(log_{2^b} N)$.
 
 \subsubsection{Nachbarschaft}
-Das neighborhood set (siehe \Fref[plain]{fig:pastry_routing_table}) enthält $|m|$ Knoten, die aus Netzwerksicht nahe sind. Obwohl es im Routing keine Rolle spielt, kann es dazu genutzt werden, um geeignete Knoten zu finden. Da die Größe des leaf sets ebenfalls wählbar ist, können hier auch vermehrt nahe Knoten platziert werden.
+Das neighborhood set (siehe \Fref[plain]{fig:pastry_routing_table}) enthält $|m|$ Knoten, die aus Netzwerksicht nahe sind. Obwohl es im Routing keine Rolle spielt, kann es dazu genutzt werden, um geeignete Einträge für die Routingtabelle oder das leaf set zu finden. Da die Größe des leaf sets ebenfalls wählbar ist, können hier auch vermehrt nahe Knoten platziert werden.
 
 \subsubsection{Eintritt und Austritt (Fehlerfall) von Knoten}
 Einem neuen Knoten $n$ wird von Applikationsseite ein frei wählbarer Schlüssel gegeben. Meist berechnet sich dieser Schlüssel anhand des Hashwerts über die IP oder seines öffentlichen Namens. Weiterhin geht das System davon aus, dass $n$ aus einer Liste bekannter Knoten denjenigen Knoten $x$ wählen kann, der aus Netzwerksicht nahe ist. Von diesem Knoten kann das neighborhood set kopiert werden. Zum Aufbau der Routingtabelle und des leaf sets lässt $n$ via $x$ eine \texttt{JOIN}-Nachricht an einen numerisch nahen Schlüssel zu $n$ routen. Diese Nachricht gelangt schließlich zu Knoten $c$, von dem das leaf set (die Liste der $l$ numerisch nahen Knoten) kopiert werden kann. Alle Knoten, die diese \texttt{JOIN}-Nachricht weiterleiten, senden ihre Routingtabelle an $n$. Für jeden Routinghop kopiert sich $n$ die entsprechende Zeile aus der Routingtabelle, da ausgehend von keiner Präfixübereinstimmung mit dem nahen Knoten $x$, jeder weitere Hop eine größere Präfixübereinstimmung bringt.\\
