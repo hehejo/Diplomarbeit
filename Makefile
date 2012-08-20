@@ -1,16 +1,16 @@
 .PHONY: fast full doppel
 
 fast:
-	pdflatex master
+	pdflatex --synctex=1 master
 	pdflatex doppelmaster
 	
 full:
-	pdflatex master
+	pdflatex --synctex=1 master
 	makeindex -g -l -s index.ist master &
 	bibtex master 
-	pdflatex master
+	pdflatex --synctex=1 master
 	bibtex master 
-	pdflatex master
+	pdflatex --synctex=1 master
 	pdflatex doppelmaster
 	
 crop: 
